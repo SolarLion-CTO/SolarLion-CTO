@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import {
-  Bell, Bot, CircleHelp, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
+  Bell, Bot, CircleHelp, ClipboardCheck, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
   Settings, ShieldCheck, ShoppingCart, Target, TrendingUp, Wallet, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -13,6 +13,7 @@ const nav: { section: string; items: { to: string; label: string; icon: LucideIc
   { section: 'Executive', items: [
     { to: '/', label: 'Overview', icon: LayoutDashboard },
     { to: '/problems', label: 'Problem Matrix', icon: Grid3x3 },
+    { to: '/tedif', label: 'TEDIF Tracker', icon: ClipboardCheck },
     { to: '/decisions', label: 'Decision Center', icon: Gavel },
     { to: '/value', label: 'Business Value', icon: TrendingUp },
   ] },
@@ -44,8 +45,8 @@ export default function Layout() {
         </button>
         <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center"><Scale size={20} /></div>
         <div className="leading-tight">
-          <div className="font-extrabold tracking-wide text-sm md:text-lg">ENTERPRISE AI TRANSFORMATION FRAMEWORK</div>
-          <div className="text-[10px] md:text-xs text-blue-200 tracking-widest">DOMAIN-AGNOSTIC · GOVERNED · VALUE-DRIVEN</div>
+          <div className="font-extrabold tracking-wide text-sm md:text-lg">DOMAIN-AGNOSTIC ENTERPRISE AI TRANSFORMATION FRAMEWORK</div>
+          <div className="text-[10px] md:text-xs text-blue-200 tracking-widest">POWERED BY TEDIF · AI RECOMMENDS, HUMANS DECIDE</div>
         </div>
         <div className="ml-auto flex items-center gap-4">
           <div className="relative hidden sm:block">

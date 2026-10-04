@@ -4,6 +4,7 @@ import type { Decision } from '../data/domains'
 import { useStore } from '../store'
 import type { Verdict } from '../store'
 import { Badge, Card, PageHeader } from '../components/ui'
+import { decisionStatusById } from '../data/tedif'
 
 // The ten engines of the decision runtime, in strict order (PPT slide 11).
 const engines = [
@@ -87,7 +88,10 @@ function DecisionCard({ d }: { d: Decision }) {
           <h3 className="font-bold text-slate-900 mt-1">{d.title}</h3>
           <p className="text-sm text-slate-500">{d.question}</p>
         </div>
-        <div className="flex flex-wrap gap-2"><Badge>{d.risk}</Badge><Badge>{d.classification}</Badge></div>
+        <div className="flex flex-wrap gap-2">
+          <span className={`text-[11px] font-bold rounded px-2 py-0.5 ${decisionStatusById[d.id] === 'Shadow' ? 'bg-violet-100 text-violet-800' : 'bg-blue-100 text-blue-800'}`}>TEDIF: {decisionStatusById[d.id] ?? 'Catalogued'}</span>
+          <Badge>{d.risk}</Badge><Badge>{d.classification}</Badge>
+        </div>
       </div>
 
       <div className="grid sm:grid-cols-3 gap-2 text-xs mb-4">
@@ -97,6 +101,11 @@ function DecisionCard({ d }: { d: Decision }) {
       </div>
 
       <Runtime step={step} rejected={rejected} />
+      <p className="text-[11px] text-slate-500 -mt-2 mb-3">
+        {decisionStatusById[d.id] === 'Shadow'
+          ? 'Shadow mode: the human decision is recorded and compared with the AI recommendation. Execution is logged only — no production action before Gate 3.'
+          : 'Catalogued: invocable in test only. Moves to Shadow once the department finishes data and policy mapping.'}
+      </p>
 
       {step < 0 && !done && (
         <button onClick={run} className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold px-4 py-2 rounded-lg">

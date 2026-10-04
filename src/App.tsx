@@ -12,6 +12,7 @@ import Agents from './pages/Agents'
 import Framework from './pages/Framework'
 import Problems from './pages/Problems'
 import Innovation from './pages/Innovation'
+import Tedif from './pages/Tedif'
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
             <Route path="framework" element={<Framework />} />
             <Route path="problems" element={<Problems />} />
             <Route path="innovation" element={<Innovation />} />
+            <Route path="tedif" element={<Tedif />} />
           </Route>
         </Routes>
       </BrowserRouter>

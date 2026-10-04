@@ -3,6 +3,7 @@ import { Bar as RBar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveCo
 import { Activity, Bot, DollarSign, Gauge, Gavel, ShieldCheck, Sparkles, TrendingUp } from 'lucide-react'
 import { areaOwner, areas, domainOrder, domains, overallScore, plannedDomains } from '../data/domains'
 import { useStore } from '../store'
+import { gateState } from '../data/tedif'
 import { Badge, Card, Kpi, PageHeader, Ring, money } from '../components/ui'
 
 const heat = (v: number) => (v >= 75 ? 'bg-emerald-500' : v >= 55 ? 'bg-emerald-300' : v >= 45 ? 'bg-amber-300' : 'bg-red-300')
@@ -118,12 +119,12 @@ export default function Overview() {
             <div className="text-2xl text-slate-300">→</div>
             <div className="text-center"><div className="text-[11px] text-slate-500">Target (12 mo)</div><div className="text-3xl font-extrabold text-emerald-700">{domain.maturity.target}</div><div className="text-xs text-blue-700">Decision-intelligent</div></div>
           </div>
-          <div className="text-[11px] uppercase font-semibold text-slate-500 mb-2">Lifecycle gates</div>
+          <div className="text-[11px] uppercase font-semibold text-slate-500 mb-2">TEDIF gates <Link to="/tedif" className="normal-case text-blue-700 ml-1">tracker →</Link></div>
           <div className="flex gap-1">
             {['Assess', 'Design', 'Build', 'Operate', 'Optimize'].map((g, i) => {
-              const passed = i < Math.floor(domain.maturity.current)
+              const st = gateState[domainId][i].outcome
               return (
-                <div key={g} className={`flex-1 rounded text-center py-1.5 text-[10px] font-semibold ${passed ? 'bg-emerald-600 text-white' : i === Math.floor(domain.maturity.current) ? 'bg-amber-400 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                <div key={g} title={`Gate ${i + 1}: ${st}`} className={`flex-1 rounded text-center py-1.5 text-[10px] font-semibold ${st === 'Approved' ? 'bg-emerald-600 text-white' : st === 'In review' ? 'bg-amber-400 text-white' : 'bg-slate-100 text-slate-500'}`}>
                   G{i + 1}<br />{g}
                 </div>
               )
