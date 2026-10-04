@@ -2,11 +2,11 @@ import { team } from '../data/domains'
 import { Card, PageHeader } from '../components/ui'
 
 const layers = [
-  ['Domain layer', 'Banking · Manufacturing · future industries as pluggable domain packs', 'bg-slate-600'],
+  ['Domain layer', 'Banking · Manufacturing · Retail (config only) · future industries as pluggable domain packs', 'bg-slate-600'],
   ['Business control layer', 'Strategy · Operations · Finance — value, priorities, success measures', 'bg-blue-700'],
-  ['Technology foundation', 'Enterprise architecture · Data & AI · Modernization · Integration', 'bg-cyan-700'],
+  ['Technology foundation', 'Enterprise architecture · Data & AI · Innovation (CTO technical problem solving)', 'bg-cyan-700'],
   ['Trust layer', 'Regulatory · Privacy (DPDP) · AI governance · Security · Audit', 'bg-amber-600'],
-  ['AI control layer', 'Agentic AI · policy-aware workflows · human approval · KPI monitoring', 'bg-violet-700'],
+  ['AI control layer', 'Agents · MCP · RAG · ten-engine decision runtime · human approval', 'bg-violet-700'],
   ['Business value layer', 'Growth · Efficiency · Compliance · Automation · Decision quality', 'bg-emerald-700'],
 ]
 

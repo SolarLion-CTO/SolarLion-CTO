@@ -1,4 +1,5 @@
 import { useStore } from '../store'
+import ProblemPanel from '../components/ProblemPanel'
 import { Badge, Bar, Card, PageHeader, Ring } from '../components/ui'
 
 const principles = [
@@ -14,6 +15,7 @@ export default function Governance() {
   return (
     <>
       <PageHeader title="Regulatory & AI Governance" subtitle="Regulatory automation, DPDP compliance and responsible AI controls" owner="Vaibhav" />
+      <ProblemPanel p={domain.problems.Governance} domainName={domain.name} />
       <div className="grid lg:grid-cols-3 gap-6 mb-6">
         <Card title="Compliance Score">
           <div className="flex justify-center py-2"><Ring value={domain.kpis.compliance} size={130} color="#16a34a" /></div>

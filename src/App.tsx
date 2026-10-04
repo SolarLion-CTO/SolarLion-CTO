@@ -10,6 +10,8 @@ import Operations from './pages/Operations'
 import Governance from './pages/Governance'
 import Agents from './pages/Agents'
 import Framework from './pages/Framework'
+import Problems from './pages/Problems'
+import Innovation from './pages/Innovation'
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
             <Route path="governance" element={<Governance />} />
             <Route path="agents" element={<Agents />} />
             <Route path="framework" element={<Framework />} />
+            <Route path="problems" element={<Problems />} />
+            <Route path="innovation" element={<Innovation />} />
           </Route>
         </Routes>
       </BrowserRouter>

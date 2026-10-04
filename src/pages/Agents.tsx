@@ -20,7 +20,10 @@ function answer(q: string, d: DomainPack): string {
     const gaps = d.controls.filter((c) => c.status !== 'Compliant')
     return `Compliance score ${d.kpis.compliance}%. Open items: ${gaps.map((c) => `${c.name} (${c.coverage}%)`).join(', ')}.`
   }
-  return `In ${d.name}: ${d.initiatives.length} initiatives, ${d.agents.filter((a) => a.status === 'Active').length} active agents, ${d.decisions.length} decisions awaiting human approval. Try asking about risk, ROI or compliance.`
+  if (s.includes('problem')) {
+    return `Top ${d.name} problems: ${Object.values(d.problems).map((p) => `${p.area}: ${p.title} (${p.progress}% to target)`).join('; ')}.`
+  }
+  return `In ${d.name}: ${d.initiatives.length} initiatives, ${d.agents.filter((a) => a.status === 'Active').length} active agents, ${d.decisions.length} decisions awaiting human approval. Try asking about problems, risk, ROI or compliance.`
 }
 
 export default function Agents() {
@@ -36,17 +39,17 @@ export default function Agents() {
 
   return (
     <>
-      <PageHeader title="AI Control Layer" subtitle="Domain-agnostic agents that assess, track and recommend — with human approval" owner="Ram" />
+      <PageHeader title="AI Control Layer" subtitle="Agents prepare the decision · MCP connects enterprise systems · RAG grounds every answer" owner="Ram" />
       <div className="grid lg:grid-cols-5 gap-6">
         <Card title={`Agent Registry · ${domain.name}`} className="lg:col-span-3">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm min-w-[520px]">
-              <thead><tr className="text-[11px] uppercase text-slate-500 border-b text-left"><th className="py-2">Agent</th><th>Role</th><th>Status</th><th>Tasks (30d)</th><th>Accuracy</th></tr></thead>
+            <table className="w-full text-sm min-w-[620px]">
+              <thead><tr className="text-[11px] uppercase text-slate-500 border-b text-left"><th className="py-2">Agent</th><th>Role</th><th>Status</th><th>MCP source</th><th>Tasks (30d)</th><th>Accuracy</th></tr></thead>
               <tbody>
                 {domain.agents.map((a) => (
                   <tr key={a.name} className="border-b">
                     <td className="py-2.5 font-semibold flex items-center gap-2"><Bot size={15} className="text-blue-700" />{a.name}</td>
-                    <td className="text-slate-500">{a.role}</td><td><Badge>{a.status}</Badge></td>
+                    <td className="text-slate-500">{a.role}</td><td><Badge>{a.status}</Badge></td><td className="text-xs">{a.mcp}</td>
                     <td>{a.tasks.toLocaleString()}</td><td className="font-semibold">{a.accuracy}%</td>
                   </tr>
                 ))}
@@ -65,7 +68,7 @@ export default function Agents() {
             {chat.length === 0 && (
               <div className="space-y-2">
                 <p className="text-sm text-slate-500">Ask about the {domain.name} transformation:</p>
-                {['Which initiatives are at risk?', 'Where is the best ROI?', 'What is our DPDP compliance status?'].map((s) => (
+                {['Which initiatives are at risk?', 'Where is the best ROI?', 'What is our DPDP compliance status?', 'What are our main problems?'].map((s) => (
                   <button key={s} onClick={() => ask(s)} className="block w-full text-left text-sm border border-slate-200 rounded-lg px-3 py-2 hover:bg-blue-50">{s}</button>
                 ))}
               </div>

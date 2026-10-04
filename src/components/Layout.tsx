@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import {
-  Bell, Bot, CircleHelp, Factory, Gavel, Landmark, Layers, LayoutDashboard, Menu, Scale,
-  Settings, ShieldCheck, Target, TrendingUp, Wallet, X,
+  Bell, Bot, CircleHelp, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
+  Settings, ShieldCheck, ShoppingCart, Target, TrendingUp, Wallet, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useStore } from '../store'
-import { plannedDomains } from '../data/domains'
+import { domainOrder, domains, plannedDomains } from '../data/domains'
 import type { DomainId } from '../data/domains'
 
 const nav: { section: string; items: { to: string; label: string; icon: LucideIcon }[] }[] = [
   { section: 'Executive', items: [
     { to: '/', label: 'Overview', icon: LayoutDashboard },
+    { to: '/problems', label: 'Problem Matrix', icon: Grid3x3 },
     { to: '/decisions', label: 'Decision Center', icon: Gavel },
     { to: '/value', label: 'Business Value', icon: TrendingUp },
   ] },
@@ -20,6 +21,7 @@ const nav: { section: string; items: { to: string; label: string; icon: LucideIc
     { to: '/finance', label: 'Finance & Investment', icon: Wallet },
     { to: '/operations', label: 'Operations', icon: Factory },
     { to: '/governance', label: 'Regulatory & Governance', icon: ShieldCheck },
+    { to: '/innovation', label: 'Innovation', icon: Lightbulb },
   ] },
   { section: 'AI Control Layer', items: [
     { to: '/agents', label: 'AI Agents', icon: Bot },
@@ -27,7 +29,7 @@ const nav: { section: string; items: { to: string; label: string; icon: LucideIc
   ] },
 ]
 
-const domainIcons: Record<DomainId, LucideIcon> = { banking: Landmark, manufacturing: Factory }
+const domainIcons: Record<DomainId, LucideIcon> = { banking: Landmark, manufacturing: Factory, retail: ShoppingCart }
 
 export default function Layout() {
   const { domainId, setDomainId, domain } = useStore()
@@ -69,7 +71,7 @@ export default function Layout() {
         <aside className={`${open ? 'block' : 'hidden'} md:block fixed md:sticky top-[60px] z-20 h-[calc(100vh-60px)] w-60 shrink-0 bg-[#0a1f4d] text-blue-100 overflow-y-auto`}>
           <div className="p-3">
             <div className="text-[10px] font-bold tracking-widest text-blue-300 px-2 mb-2">INDUSTRY DOMAIN</div>
-            {(['banking', 'manufacturing'] as DomainId[]).map((id) => {
+            {domainOrder.map((id) => {
               const Icon = domainIcons[id]
               const active = id === domainId
               return (
@@ -78,12 +80,12 @@ export default function Layout() {
                   onClick={() => setDomainId(id)}
                   className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm mb-1 transition ${active ? 'bg-blue-600 text-white font-semibold' : 'hover:bg-white/10'}`}
                 >
-                  <Icon size={16} /> {id === 'banking' ? 'Banking (BFSI)' : 'Manufacturing'}
+                  <Icon size={16} /> {domains[id].name}{domains[id].configuredOnly && <span className="text-[9px] opacity-70">config</span>}
                   {active && <span className="ml-auto text-[10px] bg-white/20 rounded px-1.5">LIVE</span>}
                 </button>
               )
             })}
-            {plannedDomains.slice(0, 3).map((d) => (
+            {plannedDomains.slice(0, 2).map((d) => (
               <div key={d} className="flex items-center gap-2 px-3 py-1.5 text-sm text-blue-300/60">
                 <span className="w-4 text-center">+</span> {d} <span className="ml-auto text-[10px]">planned</span>
               </div>
