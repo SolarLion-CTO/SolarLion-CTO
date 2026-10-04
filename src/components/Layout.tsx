@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import {
-  Bell, Bot, Briefcase, CircleHelp, ClipboardCheck, Database, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
+  Bell, Bot, Brain, Briefcase, Building2, CalendarDays, Compass, Crown, Gauge, LayoutGrid, ListChecks, Network, Server, Users, CircleHelp, ClipboardCheck, Database, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
   Settings, ShieldCheck, ShoppingCart, Target, TrendingUp, Wallet, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -18,6 +18,19 @@ const nav: { section: string; items: { to: string; label: string; icon: LucideIc
     { to: '/tedif', label: 'TEDIF Tracker', icon: ClipboardCheck },
     { to: '/decisions', label: 'Decision Center', icon: Gavel },
     { to: '/value', label: 'Business Value', icon: TrendingUp },
+  ] },
+  { section: 'CTO Dimensions', items: [
+    { to: '/cto/coverage', label: 'Coverage (14 dimensions)', icon: ListChecks },
+    { to: '/cto/business', label: 'Business case', icon: Building2 },
+    { to: '/cto/strategy', label: 'Current → target', icon: Compass },
+    { to: '/cto/assessment', label: 'Readiness assessment', icon: Gauge },
+    { to: '/cto/portfolio', label: 'Use-case portfolio', icon: LayoutGrid },
+    { to: '/cto/data', label: 'Data readiness', icon: Server },
+    { to: '/cto/ai-selection', label: 'AI selection', icon: Brain },
+    { to: '/cto/architecture', label: 'Architecture', icon: Network },
+    { to: '/cto/operating-model', label: 'Operating model & CoE', icon: Users },
+    { to: '/cto/roadmap', label: 'Roadmap', icon: CalendarDays },
+    { to: '/cto/decisions', label: 'CTO decisions', icon: Crown },
   ] },
   { section: 'Programme Tracker', items: [
     { to: '/tracker', label: 'Portfolio', icon: Briefcase },
