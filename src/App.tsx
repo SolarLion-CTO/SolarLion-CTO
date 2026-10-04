@@ -13,6 +13,7 @@ import Framework from './pages/Framework'
 import Problems from './pages/Problems'
 import Innovation from './pages/Innovation'
 import Tedif from './pages/Tedif'
+import DomainView from './pages/DomainView'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="problems" element={<Problems />} />
             <Route path="innovation" element={<Innovation />} />
             <Route path="tedif" element={<Tedif />} />
+            <Route path="domain/:id" element={<DomainView />} />
           </Route>
         </Routes>
       </BrowserRouter>

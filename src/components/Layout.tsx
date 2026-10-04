@@ -7,6 +7,8 @@ import {
 import type { LucideIcon } from 'lucide-react'
 import { useStore } from '../store'
 import { domainOrder, domains, plannedDomains } from '../data/domains'
+import { cascade, tracks } from '../data/cascade'
+import { summary } from '../data/tedif'
 import type { DomainId } from '../data/domains'
 
 const nav: { section: string; items: { to: string; label: string; icon: LucideIcon }[] }[] = [
@@ -75,17 +77,24 @@ export default function Layout() {
             {domainOrder.map((id) => {
               const Icon = domainIcons[id]
               const active = id === domainId
+              const red = tracks.flatMap((t) => cascade[id].tracks[t].initiatives.flatMap((i) => i.ground)).filter((g) => g.status === 'Delayed').length
               return (
-                <button
+                <NavLink
                   key={id}
-                  onClick={() => setDomainId(id)}
-                  className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm mb-1 transition ${active ? 'bg-blue-600 text-white font-semibold' : 'hover:bg-white/10'}`}
+                  to={`/domain/${id}`}
+                  onClick={() => { setDomainId(id); setOpen(false) }}
+                  className={({ isActive }) => `block px-3 py-2 rounded-md text-sm mb-1 transition ${isActive ? 'bg-white text-[#0a1f4d]' : active ? 'bg-blue-600 text-white' : 'hover:bg-white/10'}`}
                 >
-                  <Icon size={16} /> {domains[id].name}{domains[id].configuredOnly && <span className="text-[9px] opacity-70">config</span>}
-                  {active && <span className="ml-auto text-[10px] bg-white/20 rounded px-1.5">LIVE</span>}
-                </button>
+                  <div className="flex items-center gap-2 font-semibold">
+                    <Icon size={16} /> {domains[id].name}
+                    {domains[id].configuredOnly && <span className="text-[9px] opacity-70 font-normal">config</span>}
+                    {red > 0 && <span className="ml-auto text-[10px] bg-red-500 text-white rounded-full px-1.5" title="Red ground-level escalations">{red}</span>}
+                  </div>
+                  <div className="text-[10px] opacity-70 pl-6">{summary[id].phase} · 6 workstreams</div>
+                </NavLink>
               )
             })}
+            <div className="text-[10px] text-blue-300/70 px-3 mb-1">Selected domain drives every page</div>
             {plannedDomains.slice(0, 2).map((d) => (
               <div key={d} className="flex items-center gap-2 px-3 py-1.5 text-sm text-blue-300/60">
                 <span className="w-4 text-center">+</span> {d} <span className="ml-auto text-[10px]">planned</span>
