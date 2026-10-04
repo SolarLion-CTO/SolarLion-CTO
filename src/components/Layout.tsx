@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import {
-  Bell, Bot, CircleHelp, ClipboardCheck, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
+  Bell, Bot, Briefcase, CircleHelp, ClipboardCheck, Database, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
   Settings, ShieldCheck, ShoppingCart, Target, TrendingUp, Wallet, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -18,6 +18,17 @@ const nav: { section: string; items: { to: string; label: string; icon: LucideIc
     { to: '/tedif', label: 'TEDIF Tracker', icon: ClipboardCheck },
     { to: '/decisions', label: 'Decision Center', icon: Gavel },
     { to: '/value', label: 'Business Value', icon: TrendingUp },
+  ] },
+  { section: 'Programme Tracker', items: [
+    { to: '/tracker', label: 'Portfolio', icon: Briefcase },
+    { to: '/tracker/strategy', label: 'Strategy', icon: Target },
+    { to: '/tracker/roi', label: 'ROI', icon: TrendingUp },
+    { to: '/tracker/finance', label: 'Finance', icon: Wallet },
+    { to: '/tracker/operations', label: 'Operations', icon: Factory },
+    { to: '/tracker/erp', label: 'ERP', icon: Database },
+    { to: '/tracker/ai', label: 'AI', icon: Bot },
+    { to: '/tracker/innovation', label: 'Innovation', icon: Lightbulb },
+    { to: '/tracker/governance', label: 'Governance', icon: ShieldCheck },
   ] },
   { section: 'Workstreams', items: [
     { to: '/strategy', label: 'Strategy & ROI', icon: Target },
@@ -109,7 +120,7 @@ export default function Layout() {
                 <NavLink
                   key={to}
                   to={to}
-                  end={to === '/'}
+                  end={to === '/' || to === '/tracker'}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     `flex items-center gap-2 px-3 py-2 rounded-md text-sm mb-0.5 transition ${isActive ? 'bg-white text-[#0a1f4d] font-semibold' : 'hover:bg-white/10'}`

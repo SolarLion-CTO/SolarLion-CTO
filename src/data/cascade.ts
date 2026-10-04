@@ -14,7 +14,7 @@ export interface Init { name: string; owner: string; progress: number; status: H
 export interface TrackPack { problem: string; kpi: string; baseline: string; current: string; target: string; status: Health; initiatives: Init[] }
 export interface Cascade { ctoObjective: string; ctoQuestion: string; tracks: Record<Track, TrackPack> }
 
-const g = (unit: string, owner: string, metric: string, actual: string, target: string, status: Health, action: string): Ground => ({ unit, owner, metric, actual, target, status, action })
+export const g = (unit: string, owner: string, metric: string, actual: string, target: string, status: Health, action: string): Ground => ({ unit, owner, metric, actual, target, status, action })
 
 export const cascade: Record<DomainId, Cascade> = {
   // ───────────────────────────── BANKING ─────────────────────────────

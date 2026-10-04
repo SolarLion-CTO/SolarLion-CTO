@@ -14,6 +14,8 @@ import Problems from './pages/Problems'
 import Innovation from './pages/Innovation'
 import Tedif from './pages/Tedif'
 import DomainView from './pages/DomainView'
+import TrackerPortfolio from './pages/TrackerPortfolio'
+import TrackerDim from './pages/TrackerDim'
 
 export default function App() {
   return (
@@ -34,6 +36,8 @@ export default function App() {
             <Route path="innovation" element={<Innovation />} />
             <Route path="tedif" element={<Tedif />} />
             <Route path="domain/:id" element={<DomainView />} />
+            <Route path="tracker" element={<TrackerPortfolio />} />
+            <Route path="tracker/:dim" element={<TrackerDim />} />
           </Route>
         </Routes>
       </BrowserRouter>
