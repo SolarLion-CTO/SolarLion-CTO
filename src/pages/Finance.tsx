@@ -40,9 +40,9 @@ export default function Finance() {
               <LineChart data={erpEconomics} margin={{ left: -10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="year" tick={{ fontSize: 11 }} /><YAxis tick={{ fontSize: 11 }} /><Tooltip formatter={(v) => `₹${v} L`} /><Legend wrapperStyle={{ fontSize: 12 }} />
-                <Line dataKey="Cloud" stroke="#60a5fa" strokeWidth={2} />
-                <Line dataKey="On-prem" stroke="#94a3b8" strokeWidth={2} />
-                <Line dataKey="Hybrid" stroke="#16a34a" strokeWidth={3} />
+                <Line isAnimationActive={false} dataKey="Cloud" stroke="#60a5fa" strokeWidth={2} />
+                <Line isAnimationActive={false} dataKey="On-prem" stroke="#94a3b8" strokeWidth={2} />
+                <Line isAnimationActive={false} dataKey="Hybrid" stroke="#16a34a" strokeWidth={3} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -62,8 +62,8 @@ export default function Finance() {
               <BarChart data={domain.capexOpex} margin={{ left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                 <XAxis dataKey="quarter" tick={{ fontSize: 11 }} /><YAxis tick={{ fontSize: 11 }} /><Tooltip /><Legend wrapperStyle={{ fontSize: 12 }} />
-                <RBar dataKey="capex" name="CAPEX" stackId="a" fill="#1d4ed8" />
-                <RBar dataKey="opex" name="OPEX" stackId="a" fill="#60a5fa" radius={[3, 3, 0, 0]} />
+                <RBar isAnimationActive={false} dataKey="capex" name="CAPEX" stackId="a" fill="#1d4ed8" />
+                <RBar isAnimationActive={false} dataKey="opex" name="OPEX" stackId="a" fill="#60a5fa" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -74,8 +74,8 @@ export default function Finance() {
               <AreaChart data={domain.valueTrend} margin={{ left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} /><YAxis tick={{ fontSize: 11 }} /><Tooltip /><Legend wrapperStyle={{ fontSize: 12 }} />
-                <Area dataKey="value" name="Value delivered" stroke="#16a34a" fill="#bbf7d0" />
-                <Area dataKey="cost" name="Run cost" stroke="#dc2626" fill="#fecaca" />
+                <Area isAnimationActive={false} dataKey="value" name="Value delivered" stroke="#16a34a" fill="#bbf7d0" />
+                <Area isAnimationActive={false} dataKey="cost" name="Run cost" stroke="#dc2626" fill="#fecaca" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -88,8 +88,8 @@ export default function Finance() {
             <BarChart data={byArea} margin={{ left: -20 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
               <XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tick={{ fontSize: 11 }} /><Tooltip /><Legend wrapperStyle={{ fontSize: 12 }} />
-              <RBar dataKey="investment" name="Investment" fill="#94a3b8" radius={[3, 3, 0, 0]} />
-              <RBar dataKey="value" name="Annual value" fill="#16a34a" radius={[3, 3, 0, 0]} />
+              <RBar isAnimationActive={false} dataKey="investment" name="Investment" fill="#94a3b8" radius={[3, 3, 0, 0]} />
+              <RBar isAnimationActive={false} dataKey="value" name="Annual value" fill="#16a34a" radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

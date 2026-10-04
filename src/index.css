@@ -6,3 +6,10 @@ body {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: #0f172a;
 }
+
+/* Grid items may shrink below their content width, so wide tables scroll
+   inside their card instead of stretching the page on phones. */
+.grid > * { min-width: 0; }
+
+/* Smooth momentum scrolling for horizontally scrollable tables on iOS. */
+.overflow-x-auto { -webkit-overflow-scrolling: touch; }

@@ -42,7 +42,7 @@ export default function Portfolio() {
                   const u = payload?.[0]?.payload as (typeof useCases)[number] | undefined
                   return u ? <div className="bg-white border rounded p-2 text-xs shadow"><b>{u.name}</b><div>{domains[u.domain].name} · value {u.value} · feasibility {u.feasibility}</div><div>{money(u.valueCr)}/yr · {u.verdict}</div></div> : null
                 }} />
-                <Scatter data={list}>{list.map((u) => <Cell key={u.name} fill={colors[u.domain]} fillOpacity={0.8} />)}</Scatter>
+                <Scatter isAnimationActive={false} data={list}>{list.map((u) => <Cell key={u.name} fill={colors[u.domain]} fillOpacity={0.8} />)}</Scatter>
               </ScatterChart>
             </ResponsiveContainer>
           </div>

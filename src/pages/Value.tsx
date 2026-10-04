@@ -46,7 +46,7 @@ export default function Value() {
             <ResponsiveContainer>
               <RadarChart data={radar}>
                 <PolarGrid /><PolarAngleAxis dataKey="area" tick={{ fontSize: 11 }} />
-                {domainOrder.map((id) => <Radar key={id} dataKey={domains[id].name} stroke={colors[id]} fill={colors[id]} fillOpacity={0.15} />)}
+                {domainOrder.map((id) => <Radar isAnimationActive={false} key={id} dataKey={domains[id].name} stroke={colors[id]} fill={colors[id]} fillOpacity={0.15} />)}
                 <Legend wrapperStyle={{ fontSize: 12 }} /><Tooltip />
               </RadarChart>
             </ResponsiveContainer>
@@ -58,7 +58,7 @@ export default function Value() {
               <LineChart data={trend} margin={{ left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} /><YAxis tick={{ fontSize: 11 }} /><Tooltip /><Legend wrapperStyle={{ fontSize: 12 }} />
-                {domainOrder.map((id) => <Line key={id} dataKey={domains[id].name} stroke={colors[id]} strokeWidth={2} />)}
+                {domainOrder.map((id) => <Line isAnimationActive={false} key={id} dataKey={domains[id].name} stroke={colors[id]} strokeWidth={2} />)}
               </LineChart>
             </ResponsiveContainer>
           </div>

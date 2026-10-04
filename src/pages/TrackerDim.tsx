@@ -42,7 +42,7 @@ function Extras({ dim }: { dim: Dim }) {
   )
   if (dim === 'ROI') return (
     <Card title="ROI tracker — identified vs realised (₹ Cr, cumulative)">
-      <div className="h-48"><ResponsiveContainer><BarChart data={roiByQuarter[domainId]} margin={{ left: -20 }}><CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" /><XAxis dataKey="q" tick={{ fontSize: 11 }} /><YAxis tick={{ fontSize: 11 }} /><Tooltip /><Legend wrapperStyle={{ fontSize: 11 }} /><RBar dataKey="identified" name="Identified (Suman)" fill="#bfdbfe" /><RBar dataKey="realised" name="Realised (Santhosh)" fill="#0b2a6b" /></BarChart></ResponsiveContainer></div>
+      <div className="h-48"><ResponsiveContainer><BarChart data={roiByQuarter[domainId]} margin={{ left: -20 }}><CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" /><XAxis dataKey="q" tick={{ fontSize: 11 }} /><YAxis tick={{ fontSize: 11 }} /><Tooltip /><Legend wrapperStyle={{ fontSize: 11 }} /><RBar isAnimationActive={false} dataKey="identified" name="Identified (Suman)" fill="#bfdbfe" /><RBar isAnimationActive={false} dataKey="realised" name="Realised (Santhosh)" fill="#0b2a6b" /></BarChart></ResponsiveContainer></div>
     </Card>
   )
   if (dim === 'Finance') return (

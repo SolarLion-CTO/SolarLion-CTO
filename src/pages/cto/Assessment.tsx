@@ -55,7 +55,7 @@ export default function Assessment() {
             </div>
             <div className="h-56">
               <ResponsiveContainer>
-                <RadarChart data={scores}><PolarGrid /><PolarAngleAxis dataKey="dim" tick={{ fontSize: 11 }} /><PolarRadiusAxis domain={[0, 5]} tick={false} axisLine={false} /><Radar dataKey="score" stroke="#1d4ed8" fill="#1d4ed8" fillOpacity={0.3} /></RadarChart>
+                <RadarChart data={scores}><PolarGrid /><PolarAngleAxis dataKey="dim" tick={{ fontSize: 11 }} /><PolarRadiusAxis domain={[0, 5]} tick={false} axisLine={false} /><Radar isAnimationActive={false} dataKey="score" stroke="#1d4ed8" fill="#1d4ed8" fillOpacity={0.3} /></RadarChart>
               </ResponsiveContainer>
             </div>
             <div className="rounded-lg bg-blue-50 p-3 text-sm"><b>Start here:</b> {weakest.dim} ({weakest.score}) is the weakest dimension.</div>

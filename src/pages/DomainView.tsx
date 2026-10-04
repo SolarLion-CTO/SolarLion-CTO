@@ -95,7 +95,7 @@ export default function DomainView() {
 
       <div className="grid xl:grid-cols-4 gap-5">
         {/* Cascade */}
-        <div className="xl:col-span-3 space-y-4">
+        <div className="xl:col-span-3 space-y-4 min-w-0">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700">Core problems · CTO → ground</h2>
             <button onClick={toggleAll} className="text-xs font-semibold text-blue-700 border border-blue-200 rounded-lg px-3 py-1 hover:bg-blue-50">{allOpen ? 'Collapse all' : 'Expand all'}</button>
@@ -121,7 +121,7 @@ export default function DomainView() {
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 pb-4 pl-11 space-y-3">
+                  <div className="px-3 sm:px-4 pb-4 sm:pl-11 space-y-3">
                     {tp.initiatives.map((i) => (
                       <div key={i.name} className="rounded-lg border border-slate-200">
                         {/* Level 3 — initiative owner */}
@@ -129,7 +129,7 @@ export default function DomainView() {
                           <Level n={3} label="Initiative" icon={Users} />
                           <span className="font-semibold text-sm">{i.name}</span>
                           <span className="text-xs text-slate-500">· {i.owner}</span>
-                          <div className="ml-auto flex items-center gap-2 w-48"><Bar value={i.progress} /><span className="text-xs">{i.progress}%</span><Badge>{i.status}</Badge></div>
+                          <div className="w-full sm:w-48 sm:ml-auto flex items-center gap-2"><Bar value={i.progress} /><span className="text-xs">{i.progress}%</span><Badge>{i.status}</Badge></div>
                         </div>
                         {/* Level 4 — ground */}
                         <div className="overflow-x-auto">

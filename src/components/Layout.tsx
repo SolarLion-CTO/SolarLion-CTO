@@ -65,16 +65,22 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top bar */}
-      <header className="bg-gradient-to-r from-[#08205a] to-[#0d3a9a] text-white px-4 md:px-6 py-3 flex items-center gap-3 sticky top-0 z-30 shadow">
-        <button className="md:hidden" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+      <header className="bg-gradient-to-r from-[#08205a] to-[#0d3a9a] text-white px-4 md:px-6 h-16 flex items-center gap-3 sticky top-0 z-40 shadow">
+        <button className="lg:hidden shrink-0" onClick={() => setOpen(!open)} aria-label="Toggle menu">
           {open ? <X /> : <Menu />}
         </button>
-        <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center"><Scale size={20} /></div>
-        <div className="leading-tight">
-          <div className="font-extrabold tracking-wide text-sm md:text-lg">DOMAIN-AGNOSTIC ENTERPRISE AI TRANSFORMATION FRAMEWORK</div>
-          <div className="text-[10px] md:text-xs text-blue-200 tracking-widest">POWERED BY TEDIF · AI RECOMMENDS, HUMANS DECIDE</div>
+        <div className="w-9 h-9 shrink-0 rounded-lg bg-white/15 flex items-center justify-center"><Scale size={20} /></div>
+        <div className="leading-tight min-w-0">
+          <div className="font-extrabold tracking-normal sm:tracking-wide text-[13px] sm:text-base xl:text-lg truncate">
+            <span className="sm:hidden">AI TRANSFORMATION</span><span className="hidden sm:inline xl:hidden">AI TRANSFORMATION FRAMEWORK</span>
+            <span className="hidden xl:inline">DOMAIN-AGNOSTIC ENTERPRISE AI TRANSFORMATION FRAMEWORK</span>
+          </div>
+          <div className="text-[10px] sm:text-xs text-blue-200 tracking-wider truncate">
+            <span className="sm:hidden">Framework · powered by TEDIF</span><span className="hidden sm:inline xl:hidden">Domain-agnostic · powered by TEDIF</span>
+            <span className="hidden xl:inline">POWERED BY TEDIF · AI RECOMMENDS, HUMANS DECIDE</span>
+          </div>
         </div>
-        <div className="ml-auto flex items-center gap-4">
+        <div className="ml-auto flex items-center gap-4 shrink-0">
           <div className="relative hidden sm:block">
             <Bell size={20} />
             <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
@@ -95,7 +101,8 @@ export default function Layout() {
 
       <div className="flex flex-1">
         {/* Sidebar */}
-        <aside className={`${open ? 'block' : 'hidden'} md:block fixed md:sticky top-[60px] z-20 h-[calc(100vh-60px)] w-60 shrink-0 bg-[#0a1f4d] text-blue-100 overflow-y-auto`}>
+        {open && <div className="lg:hidden fixed inset-0 top-16 z-20 bg-slate-900/50" onClick={() => setOpen(false)} aria-hidden />}
+        <aside className={`${open ? 'block' : 'hidden'} lg:block fixed lg:sticky top-16 z-30 h-[calc(100vh-4rem)] w-72 lg:w-60 max-w-[85vw] shrink-0 bg-[#0a1f4d] text-blue-100 overflow-y-auto shadow-xl lg:shadow-none`}>
           <div className="p-3">
             <div className="text-[10px] font-bold tracking-widest text-blue-300 px-2 mb-2">INDUSTRY DOMAIN</div>
             {domainOrder.map((id) => {
@@ -153,7 +160,7 @@ export default function Layout() {
           </div>
         </aside>
 
-        <main className="flex-1 min-w-0 p-4 md:p-6">
+        <main className="flex-1 min-w-0 p-4 md:p-6 xl:p-8">
           <Outlet />
           <footer className="mt-8 py-4 border-t border-slate-200 text-xs text-slate-500 flex flex-wrap gap-x-6 gap-y-1 justify-center">
             <span>One Framework · Any Industry</span>

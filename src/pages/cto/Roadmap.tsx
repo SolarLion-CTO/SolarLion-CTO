@@ -21,7 +21,7 @@ export default function Roadmap() {
         ))}
       </div>
 
-      <Card title="Timeline by domain" className="mb-6">
+      <Card title="Timeline by domain" className="mb-6" action={<span className="md:hidden text-xs text-slate-500">Swipe →</span>}>
         <div className="overflow-x-auto">
           <div className="min-w-[760px]">
             <div className="flex text-[10px] text-slate-500 ml-32 mb-1">{Array.from({ length: WEEKS }, (_, i) => <div key={i} className="flex-1 text-center">W{i + 1}</div>)}</div>
@@ -51,9 +51,9 @@ export default function Roadmap() {
         <ul className="space-y-2">{milestones.map((m) => (
           <li key={m.week} className="flex items-center gap-3 text-sm">
             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${m.done ? 'bg-emerald-600 text-white' : m.week <= currentWeek + 2 ? 'bg-amber-400' : 'bg-slate-200 text-slate-500'}`}>{m.done ? '✓' : ''}</span>
-            <span className="w-16 font-semibold text-slate-500">Week {m.week}</span>
-            <span className="flex-1">{m.what}</span>
-            <span className="text-xs text-slate-500">{m.owner}</span>
+            <span className="w-16 shrink-0 font-semibold text-slate-500">Week {m.week}</span>
+            <span className="flex-1 min-w-0">{m.what}<span className="block sm:hidden text-xs text-slate-500">{m.owner}</span></span>
+            <span className="hidden sm:block text-xs text-slate-500">{m.owner}</span>
           </li>
         ))}</ul>
         <p className="text-xs text-slate-500 mt-3">No production AI and no platform purchase before day 90.</p>

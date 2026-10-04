@@ -19,12 +19,12 @@ function Row({ n, depth, focusLevel, aiOnly }: { n: Node; depth: number; focusLe
     <div>
       <div
         className={`flex items-start gap-2 py-2 pr-3 border-b border-slate-100 ${focus ? 'bg-blue-50/70' : ''}`}
-        style={{ paddingLeft: `${(n.level - 1) * 18 + 8}px` }}
+        style={{ paddingLeft: `${(n.level - 1) * 12 + 6}px` }}
       >
         <button onClick={() => setOpen(!open)} className={`mt-0.5 shrink-0 text-slate-400 ${n.children.length ? '' : 'invisible'}`} aria-label={open ? 'Collapse' : 'Expand'}>
           {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
         </button>
-        <span className={`shrink-0 text-[10px] font-bold text-white rounded px-1.5 py-0.5 w-24 text-center ${levelTone[n.level - 1]}`}>L{n.level} · {roles[n.level - 1]}</span>
+        <span className={`shrink-0 text-[10px] font-bold text-white rounded px-1.5 py-0.5 w-20 sm:w-24 text-center ${levelTone[n.level - 1]}`}>L{n.level} · {roles[n.level - 1]}</span>
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-x-2">
             <span className={`text-sm ${n.level <= 3 ? 'font-bold' : 'font-semibold'}`}>{n.title}</span>
@@ -41,6 +41,7 @@ function Row({ n, depth, focusLevel, aiOnly }: { n: Node; depth: number; focusLe
           </div>
           {n.detail && <div className="text-xs text-slate-500">{n.detail}</div>}
           <div className="text-[11px] text-slate-500">{n.owner}{n.due && ` · due ${n.due}`}</div>
+          <div className="md:hidden flex items-center gap-2 text-[11px] mt-0.5"><span className={`w-2 h-2 rounded-full ${dot[n.status]}`} />{n.status} · {n.progress}%{n.budget && ` · ₹${n.budget[1]} / ${n.budget[0]} Cr`}</div>
           {n.blocker && <div className="text-xs text-red-700 mt-0.5">Blocker: {n.blocker}</div>}
           {showAi && n.ai && (
             <div className="mt-2 rounded-lg border border-violet-200 bg-violet-50 p-2 text-xs grid sm:grid-cols-5 gap-2">

@@ -23,7 +23,7 @@ export default function Strategy() {
                 <YAxis type="number" dataKey="y" name="Annual value" unit=" Cr" tick={{ fontSize: 11 }} />
                 <ZAxis dataKey="z" range={[80, 400]} />
                 <Tooltip cursor={{ strokeDasharray: '3 3' }} formatter={(v) => `₹${v} Cr`} labelFormatter={() => ''} />
-                <Scatter data={points} fill="#1d4ed8" fillOpacity={0.7} />
+                <Scatter isAnimationActive={false} data={points} fill="#1d4ed8" fillOpacity={0.7} />
               </ScatterChart>
             </ResponsiveContainer>
           </div>

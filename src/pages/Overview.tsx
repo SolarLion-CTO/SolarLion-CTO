@@ -33,7 +33,7 @@ export default function Overview() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 [&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1">
         <Kpi icon={DollarSign} label="AI value (annual)" value={money(revenue)} delta="↑ 12.6% vs last quarter" tone="bg-blue-600" />
         <Kpi icon={TrendingUp} label="Cost saved" value={money(domain.kpis.costSaved)} delta="↑ 8.4% vs last quarter" tone="bg-rose-600" />
         <Kpi icon={Gauge} label="Programme ROI" value={`${roi}%`} delta={`on ${money(invest)} invested`} tone="bg-violet-600" />
@@ -103,7 +103,7 @@ export default function Overview() {
               <BarChart data={areaValue} margin={{ left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                 <XAxis dataKey="name" tick={{ fontSize: 10 }} /><YAxis tick={{ fontSize: 10 }} /><Tooltip formatter={(v) => `₹${v} Cr`} />
-                <RBar dataKey="value" name="Annual value" fill="#1d4ed8" radius={[3, 3, 0, 0]} />
+                <RBar isAnimationActive={false} dataKey="value" name="Annual value" fill="#1d4ed8" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -137,7 +137,7 @@ export default function Overview() {
           <div className="h-44 relative">
             <ResponsiveContainer>
               <PieChart>
-                <Pie data={[{ v: health }, { v: 100 - health }]} dataKey="v" innerRadius={55} outerRadius={75} startAngle={90} endAngle={-270} stroke="none">
+                <Pie isAnimationActive={false} data={[{ v: health }, { v: 100 - health }]} dataKey="v" innerRadius={55} outerRadius={75} startAngle={90} endAngle={-270} stroke="none">
                   <Cell fill="#1d4ed8" /><Cell fill="#e2e8f0" />
                 </Pie>
               </PieChart>
@@ -161,7 +161,7 @@ export default function Overview() {
             <div className="h-28 w-28 shrink-0">
               <ResponsiveContainer>
                 <PieChart>
-                  <Pie data={agentCounts} dataKey="value" innerRadius={30} outerRadius={50} stroke="none">
+                  <Pie isAnimationActive={false} data={agentCounts} dataKey="value" innerRadius={30} outerRadius={50} stroke="none">
                     {agentCounts.map((a) => <Cell key={a.name} fill={agentColors[a.name]} />)}
                   </Pie>
                 </PieChart>
