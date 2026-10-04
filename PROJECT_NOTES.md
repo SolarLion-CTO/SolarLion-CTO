@@ -2,7 +2,20 @@
 
 > Complete record of the CTO capstone project, from the first idea to the current website.
 > Use this file to pick the work up again, brief a teammate, or brief an AI assistant.
-> Last updated: 5 October 2026.
+> Last updated: 5 October 2026 (end of session). **Start here next time:** section 0.
+
+---
+
+## 0. Resume here (status at close)
+
+- **Code:** all work is on GitHub except possibly the latest notes update → first thing: run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
+- **Website:** complete for the capstone — 14 CTO dimensions covered, TEDIF tracker, programme tracker (CTO → developer), domain pages, responsive on phone / tablet / desktop.
+- **Pending decisions (yours / team):**
+  1. **Final name** — recommended **DecisionOS** (section 15). Not yet applied to the website.
+  2. **Live AI provider** — Grok (paid), Groq (free tier) or Claude (section 16). Not yet built.
+  3. Owner map and naming consistency across proposal, decks, TEDIF (section 12).
+- **Next build step when back:** live AI call for "Challenge the AI" on DEC-OPS-001 via a Vercel serverless function (section 16).
+- **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14).
 
 ---
 
@@ -116,8 +129,10 @@ Domain-agnostic framework → Banking · Manufacturing · Retail → Strategy ·
 | 6 | Domain pages | Each sidebar domain → CTO-to-ground cascade |
 | 7 | Programme Tracker | Portfolio + 8 dimension tabs, 9 role levels CTO → developer, AI transparency |
 | 8 | CTO Dimensions | 11 pages covering the 14 CTO capstone dimensions + coverage map |
+| 9 | Project notes | This file (`PROJECT_NOTES.md`) |
+| 10 | Responsive polish | Compact header, slide-out drawer below desktop, no page overflow on phones, charts render instantly |
 
-Commits (oldest first): Phase 1 dashboard → detailed dashboard → TEDIF Tracker → domain pages → Programme Tracker → CTO Dimensions pages.
+Commits (oldest first): Phase 1 dashboard → detailed dashboard → TEDIF Tracker → domain pages → Programme Tracker → CTO Dimensions pages → project notes → responsive polish → notes update.
 
 ---
 
@@ -257,7 +272,7 @@ React (Vercel)  →  FastAPI (Render / Railway / container)  →  LLM via model 
 
 ## 11. Assessment of the project (honest)
 
-**Overall: 7.5 / 10** before the CTO-dimension pages; coverage is now complete on all 14 dimensions.
+Earlier rating was 7.5 / 10; after the CTO-dimension pages and responsive polish it is **7.8 / 10** (full breakdown in section 14).
 
 | Strong | Weak / still to do |
 |---|---|
@@ -277,6 +292,9 @@ React (Vercel)  →  FastAPI (Render / Railway / container)  →  LLM via model 
 5. **Add deck slides** for Data readiness, AI selection, Operating model / CoE.
 6. **Phase 2:** one live LLM call with RAG + persistent audit.
 7. **Optional UX:** collapsible sidebar groups (sidebar now ~35 links); "illustrative data" banner.
+9. **Pick the final name** (section 15) and apply it to website header, decks and this file.
+10. **Test on real devices** — iPhone Safari and Android Chrome (only Chrome emulation was tested).
+11. **Present from a laptop or tablet** — wide tables (heatmap, TEDIF grids, RACI) scroll sideways on phones.
 8. Rehearse the demo script (section 9); don't try to show every TEDIF section.
 
 ---
@@ -295,3 +313,119 @@ React (Vercel)  →  FastAPI (Render / Railway / container)  →  LLM via model 
 | TEDIF position | Banking & Manufacturing: Phase 3 Build, G2 passed · Retail: Phase 2 Design, G1 passed |
 | Programme week | Week 10 of 16 (start 3 Aug 2026); no production AI before day 90 |
 | Programme tracker size | 271 items across 24 plans; 3 flagships to developer level |
+
+---
+
+## 14. Ratings and value simulation (5 Oct 2026)
+
+### Headline scores
+| What | Score | Note |
+|---|---|---|
+| Capstone project (as built today) | **7.8 / 10** | Strong thinking and demo; held back by illustrative data, no live AI, document inconsistencies |
+| Concept (if implemented as designed) | **8.5 / 10** | Real CTO problem; mature, defensible stance; novelty is the combination + TEDIF rigour |
+| Future value | **8 / 10** | Regulation (DPDP 2027, EU AI Act) and agentic AI raise demand; depends on adoption and data quality |
+| Value today | **4 / 10** | Blueprint ≈ 8, working system ≈ 3 |
+
+### Per dimension
+| Dimension | Score | Dimension | Score |
+|---|---|---|---|
+| Business | 8 | Governance | 9 |
+| Strategy | 8 | Operating model | 7.5 |
+| Assessment | 7.5 | Execution | 8 |
+| Portfolio | 8 | Measurement | 8 |
+| Finance | 7 | Cross-industry | 8.5 |
+| Technology | 7.5 | Leadership | 8.5 |
+| Data | 6.5 | Presentation & demo | 8.5 |
+| AI | 6.5 | Consistency across documents | 5.5 |
+| Real evidence / data | 4 | Technical depth | 5.5 |
+
+### Value simulation (illustrative — website's own demo numbers)
+Assumptions: value at full target ≈ ₹70.7 Cr / yr (Banking 31.6 + Manufacturing 20.7 + Retail 18.4); build ≈ ₹30.7 Cr over 2 years + run 10–20 % / yr; value ramp 15 % → 45 % → 75 %.
+
+| Scenario | 3-yr value | 3-yr cost | Net | ROI | Payback |
+|---|---|---|---|---|---|
+| Conservative (½ value) | ₹47.7 Cr | ₹46.7 Cr | ≈ ₹1 Cr | ~2 % | ~month 35 |
+| Base | ₹95.4 Cr | ₹46.7 Cr | ≈ ₹48.7 Cr | ~104 % | ~month 22 |
+| Optimistic (1.25×) | ₹119.4 Cr | ₹46.7 Cr | ≈ ₹72.7 Cr | ~156 % | ~month 18 |
+
+- ₹70 Cr / yr at target is aggressive vs ₹30.7 Cr invested — **commit to the conservative case, show base as expectation.**
+- Biggest unquantified value: **risk avoidance** (DPDP penalties for failed safeguards can reach ~₹250 Cr; RBI findings) — one avoided incident can fund the programme.
+
+### Value today vs future
+| | Today | 6–12 months (Phase 2 + pilot) | 2–3 years (scaled) |
+|---|---|---|---|
+| Exists | Framework, decks, interactive demo | Live AI on 3 decisions, real data, persistent audit | Platform in 2–3 business units |
+| Value | Capstone + board-ready blueprint | Measured gains (circular mapping days → hours; RCA 38 h → < 10 h) | ₹25–50 Cr / yr + compliance readiness |
+| Score | 3 (system) / 8 (blueprint) | 6 | 8–9 if adoption holds |
+
+### Path to 9 / 10
+| Fix | Gain | Effort |
+|---|---|---|
+| One live AI call with RAG on DEC-OPS-001 "Challenge the AI" | +0.5 | 1–2 days |
+| One or two real baselines from your organisation | +0.4 | 1 day |
+| Consistency pass (one name, one owner map, TEDIF errata) | +0.3 | 1 day |
+| Present conservative value case + DPDP risk avoidance | +0.2 | ½ day |
+
+---
+
+## 15. Naming options (not yet decided)
+
+**Recommended: DecisionOS** — *The enterprise operating system for trusted AI decisions.*
+Reason: short, futuristic, domain-agnostic, and says the core idea (the decision is the unit of value).
+
+| Title | Subtitle |
+|---|---|
+| **DecisionOS** (recommended) | The enterprise operating system for trusted AI decisions |
+| AXIS | One control layer for enterprise AI |
+| Sentinel AI | Governed AI transformation for every industry |
+| NorthStar AI | From AI pilots to measurable value |
+| Helix | The domain-agnostic AI transformation framework |
+| TrustOS | AI recommends. Humans decide. |
+| Control Tower X | The CTO's command centre for enterprise AI |
+
+Naming hierarchy that removes today's inconsistency: **DecisionOS** = product · **TEDIF** = framework inside it · **Control Tower** = the CTO's view.
+- Website header: `DecisionOS · powered by TEDIF`
+- Deck title: `DecisionOS — The Domain-Agnostic Enterprise AI Transformation Framework`
+- Tagline: *AI recommends. Humans decide.*
+
+Do a quick web / trademark search before final use. To apply: header text in `src/components/Layout.tsx`, `<title>` in `index.html`.
+
+---
+
+## 16. Live AI call — what it means and how to build it
+
+**Meaning:** the website sends a real question to an AI model's API (e.g. Grok) and shows the model's actual answer — today the "AI" text is pre-written.
+
+```
+Website (React, Vercel) ── click "Challenge the AI"
+   ▼
+Backend function  ← API key lives here only (never in the browser)
+   │  sends: question + decision data + 3–5 policy snippets (= RAG)
+   ▼
+AI model API (Grok / Groq / Claude)
+   │  returns: recommendation + reasons + cited sources
+   ▼
+Website shows it → a human approves / rejects → audit
+```
+
+| Provider | Cost | Note |
+|---|---|---|
+| Grok (xAI) | Paid API (sometimes starter credits) | OpenAI-compatible |
+| Groq (with a q) | Free tier | Open models (Llama), fast, OpenAI-compatible — good for the capstone |
+| Claude (Anthropic) | Paid API | Strong reasoning and source citation |
+
+Build plan (when back):
+1. Create an API key with the chosen provider.
+2. Add it in **Vercel → Project → Settings → Environment Variables** (never in code or chat).
+3. Add a Vercel serverless function (e.g. `api/challenge`) in this repo — no separate server; deploys with `git push`. (Python FastAPI remains the longer-term Phase 2 option.)
+4. Wire "Challenge the AI" (`src/pages/Decisions.tsx`) and "Ask the Framework" (`answer()` in `src/pages/Agents.tsx`) to it; keep canned answers as offline fallback.
+5. Send 3–5 policy snippets with each call and require citations (RAG-lite).
+
+---
+
+## 17. Responsive testing record (5 Oct 2026)
+
+- Method: Chrome DevTools-protocol emulation — phone 390 px, tablet 820 px, desktop 1440 px.
+- Result: **35 pages × phone + tablet = 70 checks, no horizontal overflow.**
+- Fixes made: compact fixed-height header with short titles; sidebar → slide-out drawer with backdrop below 1024 px; `.grid > * { min-width: 0 }` so wide tables scroll inside cards; KPI grid without orphan card; mobile status line in plan tree; stacked roadmap milestones; chart animations off (`isAnimationActive={false}`) so charts render instantly.
+- Not yet done: real-device test on iPhone Safari and Android.
