@@ -17,7 +17,7 @@
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
 - **NEXT BUILD (agreed direction):** two specs merged into one plan, **section 23** (this supersedes the build order in section 22).
   - Specs: `docs/SIMULATION_SPEC.md` (7 tool layers, canonical model, decisions → actions → outcomes) and `docs/ENTERPRISE360_SPEC.md` (16 enterprise functions per domain, heatmap, Top 10 decisions, maturity).
-  - **M1–M4 DONE (6 Oct 2026, sections 24, 26 and 27).** Next: **M5**, Decision Intelligence (decision cards, Top 10, actions, outcomes, maturity), then M6 (Command Center).
+  - **M1–M5 DONE (6–7 Oct 2026, sections 24 and 26–28).** Next: **M6**, the cross-domain Command Center as home page, the Data Sources page, event-driven metric changes, and final checks.
 - **Sprint tracker (simulation build, plan in section 23):**
 
 | Sprint | What it delivers | Visible on site? | Status |
@@ -26,8 +26,8 @@
 | M2 | Reusable UI building blocks: KPI card, sparkline, heatmap, source badge, time-range selector, event feed, "why this colour" tip (section 25) | Used directly by M3 pages (no separate test page needed) | ✅ Done 6 Oct 2026 (section 26) |
 | M3 | Domain Overview (Executive 360) + 7 source pages per domain + Manufacturing and Retail data; existing tabs re-homed (section 25) | **Yes, the first big visible change** | ✅ Done 6 Oct 2026 (section 26) |
 | M4 | 16-function page template + "Fed by" links into sources | Yes | ✅ Done 6 Oct 2026 (section 27) |
-| M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | ⏳ Next |
-| M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | Planned |
+| M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | ✅ Done 7 Oct 2026 (section 28) |
+| M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | ⏳ Next (the live clock already exists from M3) |
 
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
@@ -987,4 +987,75 @@ Nothing visible on the website yet; this is the data engine the new pages will r
 - Per-domain wording for dependency reasons.
 - A KPI click-through that shows the records behind a derived metric.
 - Function-specific visuals from spec 2 (OKR rings, funnels). Today every function uses the common template.
+
+---
+
+## 28. M5 done: Decision Intelligence (7 Oct 2026)
+
+**The model:** Signal → Correlation → Insight → Decision → Action → Outcome (spec 1 §15–18, spec 2 §5–6, §14).
+
+### New pages
+| Route | What |
+|---|---|
+| `/domain/:id/decisions` | **Decision Intelligence** per domain. 4 summary tiles (awaiting, value at stake, approved, signals correlated). Tabs: **Decision cards** · **Action tracker** · **Outcomes** · **Maturity**. Sidebar: "<Domain> 360 → Decision Intelligence". |
+| `/decision-center` | **CTO Decision Center: Top 10** across all three domains, ranked by priority, then confidence, then value. Tabs: Top 10 · Action tracker (all domains) · Outcomes. Sidebar: AI Intelligence → "CTO Decision Center (Top 10)". |
+| `/domain/:id` | The "Needs your attention" card is now **"Needs your decision"**: the top 3 decision cards with coloured source chips. |
+
+The old `/decisions` (TEDIF Decision Object center) is unchanged.
+
+### Engine: `src/data/sim/decisions.ts`
+Decisions are raised by **rules over linked records**. Every signal cites a real record ID, and the wording is assembled from the evidence values, not free AI text.
+
+1. **Story decisions** (3 per domain): one signal per layer that is not green (Planview initiative, LeanIX legacy apps, Process, ServiceNow project, Jellyfish team, Datadog service with incident trend over the last 45 vs previous 45 days, Vanta control plus linked risk).
+   - Priority: **Critical** only if ≥ 6 red signals, the objective is Critical and the initiative is red. **High** if ≥ 3 red; otherwise Medium / Low.
+   - Confidence = 50 + 3 × signals + 2 × red signals (+3 if the initiative is red), capped at 91.
+   - The recommendation names the legacy apps, the number of engineers to move and from which lower-priority team (calculated from the capacity gap), and the control to close.
+2. **Customer-facing apps on end-of-life technology** (the spec 2 §5 example). Uses the share of P1/P2 incidents, run cost, the unsupported-software control and complaints.
+3. **Rebalance engineering capacity:** red teams vs a fully staffed team on a lower-priority initiative.
+4. **Approve or contain the forecast overrun:** initiatives more than 5% over budget, raised if the total is ≥ ₹1.5 Cr.
+5. **Risks outside appetite:** Critical risks, or High risks open for more than 180 days.
+6. **Process automation:** the worst process not already covered by a story.
+7. **Approved earlier (6 Jul 2026), with measured outcomes:** "Accelerate cloud adoption and FinOps" and "Put priority AI use cases into production". Baseline = the metric value in Jul (series index 8); current = today; target, variance and status come from the **same metric history**, so the outcome stays honest. Example: Manufacturing's AI use cases show **Behind** (11 → 11).
+
+**Result:**
+
+| Domain | Open decisions | Priorities |
+|---|---|---|
+| Banking | 8 | 1 Critical, 3 High |
+| Manufacturing | 7 | 6 High, 1 Medium |
+| Retail | 8 | 6 High, 2 Medium |
+
+There are 2 approved decisions with outcomes per domain, and the Top 10 holds 1 Critical overall.
+
+### Decision card (`src/components/sim/DecisionCard.tsx`)
+- Header: priority, "Decision required", ID and type, decide-by date, title, why now.
+- Body: signals by source (with health dot and record link), correlation, insight, **recommended decision** box, expected outcome, business / technology / financial impact, risk, investment → value protected, confidence bar, owner.
+- **Show evidence:** a traceability table (layer · simulated source · record ID · state), as in spec 1 §22.
+- **Approve / Defer / Reject.** "AI recommends · a named human decides." Approving creates the actions; Undo is available.
+
+### Actions and outcomes (`src/pages/sim/decisionViews.tsx`)
+- **Action tracker:** shows actions of approved decisions.
+  - Columns: action, decision, owner, due date (red if overdue), priority, status (Not Started / In Progress / Blocked / Completed, editable), expected outcome, actual outcome, evidence link.
+  - Clicking a status tile filters the list.
+- **Outcomes:** for each decision approved earlier, a Decision → Action → Technology result → Business outcome chain, plus a table: baseline (Jul) · target · current · variance · sparkline Jul–Oct · status. Decisions approved in this session show "baseline captured today".
+- **Maturity** (L1 Visibility → L5 Continuous optimisation):
+  - One row per source area: current vs target, level name, gap, the 2 most relevant improvement initiatives (ranked by how many of that area's problem records they carry), owner and target date.
+  - Labelled "management visualisation — not a CMMI or any other formal assessment".
+  - Current level = 1 + (capability score − 40) / 15, capped at 1–5. Target 4, or 4.5 for Datadog and Vanta.
+
+### Demo state
+`src/components/sim/decisionState.tsx` keeps verdicts and action statuses **in this browser only** (localStorage, guarded with try / catch). **"Reset demo"** on both pages clears it. A shared, persistent store comes with the Python API phase.
+
+### Checks
+- Build passes.
+- `validate:sim` passes for 3 / 3 domains.
+- Overflow check **60 / 60 clean**: Decision Center tabs, domain decision tabs, domain overviews, and the home page at 1366 / 820 / 390 px.
+
+### Demo path (3–5 minutes)
+1. Banking 360 overview → "Needs your decision".
+2. Open **Digital Payments Modernization at Risk**: 7 sources, 6 red.
+3. **Show evidence** → click `SVC-BNK-002` to see the incidents.
+4. Go back and **Approve** → open the **Action tracker** (5 actions) and set one to In Progress.
+5. Go to **Outcomes**: "Accelerate cloud adoption" approved in July, measured against target.
+6. Go to the **CTO Decision Center** for the Top 10 across all business units.
 

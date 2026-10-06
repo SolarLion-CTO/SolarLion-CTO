@@ -71,6 +71,7 @@ const nav: Group[] = [
     { to: '/tracker/governance', label: 'Governance plan', icon: ListChecks },
   ] },
   { section: 'AI Intelligence', icon: Sparkles, items: [
+    { to: '/decision-center', label: 'CTO Decision Center (Top 10)', icon: Crown },
     { to: '/ai', label: 'AI insights', icon: Sparkles },
     { to: '/decisions', label: 'Decision center', icon: Gavel },
     { to: '/cto/decisions', label: 'CTO decisions', icon: Crown },
@@ -86,6 +87,7 @@ const domainGroup = (d: DomainId): Group => ({
   section: `${domains[d].name} 360`, icon: Radar, items: [
     { to: `/domain/${d}`, label: 'Enterprise 360 overview', icon: LayoutDashboard, end: true },
     ...SOURCES.map((s) => ({ to: `/domain/${d}/${s.slug}`, label: s.capability, sub: `Simulated · ${s.label}`, icon: SOURCE_ICON[s.id] })),
+    { to: `/domain/${d}/decisions`, label: 'Decision Intelligence', sub: 'Decisions · actions · outcomes · maturity', icon: Gavel },
   ],
 })
 

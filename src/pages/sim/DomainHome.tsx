@@ -6,11 +6,13 @@ import { domains } from '../../data/domains'
 import { domainHealth, exec360, sourceHealth } from '../../data/sim'
 import type { DomainData } from '../../data/sim'
 import { Card } from '../../components/ui'
-import { ScoreCard, ScoreRing, Sparkline, StatusPill } from '../../components/sim/primitives'
+import { ScoreCard, ScoreRing, Sparkline } from '../../components/sim/primitives'
 import { HealthHeatmap } from '../../components/sim/HealthHeatmap'
 import { EventFeed } from '../../components/sim/EventFeed'
 import { useKeepRange, useRange } from '../../components/sim/range'
-import { NotFound, RecLink, SimHeader, useSimDomain } from './common'
+import { DecisionRow } from '../../components/sim/DecisionCard'
+import { decisionsFor, topDecisions } from '../../data/sim/decisions'
+import { NotFound, SimHeader, useSimDomain } from './common'
 
 const LEGACY: Record<string, string> = {
   overview: 'programme', apps: 'datadog?tab=apps', dr: 'datadog?tab=dr', pnl: 'datadog?tab=pnl', cyber: 'vanta?tab=cyber',
@@ -37,8 +39,7 @@ function Home({ d }: { d: DomainData }) {
   const large = ['technology', 'business', 'transformation', 'operational', 'compliance'].map((x) => k[x])
   const compact = ['digital', 'ai', 'architecture', 'cyber', 'cx', 'employee', 'budget', 'innovation'].map((x) => k[x])
   const ent = k.enterprise
-  const all = [...d.initiatives, ...d.applications, ...d.processes, ...d.projects, ...d.teams, ...d.services, ...d.controls, ...d.risks]
-  const healthOf = (id?: string) => all.find((e) => e.id === id)
+  const decisions = topDecisions(decisionsFor(d))
 
   return (
     <>
@@ -83,26 +84,9 @@ function Home({ d }: { d: DomainData }) {
       <div className="grid grid-cols-1 2xl:grid-cols-3 gap-5 mb-6">
         <Card title="16 enterprise functions · health heatmap" className="2xl:col-span-2 min-w-0"><HealthHeatmap d={d} /></Card>
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-1 gap-5 content-start">
-          <Card title="Needs your attention">
-            <p className="text-xs text-ink-3 -mt-2 mb-3">Exceptions connected across several source systems. Full decision cards with evidence follow in the Decision Center.</p>
-            <ul className="space-y-3">{d.stories.map((s) => {
-              const chain: [string, string | undefined][] = [['Planview', s.initiativeId], ['LeanIX', s.appIds[0]], ['Process', s.processId], ['ServiceNow', s.projectId], ['Jellyfish', s.teamId], ['Datadog', s.serviceId], ['Vanta', s.controlId]]
-              const reds = chain.filter(([, id]) => healthOf(id)?.health === 'Red').length
-              const init = d.initiatives.find((i) => i.id === s.initiativeId)!
-              return (
-                <li key={s.id} className="border border-line rounded-lg p-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <RecLink d={d} id={s.initiativeId} className="font-semibold text-ink text-sm leading-snug">{s.title}</RecLink>
-                    <StatusPill status={reds >= 3 ? 'Red' : reds > 0 ? 'Amber' : 'Green'} label={reds >= 3 ? 'Decide' : 'Watch'} why={init.why} />
-                  </div>
-                  <div className="flex flex-wrap gap-1 mt-2">{chain.map(([label, id]) => {
-                    const h = healthOf(id)?.health ?? 'Green'
-                    return <RecLink key={label} d={d} id={id}><span className={`inline-flex items-center gap-1 text-[10.5px] rounded px-1.5 py-0.5 border ${h === 'Red' ? 'bg-crit-bg text-crit-text border-red-200' : h === 'Amber' ? 'bg-warn-bg text-warn-text border-amber-200' : 'bg-success-bg text-success-text border-green-200'}`}>{label}</span></RecLink>
-                  })}</div>
-                  <div className="text-[11px] text-ink-3 mt-1.5">{reds} of 7 layers red · owner {init.owner}</div>
-                </li>
-              )
-            })}</ul>
+          <Card title="Needs your decision" action={<Link to={keep(`/domain/${d.domain}/decisions`)} className="text-xs font-semibold text-brand-600">All decisions →</Link>}>
+            <p className="text-xs text-ink-3 -mt-2 mb-3">Raised by correlating signals across the simulated source systems.</p>
+            <div className="space-y-3">{decisions.slice(0, 3).map((x) => <DecisionRow key={x.id} d={x} />)}</div>
           </Card>
           <Card title="Live source events"><EventFeed d={d} limit={7} /></Card>
         </div>
