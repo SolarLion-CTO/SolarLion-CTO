@@ -17,7 +17,7 @@
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
 - **NEXT BUILD (agreed direction):** two specs merged into one plan, **section 23** (this supersedes the build order in section 22).
   - Specs: `docs/SIMULATION_SPEC.md` (7 tool layers, canonical model, decisions → actions → outcomes) and `docs/ENTERPRISE360_SPEC.md` (16 enterprise functions per domain, heatmap, Top 10 decisions, maturity).
-  - **M1, M2 and M3 DONE (6 Oct 2026, sections 24 and 26).** Next: **M4**, deepening the function page, then M5 (decisions) and M6 (Command Center).
+  - **M1–M4 DONE (6 Oct 2026, sections 24, 26 and 27).** Next: **M5**, Decision Intelligence (decision cards, Top 10, actions, outcomes, maturity), then M6 (Command Center).
 - **Sprint tracker (simulation build, plan in section 23):**
 
 | Sprint | What it delivers | Visible on site? | Status |
@@ -25,8 +25,8 @@
 | M1 | Data engine: canonical model, Banking data, scoring rules, `npm run validate:sim` (section 24) | No | ✅ Done 6 Oct 2026 |
 | M2 | Reusable UI building blocks: KPI card, sparkline, heatmap, source badge, time-range selector, event feed, "why this colour" tip (section 25) | Used directly by M3 pages (no separate test page needed) | ✅ Done 6 Oct 2026 (section 26) |
 | M3 | Domain Overview (Executive 360) + 7 source pages per domain + Manufacturing and Retail data; existing tabs re-homed (section 25) | **Yes, the first big visible change** | ✅ Done 6 Oct 2026 (section 26) |
-| M4 | 16-function page template + "Fed by" links into sources | Yes | 🟡 First version live (6 KPIs, trend, Fed by, exceptions). Still to add: impact panel, initiatives, dependencies, sidebar list. ⏳ Next |
-| M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | Planned |
+| M4 | 16-function page template + "Fed by" links into sources | Yes | ✅ Done 6 Oct 2026 (section 27) |
+| M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | ⏳ Next |
 | M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | Planned |
 
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
@@ -954,4 +954,37 @@ Nothing visible on the website yet; this is the data engine the new pages will r
 - The Executive 360 KPI targets are a flat 85 (maturity 4 / 5). They could be set per domain later.
 - The JS bundle is above 500 kB (a Vite warning only). Code-splitting the routes is a later optimisation.
 - The live clock moves the event feeds and "synced X ago" times. Event-driven *metric* changes are planned for M6.
+
+---
+
+## 27. M4 done: the 16 enterprise function pages (6 Oct 2026)
+
+**Route:** `/domain/:id/fn/:fn`. One template (`src/pages/sim/FunctionPage.tsx`) renders all **48 views** (16 functions × 3 domains). They open from the heatmap rows on the domain Overview, or from the new sidebar group **"Enterprise functions"**: 16 items, each labelled "CTO-owned" or "Signal · <owner>", and they follow the selected business unit.
+
+**Each function page shows, top to bottom (spec 2 §3, §8, §11):**
+1. Previous / next function, a breadcrumb, the CTO question, the source badges, the function score ring and "CTO-owned / Signal to CTO · owner".
+   - Signal functions also carry a note: "Owned by the CFO … CTO360 does not replace their systems."
+2. **6 KPI cards**, one per heatmap column (current · target · variance · trend · status · owner · updated).
+3. **Business, technology and financial impact**, calculated from the records in scope (e.g. "17,80,200 customer transactions hit by 6 P1/P2 incidents", "₹5 Cr forecast overrun on linked initiatives").
+4. **12-month function health** with the target at 80. The score axis is padded so flat lines look flat.
+5. **Cross-functional dependencies:** "Depends on" (each with its live score and a reason) and "Affects" (reverse links).
+6. **Linked strategic initiatives:** progress vs plan, forecast vs budget, status.
+7. **Recommended actions** (top 5), drafted from red and amber evidence, each with an owner and an evidence link. "A named human decides" (Decision Center in M5).
+8. **Open issues:** red records in scope, each with its `why`.
+9. **Fed by:** links into the source pages, the count of calculated vs simulated KPIs, and the records in scope.
+
+**Engine:** `src/data/sim/context.ts`
+- `scope(d, fn)` is the list of records belonging to each function. For example: Technology = all apps and services; CX = customer-facing apps and services plus customer processes; Legal = DPDP / AI / regulator controls plus regulatory and vendor risks; Procurement = vendors (technologies), SaaS apps and vendor risks.
+- `impact()`, `actions()` and `dependencies()` all work from that scope.
+- `DEPENDS` is the hand-written dependency map with reasons. Edit it there.
+
+**Checks:**
+- Build passes.
+- `validate:sim` passes for all 3 domains.
+- **96 / 96 function views have no overflow** (48 at 1366 px and 48 at 390 px).
+
+**Possible later polish:**
+- Per-domain wording for dependency reasons.
+- A KPI click-through that shows the records behind a derived metric.
+- Function-specific visuals from spec 2 (OKR rings, funnels). Today every function uses the common template.
 

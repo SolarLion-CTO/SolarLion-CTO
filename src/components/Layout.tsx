@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
-  Activity, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
+  Activity, Boxes, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
   ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -11,6 +11,7 @@ import { domainOrder, domains } from '../data/domains'
 import type { DomainId } from '../data/domains'
 import { cascade, tracks } from '../data/cascade'
 import { SOURCES } from '../data/sim/scores'
+import { FUNCTIONS } from '../data/sim/functions'
 import { ClockControls } from './sim/EventFeed'
 
 type Item = { to: string; label: string; icon: LucideIcon; badge?: number; sub?: string; end?: boolean }
@@ -88,6 +89,12 @@ const domainGroup = (d: DomainId): Group => ({
   ],
 })
 
+// The 16 enterprise functions for the selected business unit (CTO-owned first, then signals).
+const functionsGroup = (d: DomainId): Group => ({
+  section: 'Enterprise functions', icon: Boxes,
+  items: FUNCTIONS.map((f) => ({ to: `/domain/${d}/fn/${f.id}`, label: f.name, sub: f.cls === 'cto' ? 'CTO-owned' : `Signal · ${f.owner}`, icon: f.cls === 'cto' ? Cpu : Radio })),
+})
+
 const matches = (to: string, path: string) => (to === '/' || to === '/tracker' ? path === to : path === to || path.startsWith(to + '/'))
 
 export default function Layout() {
@@ -95,7 +102,7 @@ export default function Layout() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const groups = [domainGroup(domainId), ...nav]
+  const groups = [domainGroup(domainId), functionsGroup(domainId), ...nav]
   const activeGroup = groups.find((g) => g.items.some((i) => matches(i.to, pathname)))?.section
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const isOpen = (s: string) => expanded[s] ?? (s === activeGroup || s === groups[0].section || (s === 'Executive Overview' && !pathname.startsWith('/domain/')))

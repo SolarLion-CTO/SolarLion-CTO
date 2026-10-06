@@ -4,7 +4,7 @@ import { axisTick, chart } from '../../theme'
 import { useRange } from './range'
 
 /** 12-month trend (sliced by the time range) + dashed 3-month forecast + target line. Single axis, single hue. */
-export function TrendChart({ series, forecast, target, name, height = 200, unit = '' }: { series: number[]; forecast?: number[]; target?: number; name: string; height?: number; unit?: string }) {
+export function TrendChart({ series, forecast, target, name, height = 200, unit = '', score = false }: { series: number[]; forecast?: number[]; target?: number; name: string; height?: number; unit?: string; score?: boolean }) {
   const range = useRange()
   const start = 12 - range.points
   const data = [
@@ -17,7 +17,7 @@ export function TrendChart({ series, forecast, target, name, height = 200, unit 
         <LineChart data={data} margin={{ left: -12, right: 12, top: 6 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={chart.grid} vertical={false} />
           <XAxis dataKey="m" tick={axisTick} interval="preserveStartEnd" />
-          <YAxis tick={axisTick} domain={['auto', 'auto']} width={58} tickFormatter={(v: number) => String(Math.round(v * 100) / 100)} />
+          <YAxis tick={axisTick} domain={score ? [(lo: number) => Math.max(0, Math.floor((Math.min(lo, target ?? lo) - 10) / 10) * 10), 100] : ['auto', 'auto']} width={58} tickFormatter={(v: number) => String(Math.round(v * 100) / 100)} />
           <Tooltip formatter={(v) => `${v}${unit}`} />
           {target !== undefined && <ReferenceLine y={target} stroke={chart.comparison} strokeDasharray="4 4" label={{ value: `Target ${target}`, fontSize: 11, fill: chart.axis, position: 'insideTopRight' }} />}
           <Line isAnimationActive={false} dataKey="actual" name={name} stroke={chart.primary} strokeWidth={2} dot={{ r: 3 }} connectNulls={false} />
