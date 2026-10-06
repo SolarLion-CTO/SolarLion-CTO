@@ -146,9 +146,9 @@ export const training: { audience: string; topic: string; when: string }[] = [
 export const currentWeek = 10
 export const roadmapPhases: { name: string; start: number; end: number; lead: string; output: string; color: string }[] = [
   { name: 'Foundation', start: 1, end: 4, lead: 'Suman · Pankaj', output: 'Maturity baseline, use-case inventory, KPI baseline', color: 'bg-brand-900' },
-  { name: 'Design', start: 5, end: 8, lead: 'Ram · Vaibhav', output: 'Architecture, governance model, 5–10 decisions catalogued', color: 'bg-blue-700' },
-  { name: 'Pilot (shadow)', start: 9, end: 12, lead: 'Ram · all', output: '3 decisions × 3 domains in shadow mode', color: 'bg-violet-600' },
-  { name: 'Scale blueprint', start: 13, end: 16, lead: 'Santhosh · Suman', output: 'Benefits case, rollout to next department', color: 'bg-emerald-600' },
+  { name: 'Design', start: 5, end: 8, lead: 'Ram · Vaibhav', output: 'Architecture, governance model, 5–10 decisions catalogued', color: 'bg-brand-700' },
+  { name: 'Pilot (shadow)', start: 9, end: 12, lead: 'Ram · all', output: '3 decisions × 3 domains in shadow mode', color: 'bg-brand-600' },
+  { name: 'Scale blueprint', start: 13, end: 16, lead: 'Santhosh · Suman', output: 'Benefits case, rollout to next department', color: 'bg-seq-400' },
 ]
 export const roadmapLanes: { lane: string; bars: { label: string; start: number; end: number; tone: string }[]; gates: { label: string; week: number }[] }[] = [
   { lane: 'Banking', bars: [{ label: 'Assess', start: 1, end: 3, tone: 'bg-slate-400' }, { label: 'Design', start: 4, end: 7, tone: 'bg-blue-500' }, { label: 'Build + shadow', start: 8, end: 13, tone: 'bg-violet-500' }], gates: [{ label: 'G1', week: 2 }, { label: 'G2', week: 7 }, { label: 'G3', week: 13 }] },

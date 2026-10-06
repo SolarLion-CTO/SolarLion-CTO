@@ -456,3 +456,11 @@ Standard followed: calm enterprise dashboard (Carbon / Fluent style), WCAG 2.2 A
 - **Sidebar:** collapsible groups; the group of the current page opens automatically; Executive open by default.
 - **Changed from before:** uppercase extra-bold titles → sentence case semibold · rainbow KPI icons → one neutral style · heatmap mint/yellow/red → blue progress scale (health stays in badges) · Manufacturing green → aqua · gradient header → solid navy · 35 always-open links → collapsible groups.
 - **Present in light mode** (dark dashboards wash out on projectors). Dark mode can be added later from the same tokens.
+
+### Validation from `references_to_validate/` (6 Oct 2026)
+Screenshot of the live site (`solar-lion-cto.vercel.app/cto/strategy`) confirmed the design system is deployed. Fixes made from it:
+- Maturity curve and gap bars used yellow / green (status colours) for "today" / "target" → now navy (today) and light blue / dashed outline (target).
+- Numbers formatted to one decimal ("4.0", not "4"), gap shown (+0.7), "largest gap" tag added.
+- Table cells aligned (consistent padding, top-aligned area labels).
+- Sidebar label shortened to "Coverage · 14".
+- Same rule applied elsewhere: roadmap phases and the business-case "ask" box now use brand colours, not status colours.

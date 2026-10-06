@@ -26,7 +26,7 @@ export default function Business() {
         <div className="flex flex-wrap items-center gap-2">
           {chain.map((c, i) => (
             <span key={c} className="flex items-center gap-2">
-              <span className={`rounded-lg px-3 py-2 text-sm font-semibold ${i === chain.length - 1 ? 'bg-amber-500 text-white' : 'bg-slate-100'}`}>{c}</span>
+              <span className={`rounded-lg px-3 py-2 text-sm font-semibold ${i === chain.length - 1 ? 'bg-brand-900 text-white' : 'bg-slate-100'}`}>{c}</span>
               {i < chain.length - 1 && <ArrowRight size={16} className="text-slate-400" />}
             </span>
           ))}
@@ -65,8 +65,8 @@ export default function Business() {
         </Card>
       </div>
 
-      <section className="rounded-xl bg-amber-50 border border-amber-300 p-5">
-        <div className="text-xs font-bold uppercase tracking-wide text-amber-800">The ask</div>
+      <section className="rounded-xl bg-brand-50 border border-brand-100 p-5">
+        <div className="text-xs font-bold uppercase tracking-wide text-brand-700">The ask</div>
         <div className="grid md:grid-cols-3 gap-3 mt-2 text-sm">
           <div><b>1 · Approve the 90-day foundation</b><div className="text-slate-600">No production AI, no platform purchase, no irreversible commitment.</div></div>
           <div><b>2 · Name one executive sponsor</b><div className="text-slate-600">With genuinely allocated time.</div></div>

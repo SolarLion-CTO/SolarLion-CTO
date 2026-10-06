@@ -20,7 +20,7 @@ const nav: { section: string; items: { to: string; label: string; icon: LucideIc
     { to: '/value', label: 'Business Value', icon: TrendingUp },
   ] },
   { section: 'CTO Dimensions', items: [
-    { to: '/cto/coverage', label: 'Coverage (14 dimensions)', icon: ListChecks },
+    { to: '/cto/coverage', label: 'Coverage · 14', icon: ListChecks },
     { to: '/cto/business', label: 'Business case', icon: Building2 },
     { to: '/cto/strategy', label: 'Current → target', icon: Compass },
     { to: '/cto/assessment', label: 'Readiness assessment', icon: Gauge },
