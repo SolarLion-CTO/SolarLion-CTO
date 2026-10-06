@@ -8,6 +8,7 @@
 
 ## 0. Resume here (status at close)
 
+- **Live site:** https://cto360.vercel.app
 - **Code:** all work is on GitHub except possibly the latest notes update → first thing: run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
 - **Website:** complete for the capstone — 14 CTO dimensions covered, TEDIF tracker, programme tracker (CTO → developer), domain pages, responsive on phone / tablet / desktop, professional design system applied (section 18).
 - **Pending decisions (yours / team):**
@@ -31,6 +32,7 @@
 | Signature principle | **AI recommends. Humans decide.** |
 | Domains | Banking, Manufacturing (pilots) + Retail (added by configuration only) |
 | Website | React + Vite + TypeScript, deployed on Vercel from GitHub |
+| **Live website** | **https://cto360.vercel.app** (renamed from solar-lion-cto.vercel.app on 6 Oct 2026) |
 | GitHub repo | https://github.com/SolarLion-CTO/SolarLion-CTO |
 | Local folder | `/Users/ram/Downloads/CTO CApstone/ai-transformation-framework` |
 | Source documents folder | `/Users/ram/Downloads/CTO CApstone` |
@@ -458,7 +460,7 @@ Standard followed: calm enterprise dashboard (Carbon / Fluent style), WCAG 2.2 A
 - **Present in light mode** (dark dashboards wash out on projectors). Dark mode can be added later from the same tokens.
 
 ### Validation from `references_to_validate/` (6 Oct 2026)
-Screenshot of the live site (`solar-lion-cto.vercel.app/cto/strategy`) confirmed the design system is deployed. Fixes made from it:
+Screenshot of the live site (then `solar-lion-cto.vercel.app/cto/strategy`, now `cto360.vercel.app`) confirmed the design system is deployed. Fixes made from it:
 - Maturity curve and gap bars used yellow / green (status colours) for "today" / "target" → now navy (today) and light blue / dashed outline (target).
 - Numbers formatted to one decimal ("4.0", not "4"), gap shown (+0.7), "largest gap" tag added.
 - Table cells aligned (consistent padding, top-aligned area labels).
