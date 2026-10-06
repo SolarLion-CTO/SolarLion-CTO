@@ -29,7 +29,7 @@ export default function Finance() {
           ['CAPEX (FY)', money(capex)],
           ['OPEX (FY)', money(opex)],
         ].map(([l, v]) => (
-          <Card key={l}><div className="text-[11px] uppercase font-semibold text-slate-500">{l}</div><div className="text-2xl font-extrabold mt-1">{v}</div></Card>
+          <Card key={l}><div className="text-[11px] uppercase font-semibold text-slate-500">{l}</div><div className="text-2xl font-bold mt-1">{v}</div></Card>
         ))}
       </div>
 
@@ -47,9 +47,9 @@ export default function Finance() {
             </ResponsiveContainer>
           </div>
           <div className="space-y-3">
-            <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-3"><div className="text-2xl font-extrabold text-emerald-700">₹1.06 Cr</div><div className="text-xs">3-year hybrid cost — lowest of the three</div></div>
-            <div className="rounded-lg bg-slate-50 p-3"><div className="text-2xl font-extrabold">~12 months</div><div className="text-xs">payback on ₹60 L/yr benefit</div></div>
-            <div className="rounded-lg bg-slate-50 p-3"><div className="text-2xl font-extrabold">~70%</div><div className="text-xs">3-year ROI</div></div>
+            <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-3"><div className="text-2xl font-bold text-emerald-700">₹1.06 Cr</div><div className="text-xs">3-year hybrid cost — lowest of the three</div></div>
+            <div className="rounded-lg bg-slate-50 p-3"><div className="text-2xl font-bold">~12 months</div><div className="text-xs">payback on ₹60 L/yr benefit</div></div>
+            <div className="rounded-lg bg-slate-50 p-3"><div className="text-2xl font-bold">~70%</div><div className="text-xs">3-year ROI</div></div>
           </div>
         </div>
         <p className="text-xs text-slate-500 mt-2">Cloud is cheapest in Year 1 but fails DPDP residency for restricted ERP data; on-prem needs ₹1.07 Cr upfront. Illustrative figures — replace with the team baseline before final submission.</p>

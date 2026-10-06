@@ -145,7 +145,7 @@ export const training: { audience: string; topic: string; when: string }[] = [
 // ── Roadmap (weeks from programme start, 3 Aug 2026) ─────────────────────
 export const currentWeek = 10
 export const roadmapPhases: { name: string; start: number; end: number; lead: string; output: string; color: string }[] = [
-  { name: 'Foundation', start: 1, end: 4, lead: 'Suman · Pankaj', output: 'Maturity baseline, use-case inventory, KPI baseline', color: 'bg-[#0b2a6b]' },
+  { name: 'Foundation', start: 1, end: 4, lead: 'Suman · Pankaj', output: 'Maturity baseline, use-case inventory, KPI baseline', color: 'bg-brand-900' },
   { name: 'Design', start: 5, end: 8, lead: 'Ram · Vaibhav', output: 'Architecture, governance model, 5–10 decisions catalogued', color: 'bg-blue-700' },
   { name: 'Pilot (shadow)', start: 9, end: 12, lead: 'Ram · all', output: '3 decisions × 3 domains in shadow mode', color: 'bg-violet-600' },
   { name: 'Scale blueprint', start: 13, end: 16, lead: 'Santhosh · Suman', output: 'Benefits case, rollout to next department', color: 'bg-emerald-600' },

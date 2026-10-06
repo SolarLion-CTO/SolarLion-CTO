@@ -69,7 +69,7 @@ export default function Agents() {
               <div className="space-y-2">
                 <p className="text-sm text-slate-500">Ask about the {domain.name} transformation:</p>
                 {['Which initiatives are at risk?', 'Where is the best ROI?', 'What is our DPDP compliance status?', 'What are our main problems?'].map((s) => (
-                  <button key={s} onClick={() => ask(s)} className="block w-full text-left text-sm border border-slate-200 rounded-lg px-3 py-2 hover:bg-blue-50">{s}</button>
+                  <button key={s} onClick={() => ask(s)} className="block w-full text-left text-sm border border-line rounded-lg px-3 py-2 hover:bg-blue-50">{s}</button>
                 ))}
               </div>
             )}

@@ -17,7 +17,7 @@ export default function Operations() {
         {domain.ops.map((o) => (
           <Card key={o.name}>
             <div className="text-[11px] uppercase font-semibold text-slate-500">{o.name}</div>
-            <div className="flex items-end gap-2 mt-2"><span className="text-2xl font-extrabold">{o.current}</span><span className="text-xs text-slate-400 line-through mb-1">{o.baseline}</span></div>
+            <div className="flex items-end gap-2 mt-2"><span className="text-2xl font-bold">{o.current}</span><span className="text-xs text-slate-400 line-through mb-1">{o.baseline}</span></div>
             <div className="text-xs text-emerald-600 font-semibold mt-1">↑ {o.improvement}% vs baseline</div>
           </Card>
         ))}
@@ -27,7 +27,7 @@ export default function Operations() {
         <Card title="Root-Cause Analysis Method">
           <p className="text-sm text-slate-600 mb-3">Alert from MES / ERP / ITSM triggers the decision. The RCA agent applies 5 Whys over logs, work orders and quality data across six fishbone categories; an engineer approves the fix.</p>
           <div className="grid grid-cols-3 gap-2">
-            {fishbone.map((f) => <div key={f} className="rounded-lg border border-slate-200 bg-slate-50 text-center py-3 text-sm font-semibold">{f}</div>)}
+            {fishbone.map((f) => <div key={f} className="rounded-lg border border-line bg-slate-50 text-center py-3 text-sm font-semibold">{f}</div>)}
           </div>
           <div className="flex flex-wrap items-center gap-2 text-xs mt-4">
             {['Alert', 'Agent: 5 Whys', 'Evidence pack', 'Engineer approves', 'Fix + SOP update'].map((s, i, arr) => (
@@ -37,8 +37,8 @@ export default function Operations() {
         </Card>
         <Card title="Capacity Planning — Both Sides">
           <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="rounded-lg border border-slate-200 p-3"><div className="font-semibold text-sm">IT infrastructure</div><div className="text-xs text-slate-500">ERP / core servers, storage, month-end and seasonal peaks</div></div>
-            <div className="rounded-lg border border-slate-200 p-3"><div className="font-semibold text-sm">Production / fulfilment</div><div className="text-xs text-slate-500">Line utilisation, shifts, maintenance windows, warehouse slots</div></div>
+            <div className="rounded-lg border border-line p-3"><div className="font-semibold text-sm">IT infrastructure</div><div className="text-xs text-slate-500">ERP / core servers, storage, month-end and seasonal peaks</div></div>
+            <div className="rounded-lg border border-line p-3"><div className="font-semibold text-sm">Production / fulfilment</div><div className="text-xs text-slate-500">Line utilisation, shifts, maintenance windows, warehouse slots</div></div>
           </div>
           <div className="text-[11px] uppercase font-semibold text-slate-500 mb-2">Operational AI initiatives</div>
           <ul className="space-y-3">

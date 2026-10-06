@@ -25,10 +25,10 @@ export default function Data() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Data readiness score</div><div className={`text-3xl font-extrabold ${q(readiness)}`}>{readiness}%</div><div className="text-xs text-slate-500">avg of completeness, accuracy, timeliness</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Sources mapped</div><div className="text-3xl font-extrabold">{src.length}</div><div className="text-xs text-slate-500">each with a named owner</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Integrated via MCP</div><div className="text-3xl font-extrabold text-blue-700">{integrated} / {src.length}</div><div className="text-xs text-slate-500">live, governed connectors</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Restricted sources</div><div className="text-3xl font-extrabold text-red-600">{restricted}</div><div className="text-xs text-slate-500">local LLM only · no egress</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Data readiness score</div><div className={`text-3xl font-bold ${q(readiness)}`}>{readiness}%</div><div className="text-xs text-slate-500">avg of completeness, accuracy, timeliness</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Sources mapped</div><div className="text-3xl font-bold">{src.length}</div><div className="text-xs text-slate-500">each with a named owner</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Integrated via MCP</div><div className="text-3xl font-bold text-blue-700">{integrated} / {src.length}</div><div className="text-xs text-slate-500">live, governed connectors</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Restricted sources</div><div className="text-3xl font-bold text-red-600">{restricted}</div><div className="text-xs text-slate-500">local LLM only · no egress</div></Card>
       </div>
 
       <Card title="Source inventory" className="mb-6">

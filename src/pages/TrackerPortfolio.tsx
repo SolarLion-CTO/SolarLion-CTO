@@ -20,10 +20,10 @@ export default function TrackerPortfolio() {
       <PageHeader title="Programme Tracker · Portfolio" subtitle="Eight dimensions × three domains, tracked from CTO to developer — one plan, one source of truth" owner="Ram (CTO)" />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Items tracked</div><div className="text-2xl font-extrabold">{items.length}</div><div className="text-xs text-slate-500">across 9 role levels</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Spent / budget</div><div className="text-2xl font-extrabold">₹{budget[1].toFixed(1)} / {budget[0].toFixed(1)} Cr</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Red items</div><div className="text-2xl font-extrabold text-red-600">{reds.length}</div><div className="text-xs text-slate-500">escalated to CTO</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">AI-involved items</div><div className="text-2xl font-extrabold text-violet-700">{items.filter((x) => x.node.ai).length}</div><div className="text-xs text-slate-500">all with a human approver</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Items tracked</div><div className="text-2xl font-bold">{items.length}</div><div className="text-xs text-slate-500">across 9 role levels</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Spent / budget</div><div className="text-2xl font-bold">₹{budget[1].toFixed(1)} / {budget[0].toFixed(1)} Cr</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Red items</div><div className="text-2xl font-bold text-red-600">{reds.length}</div><div className="text-xs text-slate-500">escalated to CTO</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">AI-involved items</div><div className="text-2xl font-bold text-violet-700">{items.filter((x) => x.node.ai).length}</div><div className="text-xs text-slate-500">all with a human approver</div></Card>
       </div>
 
       <Card title="Dimension × domain" className="mb-6" action={<span className="text-xs text-slate-500">Click a cell to open that tab · ★ = tracked to developer level</span>}>

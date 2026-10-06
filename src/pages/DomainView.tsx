@@ -45,18 +45,18 @@ export default function DomainView() {
       <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
         <div>
           <div className="text-xs font-bold uppercase tracking-widest text-blue-700">Industry domain{d.configuredOnly && ' · added by configuration only'}</div>
-          <h1 className="text-3xl font-extrabold text-[#0b2a6b]">{d.name}</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-brand-900">{d.name}</h1>
           <p className="text-slate-500 text-sm">{d.tagline} · tracked from CTO to ground level</p>
         </div>
         <div className="flex flex-wrap gap-2 text-xs">
           <span className="rounded-full bg-blue-50 border border-blue-200 text-blue-800 font-semibold px-3 py-1">{s.phase}</span>
           <span className="rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold px-3 py-1">Last gate: {s.lastGate}</span>
-          <Link to="/tedif" className="rounded-full bg-white border border-slate-200 font-semibold px-3 py-1 hover:bg-slate-50">TEDIF tracker →</Link>
+          <Link to="/tedif" className="rounded-full bg-white border border-line font-semibold px-3 py-1 hover:bg-slate-50">TEDIF tracker →</Link>
         </div>
       </div>
 
       {/* Level 1 — CTO */}
-      <section className="rounded-xl bg-gradient-to-r from-[#08205a] to-[#0d3a9a] text-white p-5 mb-5 shadow">
+      <section className="rounded-xl bg-brand-900 text-white p-5 mb-5 shadow">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide rounded px-1.5 py-0.5 bg-white/20"><Crown size={10} /> L1 · CTO view</span>
           <span className="text-xs text-blue-200">Owner: Ram (CTO)</span>
@@ -72,7 +72,7 @@ export default function DomainView() {
             ['Decisions awaiting', `${pending}`],
             ['Ground escalations', `${delayed.length} red · ${atRisk.length} amber`],
           ].map(([l, v]) => (
-            <div key={l} className="rounded-lg bg-white/10 p-3"><div className="text-[10px] uppercase text-blue-200 font-semibold">{l}</div><div className="font-extrabold text-lg leading-tight">{v}</div></div>
+            <div key={l} className="rounded-lg bg-white/10 p-3"><div className="text-[10px] uppercase text-blue-200 font-semibold">{l}</div><div className="font-bold text-lg leading-tight">{v}</div></div>
           ))}
         </div>
       </section>
@@ -84,7 +84,7 @@ export default function DomainView() {
           const prog = Math.round(tp.initiatives.reduce((sum, i) => sum + i.progress, 0) / tp.initiatives.length)
           return (
             <button key={t} onClick={() => { setOpen((o) => ({ ...o, [t]: true })); document.getElementById(`track-${t}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
-              className={`text-left bg-white rounded-xl border border-slate-200 border-l-4 ${healthBorder[tp.status]} p-3 hover:shadow`}>
+              className={`text-left bg-white rounded-xl border border-line border-l-4 ${healthBorder[tp.status]} p-3 hover:shadow`}>
               <div className="flex justify-between items-center"><span className="font-bold text-sm">{t}</span><span className={`w-2 h-2 rounded-full ${healthDot[tp.status]}`} /></div>
               <div className="text-[11px] text-slate-500 mb-2">{trackLead[t]}</div>
               <Bar value={prog} /><div className="text-[11px] mt-1 text-slate-500">{prog}% delivered</div>
@@ -105,14 +105,14 @@ export default function DomainView() {
             const tp = c.tracks[t]
             const isOpen = !!open[t]
             return (
-              <section key={t} id={`track-${t}`} className={`scroll-mt-24 bg-white rounded-xl border border-slate-200 border-l-4 ${healthBorder[tp.status]} shadow-sm`}>
+              <section key={t} id={`track-${t}`} className={`scroll-mt-24 bg-white rounded-xl border border-line border-l-4 ${healthBorder[tp.status]} shadow-sm`}>
                 {/* Level 2 — workstream lead */}
                 <button onClick={() => setOpen((o) => ({ ...o, [t]: !o[t] }))} className="w-full text-left p-4 flex gap-3">
                   {isOpen ? <ChevronDown size={18} className="mt-1 shrink-0 text-slate-400" /> : <ChevronRight size={18} className="mt-1 shrink-0 text-slate-400" />}
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-1">
                       <Level n={2} label="Workstream lead" icon={User} />
-                      <span className="font-extrabold">{t}</span><span className="text-xs text-slate-500">· {trackLead[t]}</span>
+                      <span className="font-bold">{t}</span><span className="text-xs text-slate-500">· {trackLead[t]}</span>
                       <span className="ml-auto"><Badge>{tp.status}</Badge></span>
                     </div>
                     <div className="text-sm font-semibold text-slate-800">{tp.problem}</div>
@@ -123,7 +123,7 @@ export default function DomainView() {
                 {isOpen && (
                   <div className="px-3 sm:px-4 pb-4 sm:pl-11 space-y-3">
                     {tp.initiatives.map((i) => (
-                      <div key={i.name} className="rounded-lg border border-slate-200">
+                      <div key={i.name} className="rounded-lg border border-line">
                         {/* Level 3 — initiative owner */}
                         <div className="p-3 bg-slate-50 rounded-t-lg flex flex-wrap items-center gap-2">
                           <Level n={3} label="Initiative" icon={Users} />
@@ -133,7 +133,7 @@ export default function DomainView() {
                         </div>
                         {/* Level 4 — ground */}
                         <div className="overflow-x-auto">
-                          <table className="w-full text-sm min-w-[640px]">
+                          <table className="w-full text-sm min-w-[720px] [&_th]:px-2 [&_td]:px-2 [&_th]:whitespace-nowrap">
                             <thead><tr className="text-[10px] uppercase text-slate-500 text-left border-b">
                               <th className="py-1.5 px-3"><Level n={4} label="Ground" icon={MapPin} /></th><th>Owner</th><th>Metric</th><th>Actual</th><th>Target</th><th>Next action</th><th className="pr-3">Status</th>
                             </tr></thead>
@@ -163,7 +163,7 @@ export default function DomainView() {
 
         {/* Escalations — ground issues rolled up to the CTO */}
         <aside className="space-y-4">
-          <section className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 xl:sticky xl:top-24">
+          <section className="bg-white rounded-xl border border-line shadow-sm p-4 xl:sticky xl:top-24">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-800 flex items-center gap-1 mb-1"><Flag size={14} className="text-red-600" /> Escalations to CTO</h3>
             <p className="text-xs text-slate-500 mb-3">Ground-level items that are red roll up automatically.</p>
             {delayed.length === 0 ? <p className="text-sm text-emerald-700">No red items.</p> : (

@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react'
 import type { LucideIcon } from 'lucide-react'
 
+// Card — one style everywhere: white surface, hairline border, 12px radius, soft shadow.
 export function Card({ title, action, children, className = '' }: { title?: string; action?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section className={`bg-white rounded-xl border border-slate-200 shadow-sm p-5 ${className}`}>
+    <section className={`bg-surface rounded-xl border border-line shadow-[0_1px_2px_rgba(15,23,42,0.04)] p-5 ${className}`}>
       {title && (
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold tracking-wide text-slate-800 uppercase">{title}</h3>
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <h3 className="text-[15px] font-semibold text-ink leading-snug">{title}</h3>
           {action}
         </div>
       )}
@@ -15,71 +16,67 @@ export function Card({ title, action, children, className = '' }: { title?: stri
   )
 }
 
+// Page header — sentence-case title, one-line subtitle, optional owner chip.
 export function PageHeader({ title, subtitle, owner }: { title: string; subtitle: string; owner?: string }) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 className="text-2xl font-extrabold text-[#0b2a6b] uppercase tracking-tight">{title}</h1>
-        <p className="text-slate-500 text-sm mt-1">{subtitle}</p>
+      <div className="min-w-0">
+        <h1 className="text-2xl font-semibold tracking-tight text-brand-900">{title}</h1>
+        <p className="text-ink-2 text-sm mt-1 max-w-3xl">{subtitle}</p>
       </div>
       {owner && (
-        <span className="text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 rounded-full px-3 py-1">
-          Workstream lead: {owner}
+        <span className="text-xs font-medium bg-brand-50 text-brand-700 border border-brand-100 rounded-full px-3 py-1">
+          Lead: {owner}
         </span>
       )}
     </div>
   )
 }
 
-export function Kpi({ icon: Icon, label, value, delta, tone }: { icon: LucideIcon; label: string; value: string; delta: string; tone: string }) {
+// KPI tile — label, hero value, change. One neutral icon style (tone kept for API compatibility).
+export function Kpi({ icon: Icon, label, value, delta }: { icon: LucideIcon; label: string; value: string; delta: string; tone?: string }) {
+  const negative = /gap|↓|risk|delay/i.test(delta) && !/^0 /.test(delta)
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex flex-col items-center text-center">
-      <div className={`w-11 h-11 rounded-full flex items-center justify-center text-white mb-2 ${tone}`}>
-        <Icon size={22} />
+    <div className="bg-surface rounded-xl border border-line shadow-[0_1px_2px_rgba(15,23,42,0.04)] p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <span className="w-7 h-7 shrink-0 rounded-lg bg-brand-50 text-brand-700 flex items-center justify-center"><Icon size={15} /></span>
+        <span className="text-xs font-medium text-ink-2 leading-tight">{label}</span>
       </div>
-      <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">{label}</div>
-      <div className="text-2xl font-extrabold text-slate-900 mt-1">{value}</div>
-      <div className="text-xs text-emerald-600 font-semibold mt-1">{delta}</div>
+      <div className="text-[26px] leading-none font-bold text-ink tracking-tight">{value}</div>
+      <div className={`text-xs font-medium mt-2 ${negative ? 'text-amber-700' : 'text-emerald-700'}`}>{delta}</div>
     </div>
   )
 }
 
-const toneMap: Record<string, string> = {
-  Low: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  Medium: 'bg-amber-50 text-amber-700 border-amber-200',
-  High: 'bg-orange-50 text-orange-700 border-orange-200',
-  Critical: 'bg-red-50 text-red-700 border-red-200',
-  'On Track': 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  'At Risk': 'bg-amber-50 text-amber-700 border-amber-200',
-  Delayed: 'bg-red-50 text-red-700 border-red-200',
-  Compliant: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  Partial: 'bg-amber-50 text-amber-700 border-amber-200',
-  Gap: 'bg-red-50 text-red-700 border-red-200',
-  Active: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  Idle: 'bg-slate-50 text-slate-600 border-slate-200',
-  Training: 'bg-blue-50 text-blue-700 border-blue-200',
-  Error: 'bg-red-50 text-red-700 border-red-200',
-  Passed: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  Conditional: 'bg-amber-50 text-amber-700 border-amber-200',
-  Approved: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  Rejected: 'bg-red-50 text-red-700 border-red-200',
-  Escalated: 'bg-amber-50 text-amber-700 border-amber-200',
-  Modified: 'bg-blue-50 text-blue-700 border-blue-200',
-  Warning: 'bg-amber-50 text-amber-700 border-amber-200',
-  Info: 'bg-blue-50 text-blue-700 border-blue-200',
+// Badges — soft tint + darker text. Health states also carry a shape so colour is never alone.
+type Tone = { cls: string; icon?: string }
+const ok = 'bg-emerald-50 text-emerald-800 border-emerald-200'
+const warn = 'bg-amber-50 text-amber-800 border-amber-200'
+const serious = 'bg-orange-50 text-orange-800 border-orange-200'
+const crit = 'bg-red-50 text-red-800 border-red-200'
+const info = 'bg-brand-50 text-brand-700 border-brand-100'
+const neutral = 'bg-slate-50 text-slate-600 border-line'
+const toneMap: Record<string, Tone> = {
+  'On Track': { cls: ok, icon: '●' }, Compliant: { cls: ok, icon: '●' }, Active: { cls: ok, icon: '●' }, Passed: { cls: ok, icon: '●' }, Approved: { cls: ok, icon: '✓' },
+  'At Risk': { cls: warn, icon: '▲' }, Partial: { cls: warn, icon: '▲' }, Conditional: { cls: warn, icon: '▲' }, Warning: { cls: warn, icon: '▲' }, Escalated: { cls: warn, icon: '↑' },
+  Delayed: { cls: crit, icon: '■' }, Gap: { cls: crit, icon: '■' }, Error: { cls: crit, icon: '■' }, Rejected: { cls: crit, icon: '✕' },
+  Low: { cls: neutral }, Medium: { cls: warn }, High: { cls: serious }, Critical: { cls: crit, icon: '■' },
+  Idle: { cls: neutral }, Training: { cls: info }, Modified: { cls: info, icon: '✎' }, Info: { cls: info },
 }
 
 export function Badge({ children }: { children: string }) {
+  const t = toneMap[children] ?? { cls: neutral }
   return (
-    <span className={`inline-block text-[11px] font-semibold border rounded-md px-2 py-0.5 whitespace-nowrap ${toneMap[children] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+    <span className={`inline-flex items-center gap-1 text-[11px] font-medium border rounded-md px-2 py-0.5 whitespace-nowrap ${t.cls}`}>
+      {t.icon && <span aria-hidden className="text-[9px] leading-none">{t.icon}</span>}
       {children}
     </span>
   )
 }
 
-export function Bar({ value, color = 'bg-blue-600' }: { value: number; color?: string }) {
+export function Bar({ value, color = 'bg-brand-600' }: { value: number; color?: string }) {
   return (
-    <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+    <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden" role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100}>
       <div className={`h-full rounded-full ${color}`} style={{ width: `${Math.min(value, 100)}%` }} />
     </div>
   )
@@ -89,13 +86,13 @@ export function Ring({ value, size = 44, color = '#1d4ed8' }: { value: number; s
   const r = (size - 6) / 2
   const c = 2 * Math.PI * r
   return (
-    <svg width={size} height={size} className="block">
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={5} />
+    <svg width={size} height={size} className="block" role="img" aria-label={`${value}%`}>
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e3e6eb" strokeWidth={5} />
       <circle
         cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={5} strokeLinecap="round"
         strokeDasharray={c} strokeDashoffset={c * (1 - value / 100)} transform={`rotate(-90 ${size / 2} ${size / 2})`}
       />
-      <text x="50%" y="54%" textAnchor="middle" dominantBaseline="middle" fontSize={size / 4} fontWeight={700} fill="#0f172a">
+      <text x="50%" y="54%" textAnchor="middle" dominantBaseline="middle" fontSize={size / 4} fontWeight={600} fill="#0f172a">
         {value}%
       </text>
     </svg>

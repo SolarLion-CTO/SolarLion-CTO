@@ -17,10 +17,10 @@ export default function Problems() {
       <PageHeader title="Problem Matrix" subtitle="The exact business problem per domain and workstream — one framework, three industries" />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card><div className="text-[11px] uppercase font-semibold text-slate-500">Problems tracked</div><div className="text-2xl font-extrabold">{domainOrder.length * areas.length}</div><div className="text-xs text-slate-500">3 domains × 5 workstreams</div></Card>
-        <Card><div className="text-[11px] uppercase font-semibold text-slate-500">Value at target</div><div className="text-2xl font-extrabold text-emerald-700">{money(total)}</div><div className="text-xs text-slate-500">per year, all domains</div></Card>
-        <Card><div className="text-[11px] uppercase font-semibold text-slate-500">At risk</div><div className="text-2xl font-extrabold text-amber-600">{domainOrder.reduce((s, d) => s + areas.filter((a) => domains[d].problems[a].health !== 'On Track').length, 0)}</div><div className="text-xs text-slate-500">need a gate review</div></Card>
-        <Card><div className="text-[11px] uppercase font-semibold text-slate-500">Reused agents in Retail</div><div className="text-2xl font-extrabold text-blue-700">4 of 5</div><div className="text-xs text-slate-500">added by configuration</div></Card>
+        <Card><div className="text-[11px] uppercase font-semibold text-slate-500">Problems tracked</div><div className="text-2xl font-bold">{domainOrder.length * areas.length}</div><div className="text-xs text-slate-500">3 domains × 5 workstreams</div></Card>
+        <Card><div className="text-[11px] uppercase font-semibold text-slate-500">Value at target</div><div className="text-2xl font-bold text-emerald-700">{money(total)}</div><div className="text-xs text-slate-500">per year, all domains</div></Card>
+        <Card><div className="text-[11px] uppercase font-semibold text-slate-500">At risk</div><div className="text-2xl font-bold text-amber-600">{domainOrder.reduce((s, d) => s + areas.filter((a) => domains[d].problems[a].health !== 'On Track').length, 0)}</div><div className="text-xs text-slate-500">need a gate review</div></Card>
+        <Card><div className="text-[11px] uppercase font-semibold text-slate-500">Reused agents in Retail</div><div className="text-2xl font-bold text-blue-700">4 of 5</div><div className="text-xs text-slate-500">added by configuration</div></Card>
       </div>
 
       <Card title="Domain × Workstream" className="mb-6" action={<span className="text-xs text-slate-500">Click a cell for the full problem</span>}>
@@ -50,7 +50,7 @@ export default function Problems() {
                       <td key={d} className="align-top">
                         <button
                           onClick={() => setSel({ d, a })}
-                          className={`w-full text-left rounded-lg border p-3 transition ${active ? 'border-blue-600 ring-2 ring-blue-200 bg-blue-50/50' : 'border-slate-200 hover:border-blue-300 bg-white'}`}
+                          className={`w-full text-left rounded-lg border p-3 transition ${active ? 'border-blue-600 ring-2 ring-blue-200 bg-blue-50/50' : 'border-line hover:border-blue-300 bg-white'}`}
                         >
                           <div className="flex items-start gap-2">
                             <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${healthDot[p.health]}`} />

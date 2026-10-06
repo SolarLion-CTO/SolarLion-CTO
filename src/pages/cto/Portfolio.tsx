@@ -5,8 +5,9 @@ import type { Verdict } from '../../data/cto'
 import { domainOrder, domains } from '../../data/domains'
 import type { DomainId } from '../../data/domains'
 import { Card, PageHeader, money } from '../../components/ui'
+import { domainColor } from '../../theme'
 
-const colors: Record<DomainId, string> = { banking: '#1d4ed8', manufacturing: '#16a34a', retail: '#ea580c' }
+const colors = domainColor
 const verdictTone: Record<Verdict, string> = { 'Fund now': 'bg-emerald-600 text-white', Pilot: 'bg-blue-600 text-white', 'Strategic bet': 'bg-violet-600 text-white', Defer: 'bg-slate-300 text-slate-700' }
 
 export default function Portfolio() {
@@ -21,7 +22,7 @@ export default function Portfolio() {
 
       <div className="flex flex-wrap gap-2 mb-4">
         {(['all', ...domainOrder] as const).map((d) => (
-          <button key={d} onClick={() => setFilter(d)} className={`rounded-full px-3 py-1 text-sm font-semibold border ${filter === d ? 'bg-[#0b2a6b] text-white border-[#0b2a6b]' : 'bg-white border-slate-200'}`}>{d === 'all' ? 'All domains' : domains[d].name}</button>
+          <button key={d} onClick={() => setFilter(d)} className={`rounded-full px-3 py-1 text-sm font-semibold border ${filter === d ? 'bg-brand-900 text-white border-brand-900' : 'bg-white border-line'}`}>{d === 'all' ? 'All domains' : domains[d].name}</button>
         ))}
         <span className="ml-auto text-sm text-slate-600">{funded.length} funded now · {money(funded.reduce((s, u) => s + u.valueCr, 0))}/yr value</span>
       </div>

@@ -9,7 +9,7 @@
 ## 0. Resume here (status at close)
 
 - **Code:** all work is on GitHub except possibly the latest notes update → first thing: run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
-- **Website:** complete for the capstone — 14 CTO dimensions covered, TEDIF tracker, programme tracker (CTO → developer), domain pages, responsive on phone / tablet / desktop.
+- **Website:** complete for the capstone — 14 CTO dimensions covered, TEDIF tracker, programme tracker (CTO → developer), domain pages, responsive on phone / tablet / desktop, professional design system applied (section 18).
 - **Pending decisions (yours / team):**
   1. **Final name** — recommended **DecisionOS** (section 15). Not yet applied to the website.
   2. **Live AI provider** — Grok (paid), Groq (free tier) or Claude (section 16). Not yet built.
@@ -429,3 +429,26 @@ Build plan (when back):
 - Result: **35 pages × phone + tablet = 70 checks, no horizontal overflow.**
 - Fixes made: compact fixed-height header with short titles; sidebar → slide-out drawer with backdrop below 1024 px; `.grid > * { min-width: 0 }` so wide tables scroll inside cards; KPI grid without orphan card; mobile status line in plan tree; stacked roadmap milestones; chart animations off (`isAnimationActive={false}`) so charts render instantly.
 - Not yet done: real-device test on iPhone Safari and Android.
+
+---
+
+## 18. Design system (6 Oct 2026)
+
+Standard followed: calm enterprise dashboard (Carbon / Fluent style), WCAG 2.2 AA. Tokens live in `src/index.css` (`@theme`) and, for charts, `src/theme.ts`.
+
+**Rules:** brand navy = navigation & actions · status colours = health only, always with an icon + label · domain colours = identity in charts · one blue scale = progress / magnitude · nothing decorative.
+
+| Group | Tokens |
+|---|---|
+| Brand | `brand-950 #071C4A` (sidebar) · `brand-900 #0B2A6B` (header, titles) · `brand-700 #1E40AF` · `brand-600 #1D4ED8` (actions) · `brand-100 #DBE7FF` · `brand-50 #EEF4FF` |
+| Surfaces / ink | `page #F6F7F9` · `surface #FFFFFF` · `line #E3E6EB` · `ink #0F172A` · `ink-2 #475569` · `ink-3 #64748B` |
+| Status | on track `#0CA30C` ● · at risk `#FAB219` ▲ · serious `#EC835A` ◆ · delayed / critical `#D03B3B` ■ |
+| Domains | Banking `#2A78D6` (blue) · Manufacturing `#1BAF7A` (aqua — not green, to avoid clashing with "on track") · Retail `#EB6834` (orange) — validated colour-blind-safe categorical slots |
+| Progress scale | `seq-100 #CDE2FB` → `seq-250 #86B6EF` → `seq-400 #3987E5` → `seq-550 #1C5CAB` |
+
+- **Type:** Inter (Google Fonts) · page title 24 semibold sentence case · card title 15 semibold · body 14 · caption 12 · KPI value 26 bold · overlines 11 uppercase only for tiny labels · tabular numbers in tables.
+- **Layout:** content max-width 1440 px, centred · 4/8 spacing scale · cards 12 px radius, hairline border, soft shadow · page = header → filters → KPIs → main insight → detail.
+- **Components:** KPI tile = neutral icon + label + value + change · badges = soft tint + dark text + shape icon · charts: one axis, light grid, legend for ≥ 2 series, no animation.
+- **Sidebar:** collapsible groups; the group of the current page opens automatically; Executive open by default.
+- **Changed from before:** uppercase extra-bold titles → sentence case semibold · rainbow KPI icons → one neutral style · heatmap mint/yellow/red → blue progress scale (health stays in badges) · Manufacturing green → aqua · gradient header → solid navy · 35 always-open links → collapsible groups.
+- **Present in light mode** (dark dashboards wash out on projectors). Dark mode can be added later from the same tokens.

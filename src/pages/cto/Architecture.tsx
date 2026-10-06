@@ -4,13 +4,13 @@ import { useStore } from '../../store'
 import DomainSwitch from '../../components/DomainSwitch'
 import { Card, PageHeader } from '../../components/ui'
 
-const tag = { build: 'bg-[#0b2a6b] text-white', buy: 'bg-slate-200 text-slate-700', existing: 'bg-white border border-slate-300 text-slate-600' }
+const tag = { build: 'bg-brand-900 text-white', buy: 'bg-slate-200 text-slate-700', existing: 'bg-white border border-slate-300 text-slate-600' }
 
 function Box({ title, items, kind, wide }: { title: string; items: string[]; kind: keyof typeof tag; wide?: boolean }) {
   return (
-    <div className={`rounded-lg border border-slate-200 bg-white p-3 ${wide ? 'col-span-full' : ''}`}>
+    <div className={`rounded-lg border border-line bg-white p-3 ${wide ? 'col-span-full' : ''}`}>
       <div className="flex items-center justify-between mb-1.5"><span className="font-bold text-sm">{title}</span><span className={`text-[9px] font-bold uppercase rounded px-1.5 py-0.5 ${tag[kind]}`}>{kind}</span></div>
-      <div className="flex flex-wrap gap-1">{items.map((i) => <span key={i} className="text-[11px] bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5">{i}</span>)}</div>
+      <div className="flex flex-wrap gap-1">{items.map((i) => <span key={i} className="text-[11px] bg-slate-50 border border-line rounded px-1.5 py-0.5">{i}</span>)}</div>
     </div>
   )
 }

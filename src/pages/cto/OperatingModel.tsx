@@ -2,7 +2,7 @@ import { coeTeam, raci, raciRoles, training } from '../../data/cto'
 import { domainOrder, domains } from '../../data/domains'
 import { Card, PageHeader } from '../../components/ui'
 
-const raciTone = (c: string) => (c.startsWith('A') ? 'bg-[#0b2a6b] text-white' : c.startsWith('R') ? 'bg-blue-600 text-white' : c.startsWith('C') ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-500')
+const raciTone = (c: string) => (c.startsWith('A') ? 'bg-brand-900 text-white' : c.startsWith('R') ? 'bg-blue-600 text-white' : c.startsWith('C') ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-500')
 
 export default function OperatingModel() {
   return (
@@ -11,7 +11,7 @@ export default function OperatingModel() {
 
       <Card title="Hub-and-spoke AI Centre of Excellence" className="mb-6">
         <div className="flex flex-col items-center">
-          <div className="rounded-xl bg-[#0b2a6b] text-white px-6 py-4 text-center max-w-xl">
+          <div className="rounded-xl bg-brand-900 text-white px-6 py-4 text-center max-w-xl">
             <div className="text-xs uppercase tracking-wide text-blue-200">Hub · AI CoE (central)</div>
             <div className="font-bold">CTO · TEDIF office · architects · AI platform · governance</div>
             <div className="text-xs text-blue-200 mt-1">Owns standards, the control layer, the decision catalogue, gates and the risk register</div>

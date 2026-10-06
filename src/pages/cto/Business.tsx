@@ -31,19 +31,19 @@ export default function Business() {
             </span>
           ))}
         </div>
-        <p className="mt-4 text-sm font-semibold text-[#0b2a6b]">CTO question: how do we govern AI once and reuse it across every domain with measurable value?</p>
+        <p className="mt-4 text-sm font-semibold text-brand-900">CTO question: how do we govern AI once and reuse it across every domain with measurable value?</p>
       </Card>
 
       <div className="grid md:grid-cols-3 gap-4 mb-6">
-        <Card><div className="flex items-center gap-2 text-rose-700 font-bold mb-1"><IndianRupee size={16} /> Cost</div><div className="text-2xl font-extrabold">~₹4.6 Cr</div><p className="text-sm text-slate-600">duplicated across three domain stacks (LLM contracts, vector stores, connectors). Same capability bought three times.</p></Card>
-        <Card><div className="flex items-center gap-2 text-amber-700 font-bold mb-1"><ShieldAlert size={16} /> Risk</div><div className="text-2xl font-extrabold">3 gaps</div><p className="text-sm text-slate-600">privacy and audit gaps found after go-live — consent, explainability records, OT security.</p></Card>
-        <Card><div className="flex items-center gap-2 text-blue-700 font-bold mb-1"><Clock size={16} /> Speed</div><div className="text-2xl font-extrabold">21 days</div><p className="text-sm text-slate-600">to map one regulatory circular by hand; 38 h per ERP root cause; 45 days per CAPEX approval.</p></Card>
+        <Card><div className="flex items-center gap-2 text-rose-700 font-bold mb-1"><IndianRupee size={16} /> Cost</div><div className="text-2xl font-bold">~₹4.6 Cr</div><p className="text-sm text-slate-600">duplicated across three domain stacks (LLM contracts, vector stores, connectors). Same capability bought three times.</p></Card>
+        <Card><div className="flex items-center gap-2 text-amber-700 font-bold mb-1"><ShieldAlert size={16} /> Risk</div><div className="text-2xl font-bold">3 gaps</div><p className="text-sm text-slate-600">privacy and audit gaps found after go-live — consent, explainability records, OT security.</p></Card>
+        <Card><div className="flex items-center gap-2 text-blue-700 font-bold mb-1"><Clock size={16} /> Speed</div><div className="text-2xl font-bold">21 days</div><p className="text-sm text-slate-600">to map one regulatory circular by hand; 38 h per ERP root cause; 45 days per CAPEX approval.</p></Card>
       </div>
 
       <Card title="Current state — each domain runs its own AI" className="mb-6">
         <div className="grid md:grid-cols-3 gap-3">
           {domainOrder.map((d) => (
-            <div key={d} className="rounded-lg border border-slate-200 p-3">
+            <div key={d} className="rounded-lg border border-line p-3">
               <div className="font-bold mb-2">{domains[d].name}</div>
               {['Own AI pilot', 'Own data copy', 'Own approval habit', 'Own vendor'].map((x) => <div key={x} className="text-sm bg-slate-50 rounded px-2 py-1 mb-1">{x}</div>)}
             </div>
@@ -56,7 +56,7 @@ export default function Business() {
         <Card title="Before → after">
           <table className="w-full text-sm">
             <tbody>{beforeAfter.map(([b, a]) => (
-              <tr key={b} className="border-b last:border-0"><td className="py-2 pr-2 text-slate-500">{b}</td><td className="px-2 text-slate-300">→</td><td className="font-semibold text-[#0b2a6b]">{a}</td></tr>
+              <tr key={b} className="border-b last:border-0"><td className="py-2 pr-2 text-slate-500">{b}</td><td className="px-2 text-slate-300">→</td><td className="font-semibold text-brand-900">{a}</td></tr>
             ))}</tbody>
           </table>
         </Card>

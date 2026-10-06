@@ -14,7 +14,7 @@ export default function Roadmap() {
         {roadmapPhases.map((p) => (
           <div key={p.name} className={`rounded-xl text-white p-4 ${p.color}`}>
             <div className="text-xs opacity-80">Weeks {p.start}–{p.end}</div>
-            <div className="font-extrabold text-lg">{p.name}</div>
+            <div className="font-bold text-lg">{p.name}</div>
             <div className="text-xs mt-1">{p.output}</div>
             <div className="text-[11px] opacity-80 mt-2">Lead: {p.lead}</div>
           </div>

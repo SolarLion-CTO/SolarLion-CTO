@@ -6,7 +6,7 @@ import { useStore } from '../store'
 import { gateState } from '../data/tedif'
 import { Badge, Card, Kpi, PageHeader, Ring, money } from '../components/ui'
 
-const heat = (v: number) => (v >= 75 ? 'bg-emerald-500' : v >= 55 ? 'bg-emerald-300' : v >= 45 ? 'bg-amber-300' : 'bg-red-300')
+const heat = (v: number) => (v >= 75 ? 'bg-seq-550 text-white' : v >= 55 ? 'bg-seq-400 text-white' : v >= 45 ? 'bg-seq-250 text-ink' : 'bg-seq-100 text-ink')
 
 export default function Overview() {
   const { domain, domainId, setDomainId, audit, decisions, verdictFor, realisedCr } = useStore()
@@ -67,8 +67,8 @@ export default function Overview() {
                       return (
                         <td key={a} className="px-1 py-2">
                           <div className={`rounded-md ${heat(p.progress)} px-2 py-1.5`} title={p.title}>
-                            <div className="text-xs font-bold text-slate-900">{p.progress}%</div>
-                            <div className="text-[10px] text-slate-800 truncate max-w-[130px]">{p.title}</div>
+                            <div className="text-xs font-semibold">{p.progress}%</div>
+                            <div className="text-[10px] opacity-90 truncate max-w-[130px]">{p.title}</div>
                           </div>
                         </td>
                       )
@@ -89,10 +89,12 @@ export default function Overview() {
           </table>
         </div>
         <div className="flex flex-wrap gap-4 text-xs text-slate-500 mt-3">
-          <span><span className="inline-block w-3 h-3 rounded bg-emerald-500 mr-1 align-middle" />≥ 75%</span>
-          <span><span className="inline-block w-3 h-3 rounded bg-emerald-300 mr-1 align-middle" />55–74%</span>
-          <span><span className="inline-block w-3 h-3 rounded bg-amber-300 mr-1 align-middle" />45–54%</span>
-          <span><span className="inline-block w-3 h-3 rounded bg-red-300 mr-1 align-middle" />&lt; 45%</span>
+          <span className="font-medium text-ink-2">Progress to target:</span>
+          <span><span className="inline-block w-3 h-3 rounded bg-seq-100 mr-1 align-middle" />&lt; 45%</span>
+          <span><span className="inline-block w-3 h-3 rounded bg-seq-250 mr-1 align-middle" />45–54%</span>
+          <span><span className="inline-block w-3 h-3 rounded bg-seq-400 mr-1 align-middle" />55–74%</span>
+          <span><span className="inline-block w-3 h-3 rounded bg-seq-550 mr-1 align-middle" />≥ 75%</span>
+          <span className="text-ink-3">· health is shown by the status badges</span>
         </div>
       </Card>
 
@@ -109,15 +111,15 @@ export default function Overview() {
           </div>
           <div className="mt-2 rounded-lg bg-slate-50 p-3 text-center">
             <div className="text-[11px] uppercase text-slate-500 font-semibold">Initiative value vs investment</div>
-            <div className="text-xl font-extrabold text-emerald-700">{money(value)} <span className="text-slate-400 text-sm font-medium">on {money(invest)}</span></div>
+            <div className="text-xl font-bold text-emerald-700">{money(value)} <span className="text-slate-400 text-sm font-medium">on {money(invest)}</span></div>
           </div>
         </Card>
 
         <Card title="Transformation Maturity">
           <div className="flex items-center justify-around mb-3">
-            <div className="text-center"><div className="text-[11px] text-slate-500">Current</div><div className="text-3xl font-extrabold">{domain.maturity.current}</div><div className="text-xs text-blue-700">{domain.maturity.label}</div></div>
+            <div className="text-center"><div className="text-[11px] text-slate-500">Current</div><div className="text-3xl font-bold">{domain.maturity.current}</div><div className="text-xs text-blue-700">{domain.maturity.label}</div></div>
             <div className="text-2xl text-slate-300">→</div>
-            <div className="text-center"><div className="text-[11px] text-slate-500">Target (12 mo)</div><div className="text-3xl font-extrabold text-emerald-700">{domain.maturity.target}</div><div className="text-xs text-blue-700">Decision-intelligent</div></div>
+            <div className="text-center"><div className="text-[11px] text-slate-500">Target (12 mo)</div><div className="text-3xl font-bold text-emerald-700">{domain.maturity.target}</div><div className="text-xs text-blue-700">Decision-intelligent</div></div>
           </div>
           <div className="text-[11px] uppercase font-semibold text-slate-500 mb-2">TEDIF gates <Link to="/tedif" className="normal-case text-blue-700 ml-1">tracker →</Link></div>
           <div className="flex gap-1">
@@ -143,8 +145,8 @@ export default function Overview() {
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-3xl font-extrabold">{health}%</div>
-              <div className="text-xs text-slate-500">avg progress to target</div>
+              <div className="text-3xl font-bold">{health}%</div>
+              <div className="text-[11px] text-slate-500">avg progress</div>
             </div>
           </div>
           <ul className="text-xs space-y-1.5 mt-2">
@@ -192,7 +194,7 @@ export default function Overview() {
           <Link to="/governance" className="text-xs text-blue-700 font-semibold mt-3 inline-block">View controls →</Link>
         </Card>
         <Card title="Initiatives by Stage">
-          <div className="text-3xl font-extrabold">{domain.initiatives.length}</div>
+          <div className="text-3xl font-bold">{domain.initiatives.length}</div>
           <div className="text-xs text-slate-500 mb-2">across 5 workstreams</div>
           {(['Assess', 'Design', 'Pilot', 'Scale', 'Operate'] as const).map((s) => (
             <div key={s} className="flex justify-between text-xs"><span>{s}</span><b>{domain.initiatives.filter((i) => i.stage === s).length}</b></div>

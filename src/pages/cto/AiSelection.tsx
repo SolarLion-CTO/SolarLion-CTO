@@ -19,7 +19,7 @@ export default function AiSelection() {
       <Card title="Selection guide" className="mb-6">
         <div className="grid md:grid-cols-5 gap-3">
           {techniqueGuide.map((g) => (
-            <div key={g.t} className="rounded-lg border border-slate-200 overflow-hidden">
+            <div key={g.t} className="rounded-lg border border-line overflow-hidden">
               <div className={`${tTone[g.t]} text-white text-sm font-bold px-3 py-2 flex justify-between`}>{g.t}<span className="opacity-80">{counts.find((c) => c.t === g.t)?.n}</span></div>
               <div className="p-3 text-xs space-y-2">
                 <div><b className="text-emerald-700">Use when:</b> {g.when}</div>
@@ -33,7 +33,7 @@ export default function AiSelection() {
 
       <div className="flex flex-wrap gap-2 mb-4">
         {(['all', ...domainOrder] as const).map((d) => (
-          <button key={d} onClick={() => setFilter(d)} className={`rounded-full px-3 py-1 text-sm font-semibold border ${filter === d ? 'bg-[#0b2a6b] text-white border-[#0b2a6b]' : 'bg-white border-slate-200'}`}>{d === 'all' ? 'All domains' : domains[d].name}</button>
+          <button key={d} onClick={() => setFilter(d)} className={`rounded-full px-3 py-1 text-sm font-semibold border ${filter === d ? 'bg-brand-900 text-white border-brand-900' : 'bg-white border-line'}`}>{d === 'all' ? 'All domains' : domains[d].name}</button>
         ))}
       </div>
 

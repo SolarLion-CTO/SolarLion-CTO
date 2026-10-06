@@ -1,9 +1,10 @@
 import { CartesianGrid, Legend, Line, LineChart, PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { areas, domainOrder, domains } from '../data/domains'
 import { useStore } from '../store'
+import { domainColor } from '../theme'
 import { Card, PageHeader, money } from '../components/ui'
 
-const colors = { banking: '#1d4ed8', manufacturing: '#16a34a', retail: '#ea580c' }
+const colors = domainColor
 
 const kpiDims = [
   ['Strategy', '% priority initiatives aligned to enterprise objectives'],
@@ -34,7 +35,7 @@ export default function Value() {
           return (
             <Card key={id}>
               <div className="text-[11px] uppercase font-semibold" style={{ color: colors[id] }}>{d.name}{d.configuredOnly && ' · config only'}</div>
-              <div className="text-2xl font-extrabold mt-1">{money(areas.reduce((s, a) => s + d.problems[a].valueCr, 0))}<span className="text-sm font-medium text-slate-400"> / yr at target</span></div>
+              <div className="text-2xl font-bold mt-1">{money(areas.reduce((s, a) => s + d.problems[a].valueCr, 0))}<span className="text-sm font-medium text-slate-400"> / yr at target</span></div>
               <div className="text-xs text-slate-500">ROI {d.kpis.roi}% · maturity {d.maturity.current} → {d.maturity.target}</div>
             </Card>
           )
@@ -75,7 +76,7 @@ export default function Value() {
         </Card>
         <Card title="KPI Framework" className="lg:col-span-2">
           <div className="grid sm:grid-cols-2 gap-3">
-            {kpiDims.map(([t, d]) => <div key={t} className="rounded-lg border border-slate-200 p-3"><div className="font-semibold text-sm text-blue-800">{t}</div><div className="text-xs text-slate-500">{d}</div></div>)}
+            {kpiDims.map(([t, d]) => <div key={t} className="rounded-lg border border-line p-3"><div className="font-semibold text-sm text-blue-800">{t}</div><div className="text-xs text-slate-500">{d}</div></div>)}
           </div>
         </Card>
       </div>

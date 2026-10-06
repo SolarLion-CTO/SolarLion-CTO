@@ -16,8 +16,8 @@ function Pipeline({ stages, counts }: { stages: string[]; counts: number[] }) {
   return (
     <div className="grid grid-cols-4 gap-1">
       {stages.map((s, i) => (
-        <div key={s} className={`rounded-md px-2 py-2 text-center text-white ${i === stages.length - 1 ? 'bg-amber-500' : i === 0 ? 'bg-[#0b2a6b]' : 'bg-blue-600'}`}>
-          <div className="text-xl font-extrabold">{counts[i]}</div>
+        <div key={s} className={`rounded-md px-2 py-2 text-center text-white ${i === stages.length - 1 ? 'bg-amber-500' : i === 0 ? 'bg-brand-900' : 'bg-blue-600'}`}>
+          <div className="text-xl font-bold">{counts[i]}</div>
           <div className="text-[10px] leading-tight font-semibold">{s}</div>
         </div>
       ))}
@@ -50,7 +50,7 @@ function Extras({ dim }: { dim: Dim }) {
       <table className="w-full text-sm">
         <thead><tr className="text-[10px] uppercase text-slate-500 border-b text-left"><th className="py-1.5">Application</th><th>Owner</th><th>Funding</th><th>₹ Cr / yr</th><th>Decision</th></tr></thead>
         <tbody>{appPortfolio[domainId].map((a) => (
-          <tr key={a.app} className="border-b last:border-0"><td className="py-1.5">{a.app}</td><td>{a.owner}</td><td><span className={`text-[11px] font-semibold rounded px-1.5 ${a.funding === 'CAPEX' ? 'bg-[#0b2a6b] text-white' : 'bg-blue-100 text-blue-800'}`}>{a.funding}</span></td><td>{a.costCr}</td>
+          <tr key={a.app} className="border-b last:border-0"><td className="py-1.5">{a.app}</td><td>{a.owner}</td><td><span className={`text-[11px] font-semibold rounded px-1.5 ${a.funding === 'CAPEX' ? 'bg-brand-900 text-white' : 'bg-blue-100 text-blue-800'}`}>{a.funding}</span></td><td>{a.costCr}</td>
             <td><span className={`text-[11px] font-bold ${a.decision === 'Retire' ? 'text-red-600' : a.decision === 'Expand' ? 'text-emerald-700' : a.decision === 'Review' ? 'text-amber-600' : 'text-slate-700'}`}>{a.decision}</span></td></tr>
         ))}</tbody>
       </table>
@@ -133,12 +133,12 @@ export default function TrackerDim() {
       <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
         <div>
           <div className="text-xs font-bold uppercase tracking-widest text-blue-700">Programme tracker · lead {meta.lead}</div>
-          <h1 className="text-2xl font-extrabold text-[#0b2a6b] uppercase">{dim}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-brand-900">{dim}</h1>
           <div className="text-sm text-slate-600 mt-1">Team notes (bp1/bp2): {meta.notes.map((n) => <span key={n} className="inline-block bg-amber-50 border border-amber-200 rounded px-2 py-0.5 mr-1 mb-1 text-xs">“{n}”</span>)}</div>
         </div>
-        <div className="flex rounded-lg border border-slate-200 overflow-hidden text-sm font-semibold bg-white">
+        <div className="flex rounded-lg border border-line overflow-hidden text-sm font-semibold bg-white">
           {domainOrder.map((d) => (
-            <button key={d} onClick={() => setDomainId(d)} className={`px-4 py-2 flex items-center gap-1 ${d === domainId ? 'bg-[#0b2a6b] text-white' : 'hover:bg-slate-50'}`}>
+            <button key={d} onClick={() => setDomainId(d)} className={`px-4 py-2 flex items-center gap-1 ${d === domainId ? 'bg-brand-900 text-white' : 'hover:bg-slate-50'}`}>
               {domains[d].name}{isFlagship(dim, d) && <Star size={11} className="fill-amber-400 text-amber-400" />}
             </button>
           ))}
@@ -146,11 +146,11 @@ export default function TrackerDim() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Items tracked</div><div className="text-2xl font-extrabold">{all.length}</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Levels deep</div><div className="text-2xl font-extrabold">{deepest} <span className="text-sm text-slate-400">/ 9</span></div>{isFlagship(dim, domainId) && <div className="text-[11px] text-amber-600 font-semibold">★ flagship — down to developer</div>}</Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Overall progress</div><div className="text-2xl font-extrabold">{tree.progress}%</div><Badge>{tree.status}</Badge></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Red items</div><div className={`text-2xl font-extrabold ${red ? 'text-red-600' : 'text-emerald-700'}`}>{red}</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">AI-involved items</div><div className="text-2xl font-extrabold text-violet-700">{aiCount}</div><div className="text-[11px] text-slate-500">each with a human approver</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Items tracked</div><div className="text-2xl font-bold">{all.length}</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Levels deep</div><div className="text-2xl font-bold">{deepest} <span className="text-sm text-slate-400">/ 9</span></div>{isFlagship(dim, domainId) && <div className="text-[11px] text-amber-600 font-semibold">★ flagship — down to developer</div>}</Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Overall progress</div><div className="text-2xl font-bold">{tree.progress}%</div><Badge>{tree.status}</Badge></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Red items</div><div className={`text-2xl font-bold ${red ? 'text-red-600' : 'text-emerald-700'}`}>{red}</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">AI-involved items</div><div className="text-2xl font-bold text-violet-700">{aiCount}</div><div className="text-[11px] text-slate-500">each with a human approver</div></Card>
       </div>
 
       <div className="mb-4"><Extras dim={dim} /></div>

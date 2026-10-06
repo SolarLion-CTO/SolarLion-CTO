@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import {
-  Bell, Bot, Brain, Briefcase, Building2, CalendarDays, Compass, Crown, Gauge, LayoutGrid, ListChecks, Network, Server, Users, CircleHelp, ClipboardCheck, Database, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
+  Bell, Bot, Brain, ChevronDown, Briefcase, Building2, CalendarDays, Compass, Crown, Gauge, LayoutGrid, ListChecks, Network, Server, Users, CircleHelp, ClipboardCheck, Database, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
   Settings, ShieldCheck, ShoppingCart, Target, TrendingUp, Wallet, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -61,23 +61,29 @@ const domainIcons: Record<DomainId, LucideIcon> = { banking: Landmark, manufactu
 export default function Layout() {
   const { domainId, setDomainId, domain } = useStore()
   const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
+  const groupOf = (path: string) =>
+    nav.find((g) => g.items.some((i) => (i.to === '/' ? path === '/' : path === i.to || path.startsWith(i.to + '/'))))?.section
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({ Executive: true })
+  const activeGroup = groupOf(pathname)
+  const isOpen = (section: string) => expanded[section] ?? section === activeGroup
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top bar */}
-      <header className="bg-gradient-to-r from-[#08205a] to-[#0d3a9a] text-white px-4 md:px-6 h-16 flex items-center gap-3 sticky top-0 z-40 shadow">
+      <header className="bg-brand-900 text-white px-4 md:px-6 h-16 flex items-center gap-3 sticky top-0 z-40 border-b border-white/10">
         <button className="lg:hidden shrink-0" onClick={() => setOpen(!open)} aria-label="Toggle menu">
           {open ? <X /> : <Menu />}
         </button>
-        <div className="w-9 h-9 shrink-0 rounded-lg bg-white/15 flex items-center justify-center"><Scale size={20} /></div>
+        <div className="w-9 h-9 shrink-0 rounded-lg bg-white/10 ring-1 ring-white/15 flex items-center justify-center"><Scale size={19} /></div>
         <div className="leading-tight min-w-0">
-          <div className="font-extrabold tracking-normal sm:tracking-wide text-[13px] sm:text-base xl:text-lg truncate">
-            <span className="sm:hidden">AI TRANSFORMATION</span><span className="hidden sm:inline xl:hidden">AI TRANSFORMATION FRAMEWORK</span>
-            <span className="hidden xl:inline">DOMAIN-AGNOSTIC ENTERPRISE AI TRANSFORMATION FRAMEWORK</span>
+          <div className="font-semibold tracking-normal text-[14px] sm:text-[15px] xl:text-base truncate">
+            <span className="sm:hidden">AI Transformation</span><span className="hidden sm:inline xl:hidden">AI Transformation Framework</span>
+            <span className="hidden xl:inline">Domain-Agnostic Enterprise AI Transformation Framework</span>
           </div>
-          <div className="text-[10px] sm:text-xs text-blue-200 tracking-wider truncate">
+          <div className="text-[11px] sm:text-xs text-blue-200/90 truncate">
             <span className="sm:hidden">Framework · powered by TEDIF</span><span className="hidden sm:inline xl:hidden">Domain-agnostic · powered by TEDIF</span>
-            <span className="hidden xl:inline">POWERED BY TEDIF · AI RECOMMENDS, HUMANS DECIDE</span>
+            <span className="hidden xl:inline">Powered by TEDIF · AI recommends, humans decide</span>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-4 shrink-0">
@@ -102,9 +108,9 @@ export default function Layout() {
       <div className="flex flex-1">
         {/* Sidebar */}
         {open && <div className="lg:hidden fixed inset-0 top-16 z-20 bg-slate-900/50" onClick={() => setOpen(false)} aria-hidden />}
-        <aside className={`${open ? 'block' : 'hidden'} lg:block fixed lg:sticky top-16 z-30 h-[calc(100vh-4rem)] w-72 lg:w-60 max-w-[85vw] shrink-0 bg-[#0a1f4d] text-blue-100 overflow-y-auto shadow-xl lg:shadow-none`}>
+        <aside className={`${open ? 'block' : 'hidden'} lg:block fixed lg:sticky top-16 z-30 h-[calc(100vh-4rem)] w-72 lg:w-60 max-w-[85vw] shrink-0 bg-brand-950 text-blue-100 overflow-y-auto nav-scroll shadow-xl lg:shadow-none`}>
           <div className="p-3">
-            <div className="text-[10px] font-bold tracking-widest text-blue-300 px-2 mb-2">INDUSTRY DOMAIN</div>
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-blue-300/80 px-2 mb-2">Industry domain</div>
             {domainOrder.map((id) => {
               const Icon = domainIcons[id]
               const active = id === domainId
@@ -114,7 +120,7 @@ export default function Layout() {
                   key={id}
                   to={`/domain/${id}`}
                   onClick={() => { setDomainId(id); setOpen(false) }}
-                  className={({ isActive }) => `block px-3 py-2 rounded-md text-sm mb-1 transition ${isActive ? 'bg-white text-[#0a1f4d]' : active ? 'bg-blue-600 text-white' : 'hover:bg-white/10'}`}
+                  className={({ isActive }) => `block px-3 py-2 rounded-md text-sm mb-1 transition ${isActive ? 'bg-white text-brand-950' : active ? 'bg-white/10 text-white ring-1 ring-white/20' : 'hover:bg-white/5'}`}
                 >
                   <div className="flex items-center gap-2 font-semibold">
                     <Icon size={16} /> {domains[id].name}
@@ -134,16 +140,23 @@ export default function Layout() {
           </div>
 
           {nav.map((group) => (
-            <div key={group.section} className="p-3 border-t border-white/10">
-              <div className="text-[10px] font-bold tracking-widest text-blue-300 px-2 mb-2">{group.section.toUpperCase()}</div>
-              {group.items.map(({ to, label, icon: Icon }) => (
+            <div key={group.section} className="px-3 py-2 border-t border-white/10">
+              <button
+                onClick={() => setExpanded((e) => ({ ...e, [group.section]: !isOpen(group.section) }))}
+                className="w-full flex items-center justify-between text-[11px] font-semibold uppercase tracking-wider text-blue-300/80 hover:text-white px-2 py-1.5"
+                aria-expanded={isOpen(group.section)}
+              >
+                {group.section}
+                <ChevronDown size={14} className={`transition-transform ${isOpen(group.section) ? '' : '-rotate-90'}`} />
+              </button>
+              {isOpen(group.section) && group.items.map(({ to, label, icon: Icon }) => (
                 <NavLink
                   key={to}
                   to={to}
                   end={to === '/' || to === '/tracker'}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 px-3 py-2 rounded-md text-sm mb-0.5 transition ${isActive ? 'bg-white text-[#0a1f4d] font-semibold' : 'hover:bg-white/10'}`
+                    `flex items-center gap-2 px-3 py-2 rounded-md text-sm mb-0.5 transition ${isActive ? 'bg-white text-brand-950 font-medium' : 'text-blue-100/90 hover:bg-white/5 hover:text-white'}`
                   }
                 >
                   <Icon size={16} /> {label}
@@ -153,7 +166,7 @@ export default function Layout() {
           ))}
 
           <div className="m-3 p-3 rounded-lg bg-white/5 text-[11px] leading-5">
-            <div className="font-bold text-blue-200 mb-1">SYSTEM STATUS</div>
+            <div className="font-semibold uppercase tracking-wider text-blue-300/80 mb-1">System status</div>
             <div><span className="text-emerald-400">●</span> Trust layer enforcing</div>
             <div><span className="text-emerald-400">●</span> AI services online</div>
             <div><span className="text-emerald-400">●</span> Audit trail active</div>
@@ -161,12 +174,14 @@ export default function Layout() {
         </aside>
 
         <main className="flex-1 min-w-0 p-4 md:p-6 xl:p-8">
+          <div className="mx-auto max-w-[1440px]">
           <Outlet />
-          <footer className="mt-8 py-4 border-t border-slate-200 text-xs text-slate-500 flex flex-wrap gap-x-6 gap-y-1 justify-center">
+          <footer className="mt-10 py-4 border-t border-line text-xs text-ink-3 flex flex-wrap gap-x-6 gap-y-1 justify-center">
             <span>One Framework · Any Industry</span>
             <span>AI Recommends · Humans Decide</span>
             <span>CTO Capstone Project · 2026 · Demo data</span>
           </footer>
+          </div>
         </main>
       </div>
     </div>

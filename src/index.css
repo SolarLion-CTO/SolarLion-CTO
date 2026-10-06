@@ -1,11 +1,64 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────────────────
+   Design tokens — the single source of truth for colour, type and surfaces.
+   Use them as Tailwind classes: bg-brand-900, text-ink-2, border-line, …
+   Rules: brand = navigation & actions · status = health only (always with an
+   icon + label) · domain colours = identity in charts · blue scale = progress.
+   ───────────────────────────────────────────────────────────────────────── */
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Brand */
+  --color-brand-950: #071c4a;
+  --color-brand-900: #0b2a6b;
+  --color-brand-700: #1e40af;
+  --color-brand-600: #1d4ed8;
+  --color-brand-100: #dbe7ff;
+  --color-brand-50: #eef4ff;
+
+  /* Surfaces & ink */
+  --color-page: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-line: #e3e6eb;
+  --color-ink: #0f172a;
+  --color-ink-2: #475569;
+  --color-ink-3: #64748b;
+
+  /* Status — reserved for health */
+  --color-ok: #0ca30c;
+  --color-warn: #fab219;
+  --color-serious: #ec835a;
+  --color-crit: #d03b3b;
+
+  /* Domain identity (colour-blind-validated categorical slots 1–3) */
+  --color-banking: #2a78d6;
+  --color-retail: #eb6834;
+  --color-mfg: #1baf7a;
+
+  /* Progress / magnitude — one blue, light → dark */
+  --color-seq-100: #cde2fb;
+  --color-seq-250: #86b6ef;
+  --color-seq-400: #3987e5;
+  --color-seq-550: #1c5cab;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
 body {
   margin: 0;
-  background: #eef2f8;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  color: #0f172a;
+  background: var(--color-page);
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Tables: aligned numbers */
+table { font-variant-numeric: tabular-nums; }
+
+/* Visible keyboard focus everywhere (WCAG 2.2) */
+:focus-visible { outline: 2px solid var(--color-brand-600); outline-offset: 2px; border-radius: 4px; }
 
 /* Grid items may shrink below their content width, so wide tables scroll
    inside their card instead of stretching the page on phones. */
@@ -13,3 +66,6 @@ body {
 
 /* Smooth momentum scrolling for horizontally scrollable tables on iOS. */
 .overflow-x-auto { -webkit-overflow-scrolling: touch; }
+
+/* Quiet scrollbars in the sidebar */
+.nav-scroll { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }

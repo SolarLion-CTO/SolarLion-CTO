@@ -46,7 +46,7 @@ export default function CtoStrategy() {
           <table className="w-full text-sm">
             <thead><tr className="text-[11px] uppercase text-slate-500 border-b text-left"><th className="py-2 w-32">Area</th><th>Current ({domains[domainId].name})</th><th>Target (all domains)</th></tr></thead>
             <tbody>{states.map((s) => (
-              <tr key={s.area} className="border-b last:border-0 align-top"><td className="py-2 font-semibold">{s.area}</td><td className="pr-3 text-slate-600">{s.current[domainId]}</td><td className="font-medium text-[#0b2a6b]">{s.target}</td></tr>
+              <tr key={s.area} className="border-b last:border-0 align-top"><td className="py-2 font-semibold">{s.area}</td><td className="pr-3 text-slate-600">{s.current[domainId]}</td><td className="font-medium text-brand-900">{s.target}</td></tr>
             ))}</tbody>
           </table>
         </Card>

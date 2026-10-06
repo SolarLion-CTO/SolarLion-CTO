@@ -37,7 +37,7 @@ function Section({ id, title, tag, children, action }: { id: string; title: stri
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
           <div>
             <div className="text-[10px] font-bold uppercase tracking-widest text-blue-700">TEDIF · {tag}</div>
-            <h2 className="text-lg font-extrabold text-slate-900">{title}</h2>
+            <h2 className="text-lg font-bold text-slate-900">{title}</h2>
           </div>
           {action}
         </div>
@@ -71,7 +71,7 @@ export default function Tedif() {
 
       <div className="flex gap-6">
         <nav className="hidden xl:block w-48 shrink-0">
-          <div className="sticky top-24 bg-white rounded-xl border border-slate-200 p-3 text-sm">
+          <div className="sticky top-24 bg-white rounded-xl border border-line p-3 text-sm">
             <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Sections</div>
             {nav.map(([id, label], i) => (
               <button key={id} onClick={() => go(id)} className="block w-full text-left px-2 py-1 rounded hover:bg-blue-50 text-slate-700">
@@ -89,9 +89,9 @@ export default function Tedif() {
                 const s = summary[d]
                 const inShadow = catalogue[d].filter((c) => c.status === 'Shadow').length
                 return (
-                  <div key={d} className="rounded-xl border border-slate-200 p-4">
+                  <div key={d} className="rounded-xl border border-line p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <div className="font-extrabold text-lg">{domains[d].name}</div>
+                      <div className="font-bold text-lg">{domains[d].name}</div>
                       <span className={`text-[11px] font-semibold rounded px-2 py-0.5 ${s.conformance === 'Aligned' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'}`}>{s.conformance}</span>
                     </div>
                     <div className="text-sm font-semibold text-blue-800">{s.phase}</div>
@@ -159,7 +159,7 @@ export default function Tedif() {
           <Section
             id="lifecycle" title="Lifecycle — 5 phases, 32 sections" tag="Part 2"
             action={
-              <div className="flex rounded-lg border border-slate-200 overflow-hidden text-xs font-semibold">
+              <div className="flex rounded-lg border border-line overflow-hidden text-xs font-semibold">
                 <button onClick={() => setMvpOnly(true)} className={`px-3 py-1.5 ${mvpOnly ? 'bg-blue-700 text-white' : 'bg-white'}`}>★ MVP path (12)</button>
                 <button onClick={() => setMvpOnly(false)} className={`px-3 py-1.5 ${!mvpOnly ? 'bg-blue-700 text-white' : 'bg-white'}`}>All 32</button>
               </div>
@@ -191,7 +191,7 @@ export default function Tedif() {
           <Section id="gates" title="Gates — funding decisions: approve, redo or stop" tag="Part 3 · Decision governance">
             <div className="grid grid-cols-5 gap-2 mb-4">
               {gates.map((g) => (
-                <button key={g.n} onClick={() => setOpenGate(g.n)} className={`rounded-lg border p-2 text-left ${openGate === g.n ? 'border-blue-600 bg-blue-50' : 'border-slate-200 hover:bg-slate-50'}`}>
+                <button key={g.n} onClick={() => setOpenGate(g.n)} className={`rounded-lg border p-2 text-left ${openGate === g.n ? 'border-blue-600 bg-blue-50' : 'border-line hover:bg-slate-50'}`}>
                   <div className="text-xs font-bold text-blue-700">Gate {g.n}</div>
                   <div className="text-[11px] leading-tight">{g.name}</div>
                 </button>
@@ -269,7 +269,7 @@ export default function Tedif() {
                     {catalogue[d].map((c) => {
                       const t = tierOf(c.risk)
                       return (
-                        <div key={c.id} className="rounded-lg border border-slate-200 p-3 text-sm">
+                        <div key={c.id} className="rounded-lg border border-line p-3 text-sm">
                           <div className="flex justify-between gap-2"><span className="font-mono text-xs text-blue-700">{c.id}</span><span className={`text-[11px] font-bold rounded px-1.5 ${c.status === 'Shadow' ? 'bg-violet-100 text-violet-800' : c.status === 'Catalogued' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-600'}`}>{c.status}</span></div>
                           <div className="font-semibold">{c.name}</div>
                           <div className="text-xs text-slate-500">{c.owner} → {c.approver}</div>
@@ -316,7 +316,7 @@ export default function Tedif() {
                 const s = shadow[d]
                 const ready = s.agreement > 80 && s.calibrationError < 10
                 return (
-                  <div key={d} className="rounded-xl border border-slate-200 p-4">
+                  <div key={d} className="rounded-xl border border-line p-4">
                     <div className="font-bold mb-2">{domains[d].name}</div>
                     {!s.started ? (
                       <p className="text-sm text-slate-500">Not started — starts after Gate 2 and data mapping. Retail decisions are Catalogued only.</p>
@@ -399,7 +399,7 @@ export default function Tedif() {
               {domainOrder.map((d) => {
                 const q = quality[d]
                 return (
-                  <div key={d} className="rounded-xl border border-slate-200 p-4">
+                  <div key={d} className="rounded-xl border border-line p-4">
                     <div className="font-bold mb-2">{domains[d].name}</div>
                     {!q ? <p className="text-sm text-slate-500">No shadow-run decisions yet.</p> : (
                       <>

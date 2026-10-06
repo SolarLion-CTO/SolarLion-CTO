@@ -3,7 +3,7 @@ import { ctoDecisions, ctoDoesNot } from '../../data/cto'
 import type { CtoRole } from '../../data/cto'
 import { Card, PageHeader } from '../../components/ui'
 
-const roleTone: Record<CtoRole, string> = { Decides: 'bg-[#0b2a6b] text-white', 'Co-approves': 'bg-blue-600 text-white', 'Recommends to board': 'bg-violet-600 text-white', 'Sets guardrail': 'bg-amber-500 text-white' }
+const roleTone: Record<CtoRole, string> = { Decides: 'bg-brand-900 text-white', 'Co-approves': 'bg-blue-600 text-white', 'Recommends to board': 'bg-violet-600 text-white', 'Sets guardrail': 'bg-amber-500 text-white' }
 const statusTone = { Decided: 'text-emerald-700', Pending: 'text-amber-600', Upcoming: 'text-slate-500' }
 
 export default function CtoDecisions() {
@@ -13,9 +13,9 @@ export default function CtoDecisions() {
       <PageHeader title="What the CTO Decides" subtitle="Decision rights of the CTO and the control tower — and what they deliberately do not decide" owner="Ram (CTO)" />
 
       <div className="grid grid-cols-3 gap-4 mb-6">
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Decided</div><div className="text-3xl font-extrabold text-emerald-700">{by('Decided')}</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Pending</div><div className="text-3xl font-extrabold text-amber-600">{by('Pending')}</div></Card>
-        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Upcoming</div><div className="text-3xl font-extrabold text-slate-500">{by('Upcoming')}</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Decided</div><div className="text-3xl font-bold text-emerald-700">{by('Decided')}</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Pending</div><div className="text-3xl font-bold text-amber-600">{by('Pending')}</div></Card>
+        <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Upcoming</div><div className="text-3xl font-bold text-slate-500">{by('Upcoming')}</div></Card>
       </div>
 
       <Card title="CTO decision log" className="mb-6">

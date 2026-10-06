@@ -4,7 +4,7 @@ import type { Node } from '../data/tracker'
 import { roles, worstBelow } from '../data/tracker'
 import { Badge } from './ui'
 
-const levelTone = ['bg-[#0b2a6b]', 'bg-blue-800', 'bg-blue-700', 'bg-blue-600', 'bg-sky-700', 'bg-sky-600', 'bg-teal-600', 'bg-violet-600', 'bg-slate-600']
+const levelTone = ['bg-brand-900', 'bg-blue-800', 'bg-blue-700', 'bg-blue-600', 'bg-sky-700', 'bg-sky-600', 'bg-teal-600', 'bg-violet-600', 'bg-slate-600']
 const dot: Record<string, string> = { 'On Track': 'bg-emerald-500', 'At Risk': 'bg-amber-400', Delayed: 'bg-red-500' }
 
 function Row({ n, depth, focusLevel, aiOnly }: { n: Node; depth: number; focusLevel: number; aiOnly: boolean }) {
@@ -70,7 +70,7 @@ function Row({ n, depth, focusLevel, aiOnly }: { n: Node; depth: number; focusLe
 // The key forces a remount when "view as" changes so the default expansion is re-applied.
 export default function TreeView({ root, depth, focusLevel, aiOnly }: { root: Node; depth: number; focusLevel: number; aiOnly: boolean }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+    <div className="rounded-xl border border-line bg-white overflow-hidden">
       <div className="hidden md:flex text-[10px] uppercase font-semibold text-slate-500 border-b bg-slate-50 py-2 px-3">
         <span className="flex-1">Level · role · item</span><span className="w-28 text-right mr-3">Spent / budget</span><span className="w-24 text-right mr-3">Progress</span><span className="w-20 text-right">Status</span>
       </div>

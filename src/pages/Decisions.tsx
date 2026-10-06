@@ -31,10 +31,10 @@ function Runtime({ step, rejected }: { step: number; rejected: boolean }) {
         const skipped = rejected && i === 7
         const done = i < step || (i === step && i > HUMAN)
         const waiting = i === step && i === HUMAN
-        const tone = skipped ? 'bg-slate-100 text-slate-400 border-slate-200 line-through'
+        const tone = skipped ? 'bg-slate-100 text-slate-400 border-line line-through'
           : done ? (i <= 3 ? 'bg-amber-50 border-amber-300 text-amber-900' : i <= 5 ? 'bg-violet-50 border-violet-300 text-violet-900' : i === HUMAN ? 'bg-red-50 border-red-300 text-red-900' : 'bg-emerald-50 border-emerald-300 text-emerald-900')
           : waiting ? 'bg-red-600 text-white border-red-600 animate-pulse'
-          : 'bg-white border-slate-200 text-slate-400'
+          : 'bg-white border-line text-slate-400'
         return (
           <div key={name} title={desc} className={`rounded-md border px-1.5 py-2 text-center transition-all duration-300 ${tone}`}>
             <div className="text-[10px] font-bold">{i + 1}</div>

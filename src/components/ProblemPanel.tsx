@@ -6,11 +6,11 @@ import { Badge, Bar, money } from './ui'
 // The "exact problem" for one area in one domain: pain → root causes → AI solution → KPI.
 export default function ProblemPanel({ p, domainName }: { p: Problem; domainName: string }) {
   return (
-    <section className="bg-white rounded-xl border-l-4 border-blue-700 border border-slate-200 shadow-sm p-5 mb-6">
+    <section className="bg-white rounded-xl border-l-4 border-blue-700 border border-line shadow-sm p-5 mb-6">
       <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
         <div>
           <div className="text-[11px] font-bold uppercase tracking-wide text-blue-700">{domainName} · {p.area} problem · owner {areaOwner[p.area]}</div>
-          <h2 className="text-lg font-extrabold text-slate-900">{p.title}</h2>
+          <h2 className="text-lg font-bold text-slate-900">{p.title}</h2>
         </div>
         <div className="flex gap-2"><Badge>{p.stage}</Badge><Badge>{p.health}</Badge></div>
       </div>

@@ -36,7 +36,7 @@ export default function Assessment() {
                     <span className="flex-1 min-w-[220px]">{q.q}{q.precondition && <span className="ml-1 text-[10px] font-bold text-red-600">GATE</span>}</span>
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((v) => (
-                        <button key={v} title={scale[v - 1]} onClick={() => set(i, j, v)} className={`w-8 h-8 rounded-md text-xs font-bold border ${answers[i][j] === v ? 'bg-[#0b2a6b] text-white border-[#0b2a6b]' : answers[i][j] > v ? 'bg-blue-100 border-blue-200' : 'bg-white border-slate-200'}`}>{v}</button>
+                        <button key={v} title={scale[v - 1]} onClick={() => set(i, j, v)} className={`w-8 h-8 rounded-md text-xs font-bold border ${answers[i][j] === v ? 'bg-brand-900 text-white border-brand-900' : answers[i][j] > v ? 'bg-blue-100 border-blue-200' : 'bg-white border-line'}`}>{v}</button>
                       ))}
                     </div>
                   </div>
@@ -50,7 +50,7 @@ export default function Assessment() {
         <div className="space-y-4 lg:sticky lg:top-24 self-start">
           <Card title="Result">
             <div className="text-center">
-              <div className="text-4xl font-extrabold text-[#0b2a6b]">{overall}</div>
+              <div className="text-4xl font-bold text-brand-900">{overall}</div>
               <div className="text-sm font-semibold text-blue-700">{levelName(overall)}</div>
             </div>
             <div className="h-56">
