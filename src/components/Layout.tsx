@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
-  Factory, Gauge, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
+  Activity, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
   ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -10,8 +10,10 @@ import { useStore } from '../store'
 import { domainOrder, domains } from '../data/domains'
 import type { DomainId } from '../data/domains'
 import { cascade, tracks } from '../data/cascade'
+import { SOURCES } from '../data/sim/scores'
+import { ClockControls } from './sim/EventFeed'
 
-type Item = { to: string; label: string; icon: LucideIcon; badge?: number }
+type Item = { to: string; label: string; icon: LucideIcon; badge?: number; sub?: string; end?: boolean }
 type Group = { section: string; icon: LucideIcon; items: Item[] }
 
 const redCount = (id: DomainId) =>
@@ -77,6 +79,15 @@ const nav: Group[] = [
   ] },
 ]
 
+const SOURCE_ICON: Record<string, LucideIcon> = { planview: Target, leanix: Network, process: Workflow, servicenow: Briefcase, jellyfish: Wrench, datadog: Activity, vanta: ShieldCheck }
+// The selected business unit's Enterprise 360: overview + the 7 simulated source systems.
+const domainGroup = (d: DomainId): Group => ({
+  section: `${domains[d].name} 360`, icon: Radar, items: [
+    { to: `/domain/${d}`, label: 'Enterprise 360 overview', icon: LayoutDashboard, end: true },
+    ...SOURCES.map((s) => ({ to: `/domain/${d}/${s.slug}`, label: s.capability, sub: `Simulated · ${s.label}`, icon: SOURCE_ICON[s.id] })),
+  ],
+})
+
 const matches = (to: string, path: string) => (to === '/' || to === '/tracker' ? path === to : path === to || path.startsWith(to + '/'))
 
 export default function Layout() {
@@ -84,14 +95,19 @@ export default function Layout() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const activeGroup = nav.find((g) => g.items.some((i) => matches(i.to, pathname)))?.section
+  const groups = [domainGroup(domainId), ...nav]
+  const activeGroup = groups.find((g) => g.items.some((i) => matches(i.to, pathname)))?.section
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
-  const isOpen = (s: string) => expanded[s] ?? (s === activeGroup || s === 'Executive Overview')
+  const isOpen = (s: string) => expanded[s] ?? (s === activeGroup || s === groups[0].section || (s === 'Executive Overview' && !pathname.startsWith('/domain/')))
 
   // Switching domain on a domain page also moves to that domain's page.
   const switchDomain = (d: DomainId) => {
     setDomainId(d)
-    if (pathname.startsWith('/domain/')) navigate(`/domain/${d}`)
+    if (pathname.startsWith('/domain/')) {
+      // keep the same page (source / function / programme) in the new domain; records are domain-specific
+      const rest = pathname.replace(/^\/domain\/[^/]+/, '')
+      navigate(`/domain/${d}${rest.startsWith('/record/') ? '' : rest}`)
+    }
   }
 
   return (
@@ -120,7 +136,7 @@ export default function Layout() {
               {domainOrder.map((d) => <option key={d} value={d} className="text-ink">{domains[d].name}{domains[d].configuredOnly ? ' (config)' : ''}</option>)}
             </select>
           </label>
-          <span className="hidden xl:inline text-[12px] text-slate-300">Updated 6 Oct 2026, 09:30</span>
+          <ClockControls />
           <button className="relative hidden sm:block p-1 rounded-md hover:bg-white/10" aria-label={`${domain.alerts.length} notifications`}>
             <Bell size={19} />
             <span className="absolute -top-0.5 -right-0.5 bg-crit text-[10px] font-semibold rounded-full w-4 h-4 flex items-center justify-center">{domain.alerts.length}</span>
@@ -141,7 +157,7 @@ export default function Layout() {
         {open && <div className="lg:hidden fixed inset-0 top-16 z-20 bg-slate-900/40" onClick={() => setOpen(false)} aria-hidden />}
         <aside className={`${open ? 'block' : 'hidden'} lg:block fixed lg:sticky top-16 z-30 h-[calc(100vh-4rem)] w-72 lg:w-[17.5rem] max-w-[85vw] shrink-0 bg-surface border-r border-line overflow-y-auto shadow-xl lg:shadow-none`}>
           <nav className="py-3" aria-label="Main">
-            {nav.map((g) => {
+            {groups.map((g) => {
               const GroupIcon = g.icon
               const opened = isOpen(g.section)
               const groupActive = g.section === activeGroup
@@ -158,11 +174,11 @@ export default function Layout() {
                   </button>
                   {opened && (
                     <div className="mt-0.5 mb-2 ml-[1.35rem] border-l border-line">
-                      {g.items.map(({ to, label, icon: Icon, badge }) => (
+                      {g.items.map(({ to, label, icon: Icon, badge, sub, end }) => (
                         <NavLink
                           key={to}
                           to={to}
-                          end={to === '/' || to === '/tracker'}
+                          end={end || to === '/' || to === '/tracker' || /^\/domain\/\w+$/.test(to)}
                           onClick={() => {
                             const m = to.match(/^\/domain\/(\w+)/)
                             if (m) setDomainId(m[1] as DomainId)
@@ -173,7 +189,7 @@ export default function Layout() {
                           }
                         >
                           <Icon size={14} className="shrink-0 opacity-70" />
-                          <span className="flex-1 truncate">{label}</span>
+                          <span className="flex-1 min-w-0"><span className="block truncate">{label}</span>{sub && <span className="block text-[10.5px] font-normal text-ink-4 truncate leading-tight">{sub}</span>}</span>
                           {!!badge && <span className="text-[10px] font-semibold bg-crit-bg text-crit-text border border-red-200 rounded-full px-1.5" title={`${badge} red escalations`}>{badge}</span>}
                         </NavLink>
                       ))}
@@ -195,7 +211,7 @@ export default function Layout() {
             <footer className="mt-10 py-4 border-t border-line text-xs text-ink-3 flex flex-wrap gap-x-6 gap-y-1 justify-center">
               <span><b className="font-semibold text-ink-2">CTO360</b> · One View. Connected Decisions. Measurable Technology Outcomes.</span>
               <span>Decision intelligence powered by TEDIF</span>
-              <span>Demo data</span>
+              <span>Simulated enterprise data · no live vendor integrations</span>
             </footer>
           </div>
         </main>

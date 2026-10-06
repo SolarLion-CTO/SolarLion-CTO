@@ -18,6 +18,11 @@ import TrackerPortfolio from './pages/TrackerPortfolio'
 import Engineering from './pages/Engineering'
 import RiskRegister from './pages/RiskRegister'
 import AiInsights from './pages/AiInsights'
+import DomainHome from './pages/sim/DomainHome'
+import SourcePage from './pages/sim/SourcePage'
+import RecordPage from './pages/sim/RecordPage'
+import FunctionPage from './pages/sim/FunctionPage'
+import { SimClockProvider } from './components/sim/clock'
 import TrackerDim from './pages/TrackerDim'
 import Coverage from './pages/cto/Coverage'
 import Business from './pages/cto/Business'
@@ -34,6 +39,7 @@ import Roadmap from './pages/cto/Roadmap'
 export default function App() {
   return (
     <StoreProvider>
+      <SimClockProvider>
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
@@ -49,7 +55,11 @@ export default function App() {
             <Route path="problems" element={<Problems />} />
             <Route path="innovation" element={<Innovation />} />
             <Route path="tedif" element={<Tedif />} />
-            <Route path="domain/:id" element={<DomainView />} />
+            <Route path="domain/:id" element={<DomainHome />} />
+            <Route path="domain/:id/programme" element={<DomainView />} />
+            <Route path="domain/:id/record/:rid" element={<RecordPage />} />
+            <Route path="domain/:id/fn/:fn" element={<FunctionPage />} />
+            <Route path="domain/:id/:source" element={<SourcePage />} />
             <Route path="tracker" element={<TrackerPortfolio />} />
             <Route path="engineering" element={<Engineering />} />
             <Route path="risk" element={<RiskRegister />} />
@@ -69,6 +79,7 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </SimClockProvider>
     </StoreProvider>
   )
 }

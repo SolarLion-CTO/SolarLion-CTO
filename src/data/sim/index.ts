@@ -2,10 +2,13 @@
 import type { DomainData, DomainId } from './model'
 import { build } from './build'
 import { banking } from './domains/banking'
+import { manufacturing } from './domains/manufacturing'
+import { retail } from './domains/retail'
 
-// Manufacturing and Retail configs are added in M3 (same builder, different data).
-export const sim: Partial<Record<DomainId, DomainData>> = {
+export const sim: Record<DomainId, DomainData> = {
   banking: build('banking', banking),
+  manufacturing: build('manufacturing', manufacturing),
+  retail: build('retail', retail),
 }
 export * from './model'
 export { FUNCTIONS, FN, HEAT_COLS } from './functions'

@@ -17,15 +17,15 @@
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
 - **NEXT BUILD (agreed direction):** two specs merged into one plan, **section 23** (this supersedes the build order in section 22).
   - Specs: `docs/SIMULATION_SPEC.md` (7 tool layers, canonical model, decisions → actions → outcomes) and `docs/ENTERPRISE360_SPEC.md` (16 enterprise functions per domain, heatmap, Top 10 decisions, maturity).
-  - **M1 DONE (6 Oct 2026, section 24).** Next: **M2**, the shared visual components. Also still to do: Manufacturing and Retail configs (planned for M3).
+  - **M1, M2 and M3 DONE (6 Oct 2026, sections 24 and 26).** Next: **M4**, deepening the function page, then M5 (decisions) and M6 (Command Center).
 - **Sprint tracker (simulation build, plan in section 23):**
 
 | Sprint | What it delivers | Visible on site? | Status |
 |---|---|---|---|
 | M1 | Data engine: canonical model, Banking data, scoring rules, `npm run validate:sim` (section 24) | No | ✅ Done 6 Oct 2026 |
-| M2 | Reusable UI building blocks: KPI card, sparkline, heatmap, source badge, time-range selector, event feed, "why this colour" tip (section 25) | Only on a test page | ⏳ Next |
-| M3 | Domain Overview (Executive 360) + 7 source pages per domain + Manufacturing and Retail data; existing tabs re-homed (section 25) | **Yes, the first big visible change** | Planned |
-| M4 | 16-function page template + "Fed by" links into sources | Yes | Planned |
+| M2 | Reusable UI building blocks: KPI card, sparkline, heatmap, source badge, time-range selector, event feed, "why this colour" tip (section 25) | Used directly by M3 pages (no separate test page needed) | ✅ Done 6 Oct 2026 (section 26) |
+| M3 | Domain Overview (Executive 360) + 7 source pages per domain + Manufacturing and Retail data; existing tabs re-homed (section 25) | **Yes, the first big visible change** | ✅ Done 6 Oct 2026 (section 26) |
+| M4 | 16-function page template + "Fed by" links into sources | Yes | 🟡 First version live (6 KPIs, trend, Fed by, exceptions). Still to add: impact panel, initiatives, dependencies, sidebar list. ⏳ Next |
 | M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | Planned |
 | M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | Planned |
 
@@ -897,4 +897,61 @@ Nothing visible on the website yet; this is the data engine the new pages will r
    Each must pass `validate:sim` with enterprise health of about 70–82.
 
 **Done when:** all 3 domains show the Overview and 7 source pages with their own data; the validator passes for all 3; the overflow check passes on all new routes; notes are updated; changes are committed.
+
+---
+
+## 26. M2 + M3 done: Enterprise 360 pages are live (6 Oct 2026)
+
+**What changed on the website.** `/domain/banking`, `/domain/manufacturing` and `/domain/retail` now open the new **Enterprise 360** overview. The sidebar has a new top group, **"<Domain> 360"**, holding the overview and the 7 simulated source pages. The header shows **● Simulation live, a clock, Pause and Reset**.
+
+### Routes (new)
+| Route | Page | File |
+|---|---|---|
+| `/domain/:id` | Enterprise 360 overview: enterprise health ring, 5 large + 8 compact KPIs (Executive 360), 7 source cards, 16-function heatmap, "Needs your attention" (the 3 stories with their 7-layer chain), live event feed | `src/pages/sim/DomainHome.tsx` |
+| `/domain/:id/planview` | Strategy & Portfolio: objectives, initiatives, investment allocation, budget vs forecast chart, initiative heatmap | `sources/Planview.tsx` |
+| `/domain/:id/leanix` | Enterprise Architecture tabs: application portfolio · rationalisation matrix (TIME) · technology lifecycle · capability heatmap · dependency view · **End of life (old tab)** | `sources/LeanIX.tsx` |
+| `/domain/:id/process` | Process Intelligence tabs: process performance + cycle-time trend + bottleneck panel · transformation pipeline · **Customer (old tab)** | `sources/ProcessIntel.tsx` |
+| `/domain/:id/servicenow` | Portfolio & Workflow tabs: 6 KPI tiles · projects · demand vs capacity · **Vendors & support (old tab)** | `sources/ServiceNow.tsx` |
+| `/domain/:id/jellyfish` | Engineering Intelligence tabs: teams with allocation bars · investment and allocation + tech-debt trend (team level only, no individual ranking) | `sources/Jellyfish.tsx` |
+| `/domain/:id/datadog` | Operations & Observability tabs: services + availability trend + weekly incident trend · incidents · **Applications, DR & BCP, P&L (old tabs)** | `sources/Datadog.tsx` |
+| `/domain/:id/vanta` | Security, Risk & Governance tabs: risk register · 5×5 risk heatmap · controls by framework · **Cyber (old tab)**. Labelled "monitoring simulation, not a certification". | `sources/Vanta.tsx` |
+| `/domain/:id/record/:rid` | Drill-down for any record: why it has its colour, its fields, "Links to", "Linked from", source, trend | `src/pages/sim/RecordPage.tsx` |
+| `/domain/:id/fn/:fn` | Function page (first version of M4): 6 metric cards, 12-month function trend, "Fed by" source links, exceptions from its sources, previous / next function | `src/pages/sim/FunctionPage.tsx` |
+| `/domain/:id/programme` | **The previous domain page, unchanged**: TEDIF problems, CTO → developer cascade, all 8 old tabs | `src/pages/DomainView.tsx` |
+
+**Old links still work.** `/domain/x?tab=apps|dr|pnl|cyber|eol|vendors|customer|overview` redirect to their new homes. The Risk register, AI insights and Executive Overview links therefore still land on the right content.
+
+### Building blocks (M2), in `src/components/sim/`
+| File | Contents |
+|---|---|
+| `primitives.tsx` | `MetricCard` (current · target · variance · trend vs period · status · owner · updated · sparkline), `ScoreCard`, `Tile`, `ScoreRing`, `Sparkline`, `StatusPill` (icon + word, with a "Why red/amber" tooltip from `why[]`), `SourceBadge` ("Simulated Source: X"), `Bar2` (progress with a plan marker) |
+| `range.tsx` | `TimeRange`: 30 days / Quarter / 6 months / 12 months, kept in the URL (`?range=`) so drill-down and back keep context. `useKeepRange()` carries it into links. |
+| `charts.tsx` | `TrendChart`: actual line, dashed 3-month forecast, dashed target line, single axis |
+| `HealthHeatmap.tsx` | 16 × 6 heatmap plus Overall, grouped CTO-owned / Signals. Each cell is one metric (hover for the value). Click a row to open the function page. |
+| `RecordTable.tsx` | Exceptions first, filter, sortable columns, "Show all" |
+| `EventFeed.tsx` | `EventFeed`, `SyncStrip` ("Simulation active · synced X ago · N records · events in the last hour" + "no live vendor integration"), `ClockControls` |
+| `clock.tsx` | `SimClockProvider`: the simulation clock starts at 6 Oct 2026 09:30 IST and ticks every second (pausable, resettable) |
+| `src/data/sim/events.ts` | Deterministic event stream. 60 past events plus 80 future events, released one every 6 s by the clock. Every event links to a real record. |
+
+### Data (M3)
+- `domains/manufacturing.ts`: **Arvant Industries (fictional)**, enterprise health **73**, weakest **Operations**.
+  - Stories: Smart Factory Program Delay; MES Reliability Impacting Production; PLM Technical Debt Blocking Engineering Automation.
+- `domains/retail.ts`: **Orbit Retail (fictional)**, enterprise health **76**, weakest **Operations / Engineering**.
+  - Stories: E-commerce Peak Readiness Risk; Inventory Transformation Delay; POS Modernization and Security Risk.
+- Banking stays at **78**, weakest **Enterprise Architecture**. Each domain therefore tells a different story within the same framework.
+- `npm run validate:sim` passes for all 3 domains with no errors or warnings.
+
+### Checks
+- `npm run build` passes.
+- Overflow check: **128 / 128 views clean** at 1366 px and 390 px. That covers every old route, every new page in all 3 domains, and the old `?tab=` redirects.
+- Fixes found during the check:
+  - Hidden tooltips widened the page; they are now shown only on hover.
+  - Grids needed `grid-cols-1` so tables scroll inside their card.
+  - The heatmap takes the full width below 1536 px.
+
+### Known items / next (M4)
+- The function page still needs: impact panel (business / technology / financial), open issues and initiatives per function, cross-functional dependencies, and a sidebar "Enterprise functions" list.
+- The Executive 360 KPI targets are a flat 85 (maturity 4 / 5). They could be set per domain later.
+- The JS bundle is above 500 kB (a Vite warning only). Code-splitting the routes is a later optimisation.
+- The live clock moves the event feeds and "synced X ago" times. Event-driven *metric* changes are planned for M6.
 
