@@ -102,3 +102,15 @@ export function Ring({ value, size = 44, color = '#2563eb' }: { value: number; s
 }
 
 export const money = (cr: number) => `₹${cr.toFixed(1)} Cr`
+
+// Stat tile — label, value, context. Tone only when the value means something.
+export function Stat({ label, value, sub, tone = 'default' }: { label: string; value: string | number; sub?: string; tone?: 'default' | 'crit' | 'warn' | 'ok' }) {
+  const color = tone === 'crit' ? 'text-crit-text' : tone === 'warn' ? 'text-warn-text' : tone === 'ok' ? 'text-success-text' : 'text-brand-900'
+  return (
+    <div className="bg-surface rounded-xl border border-line shadow-[0_1px_2px_rgba(15,23,42,0.04)] p-4">
+      <div className="text-xs font-medium text-ink-2">{label}</div>
+      <div className={`text-[26px] font-bold leading-tight mt-1 tabular-nums ${color}`}>{value}</div>
+      {sub && <div className="text-xs text-ink-3">{sub}</div>}
+    </div>
+  )
+}

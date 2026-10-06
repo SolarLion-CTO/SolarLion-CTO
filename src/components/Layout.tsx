@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
   Factory, Gauge, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
-  ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, Users, Wallet, Wrench, X,
+  ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useStore } from '../store'
@@ -47,6 +47,7 @@ const nav: Group[] = [
     { to: '/tracker/erp', label: 'ERP root cause', icon: Database },
   ] },
   { section: 'Engineering', icon: Wrench, items: [
+    { to: '/engineering', label: 'Engineering metrics', icon: Gauge },
     { to: '/tracker', label: 'Delivery portfolio', icon: Briefcase },
     { to: '/cto/operating-model', label: 'Operating model & CoE', icon: Users },
   ] },
@@ -61,11 +62,13 @@ const nav: Group[] = [
     { to: '/tracker/innovation', label: 'Innovation plan', icon: ListChecks },
   ] },
   { section: 'Risk & Governance', icon: ShieldCheck, items: [
+    { to: '/risk', label: 'Risk register', icon: TriangleAlert },
     { to: '/governance', label: 'Regulatory & governance', icon: ShieldCheck },
     { to: '/tedif', label: 'TEDIF tracker', icon: ClipboardCheck },
     { to: '/tracker/governance', label: 'Governance plan', icon: ListChecks },
   ] },
   { section: 'AI Intelligence', icon: Sparkles, items: [
+    { to: '/ai', label: 'AI insights', icon: Sparkles },
     { to: '/decisions', label: 'Decision center', icon: Gavel },
     { to: '/cto/decisions', label: 'CTO decisions', icon: Crown },
     { to: '/cto/ai-selection', label: 'AI selection', icon: Brain },

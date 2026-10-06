@@ -8,16 +8,15 @@
 
 ## 0. Resume here (status at close)
 
-- **Live site:** https://cto360.vercel.app
-- **Code:** all work is on GitHub except possibly the latest notes update → first thing: run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
-- **Website:** complete for the capstone — 14 CTO dimensions covered, TEDIF tracker, programme tracker (CTO → developer), domain pages, responsive on phone / tablet / desktop, professional design system applied (section 18).
+- **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
+- **Code:** first run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
+- **Website:** CTO360 shell, Executive Overview (signal → decision), 8 tabs on each industry domain page (resilience Steps A + B), Engineering metrics, Risk register and AI Intelligence pages. Responsive check: 100 / 100 views with no overflow (6 Oct 2026).
+- **Where to update figures:** `src/data/resilience.ts` (apps, cyber, P&L, DR/BCP, customer, vendors, end of life), `src/data/engineering.ts` (delivery metrics). Statuses, the Risk register, the Executive Overview and AI insights are calculated from these (`src/data/signals.ts`), so never type a status by hand.
 - **Pending decisions (yours / team):**
-  1. **Final name** — recommended **DecisionOS** (section 15). Not yet applied to the website.
-  2. **Live AI provider** — Grok (paid), Groq (free tier) or Claude (section 16). Not yet built.
-  3. Owner map and naming consistency across proposal, decks, TEDIF (section 12).
-- **Next build step when back:** live AI call for "Challenge the AI" on DEC-OPS-001 via a Vercel serverless function (section 16).
-- **Done on 6 Oct 2026:** professional design system — tokens, Inter font, sentence-case titles, neutral KPI tiles, blue progress heatmap, status shape icons, colour-blind-safe domain colours, collapsible sidebar (section 18).
-- **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14).
+  1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
+  2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
+- **Next build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
+- **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
 ---
 
@@ -501,3 +500,30 @@ Each industry view (sidebar → Executive Overview → Banking / Manufacturing /
 - Every app and cyber improvement shows **Current → Proposed → Feasibility → PoC → Pilot → Scale** with owner and feasibility score.
 
 **Step B (not started, awaiting go-ahead):** DR & BCP (tiers, RTO/RPO tested vs target, DR options, drills), Customer (CSAT, NPS, closed feedback loop linked to incidents), Vendors & tech support (L1–L3, vendor SLA, supply-chain systems), End of life (EOL register, who owns it, decision options).
+
+---
+
+## 21. Resilience tabs Step B, plus CTO360 Phases 2 and 3 (6 Oct 2026)
+
+**Domain page tabs** (`/domain/<id>?tab=...`): overview · apps · cyber · **dr** · **customer** · **vendors** · **eol** · pnl. The escalations panel on the Overview tab links to every critical item.
+
+| Tab | Data in `resilience.ts` | Rule (calculated, never typed) |
+|---|---|---|
+| DR & BCP | `drOptions`, `dr`, `bcp` | `drStatus`: Critical if a Tier 0–1 app was never tested, the drill failed, or the tested RTO is above target. Amber if the drill is overdue or partial. |
+| Customer | `customer` (CSAT, NPS, complaints, channels, loop) | `customerStatus`: falling CSAT, or complaints not closed within SLA |
+| Vendors & support | `support`, `vendors` | `vendorStatus`: Critical if a single point of failure has no exit plan, or the SLA was missed on a critical app |
+| End of life | `eol`, `eolRaci` | `eolStatus`: Critical if past end of support with no decision, or the risk exception has expired. The app owner is accountable; the RACI is shown on the tab. |
+
+**Phase 2: Executive Overview** (`src/pages/overview/ExecSummary.tsx`, placed above the original content under "Detail"):
+- 6 KPIs
+- a Signal → Insight → Decision → Action → Outcome strip
+- 4 health cards (strategic, operational, engineering, financial)
+- Top risks, Major exceptions, Decisions required, Priority actions
+
+**Phase 3: new pages:**
+- `/engineering`: deployment frequency, lead time, change failure, MTTR, deploy trend, domains compared, team capacity, plan health by role level L1–L9, blockers. Data: `src/data/engineering.ts`.
+- `/risk`: consolidated register built automatically by `riskRegister()` from applications, cyber, DR, vendors, end of life and the TEDIF programme. Filter by domain and severity. Shows business and technical impact, control status, owner, mitigation, due date and evidence. Severity rules: a Tier-0 DR item is Critical only if never tested or failed; end-of-life past support shows "Overdue".
+- `/ai`: six insights from `insights()` in the format Observation → Evidence → Recommendation → Expected impact → Confidence → Human decision (Accept / Reject, held in memory only). "AI recommends. Humans decide."
+
+**Sidebar additions:** Engineering → Engineering metrics; Risk & Governance → Risk register; AI Intelligence → AI insights.
+

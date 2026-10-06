@@ -256,3 +256,214 @@ export const prevention: Record<DomainId, { measure: string; costL: number; loss
     { measure: 'Joiner-mover-leaver automation', costL: 12, lossAvoidedL: 60 },
   ],
 }
+
+// ═════════════════════════════ STEP B ═════════════════════════════
+// Update: DR & BCP → `dr`, `bcp` · Customer → `customer` · Vendors & support → `support`, `vendors` · End of life → `eol`
+
+// ── DR & business continuity ─────────────────────────────────────────────
+export type DrStrategy = 'Backup & restore' | 'Pilot light' | 'Warm standby' | 'Active-active'
+export const drOptions: { strategy: DrStrategy; rto: string; rpo: string; cost: string; fit: string }[] = [
+  { strategy: 'Backup & restore', rto: 'Hours – days', rpo: 'Hours', cost: '₹ (lowest)', fit: 'Tier 3 — can wait' },
+  { strategy: 'Pilot light', rto: '1 – 4 hours', rpo: 'Minutes', cost: '₹₹', fit: 'Tier 2' },
+  { strategy: 'Warm standby', rto: 'Minutes – 1 hour', rpo: 'Seconds – minutes', cost: '₹₹₹', fit: 'Tier 1' },
+  { strategy: 'Active-active', rto: 'Near zero', rpo: 'Near zero', cost: '₹₹₹₹ (highest)', fit: 'Tier 0 — must not stop' },
+]
+export interface Dr { appId: string; strategy: DrStrategy; rtoTargetH: number; rtoTestedH: number | null; rpoTargetMin: number; rpoTestedMin: number | null; lastDrill: string | null; result: 'Pass' | 'Partial' | 'Fail' | 'Not tested'; nextDrill: string; overdue: boolean; proposed?: Improvement }
+export const dr: Record<DomainId, Dr[]> = {
+  banking: [
+    { appId: 'BNK-APP-01', strategy: 'Warm standby', rtoTargetH: 2, rtoTestedH: 3.5, rpoTargetMin: 5, rpoTestedMin: 4, lastDrill: '12 Jul', result: 'Partial', nextDrill: '12 Oct', overdue: false, proposed: imp('Warm standby; tested RTO 3.5 h', 'Active-active for accounts & payments', 6, 'Feasibility', 'Pankaj') },
+    { appId: 'BNK-APP-02', strategy: 'Active-active', rtoTargetH: 0.25, rtoTestedH: 0.2, rpoTargetMin: 0, rpoTestedMin: 0, lastDrill: '04 Sep', result: 'Pass', nextDrill: '04 Dec', overdue: false },
+    { appId: 'BNK-APP-03', strategy: 'Warm standby', rtoTargetH: 1, rtoTestedH: 0.8, rpoTargetMin: 15, rpoTestedMin: 10, lastDrill: '20 Aug', result: 'Pass', nextDrill: '20 Nov', overdue: false },
+    { appId: 'BNK-APP-04', strategy: 'Pilot light', rtoTargetH: 2, rtoTestedH: 2.5, rpoTargetMin: 15, rpoTestedMin: 15, lastDrill: '18 Mar', result: 'Pass', nextDrill: '18 Sep', overdue: true },
+    { appId: 'BNK-APP-05', strategy: 'Backup & restore', rtoTargetH: 24, rtoTestedH: 16, rpoTargetMin: 240, rpoTestedMin: 180, lastDrill: '02 Jun', result: 'Pass', nextDrill: '02 Dec', overdue: false },
+  ],
+  manufacturing: [
+    { appId: 'MFG-APP-01', strategy: 'Pilot light', rtoTargetH: 4, rtoTestedH: 7, rpoTargetMin: 15, rpoTestedMin: 30, lastDrill: '10 Apr', result: 'Fail', nextDrill: '10 Oct', overdue: false, proposed: imp('Pilot light; failed last drill (7 h)', 'Warm standby in hybrid design (DEC-OPS-001)', 8, 'Pilot', 'Pankaj') },
+    { appId: 'MFG-APP-02', strategy: 'Warm standby', rtoTargetH: 1, rtoTestedH: null, rpoTargetMin: 5, rpoTestedMin: null, lastDrill: null, result: 'Not tested', nextDrill: '30 Oct', overdue: true, proposed: imp('Standby built, never tested', 'First DR drill per plant, then quarterly', 9, 'Proposed', 'Pankaj') },
+    { appId: 'MFG-APP-03', strategy: 'Backup & restore', rtoTargetH: 8, rtoTestedH: 6, rpoTargetMin: 60, rpoTestedMin: 60, lastDrill: '15 Jul', result: 'Pass', nextDrill: '15 Jan', overdue: false, proposed: imp('Single data centre', 'Warm standby for dispatch', 6, 'Feasibility', 'Pankaj') },
+    { appId: 'MFG-APP-04', strategy: 'Backup & restore', rtoTargetH: 24, rtoTestedH: null, rpoTargetMin: 240, rpoTestedMin: null, lastDrill: null, result: 'Not tested', nextDrill: 'Vendor-run', overdue: true },
+    { appId: 'MFG-APP-05', strategy: 'Backup & restore', rtoTargetH: 24, rtoTestedH: 12, rpoTargetMin: 240, rpoTestedMin: 120, lastDrill: '22 May', result: 'Pass', nextDrill: '22 Nov', overdue: false },
+  ],
+  retail: [
+    { appId: 'RTL-APP-01', strategy: 'Active-active', rtoTargetH: 0.25, rtoTestedH: 0.5, rpoTargetMin: 0, rpoTestedMin: 1, lastDrill: '01 Sep', result: 'Partial', nextDrill: '15 Oct', overdue: false, proposed: imp('Second region lags 30 min on failover', 'Automated failover runbook before Diwali', 8, 'Pilot', 'Pankaj') },
+    { appId: 'RTL-APP-02', strategy: 'Pilot light', rtoTargetH: 1, rtoTestedH: 0.5, rpoTargetMin: 15, rpoTestedMin: 5, lastDrill: '09 Sep', result: 'Pass', nextDrill: '09 Dec', overdue: false },
+    { appId: 'RTL-APP-03', strategy: 'Active-active', rtoTargetH: 0.25, rtoTestedH: 0.1, rpoTargetMin: 0, rpoTestedMin: 0, lastDrill: '20 Aug', result: 'Pass', nextDrill: '20 Nov', overdue: false },
+    { appId: 'RTL-APP-04', strategy: 'Warm standby', rtoTargetH: 1, rtoTestedH: 1.5, rpoTargetMin: 15, rpoTestedMin: 15, lastDrill: '30 Jun', result: 'Partial', nextDrill: '30 Sep', overdue: true },
+    { appId: 'RTL-APP-05', strategy: 'Backup & restore', rtoTargetH: 24, rtoTestedH: 10, rpoTargetMin: 240, rpoTestedMin: 120, lastDrill: '11 Apr', result: 'Pass', nextDrill: '11 Oct', overdue: false },
+  ],
+}
+export function drStatus(x: Dr, tier: number): { health: AppHealth; reasons: string[] } {
+  const reasons: string[] = []
+  let health = 'Healthy' as AppHealth
+  const red = (r: string) => { reasons.push(r); health = 'Critical' }
+  const amber = (r: string) => { reasons.push(r); if (health === 'Healthy') health = 'Degraded' }
+  if (x.result === 'Not tested') { if (tier <= 1) red('never tested (Tier ' + tier + ')'); else amber('never tested') }
+  if (x.result === 'Fail') red('last drill failed')
+  if (x.rtoTestedH !== null && x.rtoTestedH > x.rtoTargetH) red(`tested RTO ${x.rtoTestedH} h vs ${x.rtoTargetH} h target`)
+  if (x.rpoTestedMin !== null && x.rpoTestedMin > x.rpoTargetMin) amber(`tested RPO ${x.rpoTestedMin} min vs ${x.rpoTargetMin} min`)
+  if (x.result === 'Partial') amber('last drill partially passed')
+  if (x.overdue) amber('drill overdue')
+  return { health, reasons }
+}
+export interface Bcp { process: string; tier: 0 | 1 | 2 | 3; alternate: string; workaround: string; plan: 'Approved' | 'Draft' | 'Missing'; lastExercise: string | null; owner: string }
+export const bcp: Record<DomainId, Bcp[]> = {
+  banking: [
+    { process: 'Payments & settlements', tier: 0, alternate: 'DR site, Chennai', workaround: 'Manual RTGS via correspondent bank', plan: 'Approved', lastExercise: 'Jul', owner: 'Head of Operations' },
+    { process: 'Branch banking', tier: 1, alternate: 'Nearest branch', workaround: 'Offline teller limits', plan: 'Approved', lastExercise: 'Aug', owner: 'Branch network head' },
+    { process: 'Customer contact centre', tier: 1, alternate: 'Work from home', workaround: 'IVR self-service', plan: 'Approved', lastExercise: 'Jun', owner: 'Service head' },
+    { process: 'Regulatory reporting', tier: 2, alternate: 'DR site', workaround: 'Manual submission', plan: 'Draft', lastExercise: null, owner: 'Compliance head' },
+  ],
+  manufacturing: [
+    { process: 'Production (4 plants)', tier: 0, alternate: 'Shift load across plants', workaround: 'Paper job cards for 24 h', plan: 'Approved', lastExercise: 'May', owner: 'COO' },
+    { process: 'Dispatch & logistics', tier: 1, alternate: 'Plant 4 warehouse', workaround: 'Manual dispatch notes', plan: 'Draft', lastExercise: null, owner: 'Logistics head' },
+    { process: 'Procurement', tier: 2, alternate: 'Email ordering', workaround: 'Pre-approved emergency suppliers', plan: 'Missing', lastExercise: null, owner: 'Procurement head' },
+    { process: 'Month-end close', tier: 1, alternate: 'Extended close window', workaround: 'Provisional close from ledgers', plan: 'Approved', lastExercise: 'Mar', owner: 'CFO office' },
+  ],
+  retail: [
+    { process: 'Store sales', tier: 0, alternate: 'POS offline mode', workaround: 'Offline card terminals', plan: 'Approved', lastExercise: 'Sep', owner: 'Head of stores' },
+    { process: 'Online sales', tier: 0, alternate: 'Second cloud region', workaround: 'Maintenance page + app orders', plan: 'Approved', lastExercise: 'Sep', owner: 'Head of e-commerce' },
+    { process: 'Fulfilment', tier: 1, alternate: 'Bengaluru DC', workaround: 'Manual pick lists', plan: 'Draft', lastExercise: null, owner: 'Warehouse ops head' },
+    { process: 'Customer care', tier: 2, alternate: 'Outsourced partner', workaround: 'Chatbot FAQ', plan: 'Approved', lastExercise: 'Jul', owner: 'Customer care head' },
+  ],
+}
+
+// ── Customer: CSAT & feedback loop ───────────────────────────────────────
+export interface Customer {
+  trend: { month: string; csat: number; nps: number; complaints: number }[]
+  ces: number // customer effort score (1–7, lower is better)
+  channels: { channel: string; share: number; csat: number }[]
+  themes: { theme: string; share: number; linkedApp?: string }[]
+  loop: { received: number; ticketed: number; rootCaused: number; fixed: number; informed: number }
+  insight: string
+  improvements: (Improvement & { name: string })[]
+}
+export const customer: Record<DomainId, Customer> = {
+  banking: {
+    trend: [{ month: 'May', csat: 81, nps: 34, complaints: 2100 }, { month: 'Jun', csat: 82, nps: 36, complaints: 1980 }, { month: 'Jul', csat: 80, nps: 33, complaints: 2260 }, { month: 'Aug', csat: 77, nps: 29, complaints: 2710 }, { month: 'Sep', csat: 78, nps: 30, complaints: 2540 }, { month: 'Oct', csat: 79, nps: 31, complaints: 820 }],
+    ces: 3.4,
+    channels: [{ channel: 'Mobile app survey', share: 46, csat: 82 }, { channel: 'IVR after call', share: 22, csat: 74 }, { channel: 'Branch tablet', share: 14, csat: 85 }, { channel: 'Email / web form', share: 12, csat: 71 }, { channel: 'Social media', share: 6, csat: 58 }],
+    themes: [{ theme: 'UPI failures / timeouts', share: 31, linkedApp: 'UPI switch' }, { theme: 'Month-end balance delays', share: 18, linkedApp: 'Core banking (CBS)' }, { theme: 'ATM out of service', share: 14, linkedApp: 'ATM switch' }, { theme: 'Loan status visibility', share: 11 }, { theme: 'Branch wait time', share: 9 }],
+    loop: { received: 9600, ticketed: 9100, rootCaused: 6200, fixed: 5100, informed: 4300 },
+    insight: 'CSAT fell 3 points in August — the month UPI had 4 P2s at salary-day peak.',
+    improvements: [{ name: 'Proactive outage SMS', current: 'Customers learn of outages by failing', proposed: 'Auto-SMS when a critical app degrades', feasibility: 9, stage: 'Pilot', owner: 'Suman' }],
+  },
+  manufacturing: {
+    trend: [{ month: 'May', csat: 74, nps: 22, complaints: 140 }, { month: 'Jun', csat: 75, nps: 24, complaints: 128 }, { month: 'Jul', csat: 76, nps: 25, complaints: 120 }, { month: 'Aug', csat: 70, nps: 18, complaints: 188 }, { month: 'Sep', csat: 72, nps: 20, complaints: 165 }, { month: 'Oct', csat: 73, nps: 21, complaints: 52 }],
+    ces: 3.9,
+    channels: [{ channel: 'B2B portal survey', share: 41, csat: 73 }, { channel: 'Account manager review', share: 33, csat: 78 }, { channel: 'Email', share: 26, csat: 66 }],
+    themes: [{ theme: 'Late dispatch', share: 38, linkedApp: 'SAP ERP' }, { theme: 'Quality defects', share: 24, linkedApp: 'MES' }, { theme: 'Invoice errors', share: 17, linkedApp: 'SAP ERP' }, { theme: 'Order status visibility', share: 12, linkedApp: 'Warehouse management (WMS)' }],
+    loop: { received: 790, ticketed: 760, rootCaused: 540, fixed: 410, informed: 300 },
+    insight: 'B2B CSAT dropped 6 points in August — Line 2 stopped 6 h (HMI malware) and SAP blocked dispatch for 5 h.',
+    improvements: [{ name: 'Order-status portal for B2B customers', current: 'Status by phone / email', proposed: 'Self-service order tracking from SAP + WMS', feasibility: 7, stage: 'Proposed', owner: 'Suman' }],
+  },
+  retail: {
+    trend: [{ month: 'May', csat: 79, nps: 38, complaints: 3400 }, { month: 'Jun', csat: 80, nps: 39, complaints: 3200 }, { month: 'Jul', csat: 81, nps: 41, complaints: 3100 }, { month: 'Aug', csat: 79, nps: 37, complaints: 3600 }, { month: 'Sep', csat: 76, nps: 33, complaints: 4300 }, { month: 'Oct', csat: 77, nps: 34, complaints: 1500 }],
+    ces: 3.1,
+    channels: [{ channel: 'In-app rating', share: 52, csat: 79 }, { channel: 'Post-purchase email', share: 24, csat: 76 }, { channel: 'Store QR survey', share: 15, csat: 83 }, { channel: 'Social media', share: 9, csat: 55 }],
+    themes: [{ theme: 'Checkout errors at sale', share: 29, linkedApp: 'E-commerce platform' }, { theme: 'Order stuck / late', share: 23, linkedApp: 'Order management (OMS)' }, { theme: 'Store billing delays', share: 16, linkedApp: 'Point of sale (POS)' }, { theme: 'Refund time', share: 13 }, { theme: 'Personalised offers not relevant', share: 7, linkedApp: 'Loyalty' }],
+    loop: { received: 21100, ticketed: 18900, rootCaused: 11200, fixed: 8800, informed: 6100 },
+    insight: 'CSAT fell 3 points in September — the e-commerce P1 during the sale preview and 56 POS incidents.',
+    improvements: [{ name: 'Close the loop within 7 days', current: '29 % of feedback gets a reply', proposed: 'Auto-reply + fix status to every customer', feasibility: 8, stage: 'PoC', owner: 'Suman' }],
+  },
+}
+export function customerStatus(c: Customer): { health: AppHealth; reasons: string[] } {
+  const reasons: string[] = []
+  let health = 'Healthy' as AppHealth
+  const peak = Math.max(...c.trend.map((t) => t.csat))
+  const last = c.trend[c.trend.length - 2].csat // last full month
+  if (peak - last >= 5) { health = 'Critical'; reasons.push(`CSAT ${peak - last} points below recent peak`) }
+  else if (peak - last >= 3) { health = 'Degraded'; reasons.push(`CSAT ${peak - last} points below recent peak`) }
+  const closure = Math.round((c.loop.informed / c.loop.received) * 100)
+  if (closure < 60) { reasons.push(`only ${closure}% of feedback closed with the customer`); if (health === 'Healthy') health = 'Degraded' }
+  return { health, reasons }
+}
+
+// ── Vendors & tech support ───────────────────────────────────────────────
+export interface SupportTier { tier: 'L1 service desk' | 'L2 application support' | 'L3 engineering' | 'Vendor'; tickets: number; backlog: number; responseSla: number; resolutionSla: number }
+export interface Vendor { vendor: string; service: string; apps: string; sla: number; risk: 'Low' | 'Medium' | 'High'; spof: boolean; exitPlan: boolean; contractEnd: string }
+export const support: Record<DomainId, SupportTier[]> = {
+  banking: [
+    { tier: 'L1 service desk', tickets: 4200, backlog: 180, responseSla: 97, resolutionSla: 93 },
+    { tier: 'L2 application support', tickets: 1100, backlog: 140, responseSla: 94, resolutionSla: 86 },
+    { tier: 'L3 engineering', tickets: 260, backlog: 70, responseSla: 91, resolutionSla: 78 },
+    { tier: 'Vendor', tickets: 120, backlog: 38, responseSla: 88, resolutionSla: 71 },
+  ],
+  manufacturing: [
+    { tier: 'L1 service desk', tickets: 1900, backlog: 90, responseSla: 95, resolutionSla: 90 },
+    { tier: 'L2 application support', tickets: 640, backlog: 110, responseSla: 89, resolutionSla: 79 },
+    { tier: 'L3 engineering', tickets: 180, backlog: 64, responseSla: 86, resolutionSla: 70 },
+    { tier: 'Vendor', tickets: 95, backlog: 41, responseSla: 79, resolutionSla: 62 },
+  ],
+  retail: [
+    { tier: 'L1 service desk', tickets: 5100, backlog: 260, responseSla: 96, resolutionSla: 91 },
+    { tier: 'L2 application support', tickets: 1300, backlog: 170, responseSla: 92, resolutionSla: 84 },
+    { tier: 'L3 engineering', tickets: 300, backlog: 90, responseSla: 90, resolutionSla: 80 },
+    { tier: 'Vendor', tickets: 140, backlog: 35, responseSla: 93, resolutionSla: 88 },
+  ],
+}
+export const vendors: Record<DomainId, Vendor[]> = {
+  banking: [
+    { vendor: 'Core banking software vendor', service: 'CBS product support', apps: 'Core banking', sla: 92, risk: 'High', spof: true, exitPlan: false, contractEnd: 'Mar 2028' },
+    { vendor: 'Payment switch provider', service: 'UPI / IMPS switch', apps: 'UPI switch', sla: 98, risk: 'Medium', spof: true, exitPlan: true, contractEnd: 'Dec 2027' },
+    { vendor: 'ATM managed service', service: 'ATM operations', apps: 'ATM switch', sla: 95, risk: 'Medium', spof: false, exitPlan: true, contractEnd: 'Jun 2027' },
+    { vendor: 'Cloud provider', service: 'DR + digital channels', apps: 'Internet banking', sla: 99.9, risk: 'Low', spof: false, exitPlan: true, contractEnd: 'Aug 2028' },
+  ],
+  manufacturing: [
+    { vendor: 'SAP support partner', service: 'ERP basis & functional', apps: 'SAP ERP', sla: 88, risk: 'High', spof: true, exitPlan: false, contractEnd: 'Jan 2027' },
+    { vendor: 'MES vendor', service: 'MES product support', apps: 'MES', sla: 93, risk: 'Medium', spof: true, exitPlan: false, contractEnd: 'Sep 2028' },
+    { vendor: 'Supplier portal SaaS', service: 'SCM portal hosting', apps: 'Supplier portal (SCM)', sla: 90, risk: 'High', spof: true, exitPlan: false, contractEnd: 'Apr 2027' },
+    { vendor: 'Logistics partner IT', service: 'Carrier integration', apps: 'WMS', sla: 96, risk: 'Low', spof: false, exitPlan: true, contractEnd: 'Dec 2026' },
+  ],
+  retail: [
+    { vendor: 'E-commerce platform SaaS', service: 'Storefront & checkout', apps: 'E-commerce platform', sla: 99.9, risk: 'Medium', spof: true, exitPlan: true, contractEnd: 'Feb 2028' },
+    { vendor: 'Payment acquirer', service: 'Card & UPI acquiring', apps: 'Payment gateway', sla: 99.95, risk: 'High', spof: true, exitPlan: false, contractEnd: 'Nov 2027' },
+    { vendor: 'POS hardware & support', service: 'Store terminals', apps: 'POS', sla: 94, risk: 'Medium', spof: false, exitPlan: true, contractEnd: 'Jul 2027' },
+    { vendor: '3PL warehouse partner', service: 'Fulfilment systems', apps: 'OMS', sla: 95, risk: 'Medium', spof: false, exitPlan: true, contractEnd: 'Mar 2027' },
+  ],
+}
+export function vendorStatus(v: Vendor): { health: AppHealth; reasons: string[] } {
+  const reasons: string[] = []
+  let health = 'Healthy' as AppHealth
+  if (v.spof && !v.exitPlan) { health = 'Critical'; reasons.push('single point of failure with no exit plan') }
+  if (v.sla < 95) { reasons.push(`SLA ${v.sla}% (< 95%)`); if (health === 'Healthy') health = 'Degraded' }
+  if (v.risk === 'High' && health === 'Healthy') { health = 'Degraded'; reasons.push('high vendor risk') }
+  return { health, reasons }
+}
+
+// ── End of life ──────────────────────────────────────────────────────────
+export type EolDecision = 'Upgrade' | 'Replace' | 'Retire' | 'Extended support' | 'Risk accepted' | 'Undecided'
+export interface Eol { item: string; type: 'Operating system' | 'Database' | 'Middleware' | 'Hardware' | 'Application'; version: string; endOfSupport: string; monthsLeft: number; apps: string; decision: EolDecision; exceptionExpiry?: string; appOwner: string; stage: Stage }
+export const eol: Record<DomainId, Eol[]> = {
+  banking: [
+    { item: 'Core banking database', type: 'Database', version: 'v12', endOfSupport: 'Jul 2026', monthsLeft: -3, apps: 'Core banking', decision: 'Extended support', exceptionExpiry: 'Jan 2027', appOwner: 'Head of IT Ops', stage: 'Pilot' },
+    { item: 'Branch desktops OS', type: 'Operating system', version: 'Desktop OS (old)', endOfSupport: 'Oct 2025', monthsLeft: -12, apps: '1,240 branch PCs', decision: 'Upgrade', appOwner: 'End-user computing head', stage: 'Scale' },
+    { item: 'ATM operating system', type: 'Operating system', version: 'Embedded OS (old)', endOfSupport: 'Jan 2027', monthsLeft: 3, apps: 'ATM switch', decision: 'Undecided', appOwner: 'Channels ops lead', stage: 'Current' },
+    { item: 'Integration middleware', type: 'Middleware', version: 'v9', endOfSupport: 'Dec 2027', monthsLeft: 14, apps: 'Internet banking, UPI', decision: 'Upgrade', appOwner: 'Integration lead', stage: 'Proposed' },
+  ],
+  manufacturing: [
+    { item: 'SAP ERP (current release)', type: 'Application', version: 'ECC 6.0', endOfSupport: 'Dec 2027', monthsLeft: 14, apps: 'SAP ERP', decision: 'Replace', appOwner: 'SAP basis lead', stage: 'Feasibility' },
+    { item: 'Plant HMI PCs', type: 'Operating system', version: 'Legacy embedded OS', endOfSupport: 'Jan 2020', monthsLeft: -69, apps: 'MES, 4 plants', decision: 'Risk accepted', exceptionExpiry: 'Expired Jun 2026', appOwner: 'Plant IT manager', stage: 'Current' },
+    { item: 'MES database server', type: 'Hardware', version: 'Gen 8 servers', endOfSupport: 'Mar 2027', monthsLeft: 5, apps: 'MES', decision: 'Undecided', appOwner: 'MES lead', stage: 'Current' },
+    { item: 'Quality system', type: 'Application', version: 'v4.2', endOfSupport: 'Dec 2028', monthsLeft: 26, apps: 'Quality system', decision: 'Upgrade', appOwner: 'Quality IT lead', stage: 'Proposed' },
+  ],
+  retail: [
+    { item: 'Store POS terminals', type: 'Hardware', version: 'Model 2017', endOfSupport: 'Jun 2026', monthsLeft: -4, apps: 'POS, 140 stores', decision: 'Replace', appOwner: 'Store systems lead', stage: 'Pilot' },
+    { item: 'OMS application server', type: 'Middleware', version: 'v8', endOfSupport: 'Feb 2027', monthsLeft: 4, apps: 'Order management', decision: 'Upgrade', appOwner: 'Retail systems lead', stage: 'PoC' },
+    { item: 'Loyalty database', type: 'Database', version: 'v11', endOfSupport: 'Nov 2027', monthsLeft: 13, apps: 'Loyalty', decision: 'Undecided', appOwner: 'Loyalty manager', stage: 'Current' },
+  ],
+}
+export function eolStatus(e: Eol): { health: AppHealth; reasons: string[] } {
+  if (e.monthsLeft < 0 && (e.decision === 'Risk accepted' && e.exceptionExpiry?.startsWith('Expired'))) return { health: 'Critical', reasons: ['past end of support; risk exception expired'] }
+  if (e.monthsLeft < 0 && !['Extended support', 'Upgrade', 'Replace', 'Retire'].includes(e.decision)) return { health: 'Critical', reasons: ['past end of support with no plan'] }
+  if (e.monthsLeft < 0) return { health: 'Degraded', reasons: ['past end of support; remediation in progress'] }
+  if (e.monthsLeft <= 6 && e.decision === 'Undecided') return { health: 'Critical', reasons: [`${e.monthsLeft} months to end of support and no decision`] }
+  if (e.monthsLeft <= 12 && e.decision === 'Undecided') return { health: 'Degraded', reasons: ['under 12 months and no decision'] }
+  return { health: 'Healthy', reasons: [] }
+}
+export const eolRaci = [
+  { role: 'Application owner', does: 'Accountable for the decision and the deadline' },
+  { role: 'IT asset manager', does: 'Tracks dates; alerts at 12, 6 and 3 months' },
+  { role: 'Enterprise architect', does: 'Proposes the replacement or upgrade path' },
+  { role: 'CISO (Vaibhav)', does: 'Approves a time-limited security exception if late' },
+  { role: 'Finance (Santhosh)', does: 'Funds the upgrade or replacement' },
+]

@@ -15,6 +15,9 @@ import Innovation from './pages/Innovation'
 import Tedif from './pages/Tedif'
 import DomainView from './pages/DomainView'
 import TrackerPortfolio from './pages/TrackerPortfolio'
+import Engineering from './pages/Engineering'
+import RiskRegister from './pages/RiskRegister'
+import AiInsights from './pages/AiInsights'
 import TrackerDim from './pages/TrackerDim'
 import Coverage from './pages/cto/Coverage'
 import Business from './pages/cto/Business'
@@ -48,6 +51,9 @@ export default function App() {
             <Route path="tedif" element={<Tedif />} />
             <Route path="domain/:id" element={<DomainView />} />
             <Route path="tracker" element={<TrackerPortfolio />} />
+            <Route path="engineering" element={<Engineering />} />
+            <Route path="risk" element={<RiskRegister />} />
+            <Route path="ai" element={<AiInsights />} />
             <Route path="tracker/:dim" element={<TrackerDim />} />
             <Route path="cto/coverage" element={<Coverage />} />
             <Route path="cto/business" element={<Business />} />

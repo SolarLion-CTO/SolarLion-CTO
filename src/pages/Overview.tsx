@@ -4,6 +4,7 @@ import { Activity, Bot, DollarSign, Gauge, Gavel, ShieldCheck, Sparkles, Trendin
 import { areaOwner, areas, domainOrder, domains, overallScore, plannedDomains } from '../data/domains'
 import { useStore } from '../store'
 import { gateState } from '../data/tedif'
+import ExecSummary from './overview/ExecSummary'
 import { Badge, Card, Kpi, PageHeader, Ring, money } from '../components/ui'
 
 const heat = (v: number) => (v >= 75 ? 'bg-seq-550 text-white' : v >= 55 ? 'bg-seq-400 text-white' : v >= 45 ? 'bg-seq-250 text-ink' : 'bg-seq-100 text-ink')
@@ -25,7 +26,9 @@ export default function Overview() {
 
   return (
     <>
-      <PageHeader title="Executive Overview" subtitle={`${domain.name} · ${domain.tagline}${domain.configuredOnly ? ' · domain pack added by configuration only' : ''}`} />
+      <PageHeader title="Executive Overview" subtitle={`${domain.name} — what is happening, why it matters, and what needs a decision`} />
+      <ExecSummary />
+      <h2 className="text-xl font-semibold text-ink mb-4 pt-2 border-t border-line">Detail</h2>
 
       {realisedCr > 0 && (
         <div className="mb-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-2 text-sm text-emerald-800 flex items-center gap-2">

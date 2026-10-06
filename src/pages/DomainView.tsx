@@ -8,15 +8,23 @@ import type { Track } from '../data/cascade'
 import { summary } from '../data/tedif'
 import { useStore } from '../store'
 import { Badge, Bar, money } from '../components/ui'
-import { apps, assess, cyber, cyberStatus, losses, lossTotal } from '../data/resilience'
+import { apps, assess, customer, customerStatus, cyber, cyberStatus, dr, drStatus, eol, eolStatus, losses, lossTotal, vendorStatus, vendors } from '../data/resilience'
 import AppsTab from './domain/AppsTab'
 import CyberTab from './domain/CyberTab'
 import PnlTab from './domain/PnlTab'
+import DrTab from './domain/DrTab'
+import CustomerTab from './domain/CustomerTab'
+import VendorsTab from './domain/VendorsTab'
+import EolTab from './domain/EolTab'
 
 const TABS = [
   { key: 'overview', label: 'Overview' },
   { key: 'apps', label: 'Applications & incidents' },
   { key: 'cyber', label: 'Cyber security' },
+  { key: 'dr', label: 'DR & continuity' },
+  { key: 'customer', label: 'Customer' },
+  { key: 'vendors', label: 'Vendors & support' },
+  { key: 'eol', label: 'End of life' },
   { key: 'pnl', label: 'Business impact (P&L)' },
 ] as const
 
@@ -55,9 +63,17 @@ export default function DomainView() {
   const highApps = appRows.filter((x) => x.r.priority === 'High')
   const cy = cyberStatus(cyber[domainId])
   const lossL = losses[domainId].reduce((sum, l) => sum + lossTotal(l), 0)
+  const drCrit = dr[domainId].filter((x) => drStatus(x, apps[domainId].find((a) => a.id === x.appId)!.tier).health === 'Critical')
+  const vendorCrit = vendors[domainId].filter((v) => vendorStatus(v).health === 'Critical')
+  const eolCrit = eol[domainId].filter((e) => eolStatus(e).health === 'Critical')
+  const cust = customerStatus(customer[domainId])
   const tabBadge: Record<string, string> = {
     apps: `${appRows.filter((x) => x.r.health === 'Critical').length} critical`,
     cyber: cy.health,
+    dr: `${drCrit.length} critical`,
+    customer: cust.health,
+    vendors: `${vendorCrit.length} critical`,
+    eol: `${eolCrit.length} critical`,
     pnl: `₹${lossL} L`,
   }
 
@@ -101,6 +117,10 @@ export default function DomainView() {
       {tab === 'apps' && <AppsTab domainId={domainId} />}
       {tab === 'cyber' && <CyberTab domainId={domainId} />}
       {tab === 'pnl' && <PnlTab domainId={domainId} />}
+      {tab === 'dr' && <DrTab domainId={domainId} />}
+      {tab === 'customer' && <CustomerTab domainId={domainId} />}
+      {tab === 'vendors' && <VendorsTab domainId={domainId} />}
+      {tab === 'eol' && <EolTab domainId={domainId} />}
 
       {tab === 'overview' && (<>
       {/* Level 1 — CTO */}
@@ -239,6 +259,16 @@ export default function DomainView() {
                 </ul>
               </div>
             )}
+            {[
+              ...drCrit.map((x) => ({ key: 'dr', label: `DR · ${apps[domainId].find((a) => a.id === x.appId)!.name}`, why: drStatus(x, apps[domainId].find((a) => a.id === x.appId)!.tier).reasons.slice(0, 2).join(' · ') })),
+              ...vendorCrit.map((v) => ({ key: 'vendors', label: `Vendor · ${v.vendor}`, why: vendorStatus(v).reasons.join(' · ') })),
+              ...eolCrit.map((e) => ({ key: 'eol', label: `End of life · ${e.item}`, why: eolStatus(e).reasons.join(' · ') })),
+            ].map((x) => (
+              <div key={x.label} className="mt-3 border-l-2 border-red-500 pl-3 text-sm">
+                <button onClick={() => setParams({ tab: x.key })} className="font-semibold text-left hover:underline">{x.label}</button>
+                <div className="text-xs text-ink-3">{x.why}</div>
+              </div>
+            ))}
             {cy.health !== 'Healthy' && (
               <div className="mt-3 border-l-2 border-red-500 pl-3 text-sm">
                 <button onClick={() => setParams({ tab: 'cyber' })} className="font-semibold text-left hover:underline">Cyber security · {cy.health}</button>
