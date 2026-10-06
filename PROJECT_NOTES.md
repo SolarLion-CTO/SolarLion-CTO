@@ -710,3 +710,30 @@ Close on the line: "Tools see functions; CTO360 connects them into decisions."
 4. Is the CTO-owned vs Signal split of the 16 functions (23.2 point 1) acceptable?
 5. Keep the TEDIF, programme tracker and 11 CTO pages as a separate "Programme & framework" sidebar group? (Recommended: yes.)
 
+### 23.8 Navigation decision: 3 domains × 16 functions × 7 sources (recommended, 6 Oct 2026)
+- **Not 16 separate hand-built pages, and not all 16 crammed onto the domain page.** Use a 3-level layout:
+  1. **Domain page** `/domain/:id`: Executive 360 + 16-row heatmap + 16 compact function cards (score, 1 key metric, sparkline, status, owner). This is a summary only.
+  2. **Function page** `/domain/:id/fn/:fn`: ONE template component, so it is effectively 48 pages from one file. Clicking a card or heatmap row opens it. It has prev / next function arrows and a "back to domain" link that keeps the context.
+  3. **Record page** `/domain/:id/record/:recordId`: app, service, team, risk and so on, with its relationships and source.
+- **Sidebar:** do not list 16 × 3 items. The domain is picked in the header switcher. The sidebar shows **Command Center · Domain overview · Functions (16, grouped CTO-owned / Signals) · Decisions · Actions · Outcomes · Data sources · Programme & framework**. The function links follow the selected domain.
+- **The 7 sources are not navigation.** They appear (a) as "Simulated Source: X · synced 2 min ago" panels inside the functions they feed, and (b) on `/sources`: one card per source showing records held, last sync, events in the last hour and a live event feed.
+- **Source → function map:**
+
+| Source | Functions it feeds |
+|---|---|
+| Planview | Strategy, Finance (investment), Product & Innovation |
+| LeanIX | Enterprise Architecture, Technology |
+| Celonis / Signavio | Operations, CX & Service |
+| ServiceNow SPM | Strategy (execution), Technology, Procurement |
+| Jellyfish | Engineering & R&D |
+| Datadog | Technology, CX (availability) |
+| Vanta | Cybersecurity, Risk & Compliance, Legal |
+| Synthetic business data, no tool named | Sales, Marketing, HR, Data & AI |
+
+- **"Real-time" simulation:**
+  - A simulated clock in `src/data/sim/clock.ts` ticks every 5–10 s. It emits deterministic, seeded events: a deploy, an incident opened or resolved, a control test passing or failing, a spend posting, a process exception.
+  - Each event updates the affected metric, so the "updated X min ago" text and the sparkline move.
+  - The header shows "● Simulation live" with Pause / Reset.
+  - Events follow the data rules (an incident on SVC-BNK-011 lowers its availability, the Technology score, and the related decision confidence).
+  - Never labelled "live data"; always "simulated".
+
