@@ -15,7 +15,9 @@
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
-- **NEXT BUILD (agreed direction):** the Enterprise Source-System Simulation. Spec: `docs/SIMULATION_SPEC.md`. Plan, build order and rules: **section 22**. Start with Sprint S1.
+- **NEXT BUILD (agreed direction):** two specs merged into one plan, **section 23** (this supersedes the build order in section 22).
+  - Specs: `docs/SIMULATION_SPEC.md` (7 tool layers, canonical model, decisions → actions → outcomes) and `docs/ENTERPRISE360_SPEC.md` (16 enterprise functions per domain, heatmap, Top 10 decisions, maturity).
+  - Start with sprint M1 and answer the open questions in 23.7 first.
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
@@ -608,4 +610,103 @@ Each industry view (sidebar → Executive Overview → Banking / Manufacturing /
 1. Replace the current `/` Executive Overview with the Command Center? (Recommended: yes. The current overview content moves to the domain Overview.)
 2. Build all 3 domains fully, or Banking fully plus the other two at lower data volume? (Recommended: all 3 at about 70% of the spec volume.)
 3. Keep the Decision approvals in localStorage only (fine for the demo) until the Python API / live AI phase?
+
+---
+
+## 23. Merged plan: Simulation (spec 1) + Enterprise 360 (spec 2), 6 Oct 2026, not started
+
+### 23.1 How the two specs fit together
+They are not two products; they are **two axes of one model**:
+
+| Axis | What it is | Example |
+|---|---|---|
+| **16 enterprise functions** (spec 2) | *What* the CTO looks at: the business context | Finance, Sales, HR, Cyber, Data & AI |
+| **7 source layers** (spec 1) | *Where the signal comes from* (simulated) | Planview, LeanIX, Datadog, Vanta |
+| **3 domains** | *Which business* | Banking, Manufacturing, Retail |
+
+Every metric = function × domain × source, held as one record in the canonical model. Decisions correlate metrics across functions. This keeps the site one framework instead of 16 + 7 dashboards.
+
+### 23.2 Overall changes to make (the recommendation)
+1. **Split the 16 functions into two clear classes, shown visually:**
+   - **CTO-owned (deep, 6):** Technology · Enterprise Architecture · Engineering & R&D · Data & AI · Cybersecurity (co-owned with the CISO) · Product & Innovation (co-owned with the CPO). Each gets a full dashboard with drill-down to records (apps, services, teams, use cases).
+   - **Signal functions (lighter, 10):** Corporate Strategy · Finance · Operations · Sales · Marketing · CX & Service · HR · Risk & Compliance · Legal · Procurement & Vendors. Each gets one standard dashboard: KPIs + trend + "technology impact on this function" + dependencies.
+   - A label on every card: "CTO-owned" vs "Signal to CTO · owner CFO". This answers the rule "do not replace CXO systems".
+2. **One reusable Function Dashboard template, driven by data.** One React component renders all 16 functions × 3 domains, using config: metrics list, chart types, CTO question, owner, source. Building 48 hand-made pages would be impossible in the time and inconsistent.
+3. **One Metric object everywhere** (spec 2 §8):
+   - Fields: `{id, name, unit, current, target, previous, direction (higher/lower is better), owner, source, updated, series[12 months], forecast[3]}`.
+   - Status (G/A/R) and variance are **calculated** from target and direction (for example, Green within 2% of target, Amber within 10%, Red otherwise; tunable per metric).
+   - The UI component `MetricCard` always shows current · target · variance · trend sparkline · status · owner · updated. No number appears without context.
+4. **Scores roll up, never typed:** metric → function health (7 heatmap columns: Strategy, Performance, Cost, Technology, Risk, Transformation, Overall) → domain health → enterprise health. The 14 executive scores in spec 2 §2 are named roll-ups of these. Show **6 large + 8 compact** cards, not 14 large ones; 14 large cards fail the "5-second" rule.
+5. **Domain page structure (new):**
+   - **Executive 360** (top): 6 large + 8 compact KPI cards, 12-month trend.
+   - **Enterprise health heatmap:** 16 rows × 7 columns; click a row to open the function.
+   - **16 function cards**, grouped as CTO-owned and Signals.
+   - **Cross-functional intelligence:** correlated insights with evidence.
+   - **Decision Center Top 10:** shared with spec 1's decision cards; one engine.
+   - **Maturity:** levels 1–5 per technology management area, current → target, gap. Note: "not a CMMI assessment".
+   - **Existing tabs** (apps, cyber, DR, customer, vendors, EOL, P&L) stay, re-homed: Apps / DR → Technology; Cyber → Cybersecurity; Customer → CX; Vendors → Procurement; EOL → Enterprise Architecture; P&L → Finance. Nothing is lost.
+6. **Route plan:**
+   - `/`: Enterprise Command Center (cross-domain).
+   - `/domain/:id`: Executive 360.
+   - `/domain/:id/fn/:function`: the function dashboard.
+   - `/domain/:id/record/:recordId`: drill-down record with relationships and source.
+   - `/decisions` (Top 10 + engine).
+   - `/actions`, `/outcomes`, `/sources`.
+   - The current sidebar groups shrink: Strategy / Architecture / etc. become function links inside the domain. TEDIF, the tracker and the CTO pages stay under "Programme & framework".
+7. **Decision engine** (one for both specs): rules over linked records produce a card when ≥ 3 functions or layers show exceptions on one chain.
+   - Fields: why now, business / technology / financial impact (₹ from Finance metrics), risk, recommendation, executive owner, confidence, deadline, status.
+   - Approve → Actions → Outcomes (baseline / target / current / variance).
+   - Each domain has 3 hand-written stories (spec 1 §21), and those become the top decisions.
+8. **Data volume:**
+   - Each domain has 16 functions with about 6–8 metrics, so about 110 metrics, each with 12 months of history. Spec 1's records (apps, services, teams and so on) add about 200 more per domain.
+   - Generate with a **seeded** generator around hand-written story anchors, then run a **validation script** (relationships resolve, budgets reconcile, % in range, series end at current, statuses match). Expect about 70% of the spec volume per domain to keep it buildable.
+9. **Visual rules (spec 2 §9–10)** fit the existing design system:
+   - Line / area for trends, bars for comparison, donut only for composition, heatmaps for risk and maturity, and at most 1–2 gauges per page.
+   - G / A / R uses the existing ok / warn / crit tokens with an icon and label, never colour alone. No vendor colours.
+   - About 70% visual.
+10. **Wording rules:** "Simulated Source: X" or "X-style signal". Never "connected", "integrated" or "partner". No vendor logos. Maturity is "management visualisation, not certification". The `/sources` banner says no live integrations.
+
+### 23.3 What to keep, change or remove from today's site
+- **Keep:** the design system, CTO360 shell, TEDIF tracker, programme tracker, CTO pages (as the framework section), resilience rules in `resilience.ts`, and the overflow-test tooling.
+- **Change:**
+  - `/` becomes the Command Center.
+  - Domain pages become Executive 360 + functions.
+  - `/risk`, `/ai` and `/engineering` are rebuilt on the canonical model. `/ai` merges into Cross-functional intelligence; `/engineering` becomes the Engineering & R&D function.
+- **Remove later (only after the replacement exists):** the duplicate KPI blocks in the old Overview "Detail" section.
+
+### 23.4 Build order (supersedes section 22)
+| Sprint | Scope | Result |
+|---|---|---|
+| **M1 Foundation** | `src/data/sim/`: `model.ts` (Metric, Function, entities, IDs), `functions.ts` (16 definitions: owner, class, CTO question, metric templates, source), seeded generator, Banking data, `scores.ts`, validation script | Data is correct before any UI |
+| **M2 Metric UI** | `MetricCard`, `Sparkline`, `Heatmap`, `Funnel`, `RiskMatrix`, `TimeRange` (30d / Q / 6m / 12m) components | Reusable visuals |
+| **M3 Domain Executive 360** | KPI cards, 16-row heatmap, function cards, Function Dashboard template, existing tabs re-homed | Banking complete, then Manufacturing and Retail data |
+| **M4 Deep CTO functions** | EA (capability heatmap, app matrix, dependency drill-down), Engineering (DORA), Technology / Ops (services, incidents), Data & AI, Cyber, Risk & Compliance (controls) | Spec 1 layers covered |
+| **M5 Intelligence** | Correlation rules, cross-functional insights, Decision Center Top 10, Actions, Outcomes, Evidence panel, maturity view | The differentiator |
+| **M6 Command Center** | Cross-domain `/`, domain comparison, `/sources`, notes, overflow check on all routes, commit | Demo-ready |
+
+Each sprint ends deployable. Rough effort: M1–M3 about 1.5 days, M4–M6 about 1.5–2 days.
+
+### 23.5 Demo story (3–5 minutes)
+1. Command Center: "Banking needs a decision".
+2. Banking Executive 360: heatmap shows Architecture and Cyber amber/red.
+3. Open the EA function: 3 customer-facing apps on EOL tech, 41% of P1s.
+4. Cross-functional insight: EA + Cyber + Finance + CX evidence.
+5. Decision "Modernise core banking integration layer": ₹8.4 Cr in, ₹13.2 Cr benefit.
+6. Approve → actions.
+7. Outcome tracker showing an earlier approved decision that already delivered (incidents −30%).
+
+Close on the line: "Tools see functions; CTO360 connects them into decisions."
+
+### 23.6 Risks
+- **Scope creep:** 48 function views. The template approach is mandatory, and the 10 signal functions stay light.
+- **Number consistency:** the validation script must pass before each commit.
+- **Executive layer overload:** apply exception over volume; show only Amber/Red on cards by default.
+- **Legal / brand:** wording rules in 23.2 (10).
+
+### 23.7 Open questions (answer at the start of the next session)
+1. Make `/` the cross-domain Command Center? (Recommended: yes.)
+2. Data volume: all 3 domains at about 70% of the spec? (Recommended: yes.)
+3. Approvals and actions in localStorage until the Python API phase? (Recommended: yes.)
+4. Is the CTO-owned vs Signal split of the 16 functions (23.2 point 1) acceptable?
+5. Keep the TEDIF, programme tracker and 11 CTO pages as a separate "Programme & framework" sidebar group? (Recommended: yes.)
 
