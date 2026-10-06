@@ -62,6 +62,8 @@ const toneMap: Record<string, Tone> = {
   Delayed: { cls: crit, icon: '■' }, Gap: { cls: crit, icon: '■' }, Error: { cls: crit, icon: '■' }, Rejected: { cls: crit, icon: '✕' },
   Low: { cls: neutral }, Medium: { cls: warn }, High: { cls: serious }, Critical: { cls: crit, icon: '■' },
   Idle: { cls: neutral }, Training: { cls: info }, Modified: { cls: info, icon: '✎' }, Info: { cls: info },
+  Healthy: { cls: ok, icon: '●' }, Degraded: { cls: warn, icon: '▲' }, Blocked: { cls: ok, icon: '●' }, Contained: { cls: warn, icon: '▲' }, Breach: { cls: crit, icon: '■' },
+  Validated: { cls: ok, icon: '✓' }, Unvalidated: { cls: warn, icon: '▲' },
 }
 
 export function Badge({ children }: { children: string }) {

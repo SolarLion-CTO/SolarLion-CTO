@@ -482,3 +482,22 @@ From the CTO360 UI spec (UI only — no content, routes or features changed):
 Phase 2 (Executive Overview rebuild) and Phase 3 (Engineering, consolidated Risk & Governance, AI Intelligence hub) are **not started** — they add new content, so they need approval first.
 
 **Disk note:** the Mac ran out of disk space on 6 Oct; keep a few GB free for builds and tests.
+
+---
+
+## 20. Operational resilience tabs — Step A (6 Oct 2026)
+
+Each industry view (sidebar → Executive Overview → Banking / Manufacturing / Retail view) now has tabs: **Overview** (existing CTO → ground) · **Applications & incidents** · **Cyber security** · **Business impact (P&L)**. Deep links: `/domain/banking?tab=apps`, `?tab=cyber`, `?tab=pnl`.
+
+**Where to update the figures:** `src/data/resilience.ts` — `apps` (availability, P1–P4 counts, MTTR …), `cyber` (threats, controls, vulnerabilities, events), `losses` (₹ lakh per incident), `prevention` (cost vs loss avoided). Screens: `src/pages/domain/AppsTab.tsx`, `CyberTab.tsx`, `PnlTab.tsx`.
+
+**Rules (status is calculated, never typed):**
+- **Critical:** any P1, availability below target, or 50+ incidents in 30 days.
+- **Degraded:** 3+ P2s, 2+ repeat incidents, MTTR above target, any SLA breach, or 30+ incidents.
+- **Priority = impact × urgency;** an unhealthy app on a critical business service is always **High** and appears in the domain's *Escalations to CTO* panel. Healthy apps are Low.
+- Example: Retail POS has fine availability and no P1, but 56 incidents in 30 days → **Critical / High**.
+- **Cyber:** any breach or a late DPDP report → Critical; EDR < 95 % or critical vulnerability past patch SLA → Degraded. Organised by NIST CSF 2.0 (Govern, Identify, Protect, Detect, Respond, Recover); shows attempts → blocked → contained → not stopped.
+- **P&L:** incident cost = lost revenue + productivity + SLA penalties + fines + recovery + estimated churn; mapped to P&L lines; Finance (Santhosh) validates — unvalidated figures excluded from board reporting. Prevention vs loss-avoided chart = the investment case.
+- Every app and cyber improvement shows **Current → Proposed → Feasibility → PoC → Pilot → Scale** with owner and feasibility score.
+
+**Step B (not started, awaiting go-ahead):** DR & BCP (tiers, RTO/RPO tested vs target, DR options, drills), Customer (CSAT, NPS, closed feedback loop linked to incidents), Vendors & tech support (L1–L3, vendor SLA, supply-chain systems), End of life (EOL register, who owns it, decision options).

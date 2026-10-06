@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { ChevronDown, ChevronRight, Crown, Flag, MapPin, User, Users } from 'lucide-react'
 import { areas, domainOrder, domains } from '../data/domains'
 import type { DomainId, Health } from '../data/domains'
@@ -8,6 +8,17 @@ import type { Track } from '../data/cascade'
 import { summary } from '../data/tedif'
 import { useStore } from '../store'
 import { Badge, Bar, money } from '../components/ui'
+import { apps, assess, cyber, cyberStatus, losses, lossTotal } from '../data/resilience'
+import AppsTab from './domain/AppsTab'
+import CyberTab from './domain/CyberTab'
+import PnlTab from './domain/PnlTab'
+
+const TABS = [
+  { key: 'overview', label: 'Overview' },
+  { key: 'apps', label: 'Applications & incidents' },
+  { key: 'cyber', label: 'Cyber security' },
+  { key: 'pnl', label: 'Business impact (P&L)' },
+] as const
 
 const healthBorder: Record<Health, string> = { 'On Track': 'border-l-emerald-500', 'At Risk': 'border-l-amber-400', Delayed: 'border-l-red-500' }
 const healthDot: Record<Health, string> = { 'On Track': 'bg-emerald-500', 'At Risk': 'bg-amber-400', Delayed: 'bg-red-500' }
@@ -38,6 +49,17 @@ export default function DomainView() {
   const atRisk = ground.filter((g) => g.status === 'At Risk')
   const valueAtTarget = areas.reduce((sum, a) => sum + d.problems[a].valueCr, 0)
   const pending = decisions.filter((x) => !verdictFor(x.id)).length
+  const [params, setParams] = useSearchParams()
+  const tab = (TABS.find((t) => t.key === params.get('tab'))?.key ?? 'overview') as (typeof TABS)[number]['key']
+  const appRows = apps[domainId].map((a) => ({ a, r: assess(a) }))
+  const highApps = appRows.filter((x) => x.r.priority === 'High')
+  const cy = cyberStatus(cyber[domainId])
+  const lossL = losses[domainId].reduce((sum, l) => sum + lossTotal(l), 0)
+  const tabBadge: Record<string, string> = {
+    apps: `${appRows.filter((x) => x.r.health === 'Critical').length} critical`,
+    cyber: cy.health,
+    pnl: `₹${lossL} L`,
+  }
 
   return (
     <>
@@ -55,6 +77,32 @@ export default function DomainView() {
         </div>
       </div>
 
+      {/* Tabs — same structure for every domain */}
+      <div className="border-b border-line mb-5 overflow-x-auto" role="tablist" aria-label={`${d.name} views`}>
+        <div className="flex gap-1 min-w-max">
+          {TABS.map((t) => {
+            const active = tab === t.key
+            return (
+              <button
+                key={t.key}
+                role="tab"
+                aria-selected={active}
+                onClick={() => setParams(t.key === 'overview' ? {} : { tab: t.key })}
+                className={`px-4 py-2.5 text-sm border-b-2 -mb-px transition flex items-center gap-2 ${active ? 'border-brand-600 text-brand-700 font-semibold' : 'border-transparent text-ink-2 hover:text-ink'}`}
+              >
+                {t.label}
+                {tabBadge[t.key] && <span className={`text-[11px] font-medium rounded-full px-2 py-0.5 ${tabBadge[t.key].startsWith('0') || tabBadge[t.key] === 'Healthy' ? 'bg-slate-100 text-ink-3' : t.key === 'pnl' ? 'bg-slate-100 text-ink-2' : 'bg-crit-bg text-crit-text'}`}>{tabBadge[t.key]}</span>}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {tab === 'apps' && <AppsTab domainId={domainId} />}
+      {tab === 'cyber' && <CyberTab domainId={domainId} />}
+      {tab === 'pnl' && <PnlTab domainId={domainId} />}
+
+      {tab === 'overview' && (<>
       {/* Level 1 — CTO */}
       <section className="rounded-xl bg-brand-900 text-white p-5 mb-5 shadow">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
@@ -178,11 +226,31 @@ export default function DomainView() {
                 ))}
               </ul>
             )}
+            {highApps.length > 0 && (
+              <div className="mt-4 pt-3 border-t border-line">
+                <div className="text-xs font-semibold text-ink-2 mb-2">High-priority applications</div>
+                <ul className="space-y-2">
+                  {highApps.map(({ a, r }) => (
+                    <li key={a.id} className="border-l-2 border-red-500 pl-3 text-sm">
+                      <button onClick={() => setParams({ tab: 'apps' })} className="font-semibold text-left hover:underline">{a.name}</button>
+                      <div className="text-xs text-ink-3">{r.health} · {r.reasons.slice(0, 2).join(' · ')}</div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {cy.health !== 'Healthy' && (
+              <div className="mt-3 border-l-2 border-red-500 pl-3 text-sm">
+                <button onClick={() => setParams({ tab: 'cyber' })} className="font-semibold text-left hover:underline">Cyber security · {cy.health}</button>
+                <div className="text-xs text-ink-3">{cy.reasons.slice(0, 2).join(' · ')}</div>
+              </div>
+            )}
             <div className="mt-4 pt-3 border-t text-xs text-slate-500">{atRisk.length} amber items monitored by workstream leads.</div>
             <Link to="/decisions" className="mt-3 block text-center text-sm font-semibold bg-blue-700 hover:bg-blue-800 text-white rounded-lg py-2">Open Decision Center →</Link>
           </section>
         </aside>
       </div>
+      </>)}
     </>
   )
 }
