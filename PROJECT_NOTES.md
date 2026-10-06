@@ -17,7 +17,7 @@
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
 - **NEXT BUILD (agreed direction):** two specs merged into one plan, **section 23** (this supersedes the build order in section 22).
   - Specs: `docs/SIMULATION_SPEC.md` (7 tool layers, canonical model, decisions → actions → outcomes) and `docs/ENTERPRISE360_SPEC.md` (16 enterprise functions per domain, heatmap, Top 10 decisions, maturity).
-  - Start with sprint M1 and answer the open questions in 23.7 first.
+  - **M1 DONE (6 Oct 2026, section 24).** Next: **M2**, the shared visual components. Also still to do: Manufacturing and Retail configs (planned for M3).
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
@@ -710,7 +710,7 @@ Close on the line: "Tools see functions; CTO360 connects them into decisions."
 4. Is the CTO-owned vs Signal split of the 16 functions (23.2 point 1) acceptable?
 5. Keep the TEDIF, programme tracker and 11 CTO pages as a separate "Programme & framework" sidebar group? (Recommended: yes.)
 
-### 23.8 Navigation: FINAL decision (user, 6 Oct 2026)
+### 23.8 Navigation: FINAL decision (user, 6 Oct 2026). Approved ASCII mockups: `docs/MOCKUPS.md`
 **User decision:** the 7 source systems are important and must be **sub-pages of each domain**. Claude decides how the 16 functions are placed (below).
 
 **Structure per domain** (repeated for Banking, Manufacturing and Retail; same components, different data):
@@ -772,3 +772,60 @@ Close on the line: "Tools see functions; CTO360 connects them into decisions."
   - M3 = Overview + **7 source pages** for Banking. Then Manufacturing and Retail data.
   - M4 = 16-function template + "Fed by" links.
   - The rest is unchanged.
+
+---
+
+## 24. M1 done: simulation data foundation (6 Oct 2026)
+
+Nothing visible on the website yet; this is the data engine the new pages will read. `npm run build` passes.
+
+### Files (`src/data/sim/`)
+| File | What it is |
+|---|---|
+| `model.ts` | Canonical entities: Objective, Initiative, Application, Technology, Process, Project, Team, Service, Incident, Risk, Control, Metric, Story. Each has id, name, domain, owner, status, **health (calculated)**, source, updated and `why[]` (the reasons for its health). Also `SIM_NOW` = 6 Oct 2026 09:30 IST and the 12 months Nov 2025 → Oct 2026. |
+| `config.ts` | Shape of a domain configuration: hand-written records with index links. |
+| `domains/banking.ts` | **Meridian Bank (fictional).** 6 objectives, 10 initiatives, 24 apps, 22 technologies, 9 processes, 14 projects, 10 teams, 18 services, baseline risks, business metric values and 3 stories. **To change Banking figures, edit this file.** |
+| `functions.ts` | The 16 functions: owner, CTO-owned or Signal, CTO question, source systems, and **6 metrics each, one per heatmap column** (Strategy, Performance, Cost, Technology, Risk, Transformation). A metric with `derive` is calculated from records; otherwise the value comes from `business` in the domain config. |
+| `build.ts` | Config → entities. **All health, status and severity values come from rules here.** It generates incidents (seeded), works out availability from incident downtime, raises risks from conditions (failing controls, EOL tech, red initiatives, red services, overloaded teams) plus baseline risks, and builds 12-month metric series. |
+| `scoring.ts` | One rule for every metric: distance from target against a Green / Amber band, giving a score of 0–100 and a status. |
+| `scores.ts` | Roll-ups: `functionHealth`, `domainHealth`, `sourceHealth` (the 7 sources: half record health, half the main function fed) and `exec360` (14 KPIs). |
+| `rng.ts` | Seeded random numbers and series that end exactly at the current value, so data is identical on every reload. |
+| `validate.ts` + `scripts/validate-sim.mjs` | **`npm run validate:sim`** checks that all IDs resolve, budgets reconcile (objective = sum of initiatives; projects ≤ initiative), percentages are 0–100, series end at current, service incident counts match the incident log, team allocation sums to 100, red share stays at or below 30%, there are at most 3 critical risks, and volumes match the spec. It prints all scores and the story chains. **Run it after every data change.** |
+| `index.ts` | `sim.banking`, plus the helpers the pages will import. |
+
+### Key rules (from `build.ts`)
+- **Initiative:** Red if more than 10 points behind plan or forecast more than 10% over budget. Amber if more than 5 points behind, more than 5% over, or value realisation below 70%. An objective takes the worst health of its initiatives.
+- **App:** Red if technical health < 40, or a mission-critical app on EOL tech with health < 55. Amber if it uses EOL tech, health < 65, or is marked Migrate / Retire.
+- **Tech lifecycle:** from the EOL date vs 6 Oct 2026: past = End of life; under 12 months = Extended support; under 3 years = Mainstream; otherwise Current.
+- **Service:** availability = 99.99 minus 30-day downtime (P1 full duration, P2 half). Red if there was a P1 and availability is below SLO, or availability is more than 0.1 below SLO. SLO by criticality: 99.95 / 99.9 / 99.5 / 99.
+- **Project:** Red if more than 30 days late, more than 10% over budget, or 2 or more late milestones.
+- **Team:** Red if capacity gap > 15% or predictability < 70%.
+- **Process:** Red if cycle time is more than 2.2× target or conformance < 75%.
+- **Risk:** severity = likelihood × impact. ≥ 20 Critical, ≥ 12 High, ≥ 6 Medium.
+
+### Banking result (calibrated to the spec's "mostly healthy, few exceptions")
+- **Enterprise health: 78 (Amber)**, matching the spec example exactly.
+- **Enterprise Architecture is the red exception: 55** (6 EOL technologies, 5 mission-critical apps on EOL tech).
+- 39 incidents. 23 risks: 1 Critical, 12 High.
+- **Source scores:**
+
+| Source | Score |
+|---|---|
+| Planview | 78 |
+| LeanIX | 68 |
+| Process | 67 |
+| ServiceNow | 75 |
+| Jellyfish | 79 |
+| Datadog | 85 |
+| Vanta | 78 |
+
+- **Stories, each connected through 7+ layers:**
+  1. *Digital Payments Modernization at Risk*: INIT-BNK-002 (12 points behind, 12% over) → Payments Hub / service bus / Payments API → Payment Processing → PRJ-BNK-001 (45 days late, 2 milestones late) → Payments Engineering team (18% capacity gap) → SVC-BNK-002 Payments API (P1, below SLO) → CTL-BNK-007 TLS failing → **RISK-BNK-012, Critical**.
+  2. *Core Banking Legacy Risk*: INIT-BNK-009 Integration Layer Modernization → Core Banking / service bus / Internet Banking on EOL tech → Customer Onboarding (2.5× target) → service bus replacement project late → Integration team → service bus broker → CTL-BNK-017 unsupported software failing → RISK-BNK-003.
+  3. *Fraud Platform Scaling Requirement*: INIT-BNK-003 (on track) → Fraud Detection Platform → Fraud Investigation (72% false positives) → Fraud model scale-out → Fraud team → Fraud scoring service under strain → AI bias review not tested.
+
+### Next
+- **M2:** UI building blocks, using the existing design tokens: `MetricCard` (current / target / variance / trend / status / owner / updated), `Sparkline`, `Heatmap` (16 × 6), `SourceBadge` ("Simulated · X"), `TimeRange` (30d / Qtr / 6m / 12m slicing the 12-month series), `EventFeed`, and a "why this colour" tooltip from `why[]`.
+- **M3:** domain Overview (Executive 360 + heatmap + source strip) and the 7 source pages for Banking. Then add `domains/manufacturing.ts` and `domains/retail.ts` (same shape, different data and stories), and run `validate:sim` on each.
+- **Known tuning items:** the derived metric "start" values (12 months ago) use a rule (Red = was better, so worsening; Green / Amber = improving). They can be overridden per metric later if a story needs a specific trend.
+
