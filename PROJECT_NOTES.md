@@ -18,6 +18,17 @@
 - **NEXT BUILD (agreed direction):** two specs merged into one plan, **section 23** (this supersedes the build order in section 22).
   - Specs: `docs/SIMULATION_SPEC.md` (7 tool layers, canonical model, decisions → actions → outcomes) and `docs/ENTERPRISE360_SPEC.md` (16 enterprise functions per domain, heatmap, Top 10 decisions, maturity).
   - **M1 DONE (6 Oct 2026, section 24).** Next: **M2**, the shared visual components. Also still to do: Manufacturing and Retail configs (planned for M3).
+- **Sprint tracker (simulation build, plan in section 23):**
+
+| Sprint | What it delivers | Visible on site? | Status |
+|---|---|---|---|
+| M1 | Data engine: canonical model, Banking data, scoring rules, `npm run validate:sim` (section 24) | No | ✅ Done 6 Oct 2026 |
+| M2 | Reusable UI building blocks: KPI card, sparkline, heatmap, source badge, time-range selector, event feed, "why this colour" tip (section 25) | Only on a test page | ⏳ Next |
+| M3 | Domain Overview (Executive 360) + 7 source pages per domain + Manufacturing and Retail data; existing tabs re-homed (section 25) | **Yes, the first big visible change** | Planned |
+| M4 | 16-function page template + "Fed by" links into sources | Yes | Planned |
+| M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | Planned |
+| M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | Planned |
+
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
@@ -828,4 +839,62 @@ Nothing visible on the website yet; this is the data engine the new pages will r
 - **M2:** UI building blocks, using the existing design tokens: `MetricCard` (current / target / variance / trend / status / owner / updated), `Sparkline`, `Heatmap` (16 × 6), `SourceBadge` ("Simulated · X"), `TimeRange` (30d / Qtr / 6m / 12m slicing the 12-month series), `EventFeed`, and a "why this colour" tooltip from `why[]`.
 - **M3:** domain Overview (Executive 360 + heatmap + source strip) and the 7 source pages for Banking. Then add `domains/manufacturing.ts` and `domains/retail.ts` (same shape, different data and stories), and run `validate:sim` on each.
 - **Known tuning items:** the derived metric "start" values (12 months ago) use a rule (Red = was better, so worsening; Green / Amber = improving). They can be overridden per metric later if a story needs a specific trend.
+
+---
+
+## 25. M2 and M3 explained (scope checklist)
+
+### M2: UI building blocks (about half a day)
+**Why:** M3–M6 build about 70 screens (3 domains × 7 sources, plus 16 functions, decisions and so on). Building each visual piece once, in the CTO360 design system, keeps every page consistent and fast to build. These are like Lego bricks; the pages come in M3.
+
+| Component | What it shows | Used on |
+|---|---|---|
+| `MetricCard` | current · target · variance · trend arrow · G/A/R status with icon · owner · "updated 12 min ago" · sparkline. Never a bare number (spec 2 §8). | every page |
+| `Sparkline` / `TrendChart` | 12-month line plus 3-month forecast (dashed); target line | cards, function pages |
+| `TimeRange` | 30d · Quarter · 6m · 12m selector that slices the same 12-month series | page headers |
+| `HealthHeatmap` | 16 functions × 6 columns + Overall; click a row → function page | domain Overview |
+| `SourceBadge` | "Simulated Source: SAP LeanIX" + sync time (legal wording rule) | source and function pages |
+| `StatusPill` + `WhyTip` | Green/Amber/Red with shape icon; hover shows *why* (from each record's `why[]`) | tables, cards |
+| `RecordTable` | sortable, filterable table with exceptions first, paging and a "show all" option | source pages |
+| `EventFeed` | scrolling simulated events (deploys, incidents, control tests) | source pages, header |
+| `ScoreRing` | 0–100 score ring for enterprise, domain, function and source | overview pages |
+
+**Done when:** all components appear on a hidden test page `/sim-lab` with Banking data, pass the phone / tablet / laptop overflow check, and the build passes. The live site looks the same as before.
+
+### M3: domain Overview + 7 source pages (about 1–1.5 days); first big visible change
+1. **Domain Overview `/domain/:id`** (see `docs/MOCKUPS.md` §1):
+   - Executive 360: 6 large + 8 compact KPI cards with 12-month trend
+   - 7-source strip with scores and sync time
+   - 16-function heatmap
+   - Top 3 decisions (placeholder cards until M5)
+2. **7 source sub-pages per domain** (see mockup §2):
+
+| Route | Simulated source | Main contents |
+|---|---|---|
+| `/domain/:id/planview` | Planview | objectives, initiatives, budget vs actual, value realisation, initiative heatmap |
+| `/domain/:id/leanix` | SAP LeanIX | 24 apps (lifecycle × health matrix), technology lifecycle / EOL, capability heatmap, dependencies |
+| `/domain/:id/process` | Celonis + Signavio | 9 processes, cycle time vs target, conformance, bottlenecks, transformation pipeline |
+| `/domain/:id/servicenow` | ServiceNow SPM | 14 projects, schedule slip, budget variance, demand vs capacity, milestones |
+| `/domain/:id/jellyfish` | Jellyfish | 10 teams, allocation (roadmap / unplanned / debt / KTLO), DORA metrics, capacity gaps |
+| `/domain/:id/datadog` | Datadog | 18 services, SLOs, incident log, MTTR, cost; **plus today's Apps, DR & BCP and P&L tabs** |
+| `/domain/:id/vanta` | Vanta | 24 controls by framework, risk register and heatmap, remediation aging; **plus today's Cyber tab** |
+
+   Each page has a "Simulated Source" sync strip at the top and the CTO question as its subtitle.
+3. **Record drill-down** `/domain/:id/record/:recordId`: the record, its `why[]`, its links up and down the chain, and its source.
+4. **Sidebar:** under the selected domain, Overview + the 7 sources (capability name, with "Simulated · Planview" underneath).
+5. **Re-home existing tabs** so nothing is lost:
+
+| Existing tab | New home |
+|---|---|
+| Customer | Process Intelligence |
+| Vendors | ServiceNow |
+| End of life | LeanIX |
+
+6. **Manufacturing and Retail data:** `domains/manufacturing.ts` and `domains/retail.ts`, each with its own 3 stories:
+   - Manufacturing: Smart Factory delay, MES reliability, PLM tech debt
+   - Retail: E-commerce peak readiness, inventory transformation delay, POS modernisation and security
+
+   Each must pass `validate:sim` with enterprise health of about 70–82.
+
+**Done when:** all 3 domains show the Overview and 7 source pages with their own data; the validator passes for all 3; the overflow check passes on all new routes; notes are updated; changes are committed.
 
