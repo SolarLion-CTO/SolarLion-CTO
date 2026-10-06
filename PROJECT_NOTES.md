@@ -15,7 +15,8 @@
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
-- **Next build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
+- **NEXT BUILD (agreed direction):** the Enterprise Source-System Simulation. Spec: `docs/SIMULATION_SPEC.md`. Plan, build order and rules: **section 22**. Start with Sprint S1.
+- **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
 ---
@@ -526,4 +527,85 @@ Each industry view (sidebar → Executive Overview → Banking / Manufacturing /
 - `/ai`: six insights from `insights()` in the format Observation → Evidence → Recommendation → Expected impact → Confidence → Human decision (Accept / Reject, held in memory only). "AI recommends. Humans decide."
 
 **Sidebar additions:** Engineering → Engineering metrics; Risk & Governance → Risk register; AI Intelligence → AI insights.
+
+---
+
+## 22. Enterprise Source-System Simulation: plan (6 Oct 2026, not started)
+
+**Spec:** `docs/SIMULATION_SPEC.md` (32 sections). It turns CTO360 into a simulated control tower over 7 capability layers:
+
+| Layer | Simulated source |
+|---|---|
+| Strategy | Planview |
+| Architecture | SAP LeanIX |
+| Process | Celonis + Signavio |
+| Portfolio | ServiceNow SPM |
+| Engineering | Jellyfish |
+| Operations | Datadog |
+| Governance | Vanta |
+
+**Verdict:** strong direction, and the right story for a CTO capstone: "existing tools see functions; CTO360 connects them into decisions". It also answers the obvious panel question, "why not just buy ServiceNow?" It is large (about 2–3 focused build days). Build it in sprints; each sprint leaves the site working and deployable.
+
+### Key design decisions (recommended)
+1. **One canonical model, not 7 datasets.** New folder `src/data/sim/`:
+   - `model.ts`: the entity types, each with `{id, name, domain, owner, status, health, rel:{...ids}, source, lastUpdated}`.
+   - Data files: `banking.ts`, `manufacturing.ts`, `retail.ts`.
+   - `scores.ts`: health calculations.
+   - `intelligence.ts`: correlation → decisions.
+
+   ID scheme: `OBJ-BNK-01`, `INIT-BNK-004`, `APP-BNK-017`, `PROC-BNK-03`, `PRJ-BNK-012`, `TEAM-BNK-06`, `SVC-BNK-011`, `INC-BNK-0231`, `RISK-BNK-008`, `CTL-BNK-021`, `DEC-BNK-02`, `ACT-BNK-05`. Use MFG and RTL for the other domains.
+2. **Hand-author the stories, generate the filler.**
+   - The 3 executive stories per domain are written by hand as a connected chain (initiative → app → process → project → team → service → risk/control) with numbers that tell the story.
+   - The remaining records (to reach about 25 apps, 20 services and so on) come from a **seeded** generator, so values never change between reloads.
+   - Generated values follow rules: healthy filler only, plus a few Medium items, so the data stays "mostly healthy, few exceptions".
+3. **Scores are calculated, never typed** (this extends the existing rule).
+   - Capability score = weighted average of normalised metrics. For example:
+     - **Operations:** SLO compliance, P1 count, MTTR vs target.
+     - **Governance:** % of controls passing, open critical risks, remediation age.
+   - Domain score = average of the 7 capability scores. Enterprise score = average of the domains.
+   - Write the formula on screen ("How is this calculated?").
+4. **Decision engine = rules over linked records.** A decision card is raised when one initiative chain has ≥ 3 layers in an exception state, for example progress behind, a blocking legacy app, a delayed milestone, a capacity gap, an incident trend or a failing control.
+   - Priority comes from the number of layers involved plus business criticality.
+   - Confidence comes from the number and strength of signals.
+   - Every signal line shows its source record ID. This gives real traceability without "AI text".
+5. **Time:** a 12-month monthly series (Nov 2025 – Oct 2026) per score and per key metric, plus a 3-month forecast. A 30 days / Quarter / 6 months / 12 months selector slices the same series. "Today" is 6 Oct 2026, consistent with the header.
+6. **Decision → Action → Outcome loop.**
+   - Approve on a card → actions appear in the Action Tracker (state kept in localStorage with a "reset demo" button).
+   - For the story, 1–2 decisions per domain are already approved, with outcomes showing baseline → target → current → variance.
+7. **Legal wording.**
+   - Always write "Simulated Source: X" in small grey text under the section title.
+   - No vendor logos or colours.
+   - A Data Sources page with the banner "Demonstration environment using simulated enterprise data. No live vendor integrations are active."
+   - The footer keeps "Demo data".
+8. **Reuse what exists** instead of duplicating it:
+   - The current resilience tabs (apps, cyber, DR, customer, vendors, EOL, P&L) and the rules in `resilience.ts` become the Operations and Risk & Governance views.
+   - The current 5 apps per domain become the critical anchors inside the 25-app portfolio, so their IDs are mapped.
+   - `/risk`, `/ai` and `/engineering` are rebuilt on the canonical model.
+   - The TEDIF and tracker pages stay as they are.
+
+### Navigation (proposed)
+- **`/` → Executive Command Center** (cross-domain): enterprise health, domain scores, 7 capability scores with trend, counts, Top decisions, Top risks, transformation health, investment, operations and outcomes.
+- Cross-domain comparison table: health, trend arrow and primary issue.
+- **Each domain `/domain/:id/:capability`**: Overview · Strategy · Architecture · Process · Portfolio · Engineering · Operations · Risk & Governance · Decision Intelligence.
+  - Each screen opens with its CTO question.
+  - Drill-down uses a side panel or record page, `/domain/:id/record/:recordId`, showing the record, its relationships and its source. The back button returns to the same view.
+- **New pages:** `/actions` (Action Tracker), `/outcomes`, `/sources` (Data Sources).
+- The current 8 domain tabs move under the new Operations and Risk & Governance sections, so no feature is lost.
+
+### Build order (sprints)
+- **S1 Foundation:** canonical types, ID scheme, seeded generator, Banking hand-authored chains; `scores.ts`; `/sources` page; validation script (relationships resolve, budgets reconcile, % in 0–100, trends end at the current value).
+- **S2 Domain capability pages:** Overview health + 6 KPIs, then Strategy, Architecture, Process, Portfolio, Engineering, Operations, Governance, all for Banking first, then Manufacturing and Retail data.
+- **S3 Decision Intelligence:** correlation rules, decision cards with signals, evidence and confidence, Approve → Actions, Outcomes.
+- **S4 Command Center + cross-domain compare + time range selector**, overflow check on all routes, notes, commit.
+
+### Risks / watch-outs
+- **Scope:** about 600–800 records. Keep tables paginated with filters, and lead with exceptions.
+- **Consistency:** the validation script in S1 is the safety net. Run it after every data change.
+- **Demo clarity:** in a 3–5 minute demo, show one story end to end, Banking "Digital Payments Modernization at Risk", rather than every page.
+- **Presentation:** vendor names are used only for nominative reference with "Simulated"; never "integration", "partner" or "connected".
+
+### Open questions for the user (decide at the start of the next session)
+1. Replace the current `/` Executive Overview with the Command Center? (Recommended: yes. The current overview content moves to the domain Overview.)
+2. Build all 3 domains fully, or Banking fully plus the other two at lower data volume? (Recommended: all 3 at about 70% of the spec volume.)
+3. Keep the Decision approvals in localStorage only (fine for the demo) until the Python API / live AI phase?
 
