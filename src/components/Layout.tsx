@@ -1,186 +1,199 @@
 import { useState } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
-  Bell, Bot, Brain, ChevronDown, Briefcase, Building2, CalendarDays, Compass, Crown, Gauge, LayoutGrid, ListChecks, Network, Server, Users, CircleHelp, ClipboardCheck, Database, Factory, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, Lightbulb, Menu, Scale,
-  Settings, ShieldCheck, ShoppingCart, Target, TrendingUp, Wallet, X,
+  Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
+  Factory, Gauge, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
+  ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useStore } from '../store'
-import { domainOrder, domains, plannedDomains } from '../data/domains'
-import { cascade, tracks } from '../data/cascade'
-import { summary } from '../data/tedif'
+import { domainOrder, domains } from '../data/domains'
 import type { DomainId } from '../data/domains'
+import { cascade, tracks } from '../data/cascade'
 
-const nav: { section: string; items: { to: string; label: string; icon: LucideIcon }[] }[] = [
-  { section: 'Executive', items: [
+type Item = { to: string; label: string; icon: LucideIcon; badge?: number }
+type Group = { section: string; icon: LucideIcon; items: Item[] }
+
+const redCount = (id: DomainId) =>
+  tracks.flatMap((t) => cascade[id].tracks[t].initiatives.flatMap((i) => i.ground)).filter((g) => g.status === 'Delayed').length
+
+// Nine executive sections. Every existing route is kept — only regrouped.
+const nav: Group[] = [
+  { section: 'Executive Overview', icon: LayoutDashboard, items: [
     { to: '/', label: 'Overview', icon: LayoutDashboard },
-    { to: '/problems', label: 'Problem Matrix', icon: Grid3x3 },
-    { to: '/tedif', label: 'TEDIF Tracker', icon: ClipboardCheck },
-    { to: '/decisions', label: 'Decision Center', icon: Gavel },
-    { to: '/value', label: 'Business Value', icon: TrendingUp },
-  ] },
-  { section: 'CTO Dimensions', items: [
-    { to: '/cto/coverage', label: 'Coverage · 14', icon: ListChecks },
+    { to: '/domain/banking', label: 'Banking view', icon: Landmark, badge: redCount('banking') },
+    { to: '/domain/manufacturing', label: 'Manufacturing view', icon: Factory, badge: redCount('manufacturing') },
+    { to: '/domain/retail', label: 'Retail view', icon: ShoppingCart, badge: redCount('retail') },
+    { to: '/problems', label: 'Problem matrix', icon: Grid3x3 },
     { to: '/cto/business', label: 'Business case', icon: Building2 },
+    { to: '/cto/coverage', label: 'Capstone coverage', icon: ListChecks },
+  ] },
+  { section: 'Strategy', icon: Compass, items: [
     { to: '/cto/strategy', label: 'Current → target', icon: Compass },
     { to: '/cto/assessment', label: 'Readiness assessment', icon: Gauge },
     { to: '/cto/portfolio', label: 'Use-case portfolio', icon: LayoutGrid },
-    { to: '/cto/data', label: 'Data readiness', icon: Server },
-    { to: '/cto/ai-selection', label: 'AI selection', icon: Brain },
-    { to: '/cto/architecture', label: 'Architecture', icon: Network },
-    { to: '/cto/operating-model', label: 'Operating model & CoE', icon: Users },
-    { to: '/cto/roadmap', label: 'Roadmap', icon: CalendarDays },
-    { to: '/cto/decisions', label: 'CTO decisions', icon: Crown },
-  ] },
-  { section: 'Programme Tracker', items: [
-    { to: '/tracker', label: 'Portfolio', icon: Briefcase },
-    { to: '/tracker/strategy', label: 'Strategy', icon: Target },
-    { to: '/tracker/roi', label: 'ROI', icon: TrendingUp },
-    { to: '/tracker/finance', label: 'Finance', icon: Wallet },
-    { to: '/tracker/operations', label: 'Operations', icon: Factory },
-    { to: '/tracker/erp', label: 'ERP', icon: Database },
-    { to: '/tracker/ai', label: 'AI', icon: Bot },
-    { to: '/tracker/innovation', label: 'Innovation', icon: Lightbulb },
-    { to: '/tracker/governance', label: 'Governance', icon: ShieldCheck },
-  ] },
-  { section: 'Workstreams', items: [
     { to: '/strategy', label: 'Strategy & ROI', icon: Target },
-    { to: '/finance', label: 'Finance & Investment', icon: Wallet },
-    { to: '/operations', label: 'Operations', icon: Factory },
-    { to: '/governance', label: 'Regulatory & Governance', icon: ShieldCheck },
-    { to: '/innovation', label: 'Innovation', icon: Lightbulb },
+    { to: '/cto/roadmap', label: 'Roadmap', icon: CalendarDays },
+    { to: '/tracker/strategy', label: 'Strategy plan', icon: ListChecks },
   ] },
-  { section: 'AI Control Layer', items: [
-    { to: '/agents', label: 'AI Agents', icon: Bot },
+  { section: 'Enterprise Architecture', icon: Network, items: [
+    { to: '/cto/architecture', label: 'Architecture', icon: Network },
+    { to: '/cto/data', label: 'Data readiness', icon: Server },
     { to: '/framework', label: 'Framework', icon: Layers },
+  ] },
+  { section: 'Operations', icon: Factory, items: [
+    { to: '/operations', label: 'Operations', icon: Factory },
+    { to: '/tracker/operations', label: 'Operations plan', icon: ListChecks },
+    { to: '/tracker/erp', label: 'ERP root cause', icon: Database },
+  ] },
+  { section: 'Engineering', icon: Wrench, items: [
+    { to: '/tracker', label: 'Delivery portfolio', icon: Briefcase },
+    { to: '/cto/operating-model', label: 'Operating model & CoE', icon: Users },
+  ] },
+  { section: 'Finance', icon: Wallet, items: [
+    { to: '/finance', label: 'Finance & investment', icon: Wallet },
+    { to: '/value', label: 'Business value', icon: TrendingUp },
+    { to: '/tracker/roi', label: 'ROI plan', icon: TrendingUp },
+    { to: '/tracker/finance', label: 'Finance plan', icon: ListChecks },
+  ] },
+  { section: 'Innovation', icon: Lightbulb, items: [
+    { to: '/innovation', label: 'Innovation', icon: Lightbulb },
+    { to: '/tracker/innovation', label: 'Innovation plan', icon: ListChecks },
+  ] },
+  { section: 'Risk & Governance', icon: ShieldCheck, items: [
+    { to: '/governance', label: 'Regulatory & governance', icon: ShieldCheck },
+    { to: '/tedif', label: 'TEDIF tracker', icon: ClipboardCheck },
+    { to: '/tracker/governance', label: 'Governance plan', icon: ListChecks },
+  ] },
+  { section: 'AI Intelligence', icon: Sparkles, items: [
+    { to: '/decisions', label: 'Decision center', icon: Gavel },
+    { to: '/cto/decisions', label: 'CTO decisions', icon: Crown },
+    { to: '/cto/ai-selection', label: 'AI selection', icon: Brain },
+    { to: '/agents', label: 'AI agents', icon: Bot },
+    { to: '/tracker/ai', label: 'AI plan', icon: Cpu },
   ] },
 ]
 
-const domainIcons: Record<DomainId, LucideIcon> = { banking: Landmark, manufacturing: Factory, retail: ShoppingCart }
+const matches = (to: string, path: string) => (to === '/' || to === '/tracker' ? path === to : path === to || path.startsWith(to + '/'))
 
 export default function Layout() {
   const { domainId, setDomainId, domain } = useStore()
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
-  const groupOf = (path: string) =>
-    nav.find((g) => g.items.some((i) => (i.to === '/' ? path === '/' : path === i.to || path.startsWith(i.to + '/'))))?.section
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({ Executive: true })
-  const activeGroup = groupOf(pathname)
-  const isOpen = (section: string) => expanded[section] ?? section === activeGroup
+  const navigate = useNavigate()
+  const activeGroup = nav.find((g) => g.items.some((i) => matches(i.to, pathname)))?.section
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const isOpen = (s: string) => expanded[s] ?? (s === activeGroup || s === 'Executive Overview')
+
+  // Switching domain on a domain page also moves to that domain's page.
+  const switchDomain = (d: DomainId) => {
+    setDomainId(d)
+    if (pathname.startsWith('/domain/')) navigate(`/domain/${d}`)
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top bar */}
-      <header className="bg-brand-900 text-white px-4 md:px-6 h-16 flex items-center gap-3 sticky top-0 z-40 border-b border-white/10">
-        <button className="lg:hidden shrink-0" onClick={() => setOpen(!open)} aria-label="Toggle menu">
-          {open ? <X /> : <Menu />}
+      {/* Header — compact, navy, brand on the left, context and user on the right */}
+      <header className="bg-brand-900 text-white h-16 px-4 md:px-6 flex items-center gap-3 sticky top-0 z-40">
+        <button className="lg:hidden shrink-0 p-1 -ml-1 rounded-md hover:bg-white/10" onClick={() => setOpen(!open)} aria-label="Toggle menu" aria-expanded={open}>
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
-        <div className="w-9 h-9 shrink-0 rounded-lg bg-white/10 ring-1 ring-white/15 flex items-center justify-center"><Scale size={19} /></div>
-        <div className="leading-tight min-w-0">
-          <div className="font-semibold tracking-normal text-[14px] sm:text-[15px] xl:text-base truncate">
-            <span className="sm:hidden">AI Transformation</span><span className="hidden sm:inline xl:hidden">AI Transformation Framework</span>
-            <span className="hidden xl:inline">Domain-Agnostic Enterprise AI Transformation Framework</span>
-          </div>
-          <div className="text-[11px] sm:text-xs text-blue-200/90 truncate">
-            <span className="sm:hidden">Framework · powered by TEDIF</span><span className="hidden sm:inline xl:hidden">Domain-agnostic · powered by TEDIF</span>
-            <span className="hidden xl:inline">Powered by TEDIF · AI recommends, humans decide</span>
-          </div>
-        </div>
-        <div className="ml-auto flex items-center gap-4 shrink-0">
-          <div className="relative hidden sm:block">
-            <Bell size={20} />
-            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-              {domain.alerts.length}
-            </span>
-          </div>
-          <Settings size={20} className="hidden sm:block" />
-          <CircleHelp size={20} className="hidden sm:block" />
+        <NavLink to="/" className="flex items-baseline gap-3 min-w-0 shrink-0" aria-label="CTO360 home">
+          <span className="text-[20px] font-bold tracking-tight">CTO<span className="text-accent">360</span></span>
+          <span className="hidden md:inline text-[13px] text-slate-300 border-l border-white/20 pl-3 truncate">Enterprise Technology Control Tower</span>
+        </NavLink>
+
+        <div className="ml-auto flex items-center gap-3 sm:gap-5 shrink-0">
+          {/* Business unit — the domain-agnostic switch */}
+          <label className="flex items-center gap-2 text-[13px]">
+            <span className="hidden xl:inline text-slate-300">Business unit</span>
+            <select
+              value={domainId}
+              onChange={(e) => switchDomain(e.target.value as DomainId)}
+              className="bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg pl-2.5 pr-7 py-1.5 text-white text-[13px] font-medium focus:outline-none focus:ring-2 focus:ring-accent appearance-none bg-no-repeat bg-[right_0.5rem_center] bg-[length:12px] cursor-pointer"
+              style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23CBD5E1' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")" }}
+              aria-label="Business unit"
+            >
+              {domainOrder.map((d) => <option key={d} value={d} className="text-ink">{domains[d].name}{domains[d].configuredOnly ? ' (config)' : ''}</option>)}
+            </select>
+          </label>
+          <span className="hidden xl:inline text-[12px] text-slate-300">Updated 6 Oct 2026, 09:30</span>
+          <button className="relative hidden sm:block p-1 rounded-md hover:bg-white/10" aria-label={`${domain.alerts.length} notifications`}>
+            <Bell size={19} />
+            <span className="absolute -top-0.5 -right-0.5 bg-crit text-[10px] font-semibold rounded-full w-4 h-4 flex items-center justify-center">{domain.alerts.length}</span>
+          </button>
+          <CircleHelp size={19} className="hidden md:block text-slate-300" aria-hidden />
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm">R</div>
+            <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center font-semibold text-sm" aria-hidden>R</div>
             <div className="hidden lg:block leading-tight text-xs">
-              <div className="font-semibold">ram</div>
-              <div className="text-blue-200">Group CTO</div>
+              <div className="font-semibold">Ram</div>
+              <div className="text-slate-300">Group CTO</div>
             </div>
           </div>
         </div>
       </header>
 
       <div className="flex flex-1">
-        {/* Sidebar */}
-        {open && <div className="lg:hidden fixed inset-0 top-16 z-20 bg-slate-900/50" onClick={() => setOpen(false)} aria-hidden />}
-        <aside className={`${open ? 'block' : 'hidden'} lg:block fixed lg:sticky top-16 z-30 h-[calc(100vh-4rem)] w-72 lg:w-60 max-w-[85vw] shrink-0 bg-brand-950 text-blue-100 overflow-y-auto nav-scroll shadow-xl lg:shadow-none`}>
-          <div className="p-3">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-blue-300/80 px-2 mb-2">Industry domain</div>
-            {domainOrder.map((id) => {
-              const Icon = domainIcons[id]
-              const active = id === domainId
-              const red = tracks.flatMap((t) => cascade[id].tracks[t].initiatives.flatMap((i) => i.ground)).filter((g) => g.status === 'Delayed').length
+        {/* Sidebar — white, grouped, collapsible */}
+        {open && <div className="lg:hidden fixed inset-0 top-16 z-20 bg-slate-900/40" onClick={() => setOpen(false)} aria-hidden />}
+        <aside className={`${open ? 'block' : 'hidden'} lg:block fixed lg:sticky top-16 z-30 h-[calc(100vh-4rem)] w-72 lg:w-[17.5rem] max-w-[85vw] shrink-0 bg-surface border-r border-line overflow-y-auto shadow-xl lg:shadow-none`}>
+          <nav className="py-3" aria-label="Main">
+            {nav.map((g) => {
+              const GroupIcon = g.icon
+              const opened = isOpen(g.section)
+              const groupActive = g.section === activeGroup
               return (
-                <NavLink
-                  key={id}
-                  to={`/domain/${id}`}
-                  onClick={() => { setDomainId(id); setOpen(false) }}
-                  className={({ isActive }) => `block px-3 py-2 rounded-md text-sm mb-1 transition ${isActive ? 'bg-white text-brand-950' : active ? 'bg-white/10 text-white ring-1 ring-white/20' : 'hover:bg-white/5'}`}
-                >
-                  <div className="flex items-center gap-2 font-semibold">
-                    <Icon size={16} /> {domains[id].name}
-                    {domains[id].configuredOnly && <span className="text-[9px] opacity-70 font-normal">config</span>}
-                    {red > 0 && <span className="ml-auto text-[10px] bg-red-500 text-white rounded-full px-1.5" title="Red ground-level escalations">{red}</span>}
-                  </div>
-                  <div className="text-[10px] opacity-70 pl-6">{summary[id].phase} · 6 workstreams</div>
-                </NavLink>
+                <div key={g.section} className="px-3 mb-1">
+                  <button
+                    onClick={() => setExpanded((e) => ({ ...e, [g.section]: !opened }))}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[14px] transition ${groupActive ? 'text-brand-900 font-semibold' : 'text-ink-2 hover:bg-slate-50 font-medium'}`}
+                    aria-expanded={opened}
+                  >
+                    <GroupIcon size={17} className={groupActive ? 'text-brand-600' : 'text-ink-3'} />
+                    <span className="flex-1 text-left">{g.section}</span>
+                    <ChevronDown size={15} className={`text-ink-4 transition-transform ${opened ? '' : '-rotate-90'}`} />
+                  </button>
+                  {opened && (
+                    <div className="mt-0.5 mb-2 ml-[1.35rem] border-l border-line">
+                      {g.items.map(({ to, label, icon: Icon, badge }) => (
+                        <NavLink
+                          key={to}
+                          to={to}
+                          end={to === '/' || to === '/tracker'}
+                          onClick={() => {
+                            const m = to.match(/^\/domain\/(\w+)/)
+                            if (m) setDomainId(m[1] as DomainId)
+                            setOpen(false)
+                          }}
+                          className={({ isActive }) =>
+                            `relative flex items-center gap-2 pl-4 pr-3 py-1.5 -ml-px text-[13.5px] border-l-2 transition ${isActive ? 'border-brand-600 bg-brand-50 text-brand-700 font-semibold rounded-r-md' : 'border-transparent text-ink-2 hover:text-ink hover:bg-slate-50 rounded-r-md'}`
+                          }
+                        >
+                          <Icon size={14} className="shrink-0 opacity-70" />
+                          <span className="flex-1 truncate">{label}</span>
+                          {!!badge && <span className="text-[10px] font-semibold bg-crit-bg text-crit-text border border-red-200 rounded-full px-1.5" title={`${badge} red escalations`}>{badge}</span>}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )
             })}
-            <div className="text-[10px] text-blue-300/70 px-3 mb-1">Selected domain drives every page</div>
-            {plannedDomains.slice(0, 2).map((d) => (
-              <div key={d} className="flex items-center gap-2 px-3 py-1.5 text-sm text-blue-300/60">
-                <span className="w-4 text-center">+</span> {d} <span className="ml-auto text-[10px]">planned</span>
-              </div>
-            ))}
-          </div>
-
-          {nav.map((group) => (
-            <div key={group.section} className="px-3 py-2 border-t border-white/10">
-              <button
-                onClick={() => setExpanded((e) => ({ ...e, [group.section]: !isOpen(group.section) }))}
-                className="w-full flex items-center justify-between text-[11px] font-semibold uppercase tracking-wider text-blue-300/80 hover:text-white px-2 py-1.5"
-                aria-expanded={isOpen(group.section)}
-              >
-                {group.section}
-                <ChevronDown size={14} className={`transition-transform ${isOpen(group.section) ? '' : '-rotate-90'}`} />
-              </button>
-              {isOpen(group.section) && group.items.map(({ to, label, icon: Icon }) => (
-                <NavLink
-                  key={to}
-                  to={to}
-                  end={to === '/' || to === '/tracker'}
-                  onClick={() => setOpen(false)}
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-3 py-2 rounded-md text-sm mb-0.5 transition ${isActive ? 'bg-white text-brand-950 font-medium' : 'text-blue-100/90 hover:bg-white/5 hover:text-white'}`
-                  }
-                >
-                  <Icon size={16} /> {label}
-                </NavLink>
-              ))}
-            </div>
-          ))}
-
-          <div className="m-3 p-3 rounded-lg bg-white/5 text-[11px] leading-5">
-            <div className="font-semibold uppercase tracking-wider text-blue-300/80 mb-1">System status</div>
-            <div><span className="text-emerald-400">●</span> Trust layer enforcing</div>
-            <div><span className="text-emerald-400">●</span> AI services online</div>
-            <div><span className="text-emerald-400">●</span> Audit trail active</div>
+          </nav>
+          <div className="mx-6 mt-2 mb-5 pt-4 border-t border-line text-[12px] text-ink-3 space-y-1">
+            <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-success-text" />Trust layer enforcing</div>
+            <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-success-text" />Audit trail active</div>
           </div>
         </aside>
 
-        <main className="flex-1 min-w-0 p-4 md:p-6 xl:p-8">
+        <main className="flex-1 min-w-0 p-4 md:p-6">
           <div className="mx-auto max-w-[1440px]">
-          <Outlet />
-          <footer className="mt-10 py-4 border-t border-line text-xs text-ink-3 flex flex-wrap gap-x-6 gap-y-1 justify-center">
-            <span>One Framework · Any Industry</span>
-            <span>AI Recommends · Humans Decide</span>
-            <span>CTO Capstone Project · 2026 · Demo data</span>
-          </footer>
+            <Outlet />
+            <footer className="mt-10 py-4 border-t border-line text-xs text-ink-3 flex flex-wrap gap-x-6 gap-y-1 justify-center">
+              <span><b className="font-semibold text-ink-2">CTO360</b> · One View. Connected Decisions. Measurable Technology Outcomes.</span>
+              <span>Decision intelligence powered by TEDIF</span>
+              <span>Demo data</span>
+            </footer>
           </div>
         </main>
       </div>

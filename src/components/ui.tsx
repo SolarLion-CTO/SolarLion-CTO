@@ -21,7 +21,7 @@ export function PageHeader({ title, subtitle, owner }: { title: string; subtitle
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
       <div className="min-w-0">
-        <h1 className="text-2xl font-semibold tracking-tight text-brand-900">{title}</h1>
+        <h1 className="text-[28px] leading-tight font-bold tracking-tight text-brand-900">{title}</h1>
         <p className="text-ink-2 text-sm mt-1 max-w-3xl">{subtitle}</p>
       </div>
       {owner && (
@@ -42,19 +42,19 @@ export function Kpi({ icon: Icon, label, value, delta }: { icon: LucideIcon; lab
         <span className="w-7 h-7 shrink-0 rounded-lg bg-brand-50 text-brand-700 flex items-center justify-center"><Icon size={15} /></span>
         <span className="text-xs font-medium text-ink-2 leading-tight">{label}</span>
       </div>
-      <div className="text-[26px] leading-none font-bold text-ink tracking-tight">{value}</div>
-      <div className={`text-xs font-medium mt-2 ${negative ? 'text-amber-700' : 'text-emerald-700'}`}>{delta}</div>
+      <div className="text-[28px] leading-none font-bold text-brand-900 tracking-tight">{value}</div>
+      <div className={`text-xs font-medium mt-2 ${negative ? 'text-warn-text' : 'text-success-text'}`}>{delta}</div>
     </div>
   )
 }
 
 // Badges — soft tint + darker text. Health states also carry a shape so colour is never alone.
 type Tone = { cls: string; icon?: string }
-const ok = 'bg-emerald-50 text-emerald-800 border-emerald-200'
-const warn = 'bg-amber-50 text-amber-800 border-amber-200'
-const serious = 'bg-orange-50 text-orange-800 border-orange-200'
-const crit = 'bg-red-50 text-red-800 border-red-200'
-const info = 'bg-brand-50 text-brand-700 border-brand-100'
+const ok = 'bg-success-bg text-success-text border-green-200'
+const warn = 'bg-warn-bg text-warn-text border-amber-200'
+const serious = 'bg-warn-bg text-warn-text border-amber-300'
+const crit = 'bg-crit-bg text-crit-text border-red-200'
+const info = 'bg-info-bg text-info-text border-brand-100'
 const neutral = 'bg-slate-50 text-slate-600 border-line'
 const toneMap: Record<string, Tone> = {
   'On Track': { cls: ok, icon: '●' }, Compliant: { cls: ok, icon: '●' }, Active: { cls: ok, icon: '●' }, Passed: { cls: ok, icon: '●' }, Approved: { cls: ok, icon: '✓' },
@@ -82,17 +82,17 @@ export function Bar({ value, color = 'bg-brand-600' }: { value: number; color?: 
   )
 }
 
-export function Ring({ value, size = 44, color = '#1d4ed8' }: { value: number; size?: number; color?: string }) {
+export function Ring({ value, size = 44, color = '#2563eb' }: { value: number; size?: number; color?: string }) {
   const r = (size - 6) / 2
   const c = 2 * Math.PI * r
   return (
     <svg width={size} height={size} className="block" role="img" aria-label={`${value}%`}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e3e6eb" strokeWidth={5} />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={5} />
       <circle
         cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={5} strokeLinecap="round"
         strokeDasharray={c} strokeDashoffset={c * (1 - value / 100)} transform={`rotate(-90 ${size / 2} ${size / 2})`}
       />
-      <text x="50%" y="54%" textAnchor="middle" dominantBaseline="middle" fontSize={size / 4} fontWeight={600} fill="#0f172a">
+      <text x="50%" y="54%" textAnchor="middle" dominantBaseline="middle" fontSize={size / 4} fontWeight={600} fill="#172033">
         {value}%
       </text>
     </svg>

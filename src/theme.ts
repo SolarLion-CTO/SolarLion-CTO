@@ -14,8 +14,9 @@ export const series = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#
 // Progress / magnitude scale (single blue hue, light → dark)
 export const seq = { s100: '#cde2fb', s250: '#86b6ef', s400: '#3987e5', s550: '#1c5cab' }
 
-export const status = { ok: '#0ca30c', warn: '#fab219', serious: '#ec835a', crit: '#d03b3b' }
+export const status = { ok: '#15803d', warn: '#d97706', serious: '#ea580c', crit: '#dc2626' }
 
 // Chart chrome
-export const chart = { grid: '#e3e6eb', axis: '#64748b', muted: '#cbd5e1', primary: '#2a78d6', primaryDark: '#0b2a6b' }
+// Single-series and comparison charts use primary blue + slate; domain comparisons keep domainColor (validated)
+export const chart = { grid: '#e2e8f0', axis: '#64748b', primary: '#2563eb', secondary: '#64748b', comparison: '#94a3b8', primaryDark: '#0f2747' }
 export const axisTick = { fontSize: 11, fill: '#64748b' }

@@ -466,3 +466,19 @@ Screenshot of the live site (then `solar-lion-cto.vercel.app/cto/strategy`, now 
 - Table cells aligned (consistent padding, top-aligned area labels).
 - Sidebar label shortened to "Coverage · 14".
 - Same rule applied elsewhere: roadmap phases and the business-case "ask" box now use brand colours, not status colours.
+
+---
+
+## 19. CTO360 Phase 1 — brand and shell (6 Oct 2026)
+
+From the CTO360 UI spec (UI only — no content, routes or features changed):
+- **Brand:** header shows **CTO360 · Enterprise Technology Control Tower**; footer: *One View. Connected Decisions. Measurable Technology Outcomes.* · Decision intelligence powered by TEDIF. Browser title: "CTO360 · Enterprise Technology Control Tower".
+- **Header (64 px, navy #0F2747):** brand left; right = **Business unit switch** (Banking / Manufacturing / Retail — keeps the domain-agnostic story), "Updated" timestamp, notifications, user.
+- **Sidebar:** white, 9 collapsible sections — Executive Overview · Strategy · Enterprise Architecture · Operations · Engineering · Finance · Innovation · Risk & Governance · AI Intelligence. **All ~35 existing routes kept**, regrouped. Active item = #EFF6FF background, #1D4ED8 text, blue left indicator. Domain views (with red-escalation counts) sit under Executive Overview.
+- **Tokens updated to the spec:** navy #0F2747, blue #2563EB, page #F6F8FB, border #E2E8F0, text #172033 / #475569 / #64748B / #94A3B8, semantic text+background pairs (success, warning, critical, info). Page title 28/700 navy; KPI values 28/700 navy.
+- **Chart palette:** spec palette (blue / slate / grey) for single-series and comparisons; **domain comparisons keep the validated blue / aqua / orange** — the spec's slate + grey failed the colour-blind/chroma validator for telling categories apart.
+- **Verified:** 35 pages × 1366 px laptop + 390 px phone = 70 checks, no horizontal overflow.
+
+Phase 2 (Executive Overview rebuild) and Phase 3 (Engineering, consolidated Risk & Governance, AI Intelligence hub) are **not started** — they add new content, so they need approval first.
+
+**Disk note:** the Mac ran out of disk space on 6 Oct; keep a few GB free for builds and tests.
