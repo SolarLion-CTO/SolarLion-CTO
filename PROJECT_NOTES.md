@@ -710,30 +710,65 @@ Close on the line: "Tools see functions; CTO360 connects them into decisions."
 4. Is the CTO-owned vs Signal split of the 16 functions (23.2 point 1) acceptable?
 5. Keep the TEDIF, programme tracker and 11 CTO pages as a separate "Programme & framework" sidebar group? (Recommended: yes.)
 
-### 23.8 Navigation decision: 3 domains × 16 functions × 7 sources (recommended, 6 Oct 2026)
-- **Not 16 separate hand-built pages, and not all 16 crammed onto the domain page.** Use a 3-level layout:
-  1. **Domain page** `/domain/:id`: Executive 360 + 16-row heatmap + 16 compact function cards (score, 1 key metric, sparkline, status, owner). This is a summary only.
-  2. **Function page** `/domain/:id/fn/:fn`: ONE template component, so it is effectively 48 pages from one file. Clicking a card or heatmap row opens it. It has prev / next function arrows and a "back to domain" link that keeps the context.
-  3. **Record page** `/domain/:id/record/:recordId`: app, service, team, risk and so on, with its relationships and source.
-- **Sidebar:** do not list 16 × 3 items. The domain is picked in the header switcher. The sidebar shows **Command Center · Domain overview · Functions (16, grouped CTO-owned / Signals) · Decisions · Actions · Outcomes · Data sources · Programme & framework**. The function links follow the selected domain.
-- **The 7 sources are not navigation.** They appear (a) as "Simulated Source: X · synced 2 min ago" panels inside the functions they feed, and (b) on `/sources`: one card per source showing records held, last sync, events in the last hour and a live event feed.
-- **Source → function map:**
+### 23.8 Navigation: FINAL decision (user, 6 Oct 2026)
+**User decision:** the 7 source systems are important and must be **sub-pages of each domain**. Claude decides how the 16 functions are placed (below).
 
-| Source | Functions it feeds |
+**Structure per domain** (repeated for Banking, Manufacturing and Retail; same components, different data):
+```
+/domain/:id                     Overview = Executive 360 + 16-function heatmap + Top decisions
+/domain/:id/planview            Strategy & Portfolio        (Simulated Source: Planview)
+/domain/:id/leanix              Enterprise Architecture     (Simulated Source: SAP LeanIX)
+/domain/:id/process             Process Intelligence        (Simulated Sources: Celonis + SAP Signavio)
+/domain/:id/servicenow          Portfolio & Workflow        (Simulated Source: ServiceNow SPM)
+/domain/:id/jellyfish           Engineering Intelligence    (Simulated Source: Jellyfish)
+/domain/:id/datadog             Operations & Observability  (Simulated Source: Datadog)
+/domain/:id/vanta               Security, Risk & Governance (Simulated Source: Vanta)
+/domain/:id/fn/:function        one of 16 function views (one template)
+/domain/:id/record/:recordId    drill-down record + relationships + source
+```
+- **Source sub-page label:** two lines, the capability on top and "Simulated · Planview" underneath. The sources are prominent, as the user wants, while the wording stays legally safe (spec 1 §30). Each source page has:
+  - a "source header": simulated sync time, records held, events in the last hour, a live event feed, and the "Simulated enterprise data, no live integration" note
+  - the artifacts from spec 1 §4–10 (objectives and initiatives; app portfolio and tech lifecycle; processes; projects; teams and DORA; services and incidents; risks and controls)
+  - drill-down to records
+- **16 functions (Claude's call):**
+  - They are the **business lens on the domain Overview**: a 16-row heatmap (7 columns) plus compact cards grouped "CTO-owned (6)" and "Signals to CTO (10)".
+  - Clicking one opens `/domain/:id/fn/:function`. This is **one template**, giving 48 views from one file.
+  - Function pages do not duplicate source data. They show the function's KPIs and trend, then "**Fed by**" panels that link into the source sub-pages (e.g. Enterprise Architecture → LeanIX page; Cybersecurity → Vanta + Datadog).
+  - Functions with no tool (Sales, Marketing, HR, part of Data & AI) use synthetic business metrics labelled "Simulated business data".
+  - Result: **sources = the system lens** (where the data comes from); **functions = the business lens** (what it means for the CFO, COO and so on).
+- **Sidebar:** the header switcher picks the domain. Sidebar groups:
+  - **Command Center**
+  - **[Domain name]:** Overview + the 7 source sub-pages
+  - **Enterprise functions:** collapsible, 16 items in 2 sub-groups, following the selected domain
+  - **Decisions & outcomes:** Decision Center, Actions, Outcomes
+  - **Data sources:** cross-domain sync status
+  - **Programme & framework:** TEDIF, trackers, CTO pages
+- **Existing domain tabs move to sources:**
+
+| Existing tab | Source page |
 |---|---|
-| Planview | Strategy, Finance (investment), Product & Innovation |
-| LeanIX | Enterprise Architecture, Technology |
-| Celonis / Signavio | Operations, CX & Service |
-| ServiceNow SPM | Strategy (execution), Technology, Procurement |
-| Jellyfish | Engineering & R&D |
-| Datadog | Technology, CX (availability) |
-| Vanta | Cybersecurity, Risk & Compliance, Legal |
-| Synthetic business data, no tool named | Sales, Marketing, HR, Data & AI |
+| apps, DR, P&L impact | Datadog (operations) |
+| cyber | Vanta (plus Datadog security events) |
+| EOL | LeanIX (technology lifecycle) |
+| vendors | ServiceNow (vendor and support workflow) |
+| customer | Process Intelligence (customer processes) + CX function |
 
-- **"Real-time" simulation:**
-  - A simulated clock in `src/data/sim/clock.ts` ticks every 5–10 s. It emits deterministic, seeded events: a deploy, an incident opened or resolved, a control test passing or failing, a spend posting, a process exception.
-  - Each event updates the affected metric, so the "updated X min ago" text and the sparkline move.
-  - The header shows "● Simulation live" with Pause / Reset.
-  - Events follow the data rules (an incident on SVC-BNK-011 lowers its availability, the Technology score, and the related decision confidence).
-  - Never labelled "live data"; always "simulated".
+- **Real-time simulation:**
+  - A seeded clock (`src/data/sim/clock.ts`) ticks every 5–10 s. Each source emits its own event types:
 
+| Source | Events |
+|---|---|
+| Planview | spend posting, milestone |
+| LeanIX | lifecycle change |
+| Process | process exception |
+| ServiceNow | task or milestone update |
+| Jellyfish | deploy, PR merged |
+| Datadog | incident opened or resolved, latency |
+| Vanta | control test pass or fail |
+
+  - Events update the linked metrics, function scores and decision confidence.
+  - The header shows "● Simulation live", with Pause and Reset.
+- **Build order impact:**
+  - M3 = Overview + **7 source pages** for Banking. Then Manufacturing and Retail data.
+  - M4 = 16-function template + "Fed by" links.
+  - The rest is unchanged.
