@@ -2,7 +2,7 @@
 
 > Complete record of the CTO capstone project, from the first idea to the current website.
 > Use this file to pick the work up again, brief a teammate, or brief an AI assistant.
-> Last updated: 5 October 2026 (end of session). **Start here next time:** section 0.
+> Last updated: 6 October 2026 (design system applied). **Start here next time:** section 0.
 
 ---
 
@@ -15,6 +15,7 @@
   2. **Live AI provider** — Grok (paid), Groq (free tier) or Claude (section 16). Not yet built.
   3. Owner map and naming consistency across proposal, decks, TEDIF (section 12).
 - **Next build step when back:** live AI call for "Challenge the AI" on DEC-OPS-001 via a Vercel serverless function (section 16).
+- **Done on 6 Oct 2026:** professional design system — tokens, Inter font, sentence-case titles, neutral KPI tiles, blue progress heatmap, status shape icons, colour-blind-safe domain colours, collapsible sidebar (section 18).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14).
 
 ---
@@ -131,8 +132,9 @@ Domain-agnostic framework → Banking · Manufacturing · Retail → Strategy ·
 | 8 | CTO Dimensions | 11 pages covering the 14 CTO capstone dimensions + coverage map |
 | 9 | Project notes | This file (`PROJECT_NOTES.md`) |
 | 10 | Responsive polish | Compact header, slide-out drawer below desktop, no page overflow on phones, charts render instantly |
+| 11 | Design system | Tokens in `src/index.css` + `src/theme.ts`; calm enterprise look; documented in section 18 |
 
-Commits (oldest first): Phase 1 dashboard → detailed dashboard → TEDIF Tracker → domain pages → Programme Tracker → CTO Dimensions pages → project notes → responsive polish → notes update.
+Commits (oldest first): Phase 1 dashboard → detailed dashboard → TEDIF Tracker → domain pages → Programme Tracker → CTO Dimensions pages → project notes → responsive polish → notes update → design system → notes update.
 
 ---
 
@@ -190,6 +192,8 @@ ai-transformation-framework/
 ├── vercel.json               ← SPA rewrite so deep links don't 404
 ├── index.html                ← page title
 └── src/
+    ├── index.css             ← design tokens (@theme): colours, font, surfaces — change a colour here
+    ├── theme.ts              ← chart colours (domain, status, progress scale)
     ├── App.tsx               ← all routes
     ├── store.tsx             ← selected domain, audit trail, value realised from approvals
     ├── components/
@@ -291,7 +295,7 @@ Earlier rating was 7.5 / 10; after the CTO-dimension pages and responsive polish
 4. **Replace demo data** with real baselines, starting with one KPI per owner (section 7 table).
 5. **Add deck slides** for Data readiness, AI selection, Operating model / CoE.
 6. **Phase 2:** one live LLM call with RAG + persistent audit.
-7. **Optional UX:** collapsible sidebar groups (sidebar now ~35 links); "illustrative data" banner.
+7. **Optional UX:** "illustrative data" banner; optional dark mode from the same tokens. *(Collapsible sidebar — done 6 Oct.)*
 9. **Pick the final name** (section 15) and apply it to website header, decks and this file.
 10. **Test on real devices** — iPhone Safari and Android Chrome (only Chrome emulation was tested).
 11. **Present from a laptop or tablet** — wide tables (heatmap, TEDIF grids, RACI) scroll sideways on phones.
