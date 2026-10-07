@@ -14,6 +14,8 @@
 > - **To compare against the frozen version:** `git diff v1.0-freeze`.
 > - **To go back to it:** `git checkout v1.0-freeze`.
 
+- **PPT / presentation workflow (start to end):** **`docs/PPT_STORYLINE.md`**. It covers the storyline, 18 slides + appendix, the live demo run-sheet, a numbers cheat sheet, the screenshot list, Q&A prep and a day-of checklist.
+
 - **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
 - **Code:** first run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
 - **Website (7 Oct 2026):**
