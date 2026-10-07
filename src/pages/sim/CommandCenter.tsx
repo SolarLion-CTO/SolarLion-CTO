@@ -239,7 +239,7 @@ export default function CommandCenter() {
   )
 }
 
-function Matrix({ rows, cols, cell, onOpen, compact = false }: {
+export function Matrix({ rows, cols, cell, onOpen, compact = false }: {
   rows: { id: string; label: string; sub?: string; group?: string }[]; cols: { id: string; label: string }[]
   cell: (row: string, col: string) => { score: number; status: Rag; to: string; title: string }; onOpen: (to: string) => void; compact?: boolean
 }) {

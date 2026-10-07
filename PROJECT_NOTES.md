@@ -22,7 +22,9 @@
   - Statuses, scores, risks and decisions are all **calculated**; never type a status by hand.
 - **Disclaimer:** a short version appears in the footer of every page; the full version is at `/about#disclaimer` (section 29).
 - **Business problem and pitch line:** section 31. Use it for the deck's "Problem → Solution → Value" slide.
-- **NEXT BUILD, M7: Team workspaces.** A TEAM sidebar group with `/team` plus 5 owner workspaces (Ram, Suman, Vaibhav, Santhosh, Pankaj). Full design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32. Start with M7.1.
+- **IN BUILD, M7: Team workspaces** (the main capstone problem statement). Design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32.
+  - **M7.1 ✅ done 7 Oct 2026** (section 33): TEAM sidebar group, `/team`, all 5 workspaces with live Transformation tab and KPIs, Ram's 4 tabs, golden-thread scenario, analytics library.
+  - **Next: M7.2 Suman** → M7.3 Vaibhav → M7.4 Santhosh → M7.5 Pankaj → M7.6 checks.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -1248,5 +1250,83 @@ The original capstone business problems (BP1 / BP2) are in sections 4 and 13.
 - **E.** Honesty and limits.
 - **F.** Revised effort: **about 5.5 days** (supersedes the 3.5-day estimate below).
 
-**Build order (original estimate):** M7.1 Team + Ram (0.5 d) → M7.2 Suman (0.75 d) → M7.3 Vaibhav (0.75 d) → M7.4 Santhosh (0.5 d) → M7.5 Pankaj (0.75 d) → M7.6 checks (0.25 d). About 3.5 days in total.
+**Build order (original estimate; see section 33 for progress):** M7.1 Team + Ram (0.5 d) → M7.2 Suman (0.75 d) → M7.3 Vaibhav (0.75 d) → M7.4 Santhosh (0.5 d) → M7.5 Pankaj (0.75 d) → M7.6 checks (0.25 d). About 3.5 days in total.
+
+---
+
+## 33. M7.1 done: Team group, `/team`, workspace shell, Ram's workspace (7 Oct 2026)
+
+**Defaults used (not changed by the user):**
+- Golden thread = "Month-end close meets festive peak".
+- Vaibhav is Banking-first.
+- Old-state and target values are illustrative (replace them with team research figures when available).
+
+### What's live
+- **Sidebar group TEAM** (below Executive Overview):
+  - Team & accountability
+  - CTO Control Tower · Ram
+  - AI Transformation · Suman
+  - Regulatory & AI Governance · Vaibhav
+  - Technology Spend & Investment · Santhosh
+  - ERP RCA & Capacity · Pankaj
+- **`/team`:**
+  - capstone problem statement
+  - **transformation scorecard:** team 62% transformed; per owner Ram 65, Suman 75, Vaibhav 59, Santhosh 58, Pankaj 52; 30 measures (10 ahead, 11 on track, 9 behind)
+  - live team pulse
+  - **golden thread (live)**
+  - RACI matrix
+  - BP1 problem coverage
+- **`/team/:owner`** (all 5), with the common layout:
+  - owner banner (name, role, BP1 problems, transformation ring)
+  - **6 live measure cards**
+  - tabs, starting with **Transformation**
+  - right rail (owner's decisions + live feed from their sources)
+  - "About this simulation" note
+- **Transformation tab** (all 5 owners):
+  - Old state / Target state cards
+  - **transformation bridge** (baseline ── today ── target, progress %, time used, glide path, ETA)
+  - **glide-path chart** (actual vs straight-line plan, target line)
+  - transformation ladder L1–L4
+- **Ram's tabs:**
+  - Multi-domain (two heatmaps)
+  - **Agents & correlation** (5 simulated agents → correlation engine → human decisions; approval rate)
+  - **Golden thread**
+  - Programmes (status by business unit, not-on-track list)
+- **Suman, Vaibhav, Santhosh, Pankaj:** Transformation tab and KPIs work now; their 4 functional tabs show "being built in M7.x" with the planned content.
+
+### Files
+| File | Contents |
+|---|---|
+| `src/data/sim/analytics.ts` | Holt, Holt-Winters, EWMA anomalies, Monte Carlo + triangular, NPV, IRR, payback, S-curve, PSI drift, Pareto, M/M/1 latency, error budget, progress, elapsed, glide, ETA, glide path |
+| `src/data/sim/team.ts` | `OWNERS` (accountability, BP1, from / to narratives, functions, sources, 6 measures each) + `measureState` / `ownerState` |
+| `src/data/sim/scenario.ts` | Golden thread: 6 steps at +15 / 40 / 65 / 90 / 115 / 140 s of simulation time; `threadState`, `headroomAt`. Header Reset = replay. |
+| `src/components/team/workspace.tsx` | `WorkspaceShell`, `MeasureCard`, `TransformationTab`, `OwnerRail`, `GoldenThread`, `GlidePill` |
+| `src/pages/team/TeamPage.tsx`, `WorkspacePage.tsx`, `RamTabs.tsx` | Pages |
+
+### Measure rules
+- Baseline = Nov 2025 (`series[0]`); current = Oct 2026.
+- Progress = (current − baseline) ÷ (target − baseline), clamped 0–100.
+- Time used = since 1 Nov 2025 ÷ to target date.
+- Glide path:
+  - **Ahead** if progress ≥ time + 10
+  - **Behind** if progress < time − 10
+  - **On track** otherwise
+- ETA = last-quarter slope; "Reached" at 100%; "Not on current trend" if the trend is flat or moving away.
+- **Derived measures** reuse the simulated metric history: enterprise health, AI readiness, AI use cases, AI value, adoption, obligations mapped, consent, control effectiveness, licence use, change share.
+- **New measures** use a seeded linear history. Examples: signal-to-decision days, days per circular, models approved, cloud waste, recurring ERP problems, headroom.
+- Three measures were replaced during build because their metric history moved the wrong way for an old → target story:
+  - cloud vs plan → cloud waste
+  - value realised → investments value-tracked
+  - ERP availability → availability in peak windows
+
+### Checks
+- Build passes.
+- `validate:sim` passes for 3 / 3 domains.
+- Overflow check of team routes (`/team`, all workspaces and Ram's tabs at 1366 / 820 / 390): all clean.
+
+### Next: M7.2 Suman (AI Transformation)
+- Readiness radar
+- Portfolio and gates: about 12 AI use cases per domain, a funnel, value × feasibility, a gate review with approval
+- ROI and benefits: NPV / payback, Monte Carlo P10–P90
+- Onboard-any-organisation wizard: 6 industry templates
 

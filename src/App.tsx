@@ -41,6 +41,8 @@ import CtoDecisions from './pages/cto/Decisions'
 import Roadmap from './pages/cto/Roadmap'
 import CommandCenter from './pages/sim/CommandCenter'
 import DataSources from './pages/sim/DataSources'
+import TeamPage from './pages/team/TeamPage'
+import WorkspacePage from './pages/team/WorkspacePage'
 
 export default function App() {
   return (
@@ -53,6 +55,8 @@ export default function App() {
             <Route index element={<CommandCenter />} />
             <Route path="overview" element={<Overview />} />
             <Route path="sources" element={<DataSources />} />
+            <Route path="team" element={<TeamPage />} />
+            <Route path="team/:owner" element={<WorkspacePage />} />
             <Route path="decisions" element={<Decisions />} />
             <Route path="value" element={<Value />} />
             <Route path="strategy" element={<Strategy />} />

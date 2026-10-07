@@ -34,6 +34,15 @@ const nav: Group[] = [
     { to: '/cto/business', label: 'Business case', icon: Building2 },
     { to: '/cto/coverage', label: 'Capstone coverage', icon: ListChecks },
   ] },
+  // Capstone team: one workspace per owner (bp1.jpeg, 20 Sep 2026). Main capstone problem statement.
+  { section: 'Team', icon: Users, items: [
+    { to: '/team', label: 'Team & accountability', icon: Users, end: true },
+    { to: '/team/ram', label: 'CTO Control Tower · Ram', sub: 'Multi-domain · decision intelligence', icon: Crown },
+    { to: '/team/suman', label: 'AI Transformation · Suman', sub: 'ROI · any organisation to AI', icon: Sparkles },
+    { to: '/team/vaibhav', label: 'Regulatory & AI Governance · Vaibhav', sub: 'Banking regulation · DPDP · AI', icon: ShieldCheck },
+    { to: '/team/santhosh', label: 'Technology Spend & Investment · Santhosh', sub: 'CAPEX / OPEX · governance', icon: Wallet },
+    { to: '/team/pankaj', label: 'ERP RCA & Capacity · Pankaj', sub: 'ERP · infra capacity · production', icon: Wrench },
+  ] },
   { section: 'Strategy', icon: Compass, items: [
     { to: '/cto/strategy', label: 'Current → target', icon: Compass },
     { to: '/cto/assessment', label: 'Readiness assessment', icon: Gauge },
