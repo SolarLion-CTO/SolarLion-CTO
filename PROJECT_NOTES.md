@@ -21,6 +21,7 @@
   - **Older resilience tabs:** `src/data/resilience.ts` and `src/data/engineering.ts`.
   - Statuses, scores, risks and decisions are all **calculated**; never type a status by hand.
 - **Disclaimer:** a short version appears in the footer of every page; the full version is at `/about#disclaimer` (section 29).
+- **Business problem and pitch line:** section 31. Use it for the deck's "Problem → Solution → Value" slide.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -40,7 +41,7 @@
 
 - **Pending checklist (cross-verified 7 Oct 2026):**
   1. ✅ **Disclaimer done:** built, committed (`ed14e4d`) and pushed on 7 Oct 2026; live on Vercel. A full overflow re-check across all routes is still worth running at the start of M6.
-  2. ✅ **M6 done** (section 30). Still to do: run `git push` after the M6 commit.
+  2. ✅ **M6 done** (section 30). The full sweep found 219 / 219 views clean. If `git status` says "ahead", run `git push`.
   3. **Live AI call:** pick a provider and add the API key in Vercel (section 16).
   4. **Naming consistency:** the website brand is **CTO360**, but section 1 and some decks still say "Domain-Agnostic Enterprise AI Transformation Framework" or "Universal CTO Control Tower". Align the proposal and decks to CTO360, with TEDIF as the underlying framework (section 12).
   5. Owner map consistency across the proposal, decks and TEDIF (section 12).
@@ -1162,4 +1163,50 @@ Under "Executive Overview": **Command Center (all domains)** `/` · **Data sourc
 4. Outcomes tab.
 5. Data Sources page: "simulated, not connected".
 6. About & disclaimer.
+
+---
+
+## 31. The business problem CTO360 solves (pitch framing, 7 Oct 2026)
+
+**In one line:** the CTO cannot see across the enterprise fast enough to decide where to intervene, or prove whether technology spend produced business outcomes. It is a **decision problem, not a data problem**.
+
+### The problem
+1. **Fragmented signals.** Strategy (Planview), architecture (LeanIX), process (Celonis / Signavio), delivery (ServiceNow, Jellyfish), operations (Datadog) and risk (Vanta) each answer their own question. None says what matters most right now.
+2. **Cause and effect span tools.** Example: the payments programme slips (Planview) *because* of legacy dependencies (LeanIX), a team capacity gap (Jellyfish) and rising incidents (Datadog). No single tool shows that chain, so it is discovered late.
+3. **Reporting is not deciding.** Dashboards and status decks are plentiful, but signal → decision → action → outcome is manual, slow and rarely closed.
+4. **Technology spend is hard to defend.** Value realisation and risk are not tied to specific decisions.
+5. **Each business unit reports differently,** so the CTO cannot compare them or move money and people between them with confidence.
+
+### The solution: a CTO decision-intelligence layer, not another tool
+**Signal → Correlation → Insight → Decision → Action → Outcome**
+- One view: 3 business units × 7 source systems × 16 enterprise functions, scored the same way.
+- Correlates records across tools, so every decision card shows *why*, with traceable evidence.
+- A prioritised Top 10, each with impact, ₹ ask vs value protected, confidence, owner and deadline.
+- Closes the loop: approve → actions → measured outcomes against baseline and target.
+- Governed AI (TEDIF): **AI recommends, humans decide**, with an audit trail.
+
+### Same problem, different reality per domain
+| Domain | Business problem | What it costs |
+|---|---|---|
+| Banking | Legacy core and integration layer slowing digital payments; tech debt behind P1s | Q4 payments milestone at risk, ₹38.9 Cr value at stake, regulatory exposure |
+| Manufacturing | MES / plant system instability causing line stops; smart factory delayed | Lost production, late deliveries, OEE target missed |
+| Retail | Peak readiness and inventory sync; engineering capacity stretched | Lost festive sales, overselling and stockouts, POS security risk |
+
+### Pitch line
+*"Enterprise tools tell leaders what is happening inside each function. CTO360 connects those signals to show the CTO what matters, where to intervene, what decision to make, and whether it worked."*
+
+### Target outcomes
+- Faster, evidence-based decisions (days instead of weeks)
+- Fewer late surprises on critical programmes
+- Higher value realisation from technology investment
+- Lower operational and cyber risk
+- One comparable view across business units
+
+### Where it shows on the site
+- **Command Center** `/`: the problem, at a glance.
+- **Decision Center** `/decision-center`: the decisions.
+- **Domain → Decision Intelligence:** evidence, actions and outcomes.
+- **About** `/about`: what CTO360 is and is not.
+
+The original capstone business problems (BP1 / BP2) are in sections 4 and 13.
 
