@@ -14,6 +14,7 @@
 > - **To compare against the frozen version:** `git diff v1.0-freeze`.
 > - **To go back to it:** `git checkout v1.0-freeze`.
 
+- **Presentation PDF (26 slides, 16:9):** `docs/presentation/CTO360_Capstone_Presentation.pdf` (copy also in the `CTO CApstone` folder). Regenerate it with `python3 docs/presentation/build.py`, then `node docs/presentation/shot.mjs <folder>`. It follows Title Case headings and uses no em dashes.
 - **PPT / presentation workflow (start to end):** **`docs/PPT_STORYLINE.md`**. It covers the storyline, 18 slides + appendix, the live demo run-sheet, a numbers cheat sheet, the screenshot list, Q&A prep and a day-of checklist.
 
 - **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
