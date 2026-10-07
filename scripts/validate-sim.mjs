@@ -19,5 +19,12 @@ try {
     console.log(errors.length ? `\n✗ ${errors.length} error(s)` : '\n✓ no errors')
     failed ||= errors.length > 0
   }
+  const { validateTeam } = await server.ssrLoadModule('/src/data/sim/validateTeam.ts')
+  const t = validateTeam()
+  console.log('\n══ TEAM WORKSPACES (cross-checks) ══')
+  t.notes.forEach((n) => console.log('  ' + n))
+  t.errors.forEach((e) => console.log('  ✗ ' + e))
+  console.log(t.errors.length ? `\n✗ ${t.errors.length} team error(s)` : '\n✓ team data consistent')
+  failed ||= t.errors.length > 0
   process.exitCode = failed ? 1 : 0
 } finally { await server.close() }

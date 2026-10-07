@@ -22,13 +22,15 @@
   - Statuses, scores, risks and decisions are all **calculated**; never type a status by hand.
 - **Disclaimer:** a short version appears in the footer of every page; the full version is at `/about#disclaimer` (section 29).
 - **Business problem and pitch line:** section 31. Use it for the deck's "Problem → Solution → Value" slide.
+- **Course syllabus and 20 frameworks:** **`docs/SYLLABUS_AND_FRAMEWORKS.md`** has both images transcribed, a coverage map, and the **M8 plan** to apply every framework and close the syllabus gaps (ESG, DuPont / CVP, platforms / network effects, blockchain / metaverse, change models). Coverage today: 3 frameworks explicit, 6 implicit, 11 gaps.
 - **IN BUILD, M7: Team workspaces** (the main capstone problem statement). Design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32.
   - **M7.1 ✅ done 7 Oct 2026** (section 33): TEAM sidebar group, `/team`, all 5 workspaces with live Transformation tab and KPIs, Ram's 4 tabs, golden-thread scenario, analytics library.
   - **M7.2 ✅ done 7 Oct 2026** (section 34): Suman's workspace with Readiness, Portfolio & gates, ROI & benefits, and Onboard any organisation.
   - **M7.3 ✅ done 7 Oct 2026** (section 35): Vaibhav's workspace with Regulatory change (live circular), AI model register (PSI drift), Data governance & DPDP (breach clock, lineage), and Audit readiness.
   - **M7.4 ✅ done 7 Oct 2026** (section 36): Santhosh's workspace with CAPEX / OPEX & TBM Sankey, Budget, forecast & anomalies, FinOps & licences, and Investment governance.
   - **M7.5 ✅ done 7 Oct 2026** (section 37): Pankaj's workspace with ERP RCA, Capacity & forecasting, Peak scenarios, and Production automation.
-  - **Next: M7.6** cross-checks, full sweep, notes.
+  - **M7.6 ✅ done 7 Oct 2026** (section 38): cross-workspace checks added to `validate:sim`, full sweep, and a presentation run-sheet.
+  - **M7 COMPLETE.** All 5 team workspaces are live. Remaining items are outside the build plan: live AI call (provider + key), naming / owner-map consistency in decks, optional code-splitting.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -1491,6 +1493,42 @@ The original capstone business problems (BP1 / BP2) are in sections 4 and 13.
 
 ### Result
 Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on track, 4 behind**). This fits the story: capacity and change-induced incidents are the open problems, and they are what the golden thread fixes.
+
+---
+
+## 38. M7.6 done: team cross-checks, full sweep, presentation run-sheet (7 Oct 2026)
+
+### Cross-workspace validation: `src/data/sim/validateTeam.ts` (runs inside `npm run validate:sim`)
+- Every AI use case → real app / initiative; value ranges ordered; gate only on pilots.
+- Every regulatory obligation → a real control. Model score distributions sum to 1. Models → real apps.
+- **Spend ledgers reconcile:**
+  - run-cost categories = app + service costs (±3%)
+  - cloud ledger = cloud metric
+  - CAPEX + OPEX = total
+- Problem records → real services. Pankaj's recurring-problem and headroom measures equal the source data.
+- Every team measure: 12 points, baseline = first point, current = last point, progress 0–100.
+- Golden-thread evidence IDs exist.
+- **Current result: ✓ team data consistent.**
+  - 36 use cases (1 negative NPV); 8 circulars / 24 obligations; 24 models (1 restricted); 10 problem records (8 recurring open); min headroom 17%.
+  - **Team: Ram 65%, Suman 75%, Vaibhav 53%, Santhosh 58%, Pankaj 44% → team ≈ 59%.**
+
+### Full sweep
+100 pages × 3 sizes (1366 / 820 / 390) covering every static route, the domain pages, `/team` and every tab of every workspace. Result: see the line below once recorded.
+
+### Presentation run-sheet (≈ 15–18 minutes, 5 presenters)
+**Before you start:** open `/team`, then press **Reset** in the header so the live scenario plays from the beginning. Optionally use **Reset demo** on the Decision Center so all approvals start empty.
+
+| # | Who | Where | What to show (≈ 3 min each) |
+|---|---|---|---|
+| 0 | Ram | `/team` | Problem statement → transformation scorecard (team ≈ 59%) → **golden thread starts live** |
+| 1 | Ram | `/team/ram` → Agents & correlation → Golden thread | 5 agents → correlation → decisions; then `/` Command Center and approve **Digital Payments** in the Decision Center |
+| 2 | Suman | `/team/suman` → Portfolio & gates → ROI → Onboard | Funnel, **Promote** the retail demand-forecasting pilot, Monte Carlo P10–P90, generate a plan for "Insurance" |
+| 3 | Vaibhav | `/team/vaibhav` → Regulatory change → AI model register → Data governance | **Live circular arrives (+50 s)** → Approve mapping; fraud model PSI 0.37 → Restricted; **breach clock (+80 s)** |
+| 4 | Santhosh | `/team/santhosh` → CAPEX / OPEX → Budget → Investment | TBM Sankey (72% allocated), retail festive cloud spike (golden thread step 3), NPV / IRR; security programmes judged on risk |
+| 5 | Pankaj | `/team/pankaj` → ERP RCA → Capacity → Peak scenarios | Pareto + 5-Whys; shared cluster gauge recovering after golden-thread step 6; festive slider: 0% → 1,546 ms, 25% → within target |
+| 6 | Ram | `/team` | Golden thread complete → Transformation tab: "from old state to target state, measurably" → About & disclaimer |
+
+**Talking line:** "Five owners, one connected decision, measured outcomes. AI recommends, humans decide."
 
 ### Checks
 - Build passes.
