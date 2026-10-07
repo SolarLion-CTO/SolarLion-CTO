@@ -175,4 +175,115 @@
 | M8.6 | **Theory of Constraints** tab (5 focusing steps on capacity / ERP) · Lewin labels on production automation | Pankaj |
 | M8.7 | Team page **Change** section: Kotter 8 steps status, Lewin 3 stages, Theory E vs O balance · checks (validate, overflow sweep), notes, commit | Team |
 
-**Estimated effort:** about 1.5–2 days. All new data simulated and labelled like the rest of CTO360; techniques computed in the app.
+**Estimated effort:** about 1.5–2 days. All new data simulated and labelled like the rest of CTO360; techniques computed in the app. (Superseded by the extended scope in section 7.)
+
+---
+
+## 6. Final CTO strategy & decision framework library (45, consolidated; added 7 Oct 2026)
+
+> A consolidated, globally relevant 2026 CTO library. It combines the IIM syllabus concepts (sections 1–2) with frameworks commonly used in enterprise strategy, transformation, portfolio and executive decision-making.
+> **Priority:** Core = must apply · Important = use regularly · Foundation = background.
+> **CTO360 column:** ✅ applied explicitly · 🟡 implicit (present, not named) · ❌ planned in M8 (section 7).
+
+| # | Area | Framework / concept | CTO application | Priority | CTO360 today → planned |
+|---:|---|---|---|---|---|
+| 1 | Strategy | **SWOT** | Internal strengths / weaknesses + external opportunities / threats | Core | ❌ → Ram · Strategy lenses (generated from simulated data per business unit) |
+| 2 | Strategy | **PESTLE** | Macro environment and external forces | Core | ❌ → Ram · Strategy lenses (regulatory items link to Vaibhav's circulars) |
+| 3 | Strategy | **Porter Five Forces** | Industry and competitive dynamics | Core | ❌ → Ram · Strategy lenses (per industry) |
+| 4 | Strategy | **Porter Generic Strategies** | Cost, differentiation or focus positioning | Core | ❌ → Ram · Strategy lenses + per AI use case (Suman) |
+| 5 | Strategy | **Porter Value Chain** | Where technology creates business value | Core | 🟡 Process Intelligence pages, value-chain digitalisation → explicit value-chain map per business unit |
+| 6 | Strategy | **VRIO** | Determine sustainable strategic capabilities | Important | ❌ → Ram · Strategy lenses (capabilities from LeanIX-style data) |
+| 7 | Strategy | **Mintzberg 5Ps** | Examine strategy through multiple lenses | Important | ❌ → Ram · Strategy lenses |
+| 8 | Growth | **Ansoff Matrix** | Market / product growth choices | Core | ❌ → Ram · Strategy lenses (initiatives placed in 4 quadrants) |
+| 9 | Portfolio | **BCG Growth-Share Matrix** | Portfolio / resource allocation | Important | ❌ → Suman / Ram (product or capability portfolio); related: LeanIX TIME matrix ✅ |
+| 10 | Innovation | **Blue Ocean Strategy** | Create differentiated / new value spaces | Important | ❌ → Ram · Strategy lenses (strategy canvas: eliminate-reduce-raise-create) |
+| 11 | Execution | **Balanced Scorecard** | Strategy → objectives → measures | **Core** | 🟡 16-function × 6-column heatmap, Executive 360 → explicit 4-perspective scorecard |
+| 12 | Execution | **OKRs** | Objectives → measurable results | **Core** | 🟡 Objectives → initiatives → KPIs → explicit OKR view per owner |
+| 13 | Execution | **Strategy Maps** | Connect capabilities and actions to outcomes | Important | 🟡 Objective → initiative → app → process → service chains → explicit strategy map |
+| 14 | Prioritisation | **Value vs Effort / Impact Matrix** | Prioritise technology initiatives | **Core** | ✅ Suman value × feasibility scatter |
+| 15 | Operations | **Theory of Constraints** | Find and remove the primary bottleneck | Core | 🟡 Bottlenecks, capacity → Pankaj · ToC tab (5 focusing steps) |
+| 16 | Innovation portfolio | **Three Horizons** | Balance core, emerging and future bets | **Core** | ❌ → Suman · portfolio tagged H1 / H2 / H3 with spend balance |
+| 17 | Innovation | **Stage-Gate** | Idea → PoC → MVP → Production → Scale | **Core** | ✅ Suman gates, Santhosh investment funnel, TEDIF gates |
+| 18 | Innovation | **Design Thinking** | Discover and validate user problems | Core | ❌ → Suman · onboarding framed empathise → define → ideate → prototype → test |
+| 19 | Innovation | **Lean Startup** | Build → Measure → Learn | **Core** | 🟡 PoC / pilot with success criteria → explicit build-measure-learn loop on pilots |
+| 20 | Customer | **Jobs-to-be-Done** | Understand the outcome customers actually seek | Important | ❌ → Suman · JTBD per use case |
+| 21 | Business model | **Business Model Canvas** | Define how technology creates / captures value | **Core** | ❌ → Suman · generated 9-block canvas in onboarding |
+| 22 | Business model | **Value Proposition Canvas** | Problem / customer / value alignment | Important | ❌ → Suman · alongside BMC |
+| 23 | Platform strategy | **Pipeline vs Platform** | Choose linear vs ecosystem operating model | Core | ❌ → Suman · Platform & adoption |
+| 24 | Platform strategy | **Network Effects** | Understand compounding platform value | Core | ❌ → Suman · Platform & adoption |
+| 25 | Platform strategy | **Winner-Take-All** | Understand platform concentration dynamics | Important | ❌ → Suman · Platform & adoption |
+| 26 | Adoption | **Diffusion of Innovations** | Understand enterprise / user adoption | Core | ❌ → Suman · Rogers 5-factor score per use case |
+| 27 | Adoption | **Crossing the Chasm** | Move innovation into mainstream adoption | Important | 🟡 Adoption S-curve → explicit adopter segments and chasm |
+| 28 | Organisation | **McKinsey 7S** | Align strategy, structure, systems and people | **Core** | 🟡 Readiness dimensions → Ram · 7S radar |
+| 29 | Organisation | **Galbraith Star Model** | Organisational design | Important | ❌ → Team · operating model section (strategy, structure, processes, rewards, people) |
+| 30 | Operating model | **Operating Model Canvas** | Translate strategy into operating capabilities | **Core** | 🟡 existing `/cto/operating-model` page → canvas linked to team workspaces |
+| 31 | Change | **Kotter 8-Step Model** | Large-scale organisational transformation | **Core** | ❌ → Team · Change section |
+| 32 | Change | **ADKAR** | Drive individual adoption | **Core** | ❌ → Team · Change section (per stakeholder group) |
+| 33 | Change | **Lewin Change Model** | Understand change lifecycle | Foundation | 🟡 Old → target state → explicit unfreeze → change → refreeze |
+| 34 | Change | **Theory E vs Theory O** | Balance economic value and organisational capability | Important | ❌ → Team · E vs O balance of the 30 measures |
+| 35 | Decision-making | **Cynefin Framework** | Decide differently for clear, complicated, complex and chaotic problems | **Core** | ❌ → Decision cards tagged by Cynefin domain (with the decision approach) |
+| 36 | Decision-making | **RAPID** | Establish enterprise decision rights | **Core** | 🟡 TEDIF approver / owner → explicit R-A-P-I-D roles on decision cards |
+| 37 | Decision-making | **OODA Loop** | Fast observe → orient → decide → act cycles | Important | 🟡 Signal → correlation → decision → action loop → labelled OODA on Ram's agents tab |
+| 38 | Governance | **RACI** | Clarify accountability and responsibility | Core | ✅ `/team` RACI matrix |
+| 39 | Risk | **Three Lines Model** | Risk ownership, oversight and assurance | **Core** | 🟡 Owners / CISO / audit implied → Vaibhav · explicit Three Lines view |
+| 40 | Risk | **Risk Matrix / Heat Map** | Prioritise risks by likelihood and impact | Core | ✅ Vanta 5×5 heatmap, Command Center enterprise risk heatmap |
+| 41 | Transformation | **Digital Maturity Model** | Assess current vs target digital capability | **Core** | ✅ Executive 360 digital maturity, Suman readiness |
+| 42 | Transformation | **Capability Maturity Model** | Measure capability progression | Core | ✅ Decision Intelligence maturity (L1–L5, labelled "not a CMMI assessment"), transformation ladder |
+| 43 | Transformation | **7S + ADKAR + Kotter** | Organisation-level + individual-level transformation | Core combination | ❌ → Team · Change section combines all three |
+| 44 | Investment | **NPV / IRR / ROI / TCO** | Technology investment decisions | **Core** | ✅ NPV / IRR / ROI / payback (Suman, Santhosh); TCO 🟡 → explicit TCO (build + run) |
+| 45 | Portfolio | **Run-Grow-Transform** | Balance operational, growth and transformational technology spend | **Core** | 🟡 Run vs change (Santhosh) → explicit Run / Grow / Transform split |
+
+**Today:** 9 explicit · 14 implicit · 22 planned.
+
+### What to remove or consolidate
+- **Don't treat every framework equally.**
+  - **Eisenhower Matrix** is useful personally but too tactical for the main CTO library.
+  - **RICE** is excellent in product environments but doesn't need to be a primary enterprise CTO framework.
+  - **Bow-Tie** is useful for specific risk analysis, but **Three Lines + enterprise risk assessment** matters more at CTO level.
+- **Duplicates:**
+  - **Three Horizons** and the McKinsey Horizon Model are the same family; learn them once.
+  - **ADKAR** and Prosci ADKAR are the same framework.
+
+### The 15 to master deeply
+To sit in an executive meeting and **apply a framework to a business problem**, concentrate on:
+
+**PESTLE → Five Forces → SWOT → Porter Value Chain → Ansoff → Three Horizons → Business Model Canvas → Balanced Scorecard → OKRs → Stage-Gate → McKinsey 7S → Kotter → ADKAR → Cynefin → Three Lines**
+
+Keep the rest as a **toolbox**.
+
+### When to use which framework (the decision guide)
+| Executive question | Framework(s) |
+|---|---|
+| What's happening outside? | PESTLE / Five Forces |
+| Where are we? | SWOT / VRIO |
+| Where should we compete? | Porter / Ansoff / Blue Ocean |
+| Where is the value? | Value Chain / Business Model Canvas |
+| What should we invest in? | Three Horizons / NPV / ROI |
+| What should we prioritise? | Value vs Effort / Stage-Gate |
+| How should we organise? | 7S / Operating Model |
+| How do we transform people? | Kotter / ADKAR |
+| How do we execute? | Balanced Scorecard / OKRs |
+| How do we decide under complexity? | Cynefin / RAPID |
+| How do we govern risk? | Three Lines |
+
+> You don't need 100 frameworks. You need to choose and apply the right one when a CEO, CFO, COO or business leader brings you a problem.
+
+---
+
+## 7. M8 scope, extended to the 45-framework library (supersedes section 5)
+
+**Principle:** every framework is *applied to the simulated enterprise data*, not just listed. The concepts page answers "which framework when" with live links.
+
+| Step | Scope | Frameworks covered (by # in section 6) |
+|---|---|---|
+| **M8.1** | `src/data/sim/concepts.ts` (45 frameworks + 20 IIM concepts + syllabus topics, with where-applied links) · **concepts strip** on every workspace tab · new page **`/team/frameworks`** under TEAM: library table, the 15 to master, the **"which framework when" decision guide** (each row links to the live view) · syllabus coverage | All (index) |
+| **M8.2** | Ram · **Strategy lenses** tab: PESTLE, Five Forces, SWOT, VRIO, Generic Strategies, Value Chain map, Ansoff, Blue Ocean strategy canvas, Mintzberg 5Ps, Rumelt strategy tests, 7S radar, modularity × coordination, build / buy / partner (scaling) | 1–8, 10, 28, (IIM 4, 13) |
+| **M8.3** | Ram · **Execution & decisions** tab: Balanced Scorecard (4 perspectives from the 16 functions), OKRs per owner, strategy map, Cynefin tagging of decision cards, RAPID roles, OODA loop on the agents | 11–13, 35–37 |
+| **M8.4** | Suman · **Platform & adoption** tab: Three Horizons, BCG, pipeline vs platform, network effects, WTA, open vs closed models, XaaS, diffusion factors, crossing the chasm, JTBD · Lean Startup loop on pilots · onboarding adds **Design Thinking** flow + **Business Model Canvas** + **Value Proposition Canvas** · blockchain and industrial-metaverse use cases | 9, 16, 18–27, (IIM 5, 6, 19) |
+| **M8.5** | Vaibhav · **ESG & sustainability** tab + explicit **Three Lines** view | 39, (syllabus P4 ESG) |
+| **M8.6** | Santhosh · **Finance lenses** tab: DuPont, ROIC, residual income, CVP / operating leverage, tornado sensitivity, **TCO**, **Run-Grow-Transform**, Theory E | 44, 45, 34 (E), (syllabus P3) |
+| **M8.7** | Pankaj · **Theory of Constraints** tab (5 focusing steps) · Lewin on production automation | 15, 33 |
+| **M8.8** | Team · **Change & organisation** section: Kotter 8 steps, ADKAR per stakeholder group, Lewin, Theory E vs O balance, Galbraith Star, Operating Model Canvas link (7S + ADKAR + Kotter combined) | 29–34, 43 |
+| **M8.9** | Checks (validate, full overflow sweep — including the M7.6 re-run), notes, commit | — |
+
+**Estimated effort:** about 2.5–3 days. **Result:** all 45 library frameworks and all 20 IIM concepts applied and labelled; syllabus gaps closed (ESG, DuPont / CVP / sensitivity, platforms, business models, blockchain / metaverse, change, design thinking).

@@ -23,6 +23,8 @@
 - **Disclaimer:** a short version appears in the footer of every page; the full version is at `/about#disclaimer` (section 29).
 - **Business problem and pitch line:** section 31. Use it for the deck's "Problem → Solution → Value" slide.
 - **Course syllabus and 20 frameworks:** **`docs/SYLLABUS_AND_FRAMEWORKS.md`** has both images transcribed, a coverage map, and the **M8 plan** to apply every framework and close the syllabus gaps (ESG, DuPont / CVP, platforms / network effects, blockchain / metaverse, change models). Coverage today: 3 frameworks explicit, 6 implicit, 11 gaps.
+  - **Added 7 Oct 2026:** the consolidated **45-framework CTO library** (section 6 of that file). It includes the "15 to master", the **"which framework when" decision guide**, and the CTO360 coverage per framework (9 explicit · 14 implicit · 22 planned).
+  - **M8 scope extended** to steps M8.1–M8.9 (section 7), about 2.5–3 days.
 - **IN BUILD, M7: Team workspaces** (the main capstone problem statement). Design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32.
   - **M7.1 ✅ done 7 Oct 2026** (section 33): TEAM sidebar group, `/team`, all 5 workspaces with live Transformation tab and KPIs, Ram's 4 tabs, golden-thread scenario, analytics library.
   - **M7.2 ✅ done 7 Oct 2026** (section 34): Suman's workspace with Readiness, Portfolio & gates, ROI & benefits, and Onboard any organisation.
