@@ -1590,6 +1590,8 @@ Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on trac
 
 ## 40. Reference library page (7 Oct 2026)
 
+**Status:** ✅ built, committed and reviewed by Ram ("all good"), 7 Oct 2026. Goes live after `git push`.
+
 **Why:** one page anyone (faculty, business audience, new team member) can read to understand every framework, technique and concept in the project, without the course material.
 
 **Where:** TEAM → **Reference library** (`/team/reference`). It is linked from the Frameworks & syllabus page banner. Code: `src/pages/team/ReferencePage.tsx` (one data array `REFS` and small built-in diagrams; no chart library).
