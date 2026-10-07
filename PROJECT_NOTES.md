@@ -38,7 +38,7 @@
 | M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | ⏳ Next (the live clock already exists from M3) |
 
 - **Pending checklist (cross-verified 7 Oct 2026):**
-  1. **Disclaimer work (section 29) is coded but not yet built, checked or committed.** To finish it: run `npm run build` and the overflow check, then commit, then `git push`.
+  1. ✅ **Disclaimer done:** built, committed (`ed14e4d`) and pushed on 7 Oct 2026; live on Vercel. A full overflow re-check across all routes is still worth running at the start of M6.
   2. **M6:** Command Center as the home page, Data Sources page, event-driven metric changes, final full check.
   3. **Live AI call:** pick a provider and add the API key in Vercel (section 16).
   4. **Naming consistency:** the website brand is **CTO360**, but section 1 and some decks still say "Domain-Agnostic Enterprise AI Transformation Framework" or "Universal CTO Control Tower". Align the proposal and decks to CTO360, with TEDIF as the underlying framework (section 12).
@@ -1077,7 +1077,7 @@ There are 2 approved decisions with outcomes per domain, and the Top 10 holds 1 
 
 ---
 
-## 29. Disclaimer and About page (7 Oct 2026); coded, build and commit pending
+## 29. Disclaimer and About page (7 Oct 2026); ✅ live (commit ed14e4d)
 
 **Short version, in the footer of every page** (`src/components/Layout.tsx`, text constant `SHORT_DISCLAIMER` in `src/pages/About.tsx`):
 > **Disclaimer:** Independent demonstration using synthetic data. Third-party product names are referenced solely for conceptual integration scenarios. CTO360 is not affiliated with or endorsed by the referenced vendors. *(link: Full disclaimer)*
@@ -1104,11 +1104,7 @@ There are 2 approved decisions with outcomes per domain, and the Top 10 holds 1 
 - Decision Center tab row can now shrink (`min-w-0`), because it overflowed on tablet.
 - The header help link no longer has padding: at 820 px it pushed the header 8 px wide.
 
-**Still to do:**
-1. `npm run build`
-2. Overflow check (all routes at 1366 / 820 / 390)
-3. Commit
-4. `git push`
+**Status:** built, committed and pushed by the user on 7 Oct 2026 (commit `ed14e4d`). Still to do: a full overflow re-check across all routes at 1366 / 820 / 390. The tablet header fix was verified on its own page only.
 
 **Note:** this wording is a sensible good-faith disclaimer for a capstone and portfolio, not legal advice. Have it reviewed if the site is used commercially.
 
