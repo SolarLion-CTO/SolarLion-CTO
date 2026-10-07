@@ -26,6 +26,7 @@ import { SimClockProvider } from './components/sim/clock'
 import { DecisionStateProvider } from './components/sim/decisionState'
 import DomainDecisions from './pages/sim/DomainDecisions'
 import DecisionCenter from './pages/sim/DecisionCenter'
+import About from './pages/About'
 import TrackerDim from './pages/TrackerDim'
 import Coverage from './pages/cto/Coverage'
 import Business from './pages/cto/Business'
@@ -63,6 +64,7 @@ export default function App() {
             <Route path="domain/:id/programme" element={<DomainView />} />
             <Route path="domain/:id/decisions" element={<DomainDecisions />} />
             <Route path="decision-center" element={<DecisionCenter />} />
+            <Route path="about" element={<About />} />
             <Route path="domain/:id/record/:rid" element={<RecordPage />} />
             <Route path="domain/:id/fn/:fn" element={<FunctionPage />} />
             <Route path="domain/:id/:source" element={<SourcePage />} />

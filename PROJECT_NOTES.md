@@ -2,7 +2,7 @@
 
 > Complete record of the CTO capstone project, from the first idea to the current website.
 > Use this file to pick the work up again, brief a teammate, or brief an AI assistant.
-> Last updated: 6 October 2026 (design system applied). **Start here next time:** section 0.
+> Last updated: 7 October 2026 (M1–M5 simulation build + disclaimer). **Start here next time:** section 0.
 
 ---
 
@@ -10,8 +10,16 @@
 
 - **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
 - **Code:** first run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
-- **Website:** CTO360 shell, Executive Overview (signal → decision), 8 tabs on each industry domain page (resilience Steps A + B), Engineering metrics, Risk register and AI Intelligence pages. Responsive check: 100 / 100 views with no overflow (6 Oct 2026).
-- **Where to update figures:** `src/data/resilience.ts` (apps, cyber, P&L, DR/BCP, customer, vendors, end of life), `src/data/engineering.ts` (delivery metrics). Statuses, the Risk register, the Executive Overview and AI insights are calculated from these (`src/data/signals.ts`), so never type a status by hand.
+- **Website (7 Oct 2026):**
+  - **Each domain** (`/domain/:id`) opens the **Enterprise 360** overview. It links to 7 simulated source pages (Planview, LeanIX, Celonis + Signavio, ServiceNow, Jellyfish, Datadog, Vanta), 16 function pages, a record drill-down, and Decision Intelligence (decision cards, actions, outcomes, maturity).
+  - **Cross-domain:** the **CTO Decision Center** (Top 10) at `/decision-center`, and **About & disclaimer** at `/about`.
+  - **Unchanged:** the previous domain page is at `/domain/:id/programme`. The TEDIF, tracker and CTO pages are unchanged.
+  - Sections 24 and 26–29 describe these.
+- **Where to update figures:**
+  - **Simulation:** `src/data/sim/domains/banking.ts`, `manufacturing.ts` and `retail.ts`. Run **`npm run validate:sim`** after every change.
+  - **Older resilience tabs:** `src/data/resilience.ts` and `src/data/engineering.ts`.
+  - Statuses, scores, risks and decisions are all **calculated**; never type a status by hand.
+- **Disclaimer:** a short version appears in the footer of every page; the full version is at `/about#disclaimer` (section 29).
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -29,6 +37,14 @@
 | M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | ✅ Done 7 Oct 2026 (section 28) |
 | M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | ⏳ Next (the live clock already exists from M3) |
 
+- **Pending checklist (cross-verified 7 Oct 2026):**
+  1. **Disclaimer work (section 29) is coded but not yet built, checked or committed.** To finish it: run `npm run build` and the overflow check, then commit, then `git push`.
+  2. **M6:** Command Center as the home page, Data Sources page, event-driven metric changes, final full check.
+  3. **Live AI call:** pick a provider and add the API key in Vercel (section 16).
+  4. **Naming consistency:** the website brand is **CTO360**, but section 1 and some decks still say "Domain-Agnostic Enterprise AI Transformation Framework" or "Universal CTO Control Tower". Align the proposal and decks to CTO360, with TEDIF as the underlying framework (section 12).
+  5. Owner map consistency across the proposal, decks and TEDIF (section 12).
+  6. Optional: code-split routes (the bundle is above 500 kB; this is only a warning).
+  7. Housekeeping: confirm the GitHub token pasted in chat earlier has been **revoked**.
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
@@ -1058,4 +1074,41 @@ There are 2 approved decisions with outcomes per domain, and the Top 10 holds 1 
 4. Go back and **Approve** → open the **Action tracker** (5 actions) and set one to In Progress.
 5. Go to **Outcomes**: "Accelerate cloud adoption" approved in July, measured against target.
 6. Go to the **CTO Decision Center** for the Top 10 across all business units.
+
+---
+
+## 29. Disclaimer and About page (7 Oct 2026); coded, build and commit pending
+
+**Short version, in the footer of every page** (`src/components/Layout.tsx`, text constant `SHORT_DISCLAIMER` in `src/pages/About.tsx`):
+> **Disclaimer:** Independent demonstration using synthetic data. Third-party product names are referenced solely for conceptual integration scenarios. CTO360 is not affiliated with or endorsed by the referenced vendors. *(link: Full disclaimer)*
+
+**Full version, at `/about#disclaimer`** (`src/pages/About.tsx`):
+> CTO360 is an independent demonstration platform developed for educational, research and professional portfolio purposes using synthetic and simulated data. References to third-party products, platforms and trademarks are included solely to demonstrate conceptual integration scenarios and potential enterprise workflows. CTO360 is not affiliated with, endorsed by, sponsored by or officially connected with any referenced vendor. No proprietary customer data, vendor data or production system data is used. All product names, trademarks and registered trademarks remain the property of their respective owners.
+
+**The About page also covers:**
+- What CTO360 is, and is not: it does not replace vendor platforms or CXO systems.
+- The organisations are fictional; there are no live integrations.
+- Maturity is not a CMMI assessment; control monitoring is not a certification.
+- The 7 simulated source categories, and a note to raise trademark questions with the project team.
+
+**Ways in:**
+- Footer "Full disclaimer" link
+- Sidebar bottom "About & disclaimer"
+- Header help (?) icon
+
+**Labels kept everywhere:**
+- "Simulated · Planview / SAP LeanIX / Celonis + SAP Signavio / ServiceNow SPM / Jellyfish / Datadog / Vanta".
+- The Celonis label keeps "+ SAP Signavio" because that layer simulates both.
+
+**Small fixes made at the same time:**
+- Decision Center tab row can now shrink (`min-w-0`), because it overflowed on tablet.
+- The header help link no longer has padding: at 820 px it pushed the header 8 px wide.
+
+**Still to do:**
+1. `npm run build`
+2. Overflow check (all routes at 1366 / 820 / 390)
+3. Commit
+4. `git push`
+
+**Note:** this wording is a sensible good-faith disclaimer for a capstone and portfolio, not legal advice. Have it reviewed if the site is used commercially.
 

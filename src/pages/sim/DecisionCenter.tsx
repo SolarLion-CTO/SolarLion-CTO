@@ -30,7 +30,7 @@ export default function DecisionCenter() {
         <Stat label="Decisions in the engine" value={all.filter((x) => !x.preset).length} sub="raised by cross-system rules, all domains" />
       </div>
       <div className="flex justify-between items-center gap-2">
-        <Tabs<T> value={t} onChange={setTab} tabs={[{ id: 'top', label: 'Top 10', count: top.length }, { id: 'actions', label: 'Action tracker (all domains)' }, { id: 'outcomes', label: 'Outcomes' }]} />
+        <div className="min-w-0 flex-1"><Tabs<T> value={t} onChange={setTab} tabs={[{ id: 'top', label: 'Top 10', count: top.length }, { id: 'actions', label: 'Action tracker (all domains)' }, { id: 'outcomes', label: 'Outcomes' }]} /></div>
         <button onClick={() => { if (confirm('Reset all demo decisions and action statuses in this browser?')) st.reset() }} className="inline-flex items-center gap-1 text-xs text-ink-3 border border-line rounded-lg px-2.5 py-1.5 hover:bg-slate-50 shrink-0 mb-4"><RotateCcw size={13} />Reset demo</button>
       </div>
       {t === 'top' && <div className="space-y-5">{top.map((x) => <DecisionCard key={x.id} d={x} showDomain />)}</div>}

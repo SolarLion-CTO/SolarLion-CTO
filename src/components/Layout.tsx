@@ -13,6 +13,7 @@ import { cascade, tracks } from '../data/cascade'
 import { SOURCES } from '../data/sim/scores'
 import { FUNCTIONS } from '../data/sim/functions'
 import { ClockControls } from './sim/EventFeed'
+import { SHORT_DISCLAIMER } from '../pages/About'
 
 type Item = { to: string; label: string; icon: LucideIcon; badge?: number; sub?: string; end?: boolean }
 type Group = { section: string; icon: LucideIcon; items: Item[] }
@@ -150,7 +151,7 @@ export default function Layout() {
             <Bell size={19} />
             <span className="absolute -top-0.5 -right-0.5 bg-crit text-[10px] font-semibold rounded-full w-4 h-4 flex items-center justify-center">{domain.alerts.length}</span>
           </button>
-          <CircleHelp size={19} className="hidden md:block text-slate-300" aria-hidden />
+          <NavLink to="/about" className="hidden md:block text-slate-300 hover:text-white" aria-label="About CTO360 and disclaimer" title="About & disclaimer"><CircleHelp size={19} /></NavLink>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center font-semibold text-sm" aria-hidden>R</div>
             <div className="hidden lg:block leading-tight text-xs">
@@ -211,16 +212,22 @@ export default function Layout() {
           <div className="mx-6 mt-2 mb-5 pt-4 border-t border-line text-[12px] text-ink-3 space-y-1">
             <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-success-text" />Trust layer enforcing</div>
             <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-success-text" />Audit trail active</div>
+            <NavLink to="/about" onClick={() => setOpen(false)} className="flex items-center gap-2 pt-2 text-ink-2 hover:text-ink font-medium"><CircleHelp size={13} />About & disclaimer</NavLink>
           </div>
         </aside>
 
         <main className="flex-1 min-w-0 p-4 md:p-6">
           <div className="mx-auto max-w-[1440px]">
             <Outlet />
-            <footer className="mt-10 py-4 border-t border-line text-xs text-ink-3 flex flex-wrap gap-x-6 gap-y-1 justify-center">
-              <span><b className="font-semibold text-ink-2">CTO360</b> · One View. Connected Decisions. Measurable Technology Outcomes.</span>
-              <span>Decision intelligence powered by TEDIF</span>
-              <span>Simulated enterprise data · no live vendor integrations</span>
+            <footer className="mt-10 pt-4 pb-6 border-t border-line text-xs text-ink-3" role="contentinfo">
+              <div className="flex flex-wrap gap-x-6 gap-y-1 justify-center">
+                <span><b className="font-semibold text-ink-2">CTO360</b> · One View. Connected Decisions. Measurable Technology Outcomes.</span>
+                <span>Decision intelligence powered by TEDIF</span>
+              </div>
+              <p className="mt-3 mx-auto max-w-3xl text-center rounded-lg border border-line bg-slate-50 px-4 py-2.5 text-[12px] leading-relaxed text-ink-2">
+                <b className="text-ink">Disclaimer:</b> {SHORT_DISCLAIMER}{' '}
+                <NavLink to="/about#disclaimer" className="font-semibold text-brand-600 hover:underline whitespace-nowrap">Full disclaimer</NavLink>
+              </p>
             </footer>
           </div>
         </main>
