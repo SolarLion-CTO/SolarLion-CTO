@@ -39,6 +39,8 @@ import Architecture from './pages/cto/Architecture'
 import OperatingModel from './pages/cto/OperatingModel'
 import CtoDecisions from './pages/cto/Decisions'
 import Roadmap from './pages/cto/Roadmap'
+import CommandCenter from './pages/sim/CommandCenter'
+import DataSources from './pages/sim/DataSources'
 
 export default function App() {
   return (
@@ -48,7 +50,9 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route index element={<Overview />} />
+            <Route index element={<CommandCenter />} />
+            <Route path="overview" element={<Overview />} />
+            <Route path="sources" element={<DataSources />} />
             <Route path="decisions" element={<Decisions />} />
             <Route path="value" element={<Value />} />
             <Route path="strategy" element={<Strategy />} />

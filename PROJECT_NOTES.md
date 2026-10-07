@@ -11,6 +11,7 @@
 - **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
 - **Code:** first run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
 - **Website (7 Oct 2026):**
+  - **Home `/`** is the **Enterprise Command Center**: all 3 domains, source and function heatmaps, trends, top decisions, risk, investment, operations, outcomes, live events. It is joined by **Data sources** at `/sources` (section 30).
   - **Each domain** (`/domain/:id`) opens the **Enterprise 360** overview. It links to 7 simulated source pages (Planview, LeanIX, Celonis + Signavio, ServiceNow, Jellyfish, Datadog, Vanta), 16 function pages, a record drill-down, and Decision Intelligence (decision cards, actions, outcomes, maturity).
   - **Cross-domain:** the **CTO Decision Center** (Top 10) at `/decision-center`, and **About & disclaimer** at `/about`.
   - **Unchanged:** the previous domain page is at `/domain/:id/programme`. The TEDIF, tracker and CTO pages are unchanged.
@@ -25,7 +26,7 @@
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
 - **NEXT BUILD (agreed direction):** two specs merged into one plan, **section 23** (this supersedes the build order in section 22).
   - Specs: `docs/SIMULATION_SPEC.md` (7 tool layers, canonical model, decisions → actions → outcomes) and `docs/ENTERPRISE360_SPEC.md` (16 enterprise functions per domain, heatmap, Top 10 decisions, maturity).
-  - **M1–M5 DONE (6–7 Oct 2026, sections 24 and 26–28).** Next: **M6**, the cross-domain Command Center as home page, the Data Sources page, event-driven metric changes, and final checks.
+  - **M1–M6 ALL DONE (6–7 Oct 2026, sections 24 and 26–30).** The simulation build is complete. Home `/` is now the **Enterprise Command Center**; the previous home page is at `/overview`.
 - **Sprint tracker (simulation build, plan in section 23):**
 
 | Sprint | What it delivers | Visible on site? | Status |
@@ -35,11 +36,11 @@
 | M3 | Domain Overview (Executive 360) + 7 source pages per domain + Manufacturing and Retail data; existing tabs re-homed (section 25) | **Yes, the first big visible change** | ✅ Done 6 Oct 2026 (section 26) |
 | M4 | 16-function page template + "Fed by" links into sources | Yes | ✅ Done 6 Oct 2026 (section 27) |
 | M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | ✅ Done 7 Oct 2026 (section 28) |
-| M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | ⏳ Next (the live clock already exists from M3) |
+| M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | ✅ Done 7 Oct 2026 (section 30) |
 
 - **Pending checklist (cross-verified 7 Oct 2026):**
   1. ✅ **Disclaimer done:** built, committed (`ed14e4d`) and pushed on 7 Oct 2026; live on Vercel. A full overflow re-check across all routes is still worth running at the start of M6.
-  2. **M6:** Command Center as the home page, Data Sources page, event-driven metric changes, final full check.
+  2. ✅ **M6 done** (section 30). Still to do: run `git push` after the M6 commit.
   3. **Live AI call:** pick a provider and add the API key in Vercel (section 16).
   4. **Naming consistency:** the website brand is **CTO360**, but section 1 and some decks still say "Domain-Agnostic Enterprise AI Transformation Framework" or "Universal CTO Control Tower". Align the proposal and decks to CTO360, with TEDIF as the underlying framework (section 12).
   5. Owner map consistency across the proposal, decks and TEDIF (section 12).
@@ -1107,4 +1108,58 @@ There are 2 approved decisions with outcomes per domain, and the Top 10 holds 1 
 **Status:** built, committed and pushed by the user on 7 Oct 2026 (commit `ed14e4d`). Still to do: a full overflow re-check across all routes at 1366 / 820 / 390. The tablet header fix was verified on its own page only.
 
 **Note:** this wording is a sensible good-faith disclaimer for a capstone and portfolio, not legal advice. Have it reviewed if the site is used commercially.
+
+---
+
+## 30. M6 done: Enterprise Command Center, Data Sources, live impact (7 Oct 2026)
+
+### Home page `/`: Enterprise Command Center (`src/pages/sim/CommandCenter.tsx`)
+All three business units and their sub-levels on one screen. Every tile, cell and chip drills down, and the time range carries over.
+1. **Enterprise health ring** (average of the 3 domains, live-adjusted), target 85, trend vs period, sparkline, "Live since 09:30: N events, N critical".
+2. **3 domain cards** (Banking 78, Manufacturing 73, Retail 76): ring, organisation, sparkline, change, weakest function, live delta. Click a card to open that domain's Enterprise 360.
+3. **KPI strip (6):** decisions awaiting · critical + high risks · programmes not on track · technology investment (₹377 Cr budget / ₹391 Cr forecast) · value realisation (70%) · services below SLO.
+4. **Heatmap: 7 source systems × 3 domains.** Click a cell to open that source page in that domain.
+5. **Heatmap: 16 functions × 3 domains**, grouped CTO-owned / Signals. Click a cell to open that function page.
+6. **Health trend by business unit:** 3 domain lines in the validated domain colours, a bold enterprise line, and the target line.
+7. **Top 3 decisions** across all domains, linking to the Decision Center.
+8. **Enterprise risk heatmap** (5×5, all domains), **investment & value** bars per domain (budget / forecast / expected value), **operational health** (critical availability, services meeting SLO, P1s per domain), **business outcomes** (approved decisions: baseline → now, with status).
+9. **Live source events** from all domains and sources, plus a link to Data Sources.
+
+The previous home page (ExecSummary + TEDIF detail) is at **`/overview`**, listed in the sidebar as "Programme overview (TEDIF)".
+
+### `/sources`: Enterprise data sources (`src/pages/sim/DataSources.tsx`)
+- **Banner:** "Demonstration environment using simulated enterprise data. No live vendor integrations are active." plus a not-affiliated note.
+- **7 cards**, one per simulated source. Each shows:
+  - average capability score ring and "Simulation active / paused"
+  - records, last sync, events in the last hour
+  - per business unit: records, score and red count, each linking to that source page
+  - the latest 3 events
+
+### Live impact (`liveImpact()` in `src/data/sim/events.ts`)
+Events released by the simulation clock **after 09:30** nudge each domain's health: critical −0.3, warning −0.1, good news +0.1, capped at ±4. The Command Center rings, domain cards and "live" deltas move while the clock runs. Pause / Reset in the header controls it. Record-level data is not changed, so `validate:sim` stays deterministic.
+
+### Sidebar
+Under "Executive Overview": **Command Center (all domains)** `/` · **Data sources** `/sources` · **Programme overview (TEDIF)** `/overview` · the 3 domain views · the existing items.
+
+### Final checks (7 Oct 2026)
+- `npm run build` passes.
+- `npm run validate:sim` passes with no errors for all 3 domains (78 / 73 / 76).
+- Full overflow sweep: **73 pages × 3 sizes (1366 / 820 / 390)**. Every static route; for each domain: overview, programme view, decisions (+ maturity tab), a record, 2 function pages and all 7 source pages. **Result: 219 / 219 views clean, no horizontal overflow.**
+
+### Simulation build: complete
+| Stage | Delivered |
+|---|---|
+| M1 | Canonical data model, 3 domains of linked simulated records, scoring rules, `validate:sim` |
+| M2–M3 | Reusable components; Enterprise 360 per domain; 7 source pages; record drill-down |
+| M4 | 16 function pages (impact, dependencies, initiatives, actions, issues) |
+| M5 | Decision engine, Top 10 Decision Center, action tracker, outcomes, maturity |
+| M6 | Command Center home, Data Sources, live impact, final checks |
+
+**Demo order (5 minutes):**
+1. Command Center: "where to intervene".
+2. Click Banking's Enterprise Architecture cell (55, red) to open the function page.
+3. Banking 360 → **Digital Payments decision** → Show evidence → Approve → Action tracker.
+4. Outcomes tab.
+5. Data Sources page: "simulated, not connected".
+6. About & disclaimer.
 

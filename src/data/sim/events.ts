@@ -48,3 +48,13 @@ export function buildEvents(d: DomainData) {
   }
   return out.sort((a, b) => b.at - a.at)
 }
+
+/**
+ * Live impact (M6): events released by the simulation clock AFTER 09:30 nudge the domain's health score.
+ * Critical −0.3, warning −0.1, good news +0.1, capped at ±4 points. Always labelled as simulated.
+ */
+export function liveImpact(events: SimEvent[], now: number) {
+  const fresh = events.filter((e) => e.at > T0 && e.at <= now)
+  const raw = fresh.reduce((s, e) => s + (e.tone === 'crit' ? -0.3 : e.tone === 'warn' ? -0.1 : e.tone === 'ok' ? 0.1 : 0), 0)
+  return { delta: Math.max(-4, Math.min(4, Math.round(raw * 10) / 10)), fresh: fresh.length, crit: fresh.filter((e) => e.tone === 'crit').length }
+}
