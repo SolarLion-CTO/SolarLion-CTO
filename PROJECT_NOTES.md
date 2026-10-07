@@ -22,6 +22,7 @@
   - Statuses, scores, risks and decisions are all **calculated**; never type a status by hand.
 - **Disclaimer:** a short version appears in the footer of every page; the full version is at `/about#disclaimer` (section 29).
 - **Business problem and pitch line:** section 31. Use it for the deck's "Problem → Solution → Value" slide.
+- **NEXT BUILD, M7: Team workspaces.** A TEAM sidebar group with `/team` plus 5 owner workspaces (Ram, Suman, Vaibhav, Santhosh, Pankaj). Full design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32. Start with M7.1.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -1209,4 +1210,43 @@ Under "Executive Overview": **Command Center (all domains)** `/` · **Data sourc
 - **About** `/about`: what CTO360 is and is not.
 
 The original capstone business problems (BP1 / BP2) are in sections 4 and 13.
+
+---
+
+## 32. M7 plan: Team workspaces (agreed 7 Oct 2026, not started)
+
+**Source:** `bp1.jpeg` (20 Sep 2026), which lists each member's business problems.
+
+**Accountability:**
+- **Ram:** multi-domain framework and decision intelligence. **Done.** The workspace reuses existing views.
+- **Suman:** identify ROI; transform any organisation to AI.
+- **Vaibhav:** automate regulatory compliance (Banking); DPDP / AI governance.
+- **Santhosh:** governance system; apps / resources / decision making, CAPEX / OPEX.
+- **Pankaj:** ERP RCA; infrastructure capacity planning; production-management automation.
+
+**Decision:** one **TEAM** sidebar group (below Executive Overview) with `/team` (accountability page) and **5 workspaces named "Workspace · Name"**, each with 6 live KPIs and 4 tabs. Total: 6 pages, about 20 views.
+
+**Full design** (visuals per tab, new data, live elements, effort): **`docs/TEAM_WORKSPACES_PLAN.md`**.
+
+**Live demo moments planned:**
+- Vaibhav: a new circular arrives → AI drafts obligations → his approval.
+- Pankaj: live capacity telemetry and an ERP incident leading to a suggested root cause.
+- Santhosh: spend postings move the month-to-date figures.
+- Suman: use cases move through the pipeline.
+
+**Added 7 Oct 2026: current state → target state.**
+- Every workspace opens on a **Transformation** tab: From → To narrative, transformation bridge (baseline · current · target · progress % · glide path · ETA), glide-path chart and maturity ladder.
+- Baseline = Nov 2025 (first history point); progress = (current − baseline) ÷ (target − baseline). Both are calculated, never typed.
+- `/team` gets a **transformation scorecard** across all 5 owners.
+- Details and the per-owner old / target states are in `docs/TEAM_WORKSPACES_PLAN.md`.
+
+**v2 deep design (7 Oct 2026): this is now the MAIN CAPSTONE PROBLEM STATEMENT.** See `docs/TEAM_WORKSPACES_PLAN.md` sections A–F:
+- **A.** Umbrella problem statement ("see, govern, fund and run AI-led transformation as one system").
+- **B.** The **golden thread**, a live cross-team scenario: "Month-end close meets festive peak", Pankaj → Ram → Santhosh → Suman → Vaibhav → Ram.
+- **C.** 17 real analytical techniques computed in the app (Monte Carlo, Holt-Winters, PSI drift, EWMA anomalies, NPV / IRR, Pareto, change correlation, queueing, error budgets, TBM allocation, …).
+- **D.** Each page in 10 parts: problem, old → target, measures, practices / frameworks, simulated tools, techniques, tabs, live scenario, decisions, outcomes.
+- **E.** Honesty and limits.
+- **F.** Revised effort: **about 5.5 days** (supersedes the 3.5-day estimate below).
+
+**Build order (original estimate):** M7.1 Team + Ram (0.5 d) → M7.2 Suman (0.75 d) → M7.3 Vaibhav (0.75 d) → M7.4 Santhosh (0.5 d) → M7.5 Pankaj (0.75 d) → M7.6 checks (0.25 d). About 3.5 days in total.
 
