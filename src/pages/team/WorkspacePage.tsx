@@ -8,10 +8,10 @@ import { WorkspaceShell } from '../../components/team/workspace'
 import { AgentsTab, MultiDomainTab, ProgrammesTab, ThreadTab } from './RamTabs'
 import { OnboardTab, PortfolioTab, ReadinessTab, RoiTab } from './SumanTabs'
 import { AuditTab, DataGovTab, ModelsTab, RegulatoryTab } from './VaibhavTabs'
+import { BudgetTab, CapexTab, FinOpsTab, InvestTab } from './SanthoshTabs'
 
 // Functional tabs planned per owner (docs/TEAM_WORKSPACES_PLAN.md, section D). Built tabs replace these as M7 progresses.
-const PLANNED: Record<'santhosh' | 'pankaj', { step: string; tabs: [string, string][] }> = {
-  santhosh: { step: 'M7.4', tabs: [['CAPEX / OPEX & TBM', 'Monthly CAPEX vs OPEX, cost flow pools → towers → business units'], ['Budget, forecast & anomalies', 'Holt-Winters forecast, EWMA spend anomalies, variance waterfall'], ['FinOps & licences', 'Cloud cost vs plan, licence waste, savings'], ['Investment governance', 'Stage gates with NPV / IRR and value tracking']] },
+const PLANNED: Record<'pankaj', { step: string; tabs: [string, string][] }> = {
   pankaj: { step: 'M7.5', tabs: [['ERP RCA', 'Root-cause Pareto, problem records, change correlation, 5-Whys'], ['Capacity & forecasting', 'Live utilisation, forecast-to-breach, headroom heatmap'], ['Peak scenarios', 'Month-end, salary day, festive — what-if scale-out'], ['Production automation', 'Plan-to-produce and maintenance automation, MES']] },
 }
 
@@ -40,11 +40,18 @@ export default function WorkspacePage() {
       { id: 'data', label: 'Data governance & DPDP', render: () => <DataGovTab /> },
       { id: 'audit', label: 'Audit readiness', render: () => <AuditTab /> },
     ]
-    : PLANNED[o.id as 'santhosh' | 'pankaj'].tabs.map(([label, desc]) => ({
+    : o.id === 'santhosh'
+    ? [
+      { id: 'capex', label: 'CAPEX / OPEX & TBM', render: () => <CapexTab /> },
+      { id: 'budget', label: 'Budget, forecast & anomalies', render: () => <BudgetTab /> },
+      { id: 'finops', label: 'FinOps & licences', render: () => <FinOpsTab /> },
+      { id: 'invest', label: 'Investment governance', render: () => <InvestTab /> },
+    ]
+    : PLANNED.pankaj.tabs.map(([label, desc]) => ({
       id: label.toLowerCase().replace(/[^a-z]+/g, '-'), label,
       render: () => (
         <Card>
-          <div className="flex items-start gap-3"><Hammer size={20} className="text-ink-3 shrink-0 mt-0.5" /><div><div className="font-semibold text-ink">{label}: being built in {PLANNED[o.id as 'santhosh' | 'pankaj'].step}</div><p className="text-sm text-ink-2 mt-1">{desc}.</p><p className="text-xs text-ink-3 mt-2">The Transformation tab and live KPIs above are already working for this workspace.</p></div></div>
+          <div className="flex items-start gap-3"><Hammer size={20} className="text-ink-3 shrink-0 mt-0.5" /><div><div className="font-semibold text-ink">{label}: being built in {PLANNED.pankaj.step}</div><p className="text-sm text-ink-2 mt-1">{desc}.</p><p className="text-xs text-ink-3 mt-2">The Transformation tab and live KPIs above are already working for this workspace.</p></div></div>
         </Card>
       ),
     }))

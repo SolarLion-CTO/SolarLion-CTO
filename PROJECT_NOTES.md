@@ -26,7 +26,8 @@
   - **M7.1 ✅ done 7 Oct 2026** (section 33): TEAM sidebar group, `/team`, all 5 workspaces with live Transformation tab and KPIs, Ram's 4 tabs, golden-thread scenario, analytics library.
   - **M7.2 ✅ done 7 Oct 2026** (section 34): Suman's workspace with Readiness, Portfolio & gates, ROI & benefits, and Onboard any organisation.
   - **M7.3 ✅ done 7 Oct 2026** (section 35): Vaibhav's workspace with Regulatory change (live circular), AI model register (PSI drift), Data governance & DPDP (breach clock, lineage), and Audit readiness.
-  - **Next: M7.4 Santhosh** → M7.5 Pankaj → M7.6 checks.
+  - **M7.4 ✅ done 7 Oct 2026** (section 36): Santhosh's workspace with CAPEX / OPEX & TBM Sankey, Budget, forecast & anomalies, FinOps & licences, and Investment governance.
+  - **Next: M7.5 Pankaj** → M7.6 checks.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -1421,4 +1422,41 @@ The original capstone business problems (BP1 / BP2) are in sections 4 and 13.
 ### Checks
 - Build passes.
 - Vaibhav's tabs checked at 1366 / 820 / 390 with no overflow.
+
+---
+
+## 36. M7.4 done: Santhosh · Technology Spend & Investment (7 Oct 2026)
+
+**Route:** `/team/santhosh`. Tabs: Transformation · **CAPEX / OPEX & TBM** · **Budget, forecast & anomalies** · **FinOps & licences** · **Investment governance**.
+
+### Data: `src/data/sim/spend.ts`, derived so it reconciles
+- **Monthly ledger per business unit** (Nov 2025 – Oct 2026), 6 categories:
+  - **Cloud** = cloud spend metric ÷ 3 per month
+  - **Licences & SaaS**, **People**, **Vendors & services**, **Hardware & DC** = 30% / 35% / 20% / 15% of run cost. Run cost = app annual costs + service costs.
+  - **Projects (change)** = each initiative's budget spread over its active months
+- **CAPEX share:** Hardware 100%, Projects 60% (capitalisable build), everything else OPEX. Result for all units: **₹495 Cr over 12 months, 33% CAPEX, 43% change-the-business.**
+- **Budget per month** = actual × 0.94–1.02 (seeded). **Forecast** for the next 3 months by Holt smoothing.
+- **October to date (live)** = elapsed share of the month plus **Planview "₹x Cr actuals posted" events** released after 09:30. The amounts are parsed from the event text, so the feed and the figure match.
+- **TBM Sankey:** 6 cost pools → 5 IT towers + **"Unallocated (pending tagging)"** → 3 business units. The allocated share = Santhosh's TBM coverage measure (72%).
+- **Cloud daily cost**, 60 days, with **EWMA anomaly detection** (λ 0.3, 3σ). Only spikes count; weekend dips are expected.
+  - Retail: festive burst (golden thread step 3)
+  - Banking: a batch job left running
+  - Manufacturing: data-lake export misconfigured
+- **Licences:** 6 per business unit (seats, used, ₹ / yr → utilisation and waste).
+- **Investment cases per initiative:**
+  - The planned "expected value" is read as a **3-year benefit** (annual = ÷ 3), ramping 40% → 80% → 100% over 5 years after build, net of 10% run cost.
+  - NPV at 12%, IRR, payback.
+  - Result: IRR about −12% to 35%, payback 2.5–4.4 years. **7 of 30 have negative NPV**, mostly security and compliance programmes. The page explains these are judged on risk avoided.
+
+### What the tabs show
+| Tab | Content |
+|---|---|
+| CAPEX / OPEX & TBM | 4 tiles (12-month spend, CAPEX share, change share, **live October-to-date**) · stacked CAPEX / OPEX by month + 3-month forecast · spend by category · **TBM Sankey** |
+| Budget, forecast & anomalies | Budget vs actual vs forecast · **variance waterfall** (top 8 initiatives + others) · **daily cloud cost with anomaly markers** and the cause of each spike |
+| FinOps & licences | Cloud waste breakdown (idle, over-provisioned, unattached storage, non-prod 24×7) · licence utilisation · ranked savings opportunities (80% of cloud waste and 70% of licence waste assumed recoverable) |
+| Investment governance | 4-stage funnel (business case → approved → in delivery → value tracking) · investment cases table (NPV, IRR, payback, value realised, gate status) · approval log (earlier approvals + this session) |
+
+### Checks
+- Build passes.
+- Santhosh's tabs checked at 1366 / 820 / 390 with no overflow.
 
