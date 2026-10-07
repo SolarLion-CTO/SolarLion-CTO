@@ -8,6 +8,12 @@
 
 ## 0. Resume here (status at close)
 
+> **🔒 FROZEN, 7 Oct 2026 (git tag `v1.0-freeze`).** The capstone build is feature-complete and accepted by Ram: M1–M6 simulation, M7 team workspaces, M8 lean frameworks, Reference library and the disclaimer.
+> - **Allowed after the freeze:** bug fixes, real team figures (pending item 4), text and naming corrections, and demo rehearsal fixes.
+> - **No new features** unless Ram lifts the freeze.
+> - **To compare against the frozen version:** `git diff v1.0-freeze`.
+> - **To go back to it:** `git checkout v1.0-freeze`.
+
 - **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
 - **Code:** first run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
 - **Website (7 Oct 2026):**
