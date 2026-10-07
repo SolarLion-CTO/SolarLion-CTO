@@ -24,7 +24,8 @@
 - **Business problem and pitch line:** section 31. Use it for the deck's "Problem → Solution → Value" slide.
 - **Course syllabus and 20 frameworks:** **`docs/SYLLABUS_AND_FRAMEWORKS.md`** has both images transcribed, a coverage map, and the **M8 plan** to apply every framework and close the syllabus gaps (ESG, DuPont / CVP, platforms / network effects, blockchain / metaverse, change models). Coverage today: 3 frameworks explicit, 6 implicit, 11 gaps.
   - **Added 7 Oct 2026:** the consolidated **45-framework CTO library** (section 6 of that file). It includes the "15 to master", the **"which framework when" decision guide**, and the CTO360 coverage per framework (9 explicit · 14 implicit · 22 planned).
-  - **M8 scope extended** to steps M8.1–M8.9 (section 7), about 2.5–3 days.
+  - **M8 scope extended** to steps M8.1–M8.9 (section 7), about 2.5–3 days. **Superseded:** the user chose **M8 LEAN** (section 8 of that file).
+  - **M8 LEAN** means only the frameworks that serve each owner's BP1 problem, with tracked metrics: about 10 frameworks (Balanced Scorecard, Cynefin + RAPID, Three Horizons, Diffusion + Chasm, Business Model Canvas, Three Lines, Run-Grow-Transform, TCO, Sensitivity, Theory of Constraints, Kotter + ADKAR) plus 2 labels (OODA, Lewin). Everything else stays a reference library. About 1 day. **✅ Done 7 Oct 2026 (section 39).**
 - **IN BUILD, M7: Team workspaces** (the main capstone problem statement). Design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32.
   - **M7.1 ✅ done 7 Oct 2026** (section 33): TEAM sidebar group, `/team`, all 5 workspaces with live Transformation tab and KPIs, Ram's 4 tabs, golden-thread scenario, analytics library.
   - **M7.2 ✅ done 7 Oct 2026** (section 34): Suman's workspace with Readiness, Portfolio & gates, ROI & benefits, and Onboard any organisation.
@@ -1531,6 +1532,46 @@ Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on trac
 | 6 | Ram | `/team` | Golden thread complete → Transformation tab: "from old state to target state, measurably" → About & disclaimer |
 
 **Talking line:** "Five owners, one connected decision, measured outcomes. AI recommends, humans decide."
+
+---
+
+## 39. M8 LEAN done: frameworks applied with metrics (7 Oct 2026)
+
+**Principle:** only frameworks that serve each owner's BP1 problem, each with a tracked metric (baseline Nov 2025 → today → target). Everything else is a reference library. Plan: `docs/SYLLABUS_AND_FRAMEWORKS.md` §8.
+
+### Where
+- **New tab "Frameworks applied"** in all 5 workspaces (`/team/<owner>?tab=frameworks`).
+- **New page `/team/frameworks`** (sidebar TEAM → "Frameworks & syllabus"):
+  - "which framework when" guide (green = applied, linked; grey = reference)
+  - frameworks per owner with their metric
+  - the 15 to master
+  - reference toolbox
+  - 4-pillar syllabus coverage
+- **Team page:** new **Change & adoption** section (Kotter + ADKAR + Lewin).
+- **Suman's onboarding:** generated **Business Model Canvas**.
+- **Pankaj's production automation:** **Lewin** strip.
+
+### What each owner got (engine `src/data/sim/frameworks.ts`, UI `src/pages/team/FrameworkTabs.tsx`)
+| Owner | Frameworks | Metric (baseline → now → target) |
+|---|---|---|
+| Ram | **Balanced Scorecard** (30 team measures → Financial 63%, Customer 66%, Internal process 50%, Learning & growth 69%) · **Cynefin** (Clear 6, Complicated 9, Complex 8, Chaotic 0; the golden thread peak is the Chaotic example) · **RAPID** roles on every decision · **OODA** strip | Decisions with a named decider 30% → 100%; average open-decision age 19 → 6.4 days (target 3) |
+| Suman | **Three Horizons** (H1 38% / H2 40% / H3 22% vs 70 / 20 / 10 → "pilot purgatory"); H3 now includes simulated **blockchain trade finance** (Banking) and **industrial-metaverse training** (Manufacturing) · **Diffusion + Crossing the Chasm** (adoption S-curve per live use case, Rogers segments, 5 factors) · **Business Model Canvas** in onboarding | Live use cases past the chasm 18% → 63% (target 75%); AI investment in live use cases (H1) 20% → 38% (target 70%, **behind**) |
+| Vaibhav | **Three Lines Model** on 33 high / critical risks (1st owner, 2nd oversight, 3rd assurance) | Covered by all three lines 20% → 61% (target 100%) |
+| Santhosh | **Run-Grow-Transform** (Banking 59 / 9 / 31, Manufacturing 57 / 8 / 35, Retail 55 / 24 / 21 vs 60 / 25 / 15; Grow under-funded) · **Sensitivity tornado** per initiative (value ±20%, cost ±20%, 1-year delay, discount 9 / 15%) · **TCO** (build + 5-year run) | Gap from the target mix 30 → 14.2 pts (target 5); investments with NPV < 0 at −20% benefits 19 → 16 (target 5, **behind**) |
+| Pankaj | **Theory of Constraints:** constraint per peak from live capacity data (month-end: IIoT ingestion CPU; salary day: service bus storage; festive: integration platform storage) with 5 focusing steps; next constraint named · **Lewin** on production automation | Capacity margin at the worst peak 2% → 10% (target 25%) |
+| Team | **Kotter 8 steps:** steps 5 and 7 turn green when the capacity decision is approved or a pilot is promoted in the app · **ADKAR** per stakeholder group (barrier = first element < 3: business users → Knowledge, operations → Desire, leaders / engineers → Reinforcement) · **Lewin** mapping | ADKAR adoption score 1.8 → 3.2 / 5 (target 4) |
+
+### Also fixed
+- **Three Horizons and Run-Grow-Transform metrics re-framed** so "Ahead" can't mean "over-investing" (H1 share; gap from target mix).
+- **ADKAR barrier** = first element below 3 (not the lowest).
+- **Screenshot tooling:** a headless Chrome left over from an interrupted sweep was hijacking new runs and producing stale screenshots. It is now killed before each sweep (`pkill -f remote-debugging-port=9333`).
+
+### Checks
+- Build passes.
+- `validate:sim` passes for 3 / 3 domains.
+- Team cross-checks consistent (38 use cases now).
+- New views checked at 1366 / 820 / 390 with no overflow.
+- Full sweep (101 pages × 3 sizes): see section 0.
 
 ### Checks
 - Build passes.

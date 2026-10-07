@@ -12,6 +12,7 @@ import { Card } from '../../components/ui'
 import { ScoreRing } from '../../components/sim/primitives'
 import { GlidePill, GoldenThread } from '../../components/team/workspace'
 import { hhmm, useSimClock } from '../../components/sim/clock'
+import { KotterAdkar } from './FrameworkTabs'
 
 type R = 'A' | 'R' | 'C' | 'I' | 'A/R' | ''
 const RACI: [string, Record<OwnerId, R>][] = [
@@ -69,6 +70,9 @@ export default function TeamPage() {
       </div>
 
       <Card title="The golden thread · live" className="mb-5"><GoldenThread compact /></Card>
+
+      <h2 className="text-[17px] font-semibold text-ink mb-2">Change & adoption <span className="text-xs font-normal text-ink-3">· Kotter (organisation) + ADKAR (people) + Lewin</span></h2>
+      <div className="mb-5"><KotterAdkar /></div>
 
       <div className="grid grid-cols-1 2xl:grid-cols-2 gap-5">
         <Card title="Accountability (RACI)" className="min-w-0">

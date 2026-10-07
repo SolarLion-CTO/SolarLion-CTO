@@ -33,6 +33,7 @@ const ROWS: Record<DomainId, Row[]> = {
     ['Mainframe code-to-Java assist', 'Idea', 'Head of Core Banking Tech', 1.8, 2, 4, 7, 0, 4, 8, 40, 'Medium', 0, 0, 0],
     ['Treasury liquidity forecasting', 'Idea', 'Treasurer', 0.4, 0.5, 0.9, 1.4, 0, 6, 5, 60, 'Low', 11, null, 0],
     ['Branch cash demand forecasting', 'Production', 'Head of Branch Banking', 0.3, 0.6, 0.9, 1.2, 0.7, 9, 5, 85, 'Low', 17, null, 12],
+    ['Tokenised trade finance (blockchain)', 'Idea', 'Head of Digital', 1.5, 1, 2.5, 4.5, 0, 4, 7, 35, 'Medium', 1, 4, 0],
   ],
   manufacturing: [
     ['Predictive maintenance — critical lines', 'Scaled', 'Head of Maintenance', 2.2, 4, 6.5, 9, 5.8, 8, 9, 80, 'Medium', 11, 4, 15],
@@ -47,6 +48,7 @@ const ROWS: Record<DomainId, Row[]> = {
     ['Shop-floor GenAI work instructions', 'Idea', 'Head of Manufacturing', 0.6, 0.8, 1.5, 2.4, 0, 6, 6, 50, 'Medium', 2, 1, 0],
     ['Scrap root-cause analytics', 'Production', 'Head of Quality', 0.4, 0.8, 1.3, 1.9, 1, 8, 6, 75, 'Low', 13, 7, 10],
     ['Freight cost optimisation', 'Production', 'Head of Logistics', 0.3, 0.5, 0.9, 1.3, 0.6, 9, 5, 85, 'Low', 20, 6, 7],
+    ['Industrial metaverse training (digital twin + XR)', 'Idea', 'Head of OT', 1.3, 0.8, 1.8, 3, 0, 4, 6, 40, 'Medium', 15, 0, 0],
   ],
   retail: [
     ['Personalised recommendations', 'Scaled', 'CMO', 1.8, 4, 6.5, 9, 6.2, 8, 9, 85, 'Medium', 20, 4, 16],

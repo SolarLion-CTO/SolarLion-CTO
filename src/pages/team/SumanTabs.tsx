@@ -295,7 +295,36 @@ export function OnboardTab() {
           <Card title="KPIs to track from day one"><ul className="list-disc pl-4 text-sm text-ink-2 space-y-0.5">{t.kpis.map((k) => <li key={k}>{k}</li>)}</ul></Card>
           <Card title="Risks to govern (with Vaibhav)"><ul className="list-disc pl-4 text-sm text-ink-2 space-y-0.5">{t.risks.map((k) => <li key={k}>{k}</li>)}</ul><p className="text-xs text-ink-3 mt-2">The same CTO360 framework, gates and measures apply to any industry — only the template changes.</p></Card>
         </div>
+        <BusinessModelCanvas t={t} top={ranked.slice(0, 3).map((x) => x.n)} levers={ranked.map((x) => x.lever)} />
       </div>
     </div>
+  )
+}
+
+/** Business Model Canvas (Osterwalder) generated for the chosen industry template — rule-based. */
+const SEGMENTS: Record<string, string[]> = {
+  banking: ['Retail customers', 'SME borrowers', 'Merchants', 'Regulators (reporting)'], manufacturing: ['B2B customers and dealers', 'Plants and production teams', 'Suppliers'],
+  retail: ['Online shoppers', 'Store customers', 'Loyalty members'], insurance: ['Policyholders', 'Agents and brokers', 'Claimants'],
+  healthcare: ['Patients', 'Clinicians', 'Payers'], telecom: ['Consumer subscribers', 'Enterprise customers', 'Field engineers'],
+}
+function BusinessModelCanvas({ t, top, levers }: { t: (typeof TEMPLATES)[number]; top: string[]; levers: string[] }) {
+  const B = ({ title, items, className = '' }: { title: string; items: string[]; className?: string }) => (
+    <div className={`rounded-lg border border-line bg-surface p-2.5 ${className}`}><div className="text-[10.5px] font-semibold uppercase tracking-wide text-brand-700 mb-1">{title}</div><ul className="text-xs text-ink-2 space-y-0.5 list-disc pl-3.5">{items.map((x) => <li key={x}>{x}</li>)}</ul></div>
+  )
+  return (
+    <Card title={`Business Model Canvas · AI programme for ${t.label}`} action={<span className="text-xs text-ink-3">Generated · rule-based</span>}>
+      <div className="overflow-x-auto"><div className="grid grid-cols-5 gap-2 min-w-[760px]">
+        <B title="Key partners" items={['Cloud and AI platform providers', 'Data and integration partners', 'System integrators']} className="row-span-2" />
+        <B title="Key activities" items={['Data foundation and MLOps', `Pilot → production gates for ${top[0]}`, 'Change and adoption']} />
+        <B title="Value propositions" items={[...new Set(levers)].slice(0, 4).map((l) => `Better ${l.toLowerCase()}`)} className="row-span-2" />
+        <B title="Customer relationships" items={['AI-assisted service', 'Self-service with human fallback']} />
+        <B title="Customer segments" items={SEGMENTS[t.id]} className="row-span-2" />
+        <B title="Key resources" items={['Critical data elements', 'AI platform and models', 'AI-skilled teams']} />
+        <B title="Channels" items={['Existing digital channels', 'Front-line staff tools', 'APIs to partners']} />
+        <B title="Cost structure" items={['Build (CAPEX) and run cost (cloud, MLOps, support)', 'Data and change effort']} className="col-span-2" />
+        <B title="Revenue streams / value captured" items={[...t.kpis.slice(0, 3).map((k) => `Improved ${k}`), 'Cost avoided and risk reduced']} className="col-span-3" />
+      </div></div>
+      <p className="text-xs text-ink-3 mt-2">Business Model Canvas (Osterwalder): how this AI programme creates, delivers and captures value. Top use cases: {top.join(', ')}.</p>
+    </Card>
   )
 }

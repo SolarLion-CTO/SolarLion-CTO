@@ -234,6 +234,13 @@ export function ProductionTab() {
           ))}</ul>
         </Card>
       </div>
+      <Card title="Lewin change model · production automation" className="mb-5">
+        <ol className="grid grid-cols-1 md:grid-cols-3 gap-3">{[
+          ['Unfreeze', 'done', 'Case for change: 6-hour line stops, manual schedule hand-offs, 2 P1s on MES plants 1–4'],
+          ['Change', 'now', `MES 9 upgrade, closed-loop scheduling, predictive maintenance — ${done} of ${AUTOMATION_STEPS.length} key steps automated`],
+          ['Refreeze', 'next', 'Standard work, automation KPIs in plant reviews, capacity gate in the change process'],
+        ].map(([k, st, v]) => <li key={k} className={`rounded-lg border p-3 ${st === 'now' ? 'border-brand-600 ring-2 ring-brand-100' : st === 'done' ? 'border-green-200 bg-success-bg' : 'border-line bg-slate-50'}`}><div className="text-xs font-semibold text-ink">{k} {st === 'done' ? '✓' : st === 'now' ? '· in progress' : '· next'}</div><div className="text-xs text-ink-2 mt-0.5">{v}</div></li>)}</ol>
+      </Card>
       <Card title={`Key automation steps · ${done} of ${AUTOMATION_STEPS.length} automated`}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">{['Plan to Produce', 'Maintenance', 'Quality'].map((area) => (
           <div key={area}>

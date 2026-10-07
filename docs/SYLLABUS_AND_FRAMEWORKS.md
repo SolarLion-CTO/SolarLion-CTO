@@ -287,3 +287,57 @@ Keep the rest as a **toolbox**.
 | **M8.9** | Checks (validate, full overflow sweep — including the M7.6 re-run), notes, commit | — |
 
 **Estimated effort:** about 2.5–3 days. **Result:** all 45 library frameworks and all 20 IIM concepts applied and labelled; syllabus gaps closed (ESG, DuPont / CVP / sensitivity, platforms, business models, blockchain / metaverse, change, design thinking).
+
+> ⚠️ **Section 7 is superseded by section 8 (lean option), chosen by the user on 7 Oct 2026.**
+
+---
+
+## 8. M8 LEAN: chosen plan (7 Oct 2026)
+
+**"Lean" = the focused option.** It is not the Lean Startup framework.
+- Build **only** the frameworks that directly serve a team member's BP1 problem **and** produce a metric worth tracking from old state to target state.
+- Every other framework stays in the reference library (sections 2 and 6) and on a light Frameworks page. It is not built as a screen.
+
+**Filter (all three must hold):**
+1. It answers the owner's BP1 problem.
+2. It gives a trackable measure, or a decision the owner actually makes.
+3. It runs on the existing simulated data.
+
+### Implemented with metrics
+| Owner · BP1 problem | Framework | What it adds in CTO360 | Metric (baseline → target) |
+|---|---|---|---|
+| **Ram** · multi-domain decision intelligence | **Balanced Scorecard** | The 30 team measures grouped into Financial · Customer · Internal process · Learning & growth | Score per perspective |
+| | **Cynefin + RAPID** | Each decision card tagged clear / complicated / complex / chaotic, with Recommend · Agree · Perform · Input · **Decide** roles | Decision age by Cynefin domain; % of decisions with a named decider |
+| | **OODA** (label) | Observe (agents) → Orient (correlation) → Decide (human) → Act (actions) on the agents view | Counts per stage |
+| **Suman** · ROI, any organisation to AI | Stage-gate, Value vs Effort, NPV / IRR | ✅ already built | Already tracked |
+| | **Three Horizons** | AI use cases tagged H1 core / H2 emerging / H3 future (incl. simulated **blockchain** and **industrial-metaverse** ideas) | AI investment split vs 70 / 20 / 10 target |
+| | **Diffusion + Crossing the Chasm** | Adoption % per live use case on the Rogers curve; which are stuck before the mainstream | % of live use cases past the chasm (> 16% adoption) |
+| | **Business Model Canvas** | 9-block canvas generated in "Onboard any organisation" | (output, no metric) |
+| **Vaibhav** · regulatory automation, DPDP / AI governance | Risk process, risk heat map | ✅ already built | Already tracked |
+| | **Three Lines Model** | High / critical risks with 1st-line owner, 2nd-line oversight, 3rd-line assurance | % of high / critical risks covered by all three lines |
+| **Santhosh** · governance system, CAPEX / OPEX | NPV / IRR | ✅ already built | Already tracked |
+| | **Run-Grow-Transform** | Spend split into run / grow / transform per business unit | Split vs target (60 / 25 / 15) |
+| | **TCO** | Build + 5-year run cost per initiative and business unit | TCO per business unit; TCO vs budget |
+| | **Sensitivity (tornado)** | Which assumption moves NPV most (value, cost, delay, discount rate) | Investments with negative NPV in a −20% value case |
+| **Pankaj** · ERP RCA, capacity, production | Pareto, ITIL problem management, SRE error budgets | ✅ already built | Already tracked |
+| | **Theory of Constraints** | Current constraint per peak + the 5 focusing steps with actions | Constraint headroom; peak throughput vs demand |
+| | **Lewin** (label) | Unfreeze → change → refreeze on production automation | (label) |
+| **Team** · transforming the organisation | **Kotter + ADKAR** | Kotter 8-step status for the programme; ADKAR scores per stakeholder group | ADKAR adoption score per group; Kotter steps complete |
+
+**Total:** about 10 frameworks implemented with metrics + 6 already built + 2 labels.
+
+### Reference only (not built)
+SWOT, PESTLE, Five Forces, VRIO, Porter's generic strategies and value chain, Ansoff, BCG, Blue Ocean, Mintzberg 5Ps, Strategy Maps, OKRs (the Transformation tab already works this way), Jobs-to-be-Done, Value Proposition Canvas, Lean Startup, Design Thinking, pipeline vs platform, network effects, winner-take-all, XaaS, McKinsey 7S, Galbraith, Operating Model Canvas (existing page), Theory E vs O, DuPont / ROIC, CVP, ESG. They are explained in this file and listed on the Frameworks page with the decision guide.
+
+### Where it appears
+- **One new tab per workspace: "Frameworks applied".** Each owner's frameworks with their metrics and visuals.
+- **New page `/team/frameworks`:**
+  - the "which framework when" decision guide (links to the live view where implemented)
+  - frameworks per owner
+  - the reference library
+  - syllabus coverage summary
+- **Team page:** a Kotter + ADKAR change section.
+
+**Build steps:** L1 data + Frameworks page · L2 Ram · L3 Suman · L4 Vaibhav · L5 Santhosh · L6 Pankaj · L7 Team (Kotter / ADKAR) + checks + notes. **About 1 day.**
+
+**✅ Built 7 Oct 2026.** Results and current metric values are in `PROJECT_NOTES.md` section 39. In the app: TEAM → "Frameworks & syllabus" (`/team/frameworks`) and the "Frameworks applied" tab in each workspace.
