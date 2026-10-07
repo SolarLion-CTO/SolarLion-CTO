@@ -53,12 +53,12 @@
 
 - **Pending checklist (updated 7 Oct 2026, after M8 lean):**
 
-  **Done:** M1–M6 simulation (sections 24–30) · disclaimer (section 29) · M7 team workspaces (sections 33–38) · M8 lean frameworks (section 39). The build passes, `validate:sim` passes (3 domains + team cross-checks), and all new views are checked at 3 sizes.
+  **Done:** M1–M6 simulation (sections 24–30) · disclaimer (section 29) · M7 team workspaces (sections 33–38) · M8 lean frameworks (section 39) · **Reference library page `/team/reference` (section 40)**. The build passes, `validate:sim` passes (3 domains + team cross-checks), and all new views are checked at 3 sizes.
 
   | # | Item | Owner | Status / next action |
   |---|---|---|---|
-  | 1 | **`git push`**: 10 local commits are not yet on GitHub / Vercel | You | Run `git push` in VS Code; Vercel redeploys in about 2 min |
-  | 2 | **Full overflow sweep** (101 pages × 3 sizes) | Claude | Running at the last update; record the result here when it finishes. If no result is recorded, re-run it: kill any stray headless Chrome first (`pkill -f remote-debugging-port=9333`) |
+  | 1 | **`git push`**: local commits (M8 lean, notes, Reference library) are not yet on GitHub / Vercel | You | Run `git push` in VS Code; Vercel redeploys in about 2 min |
+  | 2 | **Full overflow sweep** | Claude | ✅ Done 7 Oct 2026: **129 page × size checks, ALL CLEAN** (no horizontal overflow). Reference library also clean at 1366 / 820 / 390 (section 40) |
   | 3 | **Live AI call** (Grok / Groq / Claude) for "Challenge the AI", obligation drafting and RCA summaries | You decide → Claude builds | Pick a provider and add the API key in Vercel environment variables (section 16). Everything works without it (rule-based, labelled) |
   | 4 | **Real figures from team research:** replace the illustrative old-state / target values in the 30 team measures (+ 8 framework metrics) | Team | Send the numbers; they live in `src/data/sim/team.ts` and `src/data/sim/frameworks.ts` |
   | 5 | **Naming consistency:** decks, proposal and section 1 of these notes still say "Domain-Agnostic Enterprise AI Transformation Framework" / "Universal CTO Control Tower"; the site is **CTO360** (TEDIF underneath) | Team (decks) · Claude (notes) | Agree on CTO360 and update the decks; I can update section 1 |
@@ -1585,4 +1585,46 @@ Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on trac
 ### Checks
 - Build passes.
 - Pankaj's tabs checked at 1366 / 820 / 390 with no overflow.
+
+---
+
+## 40. Reference library page (7 Oct 2026)
+
+**Why:** one page anyone (faculty, business audience, new team member) can read to understand every framework, technique and concept in the project, without the course material.
+
+**Where:** TEAM → **Reference library** (`/team/reference`). It is linked from the Frameworks & syllabus page banner. Code: `src/pages/team/ReferencePage.tsx` (one data array `REFS` and small built-in diagrams; no chart library).
+
+**What each card shows:**
+- the name and category
+- a **small diagram**: 2×2 matrix, step flow or loop, stacked bar, layers, hub-and-spoke, value chain, canvas grid, or a mini curve (adoption bell with the chasm, S-curve, network-effect hockey stick, Monte Carlo histogram, queue curve, anomaly spike, drift distributions, Pareto, tornado, glide path, cash flow / payback, forecast, break-even, Three Horizons, risk heat map)
+- the **core idea in plain words** (1–2 sentences)
+- **"Use it to answer:"** the business question it answers
+- **green badge "Applied in CTO360 · <owner>"** that opens the exact workspace tab where it is used, or a grey badge "Reference · not built as a screen"
+
+**Coverage: 69 entries in 11 categories.**
+
+| Category | Count |
+|---|---|
+| Strategy | 8 |
+| Growth & portfolio | 6 |
+| Execution | 4 |
+| Innovation & customer | 7 |
+| Platforms | 6 |
+| Organisation & change | 7 |
+| Decision-making (incl. TEDIF) | 5 |
+| Risk & governance (incl. NIST AI RMF / ISO 42001, ESG, maturity) | 6 |
+| Finance & investment | 7 |
+| Operations | 5 |
+| Analytics techniques (Pareto, Monte Carlo, Holt-Winters, EWMA, PSI, S-curve, glide path, event correlation) | 8 |
+
+**Features:** search box (name, explanation, question) and category filter chips with counts.
+
+**To add or edit an entry:** add one object to `REFS` in `ReferencePage.tsx` (`name`, `cat`, `core`, `when`, `vis`, optional `applied: [link, label]`).
+
+**Checks:**
+- Build passes.
+- Every "Applied" link verified against real routes and tab ids.
+- Desktop full-page screenshot reviewed; label collisions fixed.
+- No overflow at 1366 / 820 / 390.
+- Full site sweep: 129 checks, all clean.
 

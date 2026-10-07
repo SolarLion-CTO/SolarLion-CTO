@@ -41,7 +41,7 @@ export default function FrameworksPage() {
   return (
     <>
       <PageHeader title="Frameworks & syllabus" subtitle="Lean by design: frameworks are applied only where they serve a team member's problem and produce a tracked metric — the rest is a reference toolbox" />
-      <div className="rounded-xl border border-brand-100 bg-brand-50 px-4 py-3 text-sm text-brand-900 mb-5 flex gap-2"><BookOpen size={16} className="shrink-0 mt-0.5" /><span><b>"You don't need 100 frameworks."</b> Choose and apply the right one when a CEO, CFO, COO or business leader brings a problem. Green = applied in CTO360 on simulated data (click to open); grey = reference.</span></div>
+      <div className="rounded-xl border border-brand-100 bg-brand-50 px-4 py-3 text-sm text-brand-900 mb-5 flex gap-2"><BookOpen size={16} className="shrink-0 mt-0.5" /><span><b>"You don't need 100 frameworks."</b> Choose and apply the right one when a CEO, CFO, COO or business leader brings a problem. Green = applied in CTO360 on simulated data (click to open); grey = reference. Plain-language explanations with diagrams: <Link to="/team/reference" className="font-semibold underline">Reference library</Link>.</span></div>
       <Card title="Which framework when · executive decision guide" className="mb-5">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[640px]">

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
-  Activity, BookOpen, Boxes, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
+  Activity, BookOpen, Boxes, Library, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
   ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -43,6 +43,7 @@ const nav: Group[] = [
     { to: '/team/santhosh', label: 'Technology Spend & Investment · Santhosh', sub: 'CAPEX / OPEX · governance', icon: Wallet },
     { to: '/team/pankaj', label: 'ERP RCA & Capacity · Pankaj', sub: 'ERP · infra capacity · production', icon: Wrench },
     { to: '/team/frameworks', label: 'Frameworks & syllabus', sub: 'Applied frameworks · decision guide', icon: BookOpen },
+    { to: '/team/reference', label: 'Reference library', sub: 'Frameworks · techniques · concepts explained', icon: Library },
   ] },
   { section: 'Strategy', icon: Compass, items: [
     { to: '/cto/strategy', label: 'Current → target', icon: Compass },

@@ -341,3 +341,8 @@ SWOT, PESTLE, Five Forces, VRIO, Porter's generic strategies and value chain, An
 **Build steps:** L1 data + Frameworks page · L2 Ram · L3 Suman · L4 Vaibhav · L5 Santhosh · L6 Pankaj · L7 Team (Kotter / ADKAR) + checks + notes. **About 1 day.**
 
 **✅ Built 7 Oct 2026.** Results and current metric values are in `PROJECT_NOTES.md` section 39. In the app: TEAM → "Frameworks & syllabus" (`/team/frameworks`) and the "Frameworks applied" tab in each workspace.
+
+## 9. Reference library page (7 Oct 2026)
+
+Every framework in section 6, the analytical techniques and key concepts are explained in plain language on **TEAM → Reference library** (`/team/reference`). There are **69 cards**. Each card has a small diagram, the core idea, the business question it answers, and a link to where CTO360 applies it (green) or "reference" (grey). Details: `PROJECT_NOTES.md` section 40.
+

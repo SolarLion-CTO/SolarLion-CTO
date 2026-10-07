@@ -44,6 +44,7 @@ import DataSources from './pages/sim/DataSources'
 import TeamPage from './pages/team/TeamPage'
 import WorkspacePage from './pages/team/WorkspacePage'
 import FrameworksPage from './pages/team/FrameworksPage'
+import ReferencePage from './pages/team/ReferencePage'
 
 export default function App() {
   return (
@@ -58,6 +59,7 @@ export default function App() {
             <Route path="sources" element={<DataSources />} />
             <Route path="team" element={<TeamPage />} />
             <Route path="team/frameworks" element={<FrameworksPage />} />
+            <Route path="team/reference" element={<ReferencePage />} />
             <Route path="team/:owner" element={<WorkspacePage />} />
             <Route path="decisions" element={<Decisions />} />
             <Route path="value" element={<Value />} />
