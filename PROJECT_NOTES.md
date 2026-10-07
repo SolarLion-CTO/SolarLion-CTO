@@ -24,7 +24,8 @@
 - **Business problem and pitch line:** section 31. Use it for the deck's "Problem → Solution → Value" slide.
 - **IN BUILD, M7: Team workspaces** (the main capstone problem statement). Design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32.
   - **M7.1 ✅ done 7 Oct 2026** (section 33): TEAM sidebar group, `/team`, all 5 workspaces with live Transformation tab and KPIs, Ram's 4 tabs, golden-thread scenario, analytics library.
-  - **Next: M7.2 Suman** → M7.3 Vaibhav → M7.4 Santhosh → M7.5 Pankaj → M7.6 checks.
+  - **M7.2 ✅ done 7 Oct 2026** (section 34): Suman's workspace with Readiness, Portfolio & gates, ROI & benefits, and Onboard any organisation.
+  - **Next: M7.3 Vaibhav** → M7.4 Santhosh → M7.5 Pankaj → M7.6 checks.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -1329,4 +1330,50 @@ The original capstone business problems (BP1 / BP2) are in sections 4 and 13.
 - Portfolio and gates: about 12 AI use cases per domain, a funnel, value × feasibility, a gate review with approval
 - ROI and benefits: NPV / payback, Monte Carlo P10–P90
 - Onboard-any-organisation wizard: 6 industry templates
+
+---
+
+## 34. M7.2 done: Suman · AI Transformation (7 Oct 2026)
+
+**Route:** `/team/suman`. Tabs: Transformation · **Readiness** · **Portfolio & gates** · **ROI & benefits** · **Onboard any organisation**. The Portfolio, ROI and Readiness tabs have an All / Banking / Manufacturing / Retail filter.
+
+### Data: `src/data/sim/aiPortfolio.ts`
+- **36 flagship AI use cases** (12 per business unit), IDs `AIUC-BNK-01` …
+  - Each has: stage (Idea / PoC / Pilot / Production / Scaled), owner, investment, value range (min / likely / max, ₹ Cr a year), realised value, feasibility, value score, data readiness, risk tier, and links to a real simulated app and initiative.
+  - Labelled as flagship, i.e. a subset of the 46 AI use cases counted in the KPIs.
+- **Stage success probabilities:** Idea 15%, PoC 35%, Pilot 60%, Production 90%, Scaled 100%.
+- **3 gate-ready pilots, each with success criteria:**
+  - Banking AML alert triage
+  - Manufacturing AI vision inspection
+  - Retail AI demand forecasting (the golden thread's use case)
+- **Readiness:** 6 dimensions per business unit, derived from existing metrics (Strategy, Data, Platform, Skills, Governance, Adoption) on a 1–5 scale. Targets: 4, or 4.5 for Governance.
+- **ROI:**
+  - quarterly cash flows over 3 years: build cost up front, then value ramping on an S-curve after go-live
+  - **net of run cost** (30% of build cost a year)
+  - NPV at 12% a year, payback, 3-year ROI
+- **Monte Carlo:** 2,000 runs. Each run samples a triangular value for every use case and whether it succeeds at its stage, giving P10 / P50 / P90 of annual portfolio value.
+- **6 industry templates:** Banking, Manufacturing, Retail, Insurance, Healthcare, Telecom. Each has starter use cases (value lever, data needed, value and feasibility scores), KPIs and risks.
+
+### What the tabs show
+| Tab | Content |
+|---|---|
+| **Readiness** | Radar chart (3 business units + target), gap table sorted by gap with the next move per dimension |
+| **Portfolio & gates** | 4 tiles · stage-gate funnel (count, ₹ / yr, probability) · value × feasibility scatter (bubble = value, colour = stage) · **gate reviews** (criteria vs actual, NPV, payback, **Promote / Hold**; promotion moves the use case to Production in every view; demo state is saved in this browser, and Reset demo clears it) · portfolio board by stage |
+| **ROI & benefits** | Monte Carlo P10–P90 bars per business unit and enterprise · cumulative payback curve with break-even quarter · use cases ranked by NPV |
+| **Onboard any organisation** | Inputs: organisation, industry template, size, 6 readiness sliders → **rule-engine plan**: readiness score, weakest dimensions, starting point, time to first value, prioritised use cases (value × feasibility × data-readiness factor), **30-60-90 day plan**, KPIs, risks to govern with Vaibhav. Labelled "rule engine, no live AI call". |
+
+### Consistency
+- The golden thread step 4 now uses the calculated NPV and payback of AIUC-RTL-02.
+- KPI cards use the all-AI totals (from the metric history); the portfolio shows the flagship subset and says so.
+
+### Checks
+- Build passes.
+- `validate:sim` passes for 3 / 3 domains.
+- Suman's tabs checked at 1366 / 820 / 390 with no overflow.
+
+### Next: M7.3 Vaibhav · Regulatory & AI Governance (Banking first)
+- Regulatory change flow, with a live circular arriving
+- AI model register with PSI drift
+- Data governance and DPDP: consent, lineage, breach clock
+- Audit readiness
 

@@ -3,6 +3,7 @@
 import { SIM_NOW } from './model'
 import { sim } from './index'
 import type { OwnerId } from './team'
+import { USE_CASES, roi } from './aiPortfolio'
 
 const T0 = Date.parse(SIM_NOW)
 export interface ThreadStep { n: number; at: number; owner: OwnerId; title: string; detail: string; source: string; link: string; evidence: string[] }
@@ -15,6 +16,8 @@ export function goldenThread(): ThreadStep[] {
   const cloud = sim.retail.metrics.find((m) => m.functionId === 'finance' && m.key === 'cloud')!
   const fc = sim.retail.initiatives.find((i) => i.name.includes('Forecasting'))!
   const ctl = sim.retail.controls[22]
+  const uc = USE_CASES.find((u) => u.id === 'AIUC-RTL-02')!
+  const ucRoi = roi(uc)
   const s = (sec: number) => T0 + sec * 1000
   return [
     { n: 1, at: s(15), owner: 'pankaj', title: 'Month-end batch overrun; capacity headroom below 10%', source: 'Datadog · ERP batch monitor · ServiceNow',
@@ -27,7 +30,7 @@ export function goldenThread(): ThreadStep[] {
       detail: `Cloud burst ₹0.6 Cr OPEX for 6 weeks · on-prem hardware ₹2.4 Cr CAPEX · re-schedule batches ₹0 (partial fix). Last festive burst: ₹${cloud.current} Cr/qtr cloud vs ₹${cloud.target} Cr plan. Recommends burst + re-schedule.`,
       link: '/team/santhosh', evidence: [cloud.id] },
     { n: 4, at: s(90), owner: 'suman', title: 'AI demand forecasting proposed to predict peaks', source: 'AI portfolio · MLOps telemetry',
-      detail: `Use case linked to ${fc.name}: forecasts peak load 3 weeks ahead so capacity is booked, not bought in panic. NPV positive, payback ~9 months (P50). Promoted to pilot.`,
+      detail: `Use case "${uc.name}" (${fc.name}): forecasts peak load 3 weeks ahead so capacity is booked, not bought in panic. NPV ₹${ucRoi.npv} Cr, payback ~${ucRoi.paybackMonths} months; pilot gate criteria met.`,
       link: '/team/suman', evidence: [fc.id] },
     { n: 5, at: s(115), owner: 'vaibhav', title: 'Governance check: data residency and model risk', source: 'Vanta controls · model register',
       detail: `Cloud burst stays in the India region (DPDP residency OK). Forecasting model risk tier Medium: approve with conditions (bias test, drift monitoring). Control "${ctl.control}" re-checked.`,
