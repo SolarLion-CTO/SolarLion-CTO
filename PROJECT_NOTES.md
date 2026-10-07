@@ -25,7 +25,8 @@
 - **IN BUILD, M7: Team workspaces** (the main capstone problem statement). Design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32.
   - **M7.1 ✅ done 7 Oct 2026** (section 33): TEAM sidebar group, `/team`, all 5 workspaces with live Transformation tab and KPIs, Ram's 4 tabs, golden-thread scenario, analytics library.
   - **M7.2 ✅ done 7 Oct 2026** (section 34): Suman's workspace with Readiness, Portfolio & gates, ROI & benefits, and Onboard any organisation.
-  - **Next: M7.3 Vaibhav** → M7.4 Santhosh → M7.5 Pankaj → M7.6 checks.
+  - **M7.3 ✅ done 7 Oct 2026** (section 35): Vaibhav's workspace with Regulatory change (live circular), AI model register (PSI drift), Data governance & DPDP (breach clock, lineage), and Audit readiness.
+  - **Next: M7.4 Santhosh** → M7.5 Pankaj → M7.6 checks.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -1376,4 +1377,48 @@ The original capstone business problems (BP1 / BP2) are in sections 4 and 13.
 - AI model register with PSI drift
 - Data governance and DPDP: consent, lineage, breach clock
 - Audit readiness
+
+---
+
+## 35. M7.3 done: Vaibhav · Regulatory & AI Governance (7 Oct 2026)
+
+**Route:** `/team/vaibhav`. Tabs: Transformation · **Regulatory change** · **AI model register** · **Data governance & DPDP** · **Audit readiness**. Banking-first; the model register and audit view cover all 3 business units.
+
+### Data: `src/data/sim/governance.ts`
+- **8 simulated circulars** (RBI / CERT-In / DPDP, all labelled "simulated" with fictional reference numbers `SIM/...`).
+  - Each circular has: stage (Received → AI-drafted → Under review → Mapped → Evidence → Closed), received and due dates, days taken, and **24 obligations**.
+  - Every obligation maps to a **real simulated Banking control**, with an AI confidence score. Some are Gaps; some are Pending review.
+- **Live circular** at simulation clock **+50 s**: "Cyber resilience for peak transaction windows". It arrives with 4 AI-drafted obligations (3 mapped to controls, 1 gap).
+  - **Approve mapping / Send back** (decision key `REG-CIRC-LIVE`).
+  - On approval, gaps are raised as actions.
+- **AI model register:** **24 models**, i.e. every use case in Suman's portfolio at Pilot or beyond, so the two workspaces stay consistent.
+  - Tier = impact × autonomy × sensitivity (1–3 each): ≥ 12 High, ≥ 4 Medium.
+  - Each model has a bias test, explainability, approval, and a **PSI** computed from simulated 5-bin score distributions.
+  - **Fraud scoring (UPI): PSI 0.37 → Restricted.** Markdown pricing: 0.10 → moderate drift.
+  - Approved share of live models = **40%**. This feeds Vaibhav's "AI models registered & approved" measure (now calculated, not seeded).
+- **Days per circular** measure = average days of the last 2 circulars that have a recorded duration (~10 days). Calculated.
+- **10 Banking critical data elements:** owner, quality, personal / consent flags, **lineage** (source app → consumers → report).
+- **Simulated personal-data incident** at clock **+80 s** starts 2 countdown clocks:
+  - 6 h, a CERT-In-style cyber incident report
+  - 72 h, a DPDP-style breach notice
+
+  Both windows are illustrative and labelled as such.
+
+### What the tabs show
+| Tab | Content |
+|---|---|
+| Regulatory change | 6-stage pipeline with counts · live feed card (countdown → arrived → approve) · circulars table · obligation library with "gaps and pending only" filter. Recent-circular mapping (71%) is shown separately from the full-library KPI (94%). |
+| AI model register | Tier × approval heatmap (rule: no High-tier model in production without approval) · drift alerts with expected vs actual distribution bars · full register |
+| Data governance & DPDP | Consent coverage ring · incident clock with 5-step checklist · critical data elements with quality bars · lineage diagram |
+| Audit readiness | Business-unit selector · readiness by framework (passing / exception / failing bars) · evidence status · open-findings ageing |
+
+### Honesty labels
+- Circulars and reporting windows are illustrative.
+- Extraction is rule-based (live-LLM ready).
+- Monitoring simulation, not certification.
+- "Aligned in spirit with NIST AI RMF / ISO/IEC 42001", not a claim of compliance.
+
+### Checks
+- Build passes.
+- Vaibhav's tabs checked at 1366 / 820 / 390 with no overflow.
 

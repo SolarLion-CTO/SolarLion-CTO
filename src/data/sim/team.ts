@@ -7,6 +7,7 @@ import { MONTHS, SIM_NOW } from './model'
 import { sim } from './index'
 import { exec360 } from './scores'
 import { rng } from './rng'
+import { circulars, modelsApprovedPct } from './governance'
 import { PROGRAMME_START, elapsed, eta, glide, glidePath, progress } from './analytics'
 import type { Glide } from './analytics'
 
@@ -70,8 +71,8 @@ export const OWNERS: Owner[] = [
     functions: ['risk', 'cyber', 'legal'], sources: ['vanta'], defaultDomain: 'banking',
     measures: [
       { id: 'vai-oblig', name: 'Obligations mapped to controls', unit: '%', better: 'up', target: 100, targetDate: '2027-03-31', dp: 0, note: 'Banking (simulated legal & compliance data)', series: () => metric('banking', 'legal', 'oblig').series },
-      { id: 'vai-days', name: 'Days per regulatory circular', unit: 'days', better: 'down', target: 2, targetDate: '2027-03-31', note: 'Receipt to approved control mapping', series: () => seed('days', 21, 9) },
-      { id: 'vai-models', name: 'AI models registered & approved', unit: '%', better: 'up', target: 100, targetDate: '2027-03-31', dp: 0, note: 'Models in production with approval', series: () => seed('models', 30, 64, 0) },
+      { id: 'vai-days', name: 'Days per regulatory circular', unit: 'days', better: 'down', target: 2, targetDate: '2027-03-31', note: 'Receipt to approved control mapping', series: () => { const done = circulars.filter((c) => c.daysTaken !== null).slice(-2); return seed('days', 21, Math.round((done.reduce((a, c) => a + c.daysTaken!, 0) / done.length) * 10) / 10) } },
+      { id: 'vai-models', name: 'AI models registered & approved', unit: '%', better: 'up', target: 100, targetDate: '2027-03-31', dp: 0, note: 'Models in production with approval', series: () => seed('models', 30, modelsApprovedPct(), 0) },
       { id: 'vai-consent', name: 'DPDP consent coverage', unit: '%', better: 'up', target: 100, targetDate: '2027-05-31', dp: 0, note: 'Banking customers with recorded consent', series: () => metric('banking', 'marketing', 'consent').series },
       { id: 'vai-breach', name: 'Breach reports on time', unit: '%', better: 'up', target: 100, targetDate: '2027-03-31', dp: 0, note: 'Within the configured reporting clock (illustrative)', series: () => seed('breach', 50, 80, 0) },
       { id: 'vai-ctl', name: 'Control effectiveness', unit: '%', better: 'up', target: 95, targetDate: '2027-06-30', dp: 0, note: 'Banking controls passing (calculated)', series: () => metric('banking', 'risk', 'ctl').series },
