@@ -1,19 +1,13 @@
 // /team/:owner — one workspace per capstone owner. Transformation tab for all; functional tabs per owner.
 import { Link, useParams } from 'react-router-dom'
-import { Hammer } from 'lucide-react'
 import { OWNER } from '../../data/sim/team'
 import type { OwnerId } from '../../data/sim/team'
-import { Card } from '../../components/ui'
 import { WorkspaceShell } from '../../components/team/workspace'
 import { AgentsTab, MultiDomainTab, ProgrammesTab, ThreadTab } from './RamTabs'
 import { OnboardTab, PortfolioTab, ReadinessTab, RoiTab } from './SumanTabs'
 import { AuditTab, DataGovTab, ModelsTab, RegulatoryTab } from './VaibhavTabs'
 import { BudgetTab, CapexTab, FinOpsTab, InvestTab } from './SanthoshTabs'
-
-// Functional tabs planned per owner (docs/TEAM_WORKSPACES_PLAN.md, section D). Built tabs replace these as M7 progresses.
-const PLANNED: Record<'pankaj', { step: string; tabs: [string, string][] }> = {
-  pankaj: { step: 'M7.5', tabs: [['ERP RCA', 'Root-cause Pareto, problem records, change correlation, 5-Whys'], ['Capacity & forecasting', 'Live utilisation, forecast-to-breach, headroom heatmap'], ['Peak scenarios', 'Month-end, salary day, festive — what-if scale-out'], ['Production automation', 'Plan-to-produce and maintenance automation, MES']] },
-}
+import { CapacityTab, ErpRcaTab, PeakTab, ProductionTab } from './PankajTabs'
 
 export default function WorkspacePage() {
   const { owner } = useParams()
@@ -47,13 +41,11 @@ export default function WorkspacePage() {
       { id: 'finops', label: 'FinOps & licences', render: () => <FinOpsTab /> },
       { id: 'invest', label: 'Investment governance', render: () => <InvestTab /> },
     ]
-    : PLANNED.pankaj.tabs.map(([label, desc]) => ({
-      id: label.toLowerCase().replace(/[^a-z]+/g, '-'), label,
-      render: () => (
-        <Card>
-          <div className="flex items-start gap-3"><Hammer size={20} className="text-ink-3 shrink-0 mt-0.5" /><div><div className="font-semibold text-ink">{label}: being built in {PLANNED.pankaj.step}</div><p className="text-sm text-ink-2 mt-1">{desc}.</p><p className="text-xs text-ink-3 mt-2">The Transformation tab and live KPIs above are already working for this workspace.</p></div></div>
-        </Card>
-      ),
-    }))
+    : [
+      { id: 'erp', label: 'ERP RCA', render: () => <ErpRcaTab /> },
+      { id: 'capacity', label: 'Capacity & forecasting', render: () => <CapacityTab /> },
+      { id: 'peaks', label: 'Peak scenarios', render: () => <PeakTab /> },
+      { id: 'production', label: 'Production automation', render: () => <ProductionTab /> },
+    ]
   return <WorkspaceShell key={o.id} owner={o} tabs={tabs} />
 }

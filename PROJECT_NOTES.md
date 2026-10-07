@@ -27,7 +27,8 @@
   - **M7.2 ✅ done 7 Oct 2026** (section 34): Suman's workspace with Readiness, Portfolio & gates, ROI & benefits, and Onboard any organisation.
   - **M7.3 ✅ done 7 Oct 2026** (section 35): Vaibhav's workspace with Regulatory change (live circular), AI model register (PSI drift), Data governance & DPDP (breach clock, lineage), and Audit readiness.
   - **M7.4 ✅ done 7 Oct 2026** (section 36): Santhosh's workspace with CAPEX / OPEX & TBM Sankey, Budget, forecast & anomalies, FinOps & licences, and Investment governance.
-  - **Next: M7.5 Pankaj** → M7.6 checks.
+  - **M7.5 ✅ done 7 Oct 2026** (section 37): Pankaj's workspace with ERP RCA, Capacity & forecasting, Peak scenarios, and Production automation.
+  - **Next: M7.6** cross-checks, full sweep, notes.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
@@ -1459,4 +1460,39 @@ The original capstone business problems (BP1 / BP2) are in sections 4 and 13.
 ### Checks
 - Build passes.
 - Santhosh's tabs checked at 1366 / 820 / 390 with no overflow.
+
+---
+
+## 37. M7.5 done: Pankaj · ERP RCA & Capacity (7 Oct 2026)
+
+**Route:** `/team/pankaj`. Tabs: Transformation · **ERP RCA** · **Capacity & forecasting** · **Peak scenarios** · **Production automation**.
+
+### Data: `src/data/sim/ops.ts`
+- **ERP / core services:** Banking core ledger posting; Manufacturing SAP order-to-cash and SAP month-end batch; Retail order management. Their incidents come straight from the simulated incident log.
+- **Root-cause Pareto** (12-month problem-management history, 61 ERP incidents, 7 causes). Top 3 = 64%: batch overrun, DB lock contention, interface backlog.
+- **10 ITIL problem records** (incident → problem → known error → change) with owner, age, permanent fix and change reference.
+  - **Recurring open (≥ 3 incidents, not closed) = 8.** This feeds Pankaj's measure (calculated).
+- **Change correlation = 36%** of all simulated incidents (40 of 110) started within 24 h of a change. Computed from the incident log; feeds the measure.
+- **5-Whys** for PRB-MFG-01 (month-end batch overrun). Root cause: capacity is planned annually, not per change or peak.
+- **Error budgets** (SRE) per ERP service from SLO and availability. Retail order management has burned its whole budget (burn rate 1.2×).
+- **Capacity telemetry:** 18 critical services × CPU / memory / storage / network.
+  - 12-month peak utilisation with a **Holt forecast 9 months ahead**, plus months to 80% and to 95%.
+  - **Minimum headroom = 17%.** This feeds the measure (calculated).
+- **Live gauges** oscillate just below the measured peak (simulation clock). The **shared ERP / order cluster gauge follows the golden thread** (falls to ~8%, recovers above 30% after step 6).
+- **Peak scenarios** (M/M/1 queue: response = service time ÷ (1 − utilisation)), each with a scale-out slider, latency vs target, 6-week cost and minimum scale-out to meet the target:
+
+| Scenario | Business unit | Demand |
+|---|---|---|
+| Month-end close | Manufacturing | × 1.62 |
+| Salary day | Banking | × 1.7 |
+| Festive peak | Retail | × 2.15 |
+
+- **Production automation:** Manufacturing Plan to Produce / Maintenance / Quality processes plus 12 key automation steps (done or planned quarter). Measure: 52% → 70% target.
+
+### Result
+Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on track, 4 behind**). This fits the story: capacity and change-induced incidents are the open problems, and they are what the golden thread fixes.
+
+### Checks
+- Build passes.
+- Pankaj's tabs checked at 1366 / 820 / 390 with no overflow.
 

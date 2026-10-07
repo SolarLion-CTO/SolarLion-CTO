@@ -90,7 +90,7 @@ export default function TeamPage() {
                 <div className="text-ink-2">{b}</div>
                 <div className="flex flex-wrap items-center gap-2 mt-0.5">
                   <Link to={`/team/${o.id}`} className="text-xs text-brand-600 font-semibold hover:underline">{o.workspace} →</Link>
-                  <span className={`text-[11px] rounded px-1.5 py-0.5 border ${o.id === 'ram' ? 'bg-success-bg text-success-text border-green-200' : 'bg-info-bg text-info-text border-blue-200'}`}>{o.id === 'ram' ? 'Built' : 'Tracked · tabs in build'}</span>
+                  <span className="text-[11px] rounded px-1.5 py-0.5 border bg-success-bg text-success-text border-green-200">Built · tracked live</span>
                 </div>
               </div>
             </li>

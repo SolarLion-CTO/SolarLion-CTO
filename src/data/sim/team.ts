@@ -8,6 +8,7 @@ import { sim } from './index'
 import { exec360 } from './scores'
 import { rng } from './rng'
 import { circulars, modelsApprovedPct } from './governance'
+import { capacity, changeCorrelation, recurringOpen } from './ops'
 import { PROGRAMME_START, elapsed, eta, glide, glidePath, progress } from './analytics'
 import type { Glide } from './analytics'
 
@@ -102,12 +103,12 @@ export const OWNERS: Owner[] = [
     to: ['Problem management with permanent fixes', 'Forecast-driven capacity ahead of every peak', 'Automated plan-to-produce with closed loop to MES'],
     functions: ['operations', 'technology'], sources: ['datadog', 'servicenow', 'process'], defaultDomain: 'manufacturing',
     measures: [
-      { id: 'pan-recur', name: 'Recurring ERP problems', unit: '', better: 'down', target: 3, targetDate: '2027-03-31', dp: 0, note: 'Open problem records with ≥ 3 linked incidents', series: () => seed('recur', 14, 7, 0) },
+      { id: 'pan-recur', name: 'Recurring ERP problems', unit: '', better: 'down', target: 3, targetDate: '2027-03-31', dp: 0, note: 'Open problem records with ≥ 3 linked incidents', series: () => seed('recur', 14, recurringOpen(), 0) },
       { id: 'pan-fix', name: 'Time to permanent fix', unit: 'days', better: 'down', target: 10, targetDate: '2027-03-31', dp: 0, note: 'Problem opened → root-cause fix deployed', series: () => seed('fix', 45, 24, 0) },
       { id: 'pan-avail', name: 'ERP availability in peak windows', unit: '%', better: 'up', target: 99.9, targetDate: '2027-03-31', dp: 2, note: 'Month-end and festive windows: core ledger, SAP order-to-cash and batch, retail OMS', series: () => seed('avail', 99.42, 99.71, 2) },
-      { id: 'pan-head', name: 'Minimum capacity headroom', unit: '%', better: 'up', target: 30, targetDate: '2027-03-31', dp: 0, note: 'Lowest headroom across critical services at peak', series: () => seed('head', 8, 17, 0) },
+      { id: 'pan-head', name: 'Minimum capacity headroom', unit: '%', better: 'up', target: 30, targetDate: '2027-03-31', dp: 0, note: 'Lowest headroom across critical services at peak', series: () => seed('head', 8, Math.round(100 - Math.max(...capacity().map((c) => c.current))), 0) },
       { id: 'pan-auto', name: 'Production steps automated', unit: '%', better: 'up', target: 70, targetDate: '2027-06-30', dp: 0, note: 'Plan-to-produce and maintenance steps running without manual hand-off', series: () => seed('auto', 40, 52, 0) },
-      { id: 'pan-chg', name: 'Incidents caused by changes', unit: '%', better: 'down', target: 15, targetDate: '2027-03-31', dp: 0, note: 'Incidents within 24 h of a change', series: () => seed('chg', 38, 27, 0) },
+      { id: 'pan-chg', name: 'Incidents caused by changes', unit: '%', better: 'down', target: 15, targetDate: '2027-03-31', dp: 0, note: 'Incidents within 24 h of a change', series: () => seed('chg', 38, changeCorrelation().pct, 0) },
     ],
   },
 ]
