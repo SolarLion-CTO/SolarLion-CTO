@@ -2,7 +2,7 @@
 
 > Complete record of the CTO capstone project, from the first idea to the current website.
 > Use this file to pick the work up again, brief a teammate, or brief an AI assistant.
-> Last updated: 7 October 2026 (M1–M5 simulation build + disclaimer). **Start here next time:** section 0.
+> Last updated: 7 October 2026 (M1–M8: simulation, team workspaces, lean frameworks). **Start here next time:** section 0.
 
 ---
 
@@ -26,7 +26,7 @@
   - **Added 7 Oct 2026:** the consolidated **45-framework CTO library** (section 6 of that file). It includes the "15 to master", the **"which framework when" decision guide**, and the CTO360 coverage per framework (9 explicit · 14 implicit · 22 planned).
   - **M8 scope extended** to steps M8.1–M8.9 (section 7), about 2.5–3 days. **Superseded:** the user chose **M8 LEAN** (section 8 of that file).
   - **M8 LEAN** means only the frameworks that serve each owner's BP1 problem, with tracked metrics: about 10 frameworks (Balanced Scorecard, Cynefin + RAPID, Three Horizons, Diffusion + Chasm, Business Model Canvas, Three Lines, Run-Grow-Transform, TCO, Sensitivity, Theory of Constraints, Kotter + ADKAR) plus 2 labels (OODA, Lewin). Everything else stays a reference library. About 1 day. **✅ Done 7 Oct 2026 (section 39).**
-- **IN BUILD, M7: Team workspaces** (the main capstone problem statement). Design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32.
+- **✅ BUILT, M7: Team workspaces** (the main capstone problem statement). Design: **`docs/TEAM_WORKSPACES_PLAN.md`**; summary in section 32.
   - **M7.1 ✅ done 7 Oct 2026** (section 33): TEAM sidebar group, `/team`, all 5 workspaces with live Transformation tab and KPIs, Ram's 4 tabs, golden-thread scenario, analytics library.
   - **M7.2 ✅ done 7 Oct 2026** (section 34): Suman's workspace with Readiness, Portfolio & gates, ROI & benefits, and Onboard any organisation.
   - **M7.3 ✅ done 7 Oct 2026** (section 35): Vaibhav's workspace with Regulatory change (live circular), AI model register (PSI drift), Data governance & DPDP (breach clock, lineage), and Audit readiness.
@@ -51,14 +51,23 @@
 | M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | ✅ Done 7 Oct 2026 (section 28) |
 | M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | ✅ Done 7 Oct 2026 (section 30) |
 
-- **Pending checklist (cross-verified 7 Oct 2026):**
-  1. ✅ **Disclaimer done:** built, committed (`ed14e4d`) and pushed on 7 Oct 2026; live on Vercel. A full overflow re-check across all routes is still worth running at the start of M6.
-  2. ✅ **M6 done** (section 30). The full sweep found 219 / 219 views clean. If `git status` says "ahead", run `git push`.
-  3. **Live AI call:** pick a provider and add the API key in Vercel (section 16).
-  4. **Naming consistency:** the website brand is **CTO360**, but section 1 and some decks still say "Domain-Agnostic Enterprise AI Transformation Framework" or "Universal CTO Control Tower". Align the proposal and decks to CTO360, with TEDIF as the underlying framework (section 12).
-  5. Owner map consistency across the proposal, decks and TEDIF (section 12).
-  6. Optional: code-split routes (the bundle is above 500 kB; this is only a warning).
-  7. Housekeeping: confirm the GitHub token pasted in chat earlier has been **revoked**.
+- **Pending checklist (updated 7 Oct 2026, after M8 lean):**
+
+  **Done:** M1–M6 simulation (sections 24–30) · disclaimer (section 29) · M7 team workspaces (sections 33–38) · M8 lean frameworks (section 39). The build passes, `validate:sim` passes (3 domains + team cross-checks), and all new views are checked at 3 sizes.
+
+  | # | Item | Owner | Status / next action |
+  |---|---|---|---|
+  | 1 | **`git push`**: 10 local commits are not yet on GitHub / Vercel | You | Run `git push` in VS Code; Vercel redeploys in about 2 min |
+  | 2 | **Full overflow sweep** (101 pages × 3 sizes) | Claude | Running at the last update; record the result here when it finishes. If no result is recorded, re-run it: kill any stray headless Chrome first (`pkill -f remote-debugging-port=9333`) |
+  | 3 | **Live AI call** (Grok / Groq / Claude) for "Challenge the AI", obligation drafting and RCA summaries | You decide → Claude builds | Pick a provider and add the API key in Vercel environment variables (section 16). Everything works without it (rule-based, labelled) |
+  | 4 | **Real figures from team research:** replace the illustrative old-state / target values in the 30 team measures (+ 8 framework metrics) | Team | Send the numbers; they live in `src/data/sim/team.ts` and `src/data/sim/frameworks.ts` |
+  | 5 | **Naming consistency:** decks, proposal and section 1 of these notes still say "Domain-Agnostic Enterprise AI Transformation Framework" / "Universal CTO Control Tower"; the site is **CTO360** (TEDIF underneath) | Team (decks) · Claude (notes) | Agree on CTO360 and update the decks; I can update section 1 |
+  | 6 | **Owner map consistency** across proposal, decks and TEDIF (RACI now on `/team`) | Team | Use the `/team` RACI as the single source |
+  | 7 | **Rehearse the demo** with the run-sheet (section 38): Reset the clock first so the golden thread, live circular (+50 s) and breach clock (+80 s) play in order | Team | Each presenter: 3 min on their workspace + their Frameworks tab |
+  | 8 | **Optional extras** from the framework library (not built, reference only): ESG for Vaibhav; SWOT / PESTLE context for Ram | You decide | About 2–3 hours each if wanted |
+  | 9 | **Optional:** code-split routes (bundle > 500 kB warning only) | Claude | About 1 hour; no visible change |
+  | 10 | **Housekeeping:** confirm the GitHub token pasted in chat earlier has been **revoked** | You | GitHub → Settings → Developer settings → Tokens |
+  | 11 | **Optional:** refresh the capstone ratings (section 14 scores date from 5 Oct, before M1–M8) | Claude | On request |
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
