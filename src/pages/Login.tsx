@@ -1,7 +1,7 @@
 // /login — Google (Gmail) sign-in through Supabase. Redirects back here, then on to the page the user wanted.
 import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-import { ShieldCheck } from 'lucide-react'
+import { Lock, Radar, ShieldCheck, Target } from 'lucide-react'
 import { takeReturnTo, useAuth } from '../auth/AuthProvider'
 import { SHORT_DISCLAIMER } from './About'
 
@@ -31,18 +31,55 @@ export default function Login() {
   const go = async () => { setBusy(true); setErr(null); const e = await signInWithGoogle(from); if (e) { setErr(e); setBusy(false) } }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f2747] via-[#173a6b] to-[#2563eb] flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
-        <div className="text-3xl font-extrabold tracking-tight text-[#0f2747]">CTO<span className="text-brand-600">360</span></div>
-        <div className="text-sm font-semibold text-ink-2 mt-1">Enterprise Technology Control Tower</div>
-        <p className="text-sm text-ink-3 mt-4 leading-relaxed">Sign in with your Google account to open the control tower, team workspaces and Decision Center.</p>
-        <button onClick={go} disabled={busy || loading} className="mt-6 w-full flex items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-ink hover:bg-slate-50 disabled:opacity-60">
-          <GoogleMark />{busy ? 'Redirecting to Google…' : 'Continue with Google'}
-        </button>
-        {(err || urlError) && <p role="alert" className="mt-3 text-xs rounded-md bg-crit-bg text-crit-text px-3 py-2">{err || urlError}</p>}
-        <div className="mt-6 flex gap-2 text-xs text-ink-3"><ShieldCheck size={14} className="shrink-0 mt-0.5 text-brand-600" /><span>Authentication by Supabase with Google OAuth. CTO360 only reads your name, email and profile picture.</span></div>
-        <p className="mt-6 pt-4 border-t border-line text-[11px] text-ink-4 leading-relaxed">{SHORT_DISCLAIMER}</p>
-      </div>
+    <div className="min-h-screen grid lg:grid-cols-[1.1fr_1fr] bg-white">
+      {/* Brand panel */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#0b1d38] via-[#0f2747] to-[#1d4ed8] text-white px-6 py-8 sm:px-10 lg:px-14 lg:py-12 flex flex-col">
+        <svg className="absolute -right-24 -bottom-24 w-[520px] h-[520px] opacity-[0.12] pointer-events-none" viewBox="0 0 200 200" aria-hidden>
+          <circle cx="100" cy="100" r="96" fill="none" stroke="white" strokeWidth="0.6" />
+          <circle cx="100" cy="100" r="68" fill="none" stroke="white" strokeWidth="0.6" />
+          <circle cx="100" cy="100" r="40" fill="none" stroke="white" strokeWidth="0.6" />
+          {Array.from({ length: 7 }, (_, i) => { const a = (i / 7) * Math.PI * 2; return <circle key={i} cx={100 + Math.cos(a) * 96} cy={100 + Math.sin(a) * 96} r="3" fill="white" /> })}
+        </svg>
+        <div className="text-2xl font-extrabold tracking-tight">CTO<span className="text-[#86b6ef]">360</span></div>
+        <div className="text-[13px] text-slate-300 mt-0.5">Enterprise Technology Control Tower</div>
+        <div className="mt-8 lg:mt-auto lg:mb-auto max-w-lg">
+          <h1 className="text-2xl sm:text-3xl lg:text-[2.6rem] font-bold leading-tight">One view. Connected decisions. Measurable technology outcomes.</h1>
+          <p className="hidden sm:block text-slate-300 mt-4 text-[15px] leading-relaxed">The decision layer for technology leaders: signals from every source system, prioritised into decisions that are owned, actioned and measured.</p>
+          <ul className="hidden lg:block mt-8 space-y-4">
+            {[
+              [Radar, 'Enterprise-wide visibility', '3 business units, 7 source systems and 16 functions on one scale'],
+              [Target, 'Decision intelligence', 'A prioritised Top 10 with evidence, owners and measured outcomes'],
+              [ShieldCheck, 'Governed AI', 'AI recommends, humans decide, with a full audit trail'],
+            ].map(([Icon, t, d]) => { const I = Icon as typeof Radar; return (
+              <li key={t as string} className="flex gap-3">
+                <span className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center shrink-0"><I size={17} /></span>
+                <span><span className="block font-semibold text-[15px]">{t as string}</span><span className="block text-sm text-slate-300">{d as string}</span></span>
+              </li>
+            ) })}
+          </ul>
+        </div>
+        <div className="hidden lg:block text-xs text-slate-400">© 2026 CTO360 · Capstone programme</div>
+      </section>
+
+      {/* Sign-in panel */}
+      <section className="flex flex-col px-6 py-10 sm:px-10 lg:px-16">
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-full max-w-sm">
+            <h2 className="text-2xl font-bold text-ink">Sign in</h2>
+            <p className="text-sm text-ink-3 mt-1.5">Welcome back. Continue with your Google account to access your workspace.</p>
+            <button onClick={go} disabled={busy || loading} className="mt-8 w-full h-11 flex items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white text-sm font-semibold text-ink shadow-sm hover:bg-slate-50 hover:border-slate-400 transition disabled:opacity-60">
+              <GoogleMark />{busy ? 'Redirecting to Google…' : 'Continue with Google'}
+            </button>
+            {(err || urlError) && <p role="alert" className="mt-3 text-xs rounded-md bg-crit-bg text-crit-text px-3 py-2">{err || urlError}</p>}
+            <div className="mt-8 flex items-center gap-3 text-[11px] uppercase tracking-wider text-ink-4"><span className="h-px flex-1 bg-line" />Secure single sign-on<span className="h-px flex-1 bg-line" /></div>
+            <div className="mt-4 flex items-start gap-2.5 text-xs text-ink-3 leading-relaxed">
+              <Lock size={14} className="shrink-0 mt-0.5 text-brand-600" />
+              <span>Protected by Google single sign-on. Your session is encrypted, and you can sign out at any time.</span>
+            </div>
+          </div>
+        </div>
+        <p className="text-[11px] text-ink-4 leading-relaxed max-w-md mx-auto text-center mt-10">{SHORT_DISCLAIMER}</p>
+      </section>
     </div>
   )
 }
