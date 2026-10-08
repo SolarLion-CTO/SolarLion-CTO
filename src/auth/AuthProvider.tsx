@@ -14,6 +14,21 @@ interface AuthState {
 }
 
 const RETURN_KEY = 'cto360.returnTo'
+
+// One row in public.login_events per browser session (SIGNED_IN can re-fire on tab focus).
+function recordSignIn(s: Session) {
+  if (!supabase) return
+  const key = `cto360.logged.${s.user.id}`
+  try { if (sessionStorage.getItem(key)) return; sessionStorage.setItem(key, '1') } catch { /* storage blocked: log anyway */ }
+  const u = displayUser(s.user)
+  // Deferred so it does not run inside the auth callback; failures (e.g. table not created yet) are ignored.
+  setTimeout(() => {
+    void supabase!.from('login_events').insert({
+      email: u.email.toLowerCase(), full_name: u.name, avatar_url: u.avatar || null,
+      provider: (s.user.app_metadata?.provider as string | undefined) ?? 'google', user_agent: navigator.userAgent.slice(0, 300),
+    }).then(({ error }) => { if (error) console.warn('Sign-in log not written:', error.message) })
+  }, 0)
+}
 const AuthContext = createContext<AuthState | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -23,7 +38,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!supabase) return
     supabase.auth.getSession().then(({ data }) => { setSession(data.session); setLoading(false) })
-    const { data } = supabase.auth.onAuthStateChange((_e, s) => { setSession(s); setLoading(false) })
+    const { data } = supabase.auth.onAuthStateChange((e, s) => {
+      setSession(s); setLoading(false)
+      if (e === 'SIGNED_IN' && s) recordSignIn(s)
+    })
     return () => data.subscription.unsubscribe()
   }, [])
 
@@ -37,7 +55,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return error ? error.message : null
   }
 
-  const signOut = async () => { if (supabase) await supabase.auth.signOut() }
+  const signOut = async () => {
+    if (!supabase) return
+    try { if (session) sessionStorage.removeItem(`cto360.logged.${session.user.id}`) } catch { /* ignore */ }
+    await supabase.auth.signOut()
+  }
 
   return (
     <AuthContext.Provider value={{ enabled: authEnabled, loading, session, user: session?.user ?? null, signInWithGoogle, signOut }}>

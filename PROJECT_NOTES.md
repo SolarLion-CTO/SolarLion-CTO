@@ -1704,3 +1704,37 @@ Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on trac
 - Login page checked at 1366 and 390 with no overflow.
 - A real Google sign-in can only be tested after setup steps 1–5.
 
+### Sign-in log page (8 Oct 2026)
+
+**Where:** TEAM → **Sign-in log** (`/admin/sign-ins`). It only appears when login is configured.
+
+**How it works:**
+- After each Google sign-in, the app writes one row to `public.login_events`: user, email, name, photo, provider, browser and time. It writes once per browser session.
+- Supabase Row Level Security decides what each person can see:
+  - **Admins** (emails in `public.app_admins`) see everyone.
+  - Other users see only their own sign-ins.
+  - Nobody can edit or delete rows from the app.
+
+**The page shows:**
+- KPIs: users, sign-ins today, sign-ins in the last 7 days, active users in the last 7 days
+- a users table: last and first sign-in, count, last device
+- the latest 100 sign-ins
+- search and a refresh button
+- if the table is missing, a "one-time setup" message
+
+**One-time setup (Ram):**
+1. Supabase → SQL Editor → New query.
+2. Paste `supabase/login_events.sql` and click **Run**.
+3. Sign out and sign in again so the first row is written.
+
+**Admins:** the script adds `solarleocto@gmail.com`. To add another admin, run:
+```sql
+insert into public.app_admins (email) values ('name@gmail.com');
+```
+
+**Files:** `supabase/login_events.sql`, `src/pages/SignInLog.tsx`, `recordSignIn` in `src/auth/AuthProvider.tsx`.
+
+**Checks:**
+- Build passes.
+- Before the SQL is run, Supabase answers "table not found", which the page turns into the setup message.
+

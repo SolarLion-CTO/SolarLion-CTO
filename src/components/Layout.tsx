@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
   Activity, BookOpen, Boxes, Library, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
-  LogOut, ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
+  LogOut, UserCheck, ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useStore } from '../store'
@@ -15,6 +15,7 @@ import { FUNCTIONS } from '../data/sim/functions'
 import { ClockControls } from './sim/EventFeed'
 import { SHORT_DISCLAIMER } from '../pages/About'
 import { displayUser, useAuth } from '../auth/AuthProvider'
+import { authEnabled } from '../auth/supabase'
 
 type Item = { to: string; label: string; icon: LucideIcon; badge?: number; sub?: string; end?: boolean }
 type Group = { section: string; icon: LucideIcon; items: Item[] }
@@ -45,6 +46,7 @@ const nav: Group[] = [
     { to: '/team/pankaj', label: 'ERP RCA & Capacity · Pankaj', sub: 'ERP · infra capacity · production', icon: Wrench },
     { to: '/team/frameworks', label: 'Frameworks & syllabus', sub: 'Applied frameworks · decision guide', icon: BookOpen },
     { to: '/team/reference', label: 'Reference library', sub: 'Frameworks · techniques · concepts explained', icon: Library },
+    ...(authEnabled ? [{ to: '/admin/sign-ins', label: 'Sign-in log', sub: 'Who signed in and when', icon: UserCheck }] : []),
   ] },
   { section: 'Strategy', icon: Compass, items: [
     { to: '/cto/strategy', label: 'Current → target', icon: Compass },

@@ -46,6 +46,7 @@ import WorkspacePage from './pages/team/WorkspacePage'
 import FrameworksPage from './pages/team/FrameworksPage'
 import ReferencePage from './pages/team/ReferencePage'
 import Login from './pages/Login'
+import SignInLog from './pages/SignInLog'
 import { AuthProvider, RequireAuth } from './auth/AuthProvider'
 
 export default function App() {
@@ -64,6 +65,7 @@ export default function App() {
             <Route path="team" element={<TeamPage />} />
             <Route path="team/frameworks" element={<FrameworksPage />} />
             <Route path="team/reference" element={<ReferencePage />} />
+            <Route path="admin/sign-ins" element={<SignInLog />} />
             <Route path="team/:owner" element={<WorkspacePage />} />
             <Route path="decisions" element={<Decisions />} />
             <Route path="value" element={<Value />} />
