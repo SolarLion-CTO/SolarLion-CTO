@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
   Activity, BookOpen, Boxes, Library, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
-  ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
+  LogOut, ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useStore } from '../store'
@@ -14,6 +14,7 @@ import { SOURCES } from '../data/sim/scores'
 import { FUNCTIONS } from '../data/sim/functions'
 import { ClockControls } from './sim/EventFeed'
 import { SHORT_DISCLAIMER } from '../pages/About'
+import { displayUser, useAuth } from '../auth/AuthProvider'
 
 type Item = { to: string; label: string; icon: LucideIcon; badge?: number; sub?: string; end?: boolean }
 type Group = { section: string; icon: LucideIcon; items: Item[] }
@@ -165,13 +166,7 @@ export default function Layout() {
             <span className="absolute -top-0.5 -right-0.5 bg-crit text-[10px] font-semibold rounded-full w-4 h-4 flex items-center justify-center">{domain.alerts.length}</span>
           </button>
           <NavLink to="/about" className="hidden md:block text-slate-300 hover:text-white" aria-label="About CTO360 and disclaimer" title="About & disclaimer"><CircleHelp size={19} /></NavLink>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center font-semibold text-sm" aria-hidden>R</div>
-            <div className="hidden lg:block leading-tight text-xs">
-              <div className="font-semibold">Ram</div>
-              <div className="text-slate-300">Group CTO</div>
-            </div>
-          </div>
+          <UserBadge />
         </div>
       </header>
 
@@ -245,6 +240,27 @@ export default function Layout() {
           </div>
         </main>
       </div>
+    </div>
+  )
+}
+
+// Header user block: the signed-in Google account when auth is on, otherwise the demo persona.
+function UserBadge() {
+  const { enabled, user, signOut } = useAuth()
+  const navigate = useNavigate()
+  const u = enabled && user ? displayUser(user) : { name: 'Ram', email: '', avatar: '' }
+  return (
+    <div className="flex items-center gap-2">
+      {u.avatar
+        ? <img src={u.avatar} alt="" referrerPolicy="no-referrer" className="w-8 h-8 rounded-full object-cover" />
+        : <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center font-semibold text-sm" aria-hidden>{u.name[0]?.toUpperCase()}</div>}
+      <div className="hidden lg:block leading-tight text-xs max-w-[11rem]">
+        <div className="font-semibold truncate">{u.name}</div>
+        <div className="text-slate-300 truncate">{u.email || 'Group CTO'}</div>
+      </div>
+      {enabled && user && (
+        <button onClick={async () => { await signOut(); navigate('/login', { replace: true }) }} className="p-1 rounded-md text-slate-300 hover:text-white hover:bg-white/10" aria-label="Sign out" title="Sign out"><LogOut size={18} /></button>
+      )}
     </div>
   )
 }

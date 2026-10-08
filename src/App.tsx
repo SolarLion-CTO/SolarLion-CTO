@@ -45,6 +45,8 @@ import TeamPage from './pages/team/TeamPage'
 import WorkspacePage from './pages/team/WorkspacePage'
 import FrameworksPage from './pages/team/FrameworksPage'
 import ReferencePage from './pages/team/ReferencePage'
+import Login from './pages/Login'
+import { AuthProvider, RequireAuth } from './auth/AuthProvider'
 
 export default function App() {
   return (
@@ -52,8 +54,10 @@ export default function App() {
       <SimClockProvider>
       <DecisionStateProvider>
       <BrowserRouter>
+      <AuthProvider>
         <Routes>
-          <Route element={<Layout />}>
+          <Route path="login" element={<Login />} />
+          <Route element={<RequireAuth><Layout /></RequireAuth>}>
             <Route index element={<CommandCenter />} />
             <Route path="overview" element={<Overview />} />
             <Route path="sources" element={<DataSources />} />
@@ -98,6 +102,7 @@ export default function App() {
             <Route path="cto/roadmap" element={<Roadmap />} />
           </Route>
         </Routes>
+      </AuthProvider>
       </BrowserRouter>
       </DecisionStateProvider>
       </SimClockProvider>

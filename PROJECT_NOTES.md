@@ -13,6 +13,7 @@
 > - **No new features** unless Ram lifts the freeze.
 > - **To compare against the frozen version:** `git diff v1.0-freeze`.
 > - **To go back to it:** `git checkout v1.0-freeze`.
+> - **Freeze lifted once, 8 Oct 2026, at Ram's request:** Google (Gmail) login through Supabase was added (section 41). It is off until the Supabase keys are set, so the frozen behaviour is unchanged by default.
 
 - **Presentation PDF (26 slides, 16:9):** `docs/presentation/CTO360_Capstone_Presentation.pdf` (copy also in the `CTO CApstone` folder). Regenerate it with `python3 docs/presentation/build.py`, then `node docs/presentation/shot.mjs <folder>`. It follows Title Case headings and uses no em dashes.
 - **PPT / presentation workflow (start to end):** **`docs/PPT_STORYLINE.md`**. It covers the storyline, 18 slides + appendix, the live demo run-sheet, a numbers cheat sheet, the screenshot list, Q&A prep and a day-of checklist.
@@ -1638,4 +1639,57 @@ Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on trac
 - Desktop full-page screenshot reviewed; label collisions fixed.
 - No overflow at 1366 / 820 / 390.
 - Full site sweep: 129 checks, all clean.
+
+---
+
+## 41. Google (Gmail) login with Supabase (8 Oct 2026)
+
+**What it does:**
+- **No keys set:** the site stays open, exactly as frozen (demo mode).
+- **Keys set:** every page requires a Google sign-in first.
+  - `/login` shows a "Continue with Google" button.
+  - After sign-in, you return to the page you first asked for.
+  - The header shows your Google name, email and photo, with a **Sign out** button.
+
+**Code:**
+
+| File | Role |
+|---|---|
+| `src/auth/supabase.ts` | Supabase client from `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`. If either is missing, auth is disabled. |
+| `src/auth/AuthProvider.tsx` | Session context, `signInWithGoogle`, `signOut`, `RequireAuth` route guard, `displayUser` |
+| `src/pages/Login.tsx` | Branded login page with the disclaimer |
+| `src/App.tsx` | `AuthProvider` added; `/login` is public; the whole layout is wrapped in `RequireAuth` |
+| `src/components/Layout.tsx` | `UserBadge` in the header |
+| `.env.example` | The two variables to set |
+
+**Setup (one time, about 15 minutes, done by Ram):**
+1. **Supabase:** create a project at supabase.com. Copy the **Project URL** and the **anon public key** (Project Settings → API).
+2. **Google Cloud Console → APIs & Services:**
+   - **OAuth consent screen:** External. Add the app name and your email.
+   - **Credentials → Create OAuth client ID → Web application:**
+     - Authorized JavaScript origins: `https://cto360.vercel.app` and `http://localhost:5173`
+     - Authorized redirect URI: `https://<project-ref>.supabase.co/auth/v1/callback`
+   - Copy the client ID and secret.
+3. **Supabase → Authentication → Sign In / Providers → Google:** enable it and paste the client ID and secret.
+4. **Supabase → Authentication → URL Configuration:**
+   - Site URL: `https://cto360.vercel.app`
+   - Redirect URLs: `https://cto360.vercel.app/login` and `http://localhost:5173/login`
+5. **Vercel → Project → Settings → Environment Variables:** add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, then redeploy.
+6. **Local:** copy `.env.example` to `.env.local` (git-ignored), fill in the values, and restart `npm run dev`.
+
+**Who can sign in:**
+- By default, any Google account.
+- **To limit it to the team:** keep the Google consent screen in **Testing** mode and add each member's Gmail under **Test users** (up to 100).
+
+**Security notes:**
+- The anon key is public by design, because it ships to the browser.
+- **Never** put the `service_role` key in a `VITE_` variable.
+- Do not paste keys or secrets into chat.
+
+**Checks:**
+- Build passes.
+- With no keys: `/team` opens normally.
+- With placeholder keys: `/` and `/team/ram` redirect to `/login`.
+- Login page checked at 1366 and 390 with no overflow.
+- A real Google sign-in can only be tested after setup steps 1–5.
 
