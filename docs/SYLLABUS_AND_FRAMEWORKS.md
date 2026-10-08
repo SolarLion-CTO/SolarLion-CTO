@@ -346,3 +346,14 @@ SWOT, PESTLE, Five Forces, VRIO, Porter's generic strategies and value chain, An
 
 Every framework in section 6, the analytical techniques and key concepts are explained in plain language on **TEAM → Reference library** (`/team/reference`). There are **69 cards**. Each card has a small diagram, the core idea, the business question it answers, and a link to where CTO360 applies it (green) or "reference" (grey). Details: `PROJECT_NOTES.md` section 40.
 
+## 10. Techniques validated on real data (8 Oct 2026)
+
+Three analytical techniques from the library now also run on real public data, shown as labelled panels:
+
+| Technique | Real dataset | Result |
+|---|---|---|
+| **Pareto (80/20)** | UCI ServiceNow incident log | The top 20% of categories account for 79.2% of 24,918 incidents. The rule holds. |
+| **PSI drift** | Kaggle credit card fraud | Stable from day to day (max 0.19); drift in fraud-wave hours (2.42) |
+| **TBM / FinOps allocation** | FOCUS 1.0 billing sample | 62.7% of cost allocatable; 1.3% commitment coverage |
+
+Sources: `data/real/SOURCES.md`.

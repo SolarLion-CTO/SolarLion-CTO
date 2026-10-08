@@ -7,6 +7,7 @@ import { RecordTable } from '../../../components/sim/RecordTable'
 import EolTab from '../../domain/EolTab'
 import { NameCell, RecLink, Tabs, cr } from '../common'
 import { FunctionKpis } from './kpis'
+import { EolReality } from '../../../components/real/RealData'
 
 type T = 'apps' | 'matrix' | 'tech' | 'capabilities' | 'deps' | 'eol'
 
@@ -105,6 +106,7 @@ function Tech({ d }: { d: DomainData }) {
           { key: 'h', label: 'Health', render: (t) => <StatusPill status={t.health} why={t.why} /> },
         ]} />
       </Card>
+      <EolReality d={d} />
     </>
   )
 }

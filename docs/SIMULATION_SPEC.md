@@ -253,3 +253,18 @@ Enterprise → Domain → Capability → KPI / Signal → Underlying Artifact �
 12. CTO360 does not pretend to replace the vendor platforms.
 
 > **Message:** "Existing enterprise tools tell leaders what is happening within individual functions. CTO360 connects those signals to explain what matters, where intervention is required and what decision should be made."
+
+## 33. Real-data layer (added 8 Oct 2026)
+
+The simulation remains the system of record for the demo. Six public datasets are layered **beside** it as labelled "Reality check" panels; they never feed the scoring rules.
+
+| Simulated layer | Real dataset beside it |
+|---|---|
+| LeanIX technology lifecycle | endoflife.date |
+| Vanta cyber | CISA KEV |
+| Regulatory change | RBI notifications |
+| Model register | Kaggle fraud, with PSI computed on real features |
+| ERP RCA | UCI ServiceNow incident log |
+| FinOps | FOCUS 1.0 billing sample |
+
+Provenance: `data/real/SOURCES.md`. Processing: `scripts/real-data/process_real_data.py` → `src/data/real/*.json`. Build notes: `PROJECT_NOTES.md` section 42.

@@ -262,3 +262,11 @@ Show current, target, gap, improvement initiatives, owner and target date. **Do 
 Must not become 16 disconnected reporting dashboards. The objective chain:
 
 **Enterprise Signals → CTO Context → Cross-Functional Intelligence → Prioritised Decisions → Governed Actions → Measurable Business Outcomes → Continuous Optimisation**
+
+## 16. Real-data reality checks (added 8 Oct 2026)
+
+Two source pages now carry real public data beside the simulation:
+- **SAP LeanIX → Technology lifecycle:** real end-of-life dates from endoflife.date, for each business unit.
+- **Vanta → Cyber:** the CISA Known Exploited Vulnerabilities catalogue.
+
+The **Data sources** page (`/sources`) lists all six real datasets, with licences and fetch dates. Details: `PROJECT_NOTES.md` section 42 and `data/real/SOURCES.md`.

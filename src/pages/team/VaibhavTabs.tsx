@@ -12,6 +12,7 @@ import { Badge, Card } from '../../components/ui'
 import { ScoreRing, StatusPill, ragBg, ragText } from '../../components/sim/primitives'
 import { useDecisionState } from '../../components/sim/decisionState'
 import { useSimClock } from '../../components/sim/clock'
+import { FraudDrift, RbiFeed } from '../../components/real/RealData'
 
 const dn = (d: DomainId) => domains[d].name
 const appName = (id: string) => sim.banking.applications.find((a) => a.id === id)?.name ?? id
@@ -113,6 +114,7 @@ export function RegulatoryTab() {
         </div>
         <p className="text-xs text-ink-3 mt-2">Low-confidence drafts (&lt; 70%) always go to human review. Extraction is rule-based today and can use a live LLM once a provider is chosen.</p>
       </Card>
+      <RbiFeed />
     </>
   )
 }
@@ -178,6 +180,7 @@ export function ModelsTab() {
         </div>
         <p className="text-xs text-ink-3 mt-2">Built from Suman's portfolio: every use case at Pilot or beyond is a registered model. Management simulation aligned in spirit with NIST AI RMF and ISO/IEC 42001 — not a certification.</p>
       </Card>
+      <FraudDrift />
     </>
   )
 }

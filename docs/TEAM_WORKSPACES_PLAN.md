@@ -332,3 +332,16 @@ Progress is **calculated, never typed**. `validate:sim` checks that baseline = f
 | M7.6 | Full checks (build, validate, overflow sweep), notes | ~0.25 day |
 
 Each step ends deployable and is recorded in `PROJECT_NOTES.md`.
+
+## Real-data reality checks (added 8 Oct 2026)
+
+Each workspace keeps its simulated, validated data. Labelled **REAL DATA** panels were added:
+
+| Owner | Tab | Real dataset | Headline |
+|---|---|---|---|
+| Vaibhav | Regulatory change | RBI notifications | 22 real notifications, 23 Sep to 7 Oct 2026 |
+| Vaibhav | AI model register | Kaggle credit card fraud | PSI 0.19 day to day; 2.42 in attack hours |
+| Santhosh | FinOps & licences | FOCUS 1.0 sample | 62.7% of cost allocatable; 1.3% commitment coverage |
+| Pankaj | ERP RCA | UCI ServiceNow incident log | Top 20% of categories = 79.2%; 1.5% linked to problems |
+
+Ram's architecture evidence (endoflife.date) and the security evidence (CISA KEV) sit on the domain source pages. See `PROJECT_NOTES.md` section 42.

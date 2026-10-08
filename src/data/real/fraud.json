@@ -1,0 +1,102 @@
+{
+ "source": "Kaggle · Credit Card Fraud Detection (ULB Machine Learning Group)",
+ "url": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud",
+ "licence": "ODbL 1.0",
+ "fetched": "2026-10-08",
+ "transactions": 284807,
+ "frauds": 492,
+ "fraudRatePct": 0.173,
+ "day1": {
+  "n": 144786,
+  "fraudRatePct": 0.194
+ },
+ "day2": {
+  "n": 140021,
+  "fraudRatePct": 0.151
+ },
+ "psiDay1vsDay2": [
+  {
+   "feature": "Amount",
+   "psi": 0.0023
+  },
+  {
+   "feature": "V14",
+   "psi": 0.0825
+  },
+  {
+   "feature": "V17",
+   "psi": 0.0411
+  },
+  {
+   "feature": "V12",
+   "psi": 0.0106
+  },
+  {
+   "feature": "V10",
+   "psi": 0.0774
+  },
+  {
+   "feature": "V4",
+   "psi": 0.1943
+  }
+ ],
+ "maxPsiDay2": 0.1943,
+ "attackHours": [
+  26,
+  28,
+  2
+ ],
+ "attackFraudRatePct": 1.66,
+ "psiAttackV14": 2.415,
+ "psiAttackAmount": 0.125,
+ "hourlyFraudRatePct": [
+  0.05,
+  0.09,
+  1.332,
+  0.714,
+  0.555,
+  0.654,
+  0.164,
+  0.683,
+  0.097,
+  0.19,
+  0.024,
+  0.505,
+  0.116,
+  0.119,
+  0.162,
+  0.179,
+  0.18,
+  0.152,
+  0.174,
+  0.088,
+  0.089,
+  0.141,
+  0.033,
+  0.28,
+  0.107,
+  0.399,
+  2.055,
+  0.239,
+  1.508,
+  0.0,
+  0.264,
+  0.0,
+  0.078,
+  0.013,
+  0.072,
+  0.12,
+  0.104,
+  0.103,
+  0.117,
+  0.139,
+  0.092,
+  0.205,
+  0.213,
+  0.157,
+  0.129,
+  0.026,
+  0.093,
+  0.082
+ ]
+}

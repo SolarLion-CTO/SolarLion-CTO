@@ -126,3 +126,14 @@ Plan: `PROJECT_NOTES.md` §23 (final navigation in §23.8).
                             ▼
               Decision Center → Actions → Outcomes
 ```
+
+## 5. Real-data panels (added 8 Oct 2026)
+
+A "Reality check" card is added at the end of selected tabs:
+- a title
+- a green **REAL DATA** badge showing source, fetch date and licence (it links to the source)
+- 3–4 headline stats
+- a table or bars
+- a one-line method note
+
+The pattern is the same everywhere; see `src/components/real/RealData.tsx`.

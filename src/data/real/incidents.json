@@ -1,0 +1,83 @@
+{
+ "source": "UCI ML Repository · Incident management process enriched event log (Amaral et al., 2018)",
+ "url": "https://archive.ics.uci.edu/dataset/498/incident+management+process+enriched+event+log",
+ "fetched": "2026-10-08",
+ "events": 141712,
+ "incidents": 24918,
+ "period": [
+  "2016-02-29",
+  "2017-02-16"
+ ],
+ "categories": 52,
+ "pareto": [
+  {
+   "category": "Cat 42",
+   "count": 3558,
+   "cumPct": 14.3
+  },
+  {
+   "category": "Cat 26",
+   "count": 3338,
+   "cumPct": 27.7
+  },
+  {
+   "category": "Cat 53",
+   "count": 2678,
+   "cumPct": 38.4
+  },
+  {
+   "category": "Cat 46",
+   "count": 2432,
+   "cumPct": 48.2
+  },
+  {
+   "category": "Cat 32",
+   "count": 1522,
+   "cumPct": 54.3
+  },
+  {
+   "category": "Cat 9",
+   "count": 1155,
+   "cumPct": 58.9
+  },
+  {
+   "category": "Cat 37",
+   "count": 1144,
+   "cumPct": 63.5
+  },
+  {
+   "category": "Cat 23",
+   "count": 1063,
+   "cumPct": 67.8
+  }
+ ],
+ "top8SharePct": 67.8,
+ "top20pctCatsSharePct": 79.2,
+ "medianResolveHoursByPriority": [
+  {
+   "priority": "1 - Critical",
+   "hours": 80.2,
+   "count": 270
+  },
+  {
+   "priority": "2 - High",
+   "hours": 38.2,
+   "count": 408
+  },
+  {
+   "priority": "3 - Moderate",
+   "hours": 21.6,
+   "count": 22010
+  },
+  {
+   "priority": "4 - Low",
+   "hours": 5.0,
+   "count": 674
+  }
+ ],
+ "medianResolveHours": 22.1,
+ "slaMetPct": 63.4,
+ "reopenedPct": 1.1,
+ "avgReassignments": 0.94,
+ "linkedToProblemPct": 1.5
+}

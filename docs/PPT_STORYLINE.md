@@ -250,6 +250,7 @@ Layout for each bridge slide: owner name + role, BP1 problem, an old → target 
 | Spend | TBM 72% allocated; Run-Grow-Transform target 60 / 25 / 15 |
 | Earlier demo figures | Regulatory mapping 21 → 4 days (target < 1); manufacturing RCA 38 h → 9 h (target 6 h); CAPEX approval 45 → 21 days (target 10); duplicated AI spend ≈ ₹4.6 Cr |
 | Reference library | 69 frameworks, techniques and concepts |
+| **Real data (8 Oct snapshot)** | 12 of 20 matched tech versions past real EOL · 1,734 exploited CVEs (103 in 90 days) · 22 RBI notifications in 2 weeks · real fraud PSI 2.42 in attack hours · top 20% of incident categories = 79.2% · 62.7% of real cloud cost allocatable |
 
 ---
 
@@ -284,7 +285,7 @@ Layout for each bridge slide: owner name + role, BP1 problem, an old → target 
 
 | Likely question | Answer (short) |
 |---|---|
-| Is this real data? | No, it is a seeded, realistic simulation. Every score is calculated from records and cross-checked automatically. The design takes real exports (Planview, LeanIX, ServiceNow, …) as the next step. |
+| Is this real data? | The enterprise is a seeded, realistic simulation; every score is calculated and cross-checked automatically. Next to it, six **real public datasets** act as reality checks, each labelled REAL DATA: endoflife.date, CISA KEV, RBI notifications, Kaggle fraud, the UCI ServiceNow incident log and FOCUS billing. Real tool exports are the next step. |
 | Why not just buy Planview / ServiceNow? | We don't replace them; we connect them. Each answers its own question; none correlates across tools into a prioritised decision with an owner and a measured outcome. |
 | Where is the AI? | Simulated agents, correlation and recommendations today (rule-based, labelled). Next step: a live LLM call with RAG on 3 decisions. Humans always decide (TEDIF gates, audit trail). |
 | How do you stop AI from making bad decisions? | AI only recommends. A named decider (RAPID) approves at a gate, models are registered with drift monitoring (PSI), and the Three Lines Model provides oversight. |
@@ -299,8 +300,23 @@ Layout for each bridge slide: owner name + role, BP1 problem, an old → target 
 ## 8. Day-of checklist
 
 - [ ] Latest code pushed (`git push && git push origin v1.0-freeze`); Vercel shows the latest deploy.
+- [ ] The site requires Google sign-in. The Google consent screen is **In production**, so the panel can sign in with any Gmail account; otherwise sign in on the presenting laptop beforehand.
 - [ ] Site opens at https://cto360.vercel.app on the presentation laptop.
 - [ ] Header **Reset** pressed just before starting; Decision Center **Reset demo** pressed.
 - [ ] Backup video and screenshots are on the laptop (offline).
 - [ ] Each presenter has rehearsed their 3 minutes with the run-sheet.
 - [ ] GitHub token from earlier chat revoked.
+
+## 9. Real-data moments for the demo (added 8 Oct 2026)
+
+Use **one line per presenter**. Each panel is labelled **REAL DATA**, with its source and fetch date.
+
+| Presenter | Where | Line to say |
+|---|---|---|
+| Ram | Banking → LeanIX → Technology lifecycle → "Reality check" | "Against real vendor dates, 12 of our 20 technology versions are already past end of life. Our simulation was optimistic for 6 of them." |
+| Vaibhav | Regulatory change → "Real RBI notifications" | "RBI issued 22 notifications in two weeks. This is the real intake volume our automation has to triage." |
+| Vaibhav | AI model register → "PSI drift on real card transactions" | "On real fraud data, drift is small day to day, but during fraud waves the key feature hits PSI 2.4. That is why we restrict models above 0.25." |
+| Santhosh | FinOps & licences → "Allocation on real cloud billing" | "On real FOCUS billing, 37% of cloud cost cannot be traced to an application. That is the TBM gap we close." |
+| Pankaj | ERP RCA → "Pareto on a real ServiceNow incident log" | "On 24,918 real incidents, 20% of categories cause 79% of the volume, yet only 1.5% were ever linked to a problem record." |
+
+Sources and licences: `data/real/SOURCES.md`. Summary workbook: `data/real/CTO360_Real_Data_Summary.xlsx`.

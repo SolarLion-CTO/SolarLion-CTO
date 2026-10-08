@@ -185,6 +185,18 @@ S('03 · How It Works', 'A Realistic Simulation, Built to Be Trusted', chev(['Se
   '<div class="note">Honest framing: this is synthetic data, not client data. The design takes real tool exports as the next step.</div></div></div>',
   'The simulation behaves like a real enterprise: data, events and calculations are consistent, repeatable and checked automatically.')
 
+# ───────────────────────── 9b Real data ─────────────────────────
+real = [('Ram', 'endoflife.date', '12 of 20', 'matched technology versions are already past real vendor end of life; the simulation was optimistic for 6'),
+        ('Vaibhav', 'RBI notifications', '22', 'real RBI notifications in two weeks (23 Sep to 7 Oct 2026): the true intake volume to triage'),
+        ('Vaibhav', 'Kaggle card fraud', 'PSI 2.42', 'on 284,807 real transactions: stable day to day (0.19), sharp drift in fraud-wave hours'),
+        ('Pankaj', 'UCI ServiceNow log', '79.2%', 'of 24,918 real incidents come from 20% of categories; only 1.5% linked to a problem record'),
+        ('Santhosh', 'FOCUS cloud billing', '62.7%', 'of real cloud cost is fully allocatable; 37% cannot be traced to an application'),
+        ('Ram', 'CISA KEV catalogue', '1,734', 'vulnerabilities exploited in the wild; 103 added in 90 days, 361 used by ransomware')]
+S('03 · How It Works', 'Real Data Reality Check: Six Public Datasets', '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">' + ''.join(
+    f'<div class="card" style="height:178px;border-top:6px solid {OWN[o]}"><div style="display:flex;justify-content:space-between"><span class="tag" style="background:{OWN[o]}">{o}</span><span style="font-size:12px;color:#166534;font-weight:700">REAL DATA · {src}</span></div><div class="big" style="font-size:36px;margin-top:12px;color:{OWN[o]}">{big}</div><div style="font-size:14px;color:{INK2};margin-top:6px;line-height:1.4">{d}</div></div>' for o, src, big, d in real) +
+  '</div><div class="row" style="margin-top:16px"><div class="col card tint" style="padding:12px 16px">' + ul([('Simulation for the enterprise, real data where it matters.', 'Each panel in the app is labelled REAL DATA with source, licence and fetch date (snapshot 8 Oct 2026).'), ('Scores stay simulated:', 'real data is a reality check beside the simulation, never mixed into it; no personal data is used.')], 'p sm') + '</div></div>',
+  'Public, credited datasets beside the simulation prove the patterns are real: end of life, exploited vulnerabilities, regulatory volume, drift, Pareto and cost allocation.')
+
 # ───────────────────────── 10 Measurement ─────────────────────────
 glide = f'''<svg width="560" height="300" viewBox="0 0 560 300">
 <line x1="50" y1="250" x2="540" y2="250" stroke="#cbd5e1"/><line x1="50" y1="20" x2="50" y2="250" stroke="#cbd5e1"/>
@@ -301,7 +313,7 @@ S('05 · Frameworks & Value', 'Why CTO360 Is Different', '<table class="t"><tr><
   'Point tools are essential, but each answers its own question. CTO360 answers the CTO\'s question: what matters most, and what should we decide?')
 
 # ───────────────────────── 21 Roadmap ─────────────────────────
-rm = [('Today', 'Capstone build (v1.0, frozen)', ['Working simulation of 3 enterprises and 7 sources', '5 live owner workspaces with 30 measures', 'Decision Center, frameworks, reference library', 'Automated consistency checks on every build'], '#94a3b8'),
+rm = [('Today', 'Capstone build (v1.0)', ['Working simulation of 3 enterprises and 7 sources', '5 live owner workspaces with 30 measures', 'Six real public datasets as reality checks', 'Google sign-in and automated checks on every build'], '#94a3b8'),
       ('6 to 12 Months', 'Phase 2 and pilot', ['Live AI call with RAG on 3 decisions', 'Real baselines from one business unit', 'Real tool exports replace simulated sources', 'Persistent audit trail and a governed pilot'], BLUE),
       ('2 to 3 Years', 'Scaled platform', ['Platform in 2 to 3 business units', '₹25 to 50 Cr a year if adoption holds', 'Compliance readiness (DPDP, EU AI Act)', 'New industries added by configuration'], NAVY)]
 S('05 · Frameworks & Value', 'Roadmap: From Simulation to Production', chev([f'{a}|{b}' for a, b, *_ in rm], [r[3] for r in rm], h=80, fs=16) + '<div class="row" style="margin-top:18px">' + ''.join(
@@ -332,7 +344,7 @@ src = [('Planview', 'Strategy & Portfolio', 'Are investments aligned to strategy
        ('Vanta', 'Security, Risk & Governance', 'Are controls effective and risks within appetite?')]
 S('Appendix A2', 'The 7 Source Systems and the Question Each Answers', '<table class="t"><tr><th>Simulated source</th><th>Area</th><th>The question it answers</th></tr>' + ''.join(f'<tr><td><b>{a}</b></td><td>{b}</td><td>{c}</td></tr>' for a, b, c in src) + '</table><div class="note">Product names are used only to describe tool categories. CTO360 is an independent demonstration on synthetic data and is not affiliated with or endorsed by these vendors.</div>',
   'Each source is simulated with realistic records and linked to the others through shared record IDs.')
-qa = [('Is this real data?', 'No. It is a seeded, realistic simulation; every score is calculated and cross-checked automatically. Real tool exports are the next step.'),
+qa = [('Is this real data?', 'The enterprise is simulated and every score is calculated and checked. Beside it, six real public datasets (RBI, CISA, Kaggle, UCI, FOCUS, endoflife.date) act as labelled reality checks.'),
       ('Why not just buy Planview or ServiceNow?', 'We do not replace them, we connect them. None correlates across tools into a prioritised decision with an owner and a measured outcome.'),
       ('Where is the AI?', 'Simulated agents, correlation and recommendations today (rule-based and labelled). Next: a live LLM call with RAG on 3 decisions.'),
       ('How do you stop AI from making bad decisions?', 'AI only recommends. A named decider approves at a gate (RAPID), models are monitored for drift (PSI), and the Three Lines Model provides oversight.'),
@@ -341,7 +353,7 @@ qa = [('Is this real data?', 'No. It is a seeded, realistic simulation; every sc
 S('Appendix A3', 'Anticipated Questions', '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">' + ''.join(f'<div class="card" style="padding:14px 18px;height:148px"><b style="color:{NAVY};font-size:16.5px">{q}</b><div style="font-size:15px;color:{INK2};margin-top:5px;line-height:1.45">{a}</div></div>' for q, a in qa) + '</div>',
   'Short, honest answers to the questions we expect from the panel.')
 S('Appendix A4', 'Disclaimer', '<div class="card tint" style="line-height:1.6;color:#1e293b;padding:28px 32px"><style>.dz li{font-size:18px!important;margin-bottom:14px!important}</style><div class="dz">' + ul([
-    'CTO360 is an independent capstone demonstration built entirely on <b>synthetic, simulated data</b>.',
+    'CTO360 is an independent capstone demonstration built on <b>synthetic, simulated data</b>, with six <b>credited public datasets</b> shown as labelled reality checks.',
     'All organisations (Meridian Bank, Arvant Industries, Orbit Retail), people, figures and events are illustrative.',
     'Third-party product names are referenced solely to describe tool categories and conceptual integration scenarios. CTO360 is <b>not affiliated with or endorsed by</b> the referenced vendors.',
     'Financial figures, ROI and payback are modelled estimates for discussion, not forecasts or advice.',

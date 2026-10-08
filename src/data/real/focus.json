@@ -1,0 +1,109 @@
+{
+ "source": "FinOps Foundation · FOCUS 1.0 sample data (anonymised real billing, 100k-row sample, usage charges)",
+ "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS-Sample-Data",
+ "licence": "CC BY 4.0",
+ "fetched": "2026-10-08",
+ "rows": 4143,
+ "currency": "USD",
+ "effectiveCost": 2311.22,
+ "listCost": 2178.37,
+ "savingsVsListPct": -6.1,
+ "allocatedPct": 62.7,
+ "commitmentCoveredPct": 1.3,
+ "byProvider": [
+  {
+   "name": "AWS",
+   "cost": 1493.32
+  },
+  {
+   "name": "Microsoft",
+   "cost": 802.9
+  },
+  {
+   "name": "Oracle",
+   "cost": 15.0
+  }
+ ],
+ "byCategory": [
+  {
+   "name": "Compute",
+   "cost": 1661.72
+  },
+  {
+   "name": "Other",
+   "cost": 224.19
+  },
+  {
+   "name": "Databases",
+   "cost": 181.98
+  },
+  {
+   "name": "Web",
+   "cost": 59.62
+  },
+  {
+   "name": "Networking",
+   "cost": 47.36
+  },
+  {
+   "name": "Management and Governance",
+   "cost": 43.91
+  },
+  {
+   "name": "Storage",
+   "cost": 41.08
+  },
+  {
+   "name": "Analytics",
+   "cost": 28.89
+  }
+ ],
+ "byEnvironment": [
+  {
+   "name": "dev",
+   "cost": 1375.0
+  },
+  {
+   "name": "Untagged",
+   "cost": 861.22
+  },
+  {
+   "name": "prod",
+   "cost": 75.0
+  }
+ ],
+ "topServices": [
+  {
+   "name": "Amazon Elastic Compute Cloud",
+   "cost": 1373.0
+  },
+  {
+   "name": "Virtual Machines",
+   "cost": 218.96
+  },
+  {
+   "name": "Azure SQL Database",
+   "cost": 159.08
+  },
+  {
+   "name": "SQL Database",
+   "cost": 116.18
+  },
+  {
+   "name": "Azure Synapse Analytics",
+   "cost": 60.89
+  },
+  {
+   "name": "Azure App Service",
+   "cost": 56.62
+  },
+  {
+   "name": "Datadog",
+   "cost": 40.32
+  },
+  {
+   "name": "Virtual Machine Scale Sets",
+   "cost": 32.32
+  }
+ ]
+}

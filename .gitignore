@@ -26,3 +26,6 @@ dist-ssr
 # Local env files
 .env
 .env.local
+
+# Real-data downloads (large; re-fetch with data/real/SOURCES.md)
+data/real/raw/

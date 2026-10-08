@@ -11,6 +11,7 @@ import { ScoreRing } from '../../components/sim/primitives'
 import { ago, hhmm, useSimClock } from '../../components/sim/clock'
 import { useKeepRange } from '../../components/sim/range'
 import { ragOf } from '../../data/sim/scoring'
+import { RealSourcesCard } from '../../components/real/RealData'
 
 export default function DataSources() {
   const { now, paused } = useSimClock()
@@ -60,8 +61,9 @@ export default function DataSources() {
               ))}</ul>
             </section>
           )
-        })}
+                })}
       </div>
+      <div className="mt-6"><RealSourcesCard /></div>
     </>
   )
 }

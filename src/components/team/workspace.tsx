@@ -165,7 +165,7 @@ export function WorkspaceShell({ owner, tabs }: { owner: Owner; tabs: { id: stri
         <div className="min-w-0"><OwnerRail owner={owner} /></div>
       </div>
       <div className="mt-6 rounded-lg border border-line bg-slate-50 px-4 py-3 text-xs text-ink-2 flex gap-2"><FlaskConical size={14} className="shrink-0 mt-0.5 text-ink-3" />
-        <span><b>About this simulation:</b> all data is synthetic and seeded; tool names are simulated categories only. Forecasts, Monte Carlo ranges, drift scores, NPV and Pareto analysis are genuinely computed on that data. Baselines are the Nov 2025 values; targets are illustrative and agreed by the team.</span>
+        <span><b>About this simulation:</b> workspace data is synthetic and seeded; tool names are simulated categories only. Panels marked <b>REAL DATA</b> use credited public datasets as a reality check and do not change the scores. Forecasts, Monte Carlo ranges, drift scores, NPV and Pareto analysis are genuinely computed on that data. Baselines are the Nov 2025 values; targets are illustrative and agreed by the team.</span>
       </div>
     </>
   )

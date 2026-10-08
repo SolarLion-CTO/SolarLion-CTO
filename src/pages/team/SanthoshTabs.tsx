@@ -14,6 +14,7 @@ import { StatusPill } from '../../components/sim/primitives'
 import { useDecisionState } from '../../components/sim/decisionState'
 import { useSimClock } from '../../components/sim/clock'
 import { axisTick, chart, domainColor } from '../../theme'
+import { FocusReality } from '../../components/real/RealData'
 
 type DF = DomainId | 'all'
 const dn = (d: DomainId) => domains[d].name
@@ -201,6 +202,7 @@ export function FinOpsTab() {
         <ol className="space-y-1.5 text-sm">{ops.slice(0, 7).map((o, k) => <li key={o.n} className="flex flex-wrap gap-x-3"><b className="w-5">{k + 1}.</b><span className="flex-1 min-w-0 text-ink">{o.n}</span><span className="text-xs text-ink-3">{o.owner}</span><b className="tabular-nums">{cr(o.v)}/yr</b></li>)}</ol>
         <p className="text-xs text-ink-3 mt-2">Savings assume 80% of cloud waste and 70% of licence waste is recoverable within a year.</p>
       </Card>
+      <FocusReality />
     </>
   )
 }

@@ -4,8 +4,9 @@ import { useLocation } from 'react-router-dom'
 import { Info, ShieldCheck } from 'lucide-react'
 import { Card, PageHeader } from '../components/ui'
 import { SOURCES } from '../data/sim/scores'
+import { RealSourcesCard } from '../components/real/RealData'
 
-export const SHORT_DISCLAIMER = 'Independent demonstration using synthetic data. Third-party product names are referenced solely for conceptual integration scenarios. CTO360 is not affiliated with or endorsed by the referenced vendors.'
+export const SHORT_DISCLAIMER = 'Independent demonstration using synthetic data and credited public datasets. Third-party product names are referenced solely for conceptual integration scenarios. CTO360 is not affiliated with or endorsed by the referenced vendors.'
 
 export default function About() {
   const { hash } = useLocation()
@@ -18,7 +19,7 @@ export default function About() {
           <section id="disclaimer" className="rounded-xl border-2 border-brand-600 bg-brand-50 p-5 scroll-mt-20" aria-labelledby="disclaimer-h">
             <h2 id="disclaimer-h" className="flex items-center gap-2 text-lg font-bold text-brand-900 mb-2"><ShieldCheck size={20} />Disclaimer</h2>
             <p className="text-[15px] leading-relaxed text-ink">
-              CTO360 is an independent demonstration platform developed for educational, research and professional portfolio purposes using synthetic and simulated data.
+              CTO360 is an independent demonstration platform developed for educational, research and professional portfolio purposes using synthetic and simulated data, alongside snapshots of public open datasets that are credited on this page.
               References to third-party products, platforms and trademarks are included solely to demonstrate conceptual integration scenarios and potential enterprise workflows.
               CTO360 is not affiliated with, endorsed by, sponsored by or officially connected with any referenced vendor.
               No proprietary customer data, vendor data or production system data is used.
@@ -31,6 +32,7 @@ export default function About() {
               <li>It does <b>not</b> replace those platforms, or the systems used by the CEO, CFO, COO, CISO, CHRO or other executives.</li>
               <li>Banking (Meridian Bank), Manufacturing (Arvant Industries) and Retail (Orbit Retail) are <b>fictional organisations</b>. Every record, metric, incident and decision is synthetic.</li>
               <li>There are <b>no live integrations</b>: no API connections, credentials or data feeds to any vendor. The "Simulation live" clock replays generated events.</li>
+              <li><b>Real data, clearly labelled:</b> six public datasets (listed below) are shown as "Reality check" panels next to the simulation. They are static snapshots with their source, licence and fetch date, and they do not change the simulated scores.</li>
               <li>Maturity levels are a management visualisation only — not a CMMI or any other formal assessment. Control monitoring is a simulation — not a compliance certification or audit opinion.</li>
             </ul>
           </Card>
@@ -46,12 +48,13 @@ export default function About() {
             <dl className="text-sm space-y-1.5">
               <div className="flex justify-between gap-3"><dt className="text-ink-3">Purpose</dt><dd className="text-right">CTO capstone · portfolio</dd></div>
               <div className="flex justify-between gap-3"><dt className="text-ink-3">Framework</dt><dd className="text-right">TEDIF · AI recommends, humans decide</dd></div>
-              <div className="flex justify-between gap-3"><dt className="text-ink-3">Data</dt><dd className="text-right">Synthetic, seeded, reproducible</dd></div>
+              <div className="flex justify-between gap-3"><dt className="text-ink-3">Data</dt><dd className="text-right">Synthetic, seeded, reproducible · plus 6 credited public datasets</dd></div>
             </dl>
             <p className="flex gap-2 text-xs text-ink-3 mt-3"><Info size={14} className="shrink-0 mt-0.5" />Questions about a trademark or reference can be raised with the project team and will be corrected promptly.</p>
           </Card>
         </div>
       </div>
+      <div className="mt-6"><RealSourcesCard /></div>
     </>
   )
 }

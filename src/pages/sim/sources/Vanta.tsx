@@ -5,6 +5,7 @@ import { RecordTable } from '../../../components/sim/RecordTable'
 import CyberTab from '../../domain/CyberTab'
 import { NameCell, RecLink, Tabs } from '../common'
 import { FunctionKpis } from './kpis'
+import { KevPanel } from '../../../components/real/RealData'
 
 type T = 'risks' | 'heatmap' | 'controls' | 'cyber'
 const sevRag = (s: string): Rag => (s === 'Critical' ? 'Red' : s === 'High' ? 'Amber' : 'Green')
@@ -82,7 +83,7 @@ export default function Vanta({ d, tab, setTab }: { d: DomainData; tab: string; 
           </Card>
         </>
       )}
-      {t === 'cyber' && <CyberTab domainId={d.domain} />}
+      {t === 'cyber' && <><CyberTab domainId={d.domain} /><KevPanel /></>}
     </>
   )
 }

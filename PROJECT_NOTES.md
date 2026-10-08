@@ -13,9 +13,15 @@
 > - **No new features** unless Ram lifts the freeze.
 > - **To compare against the frozen version:** `git diff v1.0-freeze`.
 > - **To go back to it:** `git checkout v1.0-freeze`.
-> - **Freeze lifted once, 8 Oct 2026, at Ram's request:** Google (Gmail) login through Supabase was added (section 41). It is off until the Supabase keys are set, so the frozen behaviour is unchanged by default.
+> - **Freeze lifted, 8 Oct 2026, at Ram's request**, for three changes:
+>   1. Google (Gmail) login through Supabase (section 41). It is **live** on cto360.vercel.app.
+>   2. The Sign-in log page (section 41).
+>   3. **Real public data** as labelled "Reality check" panels (section 42).
+>
+>   Simulated scores and the golden thread are unchanged.
 
-- **Presentation PDF (26 slides, 16:9):** `docs/presentation/CTO360_Capstone_Presentation.pdf` (copy also in the `CTO CApstone` folder). Regenerate it with `python3 docs/presentation/build.py`, then `node docs/presentation/shot.mjs <folder>`. It follows Title Case headings and uses no em dashes.
+- **Presentation PDF (27 slides, 16:9; slide 10 "Real Data Reality Check" added 8 Oct 2026):** `docs/presentation/CTO360_Capstone_Presentation.pdf` (copy also in the `CTO CApstone` folder). Regenerate it with `python3 docs/presentation/build.py`, then `node docs/presentation/shot.mjs <folder>`. It follows Title Case headings and uses no em dashes.
+- **Real data (8 Oct 2026):** six public datasets appear next to the simulation, each labelled **REAL DATA**: endoflife.date, CISA KEV, RBI notifications, Kaggle fraud, the UCI ServiceNow incident log, and FOCUS cloud billing. Sources, licences and refresh steps: **`data/real/SOURCES.md`**. Team summary: `data/real/CTO360_Real_Data_Summary.xlsx`. Details in section 42.
 - **PPT / presentation workflow (start to end):** **`docs/PPT_STORYLINE.md`**. It covers the storyline, 18 slides + appendix, the live demo run-sheet, a numbers cheat sheet, the screenshot list, Q&A prep and a day-of checklist.
 
 - **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
@@ -61,23 +67,26 @@
 | M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | ✅ Done 7 Oct 2026 (section 28) |
 | M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | ✅ Done 7 Oct 2026 (section 30) |
 
-- **Pending checklist (updated 7 Oct 2026, after M8 lean):**
+- **Pending checklist (updated 8 Oct 2026, after login and real data):**
 
   **Done:** M1–M6 simulation (sections 24–30) · disclaimer (section 29) · M7 team workspaces (sections 33–38) · M8 lean frameworks (section 39) · **Reference library page `/team/reference` (section 40)**. The build passes, `validate:sim` passes (3 domains + team cross-checks), and all new views are checked at 3 sizes.
 
   | # | Item | Owner | Status / next action |
   |---|---|---|---|
-  | 1 | **`git push`**: local commits (M8 lean, notes, Reference library) are not yet on GitHub / Vercel | You | Run `git push` in VS Code; Vercel redeploys in about 2 min |
-  | 2 | **Full overflow sweep** | Claude | ✅ Done 7 Oct 2026: **129 page × size checks, ALL CLEAN** (no horizontal overflow). Reference library also clean at 1366 / 820 / 390 (section 40) |
+  | 1 | **`git push`**: the real-data and login-page commits are not yet on GitHub / Vercel | You | Run `git push && git push origin v1.0-freeze`; Vercel redeploys in about 2 min |
+  | 2 | **Full overflow sweep** | Claude | ✅ 8 Oct 2026: **327 page × size checks, ALL CLEAN** (section 42) |
   | 3 | **Live AI call** (Grok / Groq / Claude) for "Challenge the AI", obligation drafting and RCA summaries | You decide → Claude builds | Pick a provider and add the API key in Vercel environment variables (section 16). Everything works without it (rule-based, labelled) |
-  | 4 | **Real figures from team research:** replace the illustrative old-state / target values in the 30 team measures (+ 8 framework metrics) | Team | Send the numbers; they live in `src/data/sim/team.ts` and `src/data/sim/frameworks.ts` |
-  | 5 | **Naming consistency:** decks, proposal and section 1 of these notes still say "Domain-Agnostic Enterprise AI Transformation Framework" / "Universal CTO Control Tower"; the site is **CTO360** (TEDIF underneath) | Team (decks) · Claude (notes) | Agree on CTO360 and update the decks; I can update section 1 |
+  | 4 | **Real figures from team research:** replace the illustrative old-state / target values in the 30 team measures (+ 8 framework metrics) | Team | Partly addressed by public real data (section 42). Organisation-specific numbers still have to come from the team; they live in `src/data/sim/team.ts` and `src/data/sim/frameworks.ts` |
+  | 5 | **Naming consistency:** the site, these notes (section 1) and the presentation PDF say **CTO360** (TEDIF underneath). Older decks and the proposal still use the earlier names | Team (decks) | Update the older decks to CTO360 |
   | 6 | **Owner map consistency** across proposal, decks and TEDIF (RACI now on `/team`) | Team | Use the `/team` RACI as the single source |
   | 7 | **Rehearse the demo** with the run-sheet (section 38): Reset the clock first so the golden thread, live circular (+50 s) and breach clock (+80 s) play in order | Team | Each presenter: 3 min on their workspace + their Frameworks tab |
   | 8 | **Optional extras** from the framework library (not built, reference only): ESG for Vaibhav; SWOT / PESTLE context for Ram | You decide | About 2–3 hours each if wanted |
   | 9 | **Optional:** code-split routes (bundle > 500 kB warning only) | Claude | About 1 hour; no visible change |
   | 10 | **Housekeeping:** confirm the GitHub token pasted in chat earlier has been **revoked** | You | GitHub → Settings → Developer settings → Tokens |
-  | 11 | **Optional:** refresh the capstone ratings (section 14 scores date from 5 Oct, before M1–M8) | Claude | On request |
+  | 11 | **Capstone ratings refreshed** | Claude | ✅ 8 Oct 2026, section 43 |
+  | 12 | **Sign-in log setup:** run `supabase/login_events.sql` in the Supabase SQL Editor, then sign out and in once | You | 1 minute (section 41) |
+  | 13 | **Google consent screen:** set Audience to **In production** (Publish app) so any Gmail account can sign in | You | Google Auth Platform → Audience |
+  | 14 | **Rotate the Google client secret** that was pasted in chat (add a new one, paste it into Supabase, delete the old one) | You | Google Cloud → Credentials |
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
@@ -88,8 +97,8 @@
 | Item | Value |
 |---|---|
 | Programme | CTO Capstone Project, 2026 |
-| Product name (website) | **Domain-Agnostic Enterprise AI Transformation Framework** |
-| Deck name | "Universal CTO Control Tower" — **decide on one name** (see section 12) |
+| Product name (website) | **CTO360 · Enterprise Technology Control Tower** (originally "Domain-Agnostic Enterprise AI Transformation Framework") |
+| Deck name | **CTO360** (decided 7 Oct 2026; older decks used "Universal CTO Control Tower") |
 | Underlying framework | **TEDIF** — Trusted Enterprise Decision Intelligence Framework v1.0 |
 | Signature principle | **AI recommends. Humans decide.** |
 | Domains | Banking, Manufacturing (pilots) + Retail (added by configuration only) |
@@ -1737,4 +1746,69 @@ insert into public.app_admins (email) values ('name@gmail.com');
 **Checks:**
 - Build passes.
 - Before the SQL is run, Supabase answers "table not found", which the page turns into the setup message.
+
+---
+
+## 42. Real public data as "Reality check" panels (8 Oct 2026)
+
+**Why:** the biggest gap in the capstone rating was real evidence (4.5 / 10). Six public datasets now sit **next to** the simulation. Each panel is labelled **REAL DATA**, with its source, licence and fetch date. Simulated scores, statuses, the golden thread and `validate:sim` are **unchanged** (team ≈ 59%).
+
+| Owner · where | Real dataset | What it shows (snapshot 8 Oct 2026) |
+|---|---|---|
+| Ram / architecture · LeanIX → Technology lifecycle (each business unit) | endoflife.date API | 20 simulated tech versions matched. **12 are past real end of life.** The simulation is more optimistic than reality for 6: Oracle DB 12c, Kafka 3.7, Kubernetes 1.30 / 1.31, Kong 3.6, Windows 10 21H2. Java 8 / 21 use the extended-support date, and the panel says so. |
+| Security · Vanta → Cyber | CISA Known Exploited Vulnerabilities | 1,734 exploited CVEs. 103 added in 90 days. 361 used by ransomware. Our stack's vendors: Microsoft 389, Oracle 46, Apache 40. |
+| Vaibhav · Regulatory change | RBI notifications (rbi.org.in) | 22 real notifications, 23 Sep to 7 Oct 2026 (about 11 a week), in 8 keyword themes. Titles link to RBI; technology / reporting-impact items are flagged. |
+| Vaibhav · AI model register | Kaggle ULB credit card fraud | 284,807 real transactions. PSI from day 1 to day 2 peaks at 0.19 (stable or watch). **In fraud-wave hours, feature V14 PSI = 2.42 (drift)**, which supports the simulated "restrict at PSI 0.37" rule. |
+| Pankaj · ERP RCA | UCI ServiceNow incident event log | 24,918 real incidents. **The top 20% of categories account for 79.2% of incidents** (the Pareto holds). SLA met 63.4%. **Only 1.5% are linked to a problem record**, the gap ITIL problem management closes. |
+| Santhosh · FinOps & licences | FinOps Foundation FOCUS 1.0 sample (anonymised real billing) | 4,143 usage lines. **62.7% of cost is fully allocatable (tagged)**, so 37% cannot be traced. 1.3% is covered by commitment discounts. |
+| Data sources page + About | All six | A "Real data used alongside the simulation" table with links, licences and fetch dates |
+
+**Files:**
+- `data/real/SOURCES.md` (provenance, licences, re-fetch commands, method notes)
+- `scripts/real-data/process_real_data.py` (raw → `src/data/real/*.json` + Excel)
+- `src/data/real/*.json` (about 25 KB, imported by the app)
+- `src/components/real/RealData.tsx` (panels, `RealBadge`, `RealSourcesCard`)
+- `data/real/CTO360_Real_Data_Summary.xlsx` (summary + 8 detail sheets)
+
+`data/real/raw/` (274 MB) is git-ignored.
+
+**Wording updates:**
+- The footer disclaimer now reads "synthetic data and credited public datasets".
+- The About page explains the real-data panels.
+- The workspace note says panels marked REAL DATA do not change scores.
+
+**Checks:**
+- Build passes. `validate:sim` passes (3 domains + team, unchanged).
+- Each panel was screenshot-reviewed.
+- **Full sweep: 327 page × size checks, ALL CLEAN** (no horizontal overflow). It covered all earlier routes plus every new view, at 1366 / 820 / 390, on 8 Oct 2026.
+- Pages were tested on a build with login switched off (`VITE_SUPABASE_*` set empty), because the local dev server now requires sign-in.
+
+## 43. Capstone ratings, refreshed (8 Oct 2026)
+
+| Lens | 5 Oct | 8 Oct | Why it moved |
+|---|---|---|---|
+| Concept as a CTO | 8.5 | **8.5** | Already strong: a decision problem, not a data problem |
+| Problem solving | n/a | **8** | Clear framing, decisive calls (lean frameworks, freeze); gaps in depth over breadth |
+| Capstone as built | 7.8 | **8.6** | Simulation, 5 workspaces, frameworks with metrics, reference library, deck, login, real-data panels |
+| Real evidence | 4 | **6** | Six real public datasets, labelled, with provenance |
+| Value today | 4 | **5** | A working, deployed, access-controlled demonstrator |
+
+**Strengths:**
+- problem framing (9)
+- measurement discipline (9)
+- governance (9)
+- architecture thinking (8.5)
+- team design (8.5)
+- execution (8.5)
+
+**Gaps:**
+- AI depth (rule-based agents; 6)
+- value case still illustrative (7)
+- breadth over focus (7)
+- security hygiene (secrets pasted in chat; 6)
+
+**Path to 9+:**
+1. One live AI call on one decision (+0.5).
+2. One or two organisation-specific baselines (+0.3).
+3. A tight 3-minute golden-thread story (+0.3).
 

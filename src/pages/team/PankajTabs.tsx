@@ -15,6 +15,7 @@ import { Card } from '../../components/ui'
 import { StatusPill } from '../../components/sim/primitives'
 import { useSimClock } from '../../components/sim/clock'
 import { axisTick, chart } from '../../theme'
+import { IncidentReality } from '../../components/real/RealData'
 
 const dn = (d: DomainId) => domains[d].name
 type DF = DomainId | 'all'
@@ -103,6 +104,7 @@ export function ErpRcaTab() {
           ))}</ul>
         </Card>
       </div>
+      <IncidentReality />
     </>
   )
 }

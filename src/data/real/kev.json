@@ -1,0 +1,199 @@
+{
+ "source": "CISA Known Exploited Vulnerabilities catalog",
+ "catalogVersion": "2026.10.04",
+ "released": "2026-10-04",
+ "fetched": "2026-10-08",
+ "total": 1734,
+ "last30": 39,
+ "last90": 103,
+ "ransomware": 361,
+ "topVendors": [
+  {
+   "vendor": "Microsoft",
+   "count": 389
+  },
+  {
+   "vendor": "Cisco",
+   "count": 100
+  },
+  {
+   "vendor": "Apple",
+   "count": 95
+  },
+  {
+   "vendor": "Adobe",
+   "count": 82
+  },
+  {
+   "vendor": "Google",
+   "count": 75
+  },
+  {
+   "vendor": "Oracle",
+   "count": 46
+  },
+  {
+   "vendor": "Apache",
+   "count": 40
+  },
+  {
+   "vendor": "Ivanti",
+   "count": 35
+  },
+  {
+   "vendor": "Fortinet",
+   "count": 31
+  },
+  {
+   "vendor": "Linux",
+   "count": 31
+  }
+ ],
+ "ourStack": [
+  {
+   "vendor": "Microsoft",
+   "count": 389,
+   "last90": 11
+  },
+  {
+   "vendor": "Oracle",
+   "count": 46,
+   "last90": 2
+  },
+  {
+   "vendor": "IBM",
+   "count": 8,
+   "last90": 1
+  },
+  {
+   "vendor": "Red Hat",
+   "count": 9,
+   "last90": 2
+  },
+  {
+   "vendor": "Apache",
+   "count": 40,
+   "last90": 1
+  },
+  {
+   "vendor": "SAP",
+   "count": 14,
+   "last90": 0
+  },
+  {
+   "vendor": "Redis",
+   "count": 1,
+   "last90": 0
+  }
+ ],
+ "latest": [
+  {
+   "cve": "CVE-2026-88779",
+   "vendor": "Citrix",
+   "product": "NetScaler",
+   "name": "Citrix NetScaler Improper Restriction of Operations within the Bounds of a Memory Buffer Vulnerability",
+   "added": "2026-10-04",
+   "due": "2026-10-07",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-102489",
+   "vendor": "Zammad GmbH",
+   "product": "Zammad",
+   "name": "Zammad GmbH Zammad Session Fixation Vulnerability",
+   "added": "2026-10-02",
+   "due": "2026-10-05",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-102490",
+   "vendor": "Zammad GmbH",
+   "product": "Zammad",
+   "name": "Zammad GmbH Zammad Improper Privilege Management Vulnerability",
+   "added": "2026-10-02",
+   "due": "2026-10-05",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-104286",
+   "vendor": "Fortinet",
+   "product": "FortiMail",
+   "name": "Fortinet FortiMail Path Traversal Vulnerability",
+   "added": "2026-10-01",
+   "due": "2026-10-04",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-76504",
+   "vendor": "Cisco",
+   "product": "Catalyst SD-WAN Manager",
+   "name": "Cisco Catalyst SD-WAN Manager Hex Encoding Vulnerability",
+   "added": "2026-09-30",
+   "due": "2026-10-03",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-86950",
+   "vendor": "Apple",
+   "product": "Multiple Products",
+   "name": "Apple Multiple Products Out-of-Bounds Write Vulnerability",
+   "added": "2026-09-29",
+   "due": "2026-10-02",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-88771",
+   "vendor": "Citrix",
+   "product": "NetScaler",
+   "name": "Citrix NetScaler Improper Input Validation Vulnerability",
+   "added": "2026-09-27",
+   "due": "2026-09-30",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-88772",
+   "vendor": "Citrix",
+   "product": "NetScaler",
+   "name": "Citrix NetScaler Improper Restriction of Operations within the Bounds of a Memory Buffer Vulnerability",
+   "added": "2026-09-27",
+   "due": "2026-09-30",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-67279",
+   "vendor": "MikroTik",
+   "product": "RouterOS",
+   "name": "Mikrotik RouterOS Improper Enforcement of Behavioral Workflow Vulnerability",
+   "added": "2026-09-25",
+   "due": "2026-09-28",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-87902",
+   "vendor": "WordPress",
+   "product": "Core",
+   "name": "WordPress Core Remote File Inclusion Vulnerability",
+   "added": "2026-09-25",
+   "due": "2026-09-28",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-65660",
+   "vendor": "Microsoft",
+   "product": "SharePoint",
+   "name": "Microsoft SharePoint Code Injection Vulnerability",
+   "added": "2026-09-25",
+   "due": "2026-09-28",
+   "ransomware": false
+  },
+  {
+   "cve": "CVE-2026-5430",
+   "vendor": "WSO2",
+   "product": "Multiple Products",
+   "name": "WSO2 Multiple Products Path Traversal Vulnerability ",
+   "added": "2026-09-24",
+   "due": "2026-09-27",
+   "ransomware": false
+  }
+ ]
+}
