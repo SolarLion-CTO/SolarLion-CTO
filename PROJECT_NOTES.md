@@ -1644,6 +1644,17 @@ Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on trac
 
 ## 41. Google (Gmail) login with Supabase (8 Oct 2026)
 
+**Status (8 Oct 2026): ✅ working locally.** Google sign-in succeeded on `localhost:5173`.
+- **Supabase project:** `feflrvsqskpbzsmwhbfo` (Singapore, Free plan). The Google provider is enabled.
+- **Google OAuth client:** "CTO 360 web". Client ID `534450927396-o8dmepkf83io5pmrdte8qi4bv0sg8oc6.apps.googleusercontent.com`. Redirect URI `https://feflrvsqskpbzsmwhbfo.supabase.co/auth/v1/callback`. The secret lives **only** in Supabase.
+- **Local env:** `.env.local` holds the URL and the publishable key `sb_publishable_…` (git-ignored).
+- **Still to do (Ram):**
+  1. Google Auth Platform → Audience → **Publish app**, so any Gmail account can sign in.
+  2. Add the 2 Vercel environment variables.
+  3. Supabase URL Configuration: add the production Site URL and `/login` redirect.
+  4. `git push`.
+- **Lesson learned:** "Unable to exchange external code" means the Client Secret in Supabase does not match the active secret in Google. Add a new secret in Google, paste it into Supabase, then delete the old one.
+
 **What it does:**
 - **No keys set:** the site stays open, exactly as frozen (demo mode).
 - **Keys set:** every page requires a Google sign-in first.
