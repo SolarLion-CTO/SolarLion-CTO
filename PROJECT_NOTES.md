@@ -14,8 +14,8 @@
 > - **To compare against the frozen version:** `git diff v1.0-freeze`.
 > - **To go back to it:** `git checkout v1.0-freeze`.
 > - **Freeze lifted, 8 Oct 2026, at Ram's request**, for three changes:
->   1. Google (Gmail) login through Supabase (section 41). It is **live** on cto360.vercel.app.
->   2. The Sign-in log page (section 41).
+>   1. Google (Gmail) login through Supabase (section 41). **Removed 28 Oct 2026 at Ram's request; the site is open again (section 44).**
+>   2. The Sign-in log page (section 41). **Removed 28 Oct 2026 with the login.**
 >   3. **Real public data** as labelled "Reality check" panels (section 42).
 >
 >   Simulated scores and the golden thread are unchanged.
@@ -73,7 +73,7 @@
 
   | # | Item | Owner | Status / next action |
   |---|---|---|---|
-  | 1 | **`git push`**: the real-data and login-page commits are not yet on GitHub / Vercel | You | Run `git push && git push origin v1.0-freeze`; Vercel redeploys in about 2 min |
+  | 1 | **`git push`**: the real-data and login-removal commits are not yet on GitHub / Vercel | You | Run `git push && git push origin v1.0-freeze`; Vercel redeploys in about 2 min |
   | 2 | **Full overflow sweep** | Claude | ✅ 8 Oct 2026: **327 page × size checks, ALL CLEAN** (section 42) |
   | 3 | **Live AI call** (Grok / Groq / Claude) for "Challenge the AI", obligation drafting and RCA summaries | You decide → Claude builds | Pick a provider and add the API key in Vercel environment variables (section 16). Everything works without it (rule-based, labelled) |
   | 4 | **Real figures from team research:** replace the illustrative old-state / target values in the 30 team measures (+ 8 framework metrics) | Team | Partly addressed by public real data (section 42). Organisation-specific numbers still have to come from the team; they live in `src/data/sim/team.ts` and `src/data/sim/frameworks.ts` |
@@ -84,9 +84,7 @@
   | 9 | **Optional:** code-split routes (bundle > 500 kB warning only) | Claude | About 1 hour; no visible change |
   | 10 | **Housekeeping:** confirm the GitHub token pasted in chat earlier has been **revoked** | You | GitHub → Settings → Developer settings → Tokens |
   | 11 | **Capstone ratings refreshed** | Claude | ✅ 8 Oct 2026, section 43 |
-  | 12 | **Sign-in log setup:** run `supabase/login_events.sql` in the Supabase SQL Editor, then sign out and in once | You | 1 minute (section 41) |
-  | 13 | **Google consent screen:** set Audience to **In production** (Publish app) so any Gmail account can sign in | You | Google Auth Platform → Audience |
-  | 14 | **Rotate the Google client secret** that was pasted in chat (add a new one, paste it into Supabase, delete the old one) | You | Google Cloud → Credentials |
+  | 12 | **Clean up the unused login setup (optional):** delete the 2 `VITE_SUPABASE_*` variables in Vercel; delete or disable the Google OAuth client "CTO 360 web" (this also retires the secret pasted in chat); pause or delete the Supabase project `feflrvsqskpbzsmwhbfo` if it is not needed; delete the local `.env.local` | You | Section 44 |
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
 - **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
 
@@ -1651,7 +1649,7 @@ Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on trac
 
 ---
 
-## 41. Google (Gmail) login with Supabase (8 Oct 2026)
+## 41. Google (Gmail) login with Supabase (8 Oct 2026) · REMOVED 28 Oct 2026 (section 44)
 
 **Status (8 Oct 2026): ✅ working locally.** Google sign-in succeeded on `localhost:5173`.
 - **Supabase project:** `feflrvsqskpbzsmwhbfo` (Singapore, Free plan). The Google provider is enabled.
@@ -1812,3 +1810,33 @@ insert into public.app_admins (email) values ('name@gmail.com');
 2. One or two organisation-specific baselines (+0.3).
 3. A tight 3-minute golden-thread story (+0.3).
 
+---
+
+## 44. Login removed (28 Oct 2026)
+
+At Ram's request, the Google / Supabase login was removed and **the site is open again**, as it was at `v1.0-freeze`.
+
+**Removed:**
+- the `/login` page
+- the route guard on every page
+- the header sign-out and Google profile (the header shows the "Ram · Group CTO" demo persona again)
+- the Sign-in log page (`/admin/sign-ins`) and its sidebar entry
+- `src/auth/`, `src/pages/Login.tsx`, `src/pages/SignInLog.tsx`, `.env.example`, `supabase/login_events.sql`
+- the `@supabase/supabase-js` dependency
+
+**Added:** a catch-all route. Unknown addresses, including old `/login` and `/admin/sign-ins` bookmarks, now go to the home page.
+
+**Unchanged:** the real-data panels (section 42), the simulation and all workspaces.
+
+**Checks:**
+- Build passes.
+- The home page and workspaces open without sign-in.
+- `/login` and `/admin/sign-ins` redirect to `/`.
+
+**To restore login later:** the code is in git history (commits `ec1aad9` and `16bad99` plus the Supabase commits before them, section 41). Restore the four files, re-add the routes, and reinstall `@supabase/supabase-js`.
+
+**Optional clean-up outside the code (Ram):**
+1. **Vercel → Settings → Environment Variables:** delete `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. They are no longer read.
+2. **Google Cloud → Credentials:** delete the OAuth client "CTO 360 web". This also retires the client secret that was pasted in chat.
+3. **Supabase:** pause or delete project `feflrvsqskpbzsmwhbfo` if you won't use it again.
+4. **Local:** delete `.env.local`.

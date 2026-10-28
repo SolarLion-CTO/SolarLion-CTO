@@ -313,7 +313,7 @@ S('05 · Frameworks & Value', 'Why CTO360 Is Different', '<table class="t"><tr><
   'Point tools are essential, but each answers its own question. CTO360 answers the CTO\'s question: what matters most, and what should we decide?')
 
 # ───────────────────────── 21 Roadmap ─────────────────────────
-rm = [('Today', 'Capstone build (v1.0)', ['Working simulation of 3 enterprises and 7 sources', '5 live owner workspaces with 30 measures', 'Six real public datasets as reality checks', 'Google sign-in and automated checks on every build'], '#94a3b8'),
+rm = [('Today', 'Capstone build (v1.0)', ['Working simulation of 3 enterprises and 7 sources', '5 live owner workspaces with 30 measures', 'Six real public datasets as reality checks', 'Automated consistency checks on every build'], '#94a3b8'),
       ('6 to 12 Months', 'Phase 2 and pilot', ['Live AI call with RAG on 3 decisions', 'Real baselines from one business unit', 'Real tool exports replace simulated sources', 'Persistent audit trail and a governed pilot'], BLUE),
       ('2 to 3 Years', 'Scaled platform', ['Platform in 2 to 3 business units', '₹25 to 50 Cr a year if adoption holds', 'Compliance readiness (DPDP, EU AI Act)', 'New industries added by configuration'], NAVY)]
 S('05 · Frameworks & Value', 'Roadmap: From Simulation to Production', chev([f'{a}|{b}' for a, b, *_ in rm], [r[3] for r in rm], h=80, fs=16) + '<div class="row" style="margin-top:18px">' + ''.join(

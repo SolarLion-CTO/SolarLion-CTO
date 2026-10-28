@@ -300,7 +300,6 @@ Layout for each bridge slide: owner name + role, BP1 problem, an old → target 
 ## 8. Day-of checklist
 
 - [ ] Latest code pushed (`git push && git push origin v1.0-freeze`); Vercel shows the latest deploy.
-- [ ] The site requires Google sign-in. The Google consent screen is **In production**, so the panel can sign in with any Gmail account; otherwise sign in on the presenting laptop beforehand.
 - [ ] Site opens at https://cto360.vercel.app on the presentation laptop.
 - [ ] Header **Reset** pressed just before starting; Decision Center **Reset demo** pressed.
 - [ ] Backup video and screenshots are on the laptop (offline).

@@ -5,7 +5,7 @@
 CTO360 is a CTO capstone project (2026): a decision-intelligence layer that connects signals from enterprise tools into prioritised, owned and measured decisions.
 
 - **Governance:** TEDIF. **AI recommends, humans decide.**
-- **Live:** https://cto360.vercel.app (Google sign-in)
+- **Live:** https://cto360.vercel.app (open access, no login)
 - **Project history and resume point:** [`PROJECT_NOTES.md`](PROJECT_NOTES.md) (start with section 0)
 
 ## What is inside
@@ -18,19 +18,15 @@ CTO360 is a CTO capstone project (2026): a decision-intelligence layer that conn
 | **Team workspaces** (`/team/:owner`) | Ram (CTO), Suman (AI transformation), Vaibhav (regulatory & AI governance), Santhosh (spend & investment), Pankaj (ERP RCA & capacity): old state → target state, glide paths, frameworks applied with metrics |
 | **Frameworks & reference** (`/team/frameworks`, `/team/reference`) | A decision guide plus 69 frameworks, techniques and concepts explained with diagrams |
 | **Real data** (labelled "REAL DATA") | Six public datasets as reality checks: endoflife.date, CISA KEV, RBI notifications, Kaggle fraud, the UCI ServiceNow incident log, FOCUS cloud billing. See [`data/real/SOURCES.md`](data/real/SOURCES.md) |
-| **Sign-in log** (`/admin/sign-ins`) | Who signed in with Google, and when (Supabase) |
 
 ## Run locally
 
 ```bash
 npm install
-cp .env.example .env.local     # optional: add Supabase URL + publishable key to enable Google sign-in
 npm run dev                    # http://localhost:5173
 npm run validate:sim           # consistency checks for the simulation and team data
 npm run build
 ```
-
-Without the Supabase variables, the site runs open (demo mode).
 
 ## Data
 
@@ -47,11 +43,10 @@ Without the Supabase variables, the site runs open (demo mode).
 | `docs/SYLLABUS_AND_FRAMEWORKS.md` | Syllabus coverage and the framework library |
 | `docs/TEAM_WORKSPACES_PLAN.md` | Design of the five team workspaces |
 | `docs/SIMULATION_SPEC.md`, `docs/ENTERPRISE360_SPEC.md`, `docs/MOCKUPS.md` | Simulation and Enterprise 360 specifications |
-| `supabase/login_events.sql` | One-time SQL for the sign-in log |
 
 ## Stack
 
-React 19, Vite, TypeScript, Tailwind CSS v4, Recharts, lucide-react, and Supabase (Google OAuth). Deployed on Vercel.
+React 19, Vite, TypeScript, Tailwind CSS v4, Recharts, lucide-react. Deployed on Vercel.
 
 ## Disclaimer
 

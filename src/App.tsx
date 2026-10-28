@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { StoreProvider } from './store'
 import Layout from './components/Layout'
 import Overview from './pages/Overview'
@@ -45,9 +45,6 @@ import TeamPage from './pages/team/TeamPage'
 import WorkspacePage from './pages/team/WorkspacePage'
 import FrameworksPage from './pages/team/FrameworksPage'
 import ReferencePage from './pages/team/ReferencePage'
-import Login from './pages/Login'
-import SignInLog from './pages/SignInLog'
-import { AuthProvider, RequireAuth } from './auth/AuthProvider'
 
 export default function App() {
   return (
@@ -55,17 +52,14 @@ export default function App() {
       <SimClockProvider>
       <DecisionStateProvider>
       <BrowserRouter>
-      <AuthProvider>
         <Routes>
-          <Route path="login" element={<Login />} />
-          <Route element={<RequireAuth><Layout /></RequireAuth>}>
+          <Route element={<Layout />}>
             <Route index element={<CommandCenter />} />
             <Route path="overview" element={<Overview />} />
             <Route path="sources" element={<DataSources />} />
             <Route path="team" element={<TeamPage />} />
             <Route path="team/frameworks" element={<FrameworksPage />} />
             <Route path="team/reference" element={<ReferencePage />} />
-            <Route path="admin/sign-ins" element={<SignInLog />} />
             <Route path="team/:owner" element={<WorkspacePage />} />
             <Route path="decisions" element={<Decisions />} />
             <Route path="value" element={<Value />} />
@@ -103,8 +97,8 @@ export default function App() {
             <Route path="cto/decisions" element={<CtoDecisions />} />
             <Route path="cto/roadmap" element={<Roadmap />} />
           </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </AuthProvider>
       </BrowserRouter>
       </DecisionStateProvider>
       </SimClockProvider>
