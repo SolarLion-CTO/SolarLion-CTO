@@ -13,6 +13,7 @@ CTO360 is a CTO capstone project (2026): a decision-intelligence layer that conn
 | Area | What it shows |
 |---|---|
 | **Technology Control Plane** (`/`, home) | The CTO standpoint: 6 control layers (EA business, data, application, technology + security, spend) from baseline to target, a real-time impact chain, blast radius, TOGAF ADM wheel, and portfolio statistics (TIME model, debt vs incidents, value at risk) |
+| **Present mode** (`/?present=1`) | Zero-scroll, dark, full-screen cockpit of the Control Plane for presenting (Esc · ← → · 1–4) |
 | **Enterprise Command Center** (`/command-center`) | Three simulated business units (Meridian Bank, Arvant Industries, Orbit Retail): 7 source systems × 16 enterprise functions, heatmaps, live events |
 | **Domain 360** (`/domain/:id`) | The 7 simulated sources (Planview, SAP LeanIX, Celonis + Signavio, ServiceNow SPM, Jellyfish, Datadog, Vanta), the 16 function pages, record drill-down, and Decision Intelligence |
 | **Decision Center** (`/decision-center`) | Top 10 decisions across business units → actions → measured outcomes |
@@ -47,7 +48,7 @@ npm run build
 
 ## Stack
 
-React 19, Vite, TypeScript, Tailwind CSS v4, Recharts, lucide-react. Deployed on Vercel.
+React 19, Vite, TypeScript, Tailwind CSS v4, Recharts, Motion, lucide-react. Pages are code-split (lazy-loaded). Deployed on Vercel.
 
 ## Disclaimer
 

@@ -330,4 +330,6 @@ The home page is now the CTO's control plane. Use it for the first 90 seconds of
 4. **Layer grid:** click **Application** to drill into the question, facts, trend and worst records.
 5. **Statistics:** "Technical debt is not opinion: r = −0.49 between technical health and incidents across 51 apps."
 
+**Tip:** press **Present** (or open `/?present=1`) for the zero-scroll dark cockpit. Use the full-screen button; ← / → step through impact chains, 1–4 switch business unit, Esc returns to the page for drill-downs.
+
 Then continue with the run-sheet in section 4.

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
@@ -232,7 +232,7 @@ export default function Layout() {
 
         <main className="flex-1 min-w-0 p-4 md:p-6">
           <div className="mx-auto max-w-[1440px]">
-            <Outlet />
+            <Suspense fallback={<div className="py-24 text-center text-sm text-ink-3" role="status">Loading…</div>}><Outlet /></Suspense>
             <footer className="mt-10 pt-4 pb-6 border-t border-line text-xs text-ink-3" role="contentinfo">
               <div className="flex flex-wrap gap-x-6 gap-y-1 justify-center">
                 <span><b className="font-semibold text-ink-2">CTO360</b> · One View. Connected Decisions. Measurable Technology Outcomes.</span>

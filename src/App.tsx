@@ -1,51 +1,54 @@
+import { lazy } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { StoreProvider } from './store'
 import Layout from './components/Layout'
-import Overview from './pages/Overview'
-import Decisions from './pages/Decisions'
-import Value from './pages/Value'
-import Strategy from './pages/Strategy'
-import Finance from './pages/Finance'
-import Operations from './pages/Operations'
-import Governance from './pages/Governance'
-import Agents from './pages/Agents'
-import Framework from './pages/Framework'
-import Problems from './pages/Problems'
-import Innovation from './pages/Innovation'
-import Tedif from './pages/Tedif'
-import DomainView from './pages/DomainView'
-import TrackerPortfolio from './pages/TrackerPortfolio'
-import Engineering from './pages/Engineering'
-import RiskRegister from './pages/RiskRegister'
-import AiInsights from './pages/AiInsights'
-import DomainHome from './pages/sim/DomainHome'
-import SourcePage from './pages/sim/SourcePage'
-import RecordPage from './pages/sim/RecordPage'
-import FunctionPage from './pages/sim/FunctionPage'
 import { SimClockProvider } from './components/sim/clock'
 import { DecisionStateProvider } from './components/sim/decisionState'
-import DomainDecisions from './pages/sim/DomainDecisions'
-import DecisionCenter from './pages/sim/DecisionCenter'
-import About from './pages/About'
-import TrackerDim from './pages/TrackerDim'
-import Coverage from './pages/cto/Coverage'
-import Business from './pages/cto/Business'
-import CtoStrategy from './pages/cto/Strategy'
-import Assessment from './pages/cto/Assessment'
-import Portfolio from './pages/cto/Portfolio'
-import Data from './pages/cto/Data'
-import AiSelection from './pages/cto/AiSelection'
-import Architecture from './pages/cto/Architecture'
-import OperatingModel from './pages/cto/OperatingModel'
-import CtoDecisions from './pages/cto/Decisions'
-import Roadmap from './pages/cto/Roadmap'
-import CommandCenter from './pages/sim/CommandCenter'
-import ControlPlane from './pages/ControlPlane'
-import DataSources from './pages/sim/DataSources'
-import TeamPage from './pages/team/TeamPage'
-import WorkspacePage from './pages/team/WorkspacePage'
-import FrameworksPage from './pages/team/FrameworksPage'
-import ReferencePage from './pages/team/ReferencePage'
+
+// Pages load on demand (code splitting); the layout and sidebar stay in the main bundle.
+const Overview = lazy(() => import('./pages/Overview'))
+const Decisions = lazy(() => import('./pages/Decisions'))
+const Value = lazy(() => import('./pages/Value'))
+const Strategy = lazy(() => import('./pages/Strategy'))
+const Finance = lazy(() => import('./pages/Finance'))
+const Operations = lazy(() => import('./pages/Operations'))
+const Governance = lazy(() => import('./pages/Governance'))
+const Agents = lazy(() => import('./pages/Agents'))
+const Framework = lazy(() => import('./pages/Framework'))
+const Problems = lazy(() => import('./pages/Problems'))
+const Innovation = lazy(() => import('./pages/Innovation'))
+const Tedif = lazy(() => import('./pages/Tedif'))
+const DomainView = lazy(() => import('./pages/DomainView'))
+const TrackerPortfolio = lazy(() => import('./pages/TrackerPortfolio'))
+const Engineering = lazy(() => import('./pages/Engineering'))
+const RiskRegister = lazy(() => import('./pages/RiskRegister'))
+const AiInsights = lazy(() => import('./pages/AiInsights'))
+const DomainHome = lazy(() => import('./pages/sim/DomainHome'))
+const SourcePage = lazy(() => import('./pages/sim/SourcePage'))
+const RecordPage = lazy(() => import('./pages/sim/RecordPage'))
+const FunctionPage = lazy(() => import('./pages/sim/FunctionPage'))
+const DomainDecisions = lazy(() => import('./pages/sim/DomainDecisions'))
+const DecisionCenter = lazy(() => import('./pages/sim/DecisionCenter'))
+const About = lazy(() => import('./pages/About'))
+const TrackerDim = lazy(() => import('./pages/TrackerDim'))
+const Coverage = lazy(() => import('./pages/cto/Coverage'))
+const Business = lazy(() => import('./pages/cto/Business'))
+const CtoStrategy = lazy(() => import('./pages/cto/Strategy'))
+const Assessment = lazy(() => import('./pages/cto/Assessment'))
+const Portfolio = lazy(() => import('./pages/cto/Portfolio'))
+const Data = lazy(() => import('./pages/cto/Data'))
+const AiSelection = lazy(() => import('./pages/cto/AiSelection'))
+const Architecture = lazy(() => import('./pages/cto/Architecture'))
+const OperatingModel = lazy(() => import('./pages/cto/OperatingModel'))
+const CtoDecisions = lazy(() => import('./pages/cto/Decisions'))
+const Roadmap = lazy(() => import('./pages/cto/Roadmap'))
+const CommandCenter = lazy(() => import('./pages/sim/CommandCenter'))
+const ControlPlane = lazy(() => import('./pages/ControlPlane'))
+const DataSources = lazy(() => import('./pages/sim/DataSources'))
+const TeamPage = lazy(() => import('./pages/team/TeamPage'))
+const WorkspacePage = lazy(() => import('./pages/team/WorkspacePage'))
+const FrameworksPage = lazy(() => import('./pages/team/FrameworksPage'))
+const ReferencePage = lazy(() => import('./pages/team/ReferencePage'))
 
 export default function App() {
   return (

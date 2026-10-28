@@ -1,9 +1,11 @@
 // / — CTO Technology Control Plane (home). The CTO's standpoint: what do I control (EA layers), what is moving it
 // right now (impact chains, blast radius), where is change in the ADM cycle, and what does the portfolio say statistically.
-import { useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { MotionConfig, motion } from 'motion/react'
+import { Collapse, CountUp, Reveal, Swap } from '../components/motion'
 import { Link, useNavigate } from 'react-router-dom'
 import { CartesianGrid, Line, LineChart, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ReferenceArea, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts'
-import { Activity, ArrowRight, ChevronDown, Crosshair, Gavel, IndianRupee, Layers3, Radio, Sigma, Target } from 'lucide-react'
+import { Activity, ArrowRight, ChevronDown, Crosshair, Gavel, IndianRupee, Layers3, MonitorPlay, Radio, Sigma, Target } from 'lucide-react'
 import { SIM_NOW, sim, sourceHealth, SOURCES } from '../data/sim'
 import type { DomainId, Rag } from '../data/sim'
 import { BLAST_COLS, TARGET, admPlacement, blastRadius, chains, debtVsIncidents, eventsFor, layers, scopeIds, timeQuadrant, valueAtRisk } from '../data/sim/controlPlane'
@@ -22,12 +24,15 @@ const rec = (d: DomainId, id: string) => `/domain/${d}/record/${id}`
 const cr = (x: number) => `₹${x.toLocaleString('en-IN', { maximumFractionDigits: 1 })} Cr`
 const SHORT: Record<DomainId, string> = { banking: 'BNK', manufacturing: 'MFG', retail: 'RTL' }
 const toneText = { crit: 'text-crit-text', warn: 'text-warn-text', ok: 'text-success-text', info: 'text-ink-2' } as const
+const Present = lazy(() => import('./ControlPlanePresent'))
 
 export default function ControlPlane() {
   const { now } = useSimClock()
   const [scope, setScope] = useState<Scope>('all')
   const [open, setOpen] = useState<string | null>(null)
   const [blast, setBlast] = useState<{ domain: DomainId; id: string } | null>(null)
+  const [present, setPresent] = useState(() => new URLSearchParams(window.location.search).get('present') === '1')
+  useEffect(() => { const u = new URL(window.location.href); if (present) u.searchParams.set('present', '1'); else u.searchParams.delete('present'); window.history.replaceState(window.history.state, '', u) }, [present])
   const tick = Math.floor((now - T0) / 5000)   // recompute live parts every 5 s of simulation time
   const events = useMemo(() => eventsFor(scope), [scope])
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,9 +44,11 @@ export default function ControlPlane() {
   const v = useMemo(() => valueAtRisk(scope), [scope])
   const score = Math.round(L.reduce((a, l) => a + l.current, 0) / L.length)
   const score3m = Math.round(L.reduce((a, l) => a + l.series[8], 0) / L.length)
+  const stats = useMemo(() => { const tq = timeQuadrant(scope); const dv = debtVsIncidents(scope); return { time: (['Invest', 'Tolerate', 'Migrate', 'Eliminate'] as const).map((q) => ({ q, n: tq.filter((p) => p.quadrant === q).length })), r: dv.r, n: dv.n } }, [scope])
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
+      {present && <Suspense fallback={null}><Present d={{ scope, setScope, now, L, C, score, delta: score - score3m, v, openDecisions: decs.length, critDecisions: decs.filter((x) => x.priority === 'Critical').length, live, ...stats }} onClose={() => setPresent(false)} /></Suspense>}
       {/* Title + scope */}
       <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
         <div className="min-w-0">
@@ -49,26 +56,27 @@ export default function ControlPlane() {
           <h1 className="text-2xl sm:text-3xl font-bold text-ink">Technology Control Plane</h1>
           <p className="text-sm text-ink-3 mt-0.5">What I control, what is moving it right now, and what to decide. Enterprise architecture layers × live signals × TOGAF ADM.</p>
         </div>
-        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Scope">
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Scope">
           {(['all', 'banking', 'manufacturing', 'retail'] as Scope[]).map((s) => (
             <button key={s} onClick={() => setScope(s)} aria-pressed={scope === s} className={`text-xs rounded-full border px-3 py-1.5 font-medium ${scope === s ? 'bg-[#0f2747] text-white border-[#0f2747]' : 'bg-white text-ink-2 border-line hover:bg-slate-50'}`}>
               {s === 'all' ? 'All business units' : domains[s].name}
             </button>
           ))}
+          <button onClick={() => setPresent(true)} className="ml-1 inline-flex items-center gap-1.5 text-xs rounded-full px-3 py-1.5 font-semibold text-white bg-gradient-to-r from-[#0f2747] to-[#2563eb] shadow-sm hover:shadow-md" title="Full-screen cockpit for presenting"><MonitorPlay size={14} />Present</button>
         </div>
       </div>
 
       <Hero score={score} delta={score - score3m} L={L} v={v} critDecisions={decs.filter((d) => d.priority === 'Critical').length} openDecisions={decs.length} live={live} />
-      <ImpactStrip chains={C} now={now} onBlast={(c) => { setBlast({ domain: c.domain, id: c.origin.id }); document.getElementById('blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} />
-      <LayerGrid L={L} open={open} setOpen={setOpen} now={now} scope={scope} />
-      <div className="grid grid-cols-1 xl:grid-cols-[1.6fr_1fr] gap-5 mt-5">
+      <Reveal delay={0.05}><ImpactStrip chains={C} now={now} onBlast={(c) => { setBlast({ domain: c.domain, id: c.origin.id }); document.getElementById('blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} /></Reveal>
+      <Reveal delay={0.1}><LayerGrid L={L} open={open} setOpen={setOpen} now={now} scope={scope} /></Reveal>
+      <Reveal><div className="grid grid-cols-1 xl:grid-cols-[1.6fr_1fr] gap-5 mt-5">
         <BlastRadius chains={C} sel={blast} setSel={setBlast} />
         <AdmWheel scope={scope} openDecisions={decs.length} />
-      </div>
-      <Statistics scope={scope} v={v} />
-      <ToolStrip scope={scope} events={events} now={now} />
+      </div></Reveal>
+      <Reveal><Swap k={scope}><Statistics scope={scope} v={v} /></Swap></Reveal>
+      <Reveal><ToolStrip scope={scope} events={events} now={now} /></Reveal>
       <p className="text-xs text-ink-3 mt-4">Simulated enterprise data; every score, chain and statistic is calculated from linked records (the previous home page is the <Link to="/command-center" className="text-brand-600 hover:underline">Command Center</Link>). ADM phase is derived from initiative progress; TIME quadrant uses technical health vs functional fit.</p>
-    </>
+    </MotionConfig>
   )
 }
 
@@ -78,18 +86,18 @@ function Hero({ score, delta, L, v, critDecisions, openDecisions, live }: { scor
   const onTarget = L.filter((l) => l.current >= TARGET).length
   const radar = L.map((l) => ({ layer: l.def.label, now: l.current, target: TARGET, baseline: l.baseline }))
   const atRisk = Math.round((v.amber + v.red) * 10) / 10
-  const tiles: { icon: typeof Target; label: string; value: string; sub: string; tone?: 'crit' | 'warn' }[] = [
-    { icon: IndianRupee, label: 'Value at risk', value: cr(atRisk), sub: `${Math.round((atRisk / Math.max(1, v.total)) * 100)}% of ${cr(v.total)} expected`, tone: 'warn' },
-    { icon: Layers3, label: 'Layers on target', value: `${onTarget} / ${L.length}`, sub: `target ${TARGET} per layer`, tone: onTarget < 3 ? 'warn' : undefined },
-    { icon: Gavel, label: 'Decisions open', value: `${openDecisions}`, sub: `${critDecisions} critical`, tone: critDecisions ? 'crit' : undefined },
-    { icon: Radio, label: 'Live signals since 09:30', value: `${live.fresh}`, sub: `${live.crit} critical · score ${live.delta >= 0 ? '+' : ''}${live.delta}`, tone: live.crit ? 'crit' : undefined },
+  const tiles: { icon: typeof Target; label: string; value: React.ReactNode; sub: string; tone?: 'crit' | 'warn' }[] = [
+    { icon: IndianRupee, label: 'Value at risk', value: <CountUp value={atRisk} decimals={1} format={(x) => cr(x)} />, sub: `${Math.round((atRisk / Math.max(1, v.total)) * 100)}% of ${cr(v.total)} expected`, tone: 'warn' },
+    { icon: Layers3, label: 'Layers on target', value: <><CountUp value={onTarget} /> / {L.length}</>, sub: `target ${TARGET} per layer`, tone: onTarget < 3 ? 'warn' : undefined },
+    { icon: Gavel, label: 'Decisions open', value: <CountUp value={openDecisions} />, sub: `${critDecisions} critical`, tone: critDecisions ? 'crit' : undefined },
+    { icon: Radio, label: 'Live signals since 09:30', value: <CountUp value={live.fresh} />, sub: `${live.crit} critical · score ${live.delta >= 0 ? '+' : ''}${live.delta}`, tone: live.crit ? 'crit' : undefined },
   ]
   return (
     <section className="rounded-2xl bg-gradient-to-br from-[#0b1d38] via-[#0f2747] to-[#1d4ed8] text-white p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-[auto_1fr_300px] gap-6 items-center overflow-hidden">
       <div className="flex items-center gap-5">
         <svg viewBox="0 0 120 120" className="w-28 h-28 sm:w-32 sm:h-32 shrink-0" role="img" aria-label={`Control score ${score} of 100`}>
           <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.15)" strokeWidth="10" />
-          <circle cx="60" cy="60" r="50" fill="none" stroke={ragHex[st]} strokeWidth="10" strokeLinecap="round" strokeDasharray={`${(score / 100) * 314} 314`} transform="rotate(-90 60 60)" />
+          <motion.circle cx="60" cy="60" r="50" fill="none" stroke={ragHex[st]} strokeWidth="10" strokeLinecap="round" transform="rotate(-90 60 60)" initial={{ strokeDasharray: '0 314' }} animate={{ strokeDasharray: `${(score / 100) * 314} 314` }} transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }} />
           <circle cx="60" cy="60" r="50" fill="none" stroke="white" strokeWidth="2" strokeDasharray="2 312" strokeDashoffset={-(TARGET / 100) * 314 + 1} transform="rotate(-90 60 60)" />
           <text x="60" y="62" textAnchor="middle" fontSize="30" fontWeight="800" fill="white">{score}</text>
           <text x="60" y="80" textAnchor="middle" fontSize="10" fill="#c7d8f5">of 100 · target {TARGET}</text>
@@ -101,12 +109,12 @@ function Hero({ score, delta, L, v, critDecisions, openDecisions, live }: { scor
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        {tiles.map((t) => (
-          <div key={t.label} className="rounded-xl bg-white/[0.07] border border-white/15 px-3.5 py-3 min-w-0">
+        {tiles.map((t, k) => (
+          <motion.div key={t.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + k * 0.08, duration: 0.4 }} className="rounded-xl bg-white/[0.07] border border-white/15 px-3.5 py-3 min-w-0">
             <div className="flex items-center gap-1.5 text-[12px] text-slate-300"><t.icon size={13} />{t.label}</div>
             <div className={`text-xl sm:text-2xl font-bold tabular-nums mt-0.5 ${t.tone === 'crit' ? 'text-red-300' : t.tone === 'warn' ? 'text-amber-300' : ''}`}>{t.value}</div>
             <div className="text-[11px] text-slate-300 truncate">{t.sub}</div>
-          </div>
+          </motion.div>
         ))}
       </div>
       <div className="h-56 lg:h-60 -my-2" aria-label="Six control layers against target">
@@ -157,7 +165,7 @@ function ImpactStrip({ chains: cs, now, onBlast }: { chains: Chain[]; now: numbe
           {pick !== null && <button onClick={() => setPick(null)} className="text-[11px] text-brand-600 ml-1 hover:underline">auto</button>}
         </div>
       </div>
-      <ol className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-6 gap-2">
+      <Swap k={c.id}><ol className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-6 gap-2">
         {nodes.map((n, k) => (
           <li key={n.k} className="relative">
             <Link to={n.to} className={`block h-full rounded-xl border p-3 transition ${k <= step ? 'shadow-sm' : 'opacity-60'} hover:opacity-100 hover:border-brand-600`} style={{ borderColor: k === step ? ragHex[n.health] : undefined, background: k === step ? '#f8fbff' : undefined }}>
@@ -168,7 +176,7 @@ function ImpactStrip({ chains: cs, now, onBlast }: { chains: Chain[]; now: numbe
             {k < 5 && <ArrowRight size={14} className="hidden xl:block absolute -right-[11px] top-1/2 -translate-y-1/2 text-slate-400 z-10 bg-white rounded-full" aria-hidden />}
           </li>
         ))}
-      </ol>
+      </ol></Swap>
       <div className="flex flex-wrap items-center justify-between gap-2 mt-3 text-xs text-ink-3">
         <span>{c.live ? <>Latest linked event: <b className="text-ink-2">{c.live.text}</b></> : 'No new event on this chain since 09:30; exposure is structural.'}</span>
         <button onClick={() => onBlast(c)} className="inline-flex items-center gap-1 font-semibold text-brand-600 hover:underline"><Crosshair size={13} />Show blast radius</button>
@@ -181,7 +189,7 @@ function ImpactStrip({ chains: cs, now, onBlast }: { chains: Chain[]; now: numbe
 function Bullet({ l }: { l: Layer }) {
   return (
     <div className="relative h-3 rounded-full bg-slate-100" role="img" aria-label={`Baseline ${l.baseline}, now ${l.current}, target ${l.target}`}>
-      <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${l.current}%`, background: ragHex[l.status] }} />
+      <motion.div className="absolute inset-y-0 left-0 rounded-full" style={{ background: ragHex[l.status] }} initial={{ width: 0 }} animate={{ width: `${l.current}%` }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} />
       <div className="absolute -top-1 -bottom-1 w-0.5 bg-slate-500" style={{ left: `${l.baseline}%` }} title={`Nov 2025: ${l.baseline}`} />
       <div className="absolute -top-1.5 -bottom-1.5 w-1 rounded bg-[#0f2747]" style={{ left: `calc(${l.target}% - 2px)` }} title={`Target ${l.target}`} />
     </div>
@@ -211,7 +219,7 @@ function LayerGrid({ L, open, setOpen, now, scope }: { L: Layer[]; open: string 
                 <div className="text-xs min-w-0">{l.decision ? <><span className="text-ink line-clamp-2 font-medium">{l.decision.title}</span><span className={l.decision.priority === 'Critical' ? 'text-crit-text' : 'text-warn-text'}>{l.decision.priority}</span><span className="text-ink-4"> · {l.decision.owner}</span></> : <span className="text-ink-4">No open decision</span>}</div>
                 <ChevronDown size={16} className={`text-ink-3 transition-transform hidden lg:block ${isOpen ? 'rotate-180' : ''}`} />
               </button>
-              {isOpen && <LayerDrill l={l} />}
+              <Collapse open={isOpen}><LayerDrill l={l} /></Collapse>
             </li>
           )
         })}

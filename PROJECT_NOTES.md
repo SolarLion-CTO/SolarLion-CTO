@@ -82,7 +82,7 @@
   | 6 | **Owner map consistency** across proposal, decks and TEDIF (RACI now on `/team`) | Team | Use the `/team` RACI as the single source |
   | 7 | **Rehearse the demo** with the run-sheet (section 38): Reset the clock first so the golden thread, live circular (+50 s) and breach clock (+80 s) play in order | Team | Each presenter: 3 min on their workspace + their Frameworks tab |
   | 8 | **Optional extras** from the framework library (not built, reference only): ESG for Vaibhav; SWOT / PESTLE context for Ram | You decide | About 2–3 hours each if wanted |
-  | 9 | **Optional:** code-split routes (bundle > 500 kB warning only) | Claude | About 1 hour; no visible change |
+  | 9 | **Code-split routes** | Claude | ✅ 28 Oct 2026: first download 1,646 KB → 362 KB (section 46) |
   | 10 | **Housekeeping:** confirm the GitHub token pasted in chat earlier has been **revoked** | You | GitHub → Settings → Developer settings → Tokens |
   | 11 | **Capstone ratings refreshed** | Claude | ✅ 8 Oct 2026, section 43 |
   | 12 | **Clean up the unused login setup (optional):** delete the 2 `VITE_SUPABASE_*` variables in Vercel; delete or disable the Google OAuth client "CTO 360 web" (this also retires the secret pasted in chat); pause or delete the Supabase project `feflrvsqskpbzsmwhbfo` if it is not needed; delete the local `.env.local` | You | Section 44 |
@@ -1877,3 +1877,48 @@ At Ram's request, the Google / Supabase login was removed and **the site is open
 - **Layout sweep: 70 routes × 3 sizes = 210 checks, ALL CLEAN** (28 Oct 2026).
 
 **Demo line:** "This is my control plane: six layers I own, from baseline to target. Here is what a single live signal touches, and here is the decision it needs."
+
+## 46. CXO polish: code splitting, Present mode, motion (28 Oct 2026)
+
+Ram reviewed a generic "CXO web design" brief.
+
+- **Adopted:** zero-scroll cockpit, code splitting, purposeful motion.
+- **Rejected:**
+  - 3D (React Three Fiber / Spline): heavy, and adds no credibility for a CTO audience
+  - Nivo: a second chart library
+  - GSAP / Lenis scroll storytelling: suited to marketing pages
+  - site-wide dark mode: 2–3 days of restyling, with risk before the presentation
+
+**1. Code splitting (whole app, invisible):**
+- All 43 pages load on demand (`React.lazy` in `src/App.tsx`).
+- `Suspense` sits around the page outlet in `Layout.tsx`, so the header and sidebar stay while a page loads.
+- First download: **1,646 KB → 362 KB (−78%)**. The build's chunk-size warning is gone.
+
+**2. Present mode (Technology Control Plane only):**
+- How to open it: the **Present** button next to the scope pills, or `/?present=1`.
+- A dark, full-screen, **zero-scroll** cockpit, verified at 1280×720, 1366×768, 1536×864 and 1920×1080 (scroll height = screen height).
+  - **Left:** control score ring, 4 KPI tiles with count-up; on screens ≥ 860 px tall, a 12-month control-score area chart.
+  - **Centre:** layer radar (now vs Nov 2025 vs target).
+  - **Right:** 6 layer bars from baseline → now → target.
+  - **Bottom:** the real-time impact chain (auto-cycling, animated step by step) and board statistics (r = −0.49, TIME counts, value at risk).
+- **Keys:** Esc to close · ← / → to step through chains · 1–4 to switch scope. There's also a full-screen button.
+- On phones and tablets it scrolls vertically, with no sideways overflow.
+- File: `src/pages/ControlPlanePresent.tsx` (lazy-loaded).
+
+**3. Motion (Technology Control Plane only):**
+- Library: `motion` v12; helpers in `src/components/motion.tsx` (`CountUp`, `Reveal`, `Collapse`, `Swap`).
+- What moves:
+  - the score ring draws in, and the KPI numbers count up
+  - tiles stagger in, and sections fade up once as they scroll into view
+  - layer bars grow
+  - drill-downs slide open
+  - the impact chain cross-fades between chains
+  - the statistics cross-fade on a scope switch
+- Animations run on load and on user actions only, never on the 1-second simulation tick.
+- `MotionConfig reducedMotion="user"` turns them off for users who prefer reduced motion.
+
+**Checks:**
+- Build and typecheck pass.
+- No console errors on the page or in Present mode.
+- Present mode fits with zero scroll at 4 desktop sizes, and has no sideways overflow on phone or tablet.
+- **Full layout sweep after code splitting: 70 routes × 3 sizes = 210 checks, ALL CLEAN** (28 Oct 2026).
