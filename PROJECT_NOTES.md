@@ -1922,3 +1922,33 @@ Ram reviewed a generic "CXO web design" brief.
 - No console errors on the page or in Present mode.
 - Present mode fits with zero scroll at 4 desktop sizes, and has no sideways overflow on phone or tablet.
 - **Full layout sweep after code splitting: 70 routes × 3 sizes = 210 checks, ALL CLEAN** (28 Oct 2026).
+
+## 47. Hover previews on the Technology Control Plane (29 Oct 2026)
+
+Everything clickable on the Control Plane now responds to hover in two ways.
+
+**1. A consistent affordance.** The card lifts slightly, the border turns blue, a soft shadow appears and an "Open →" cue slides in. Shared class: `lift` in `src/components/Peek.tsx`.
+
+**2. Preview cards** (dark): the record's health, **why** it is red or amber (the engine's own reasons), 4 key facts, and "Click to open". They are shown only on devices that can hover. Hidden previews are `display: none`, so they never widen the page.
+
+| Element | Hover behaviour |
+|---|---|
+| Hero tiles | Now **clickable**: value at risk → statistics, layers on target → layer grid, decisions → Decision Center, live signals → Command Center. Hover lifts the tile and swaps the sub-line for the destination. |
+| Impact chain (6 steps) | Previews of the signal / app / capability / initiative records; value at risk lists the initiatives; the decision shows why-now, recommendation, confidence, deadline, ask and protects. **Auto-rotation pauses while hovered** ("Paused while you explore"). |
+| Layer rows | Coloured left accent, the subtitle becomes "Click to drill down", the chevron nudges. The live-signal text previews its source record. |
+| Drill-down worst records, ADM initiatives | Record previews; rows slide and the arrow appears |
+| Blast radius nodes | Other nodes fade, the hovered node highlights, and a preview card appears next to it |
+| ADM wheel | **Hover previews a phase** in the panel (segment grows and highlights); click pins it |
+| TIME and debt-vs-incidents bubbles | Chart tooltips are preview cards (TIME quadrant or incidents + app facts) |
+| Tool tiles | Preview: the source's question, health, last update, records |
+
+**Code:**
+- `recordPeek` / `capabilityPeek` in `src/data/sim/controlPlane.ts`
+- `Peek`, `PeekCard`, `lift` in `src/components/Peek.tsx`
+- `.peek-pop` keyframe in `src/index.css` (off for reduced motion)
+- `Collapse` now unclips when open, so previews inside drill-downs are not cut off
+
+**Checks:**
+- Real mouse-hover simulation on 9 element types: every preview appears and the page never widens; no console errors.
+- No overflow at 1366 / 820 / 390.
+- 68 distinct links on the page all open real pages.

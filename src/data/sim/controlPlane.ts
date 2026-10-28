@@ -284,3 +284,32 @@ export function valueAtRisk(scope: Scope) {
   const by = (h: Rag) => r1(sum(inits.filter((i) => i.health === h).map((i) => i.expectedValueCr)))
   return { green: by('Green'), amber: by('Amber'), red: by('Red'), total: r1(sum(inits.map((i) => i.expectedValueCr))), realised: r1(sum(inits.map((i) => i.valueRealizedCr))) }
 }
+
+// ── 6. Hover previews: the record behind any clickable item ──────────
+export interface Peek { kind: string; name: string; health: Rag; owner: string; why: string[]; facts: [string, string][] }
+export function recordPeek(domain: DomainId, id: string): Peek | null {
+  const d = sim[domain]
+  const a = d.applications.find((x) => x.id === id)
+  if (a) return { kind: 'Application', name: a.name, health: a.health, owner: a.owner, why: a.why.slice(0, 3), facts: [['Criticality', a.criticality], ['Lifecycle', a.lifecycle], ['Technical health', `${a.techHealth} / 100`], ['Run cost', `₹${a.annualCostCr} Cr / yr`]] }
+  const s = d.services.find((x) => x.id === id)
+  if (s) return { kind: 'Service', name: s.name, health: s.health, owner: s.owner, why: s.why.slice(0, 3), facts: [['Availability', `${s.availability}% (SLO ${s.slo}%)`], ['Latency', `${s.latencyMs} ms (target ${s.latencyTargetMs})`], ['Incidents, 30 d', `${s.incidents30} (${s.p1_30} P1)`], ['MTTR', `${s.mttrH} h`]] }
+  const i = d.initiatives.find((x) => x.id === id)
+  if (i) return { kind: 'Initiative', name: i.name, health: i.health, owner: i.owner, why: i.why.slice(0, 3), facts: [['Progress', `${i.progress}% vs ${i.plannedProgress}% planned`], ['Budget', `₹${i.budgetCr} Cr · forecast ₹${i.forecastCr} Cr`], ['Expected value', `₹${i.expectedValueCr} Cr`], ['Risk', i.risk]] }
+  const t = d.technologies.find((x) => x.id === id)
+  if (t) return { kind: 'Technology', name: t.name, health: t.health, owner: t.owner, why: t.why.slice(0, 3), facts: [['Lifecycle', t.lifecycle], ['End of support', t.eolDate ?? 'n/a'], ['Vendor', t.vendor], ['Used by', `${t.appIds.length} app(s)`]] }
+  const r = d.risks.find((x) => x.id === id)
+  if (r) return { kind: 'Risk', name: r.name, health: r.health, owner: r.owner, why: [r.businessImpact, ...r.why].slice(0, 3), facts: [['Severity', r.severity], ['Category', r.category], ['Likelihood × impact', `${r.likelihood} × ${r.impact}`], ['Open', `${r.openedDays} days`]] }
+  const c = d.controls.find((x) => x.id === id)
+  if (c) return { kind: 'Control', name: c.control, health: c.health, owner: c.owner, why: c.why.slice(0, 3), facts: [['Status', c.controlStatus], ['Framework', c.framework], ['Last tested', c.lastTested.slice(0, 10)], ['Exceptions', `${c.exceptions}`]] }
+  const p = d.processes.find((x) => x.id === id)
+  if (p) return { kind: 'Process', name: p.name, health: p.health, owner: p.owner, why: [p.bottleneck, ...p.why].slice(0, 3), facts: [['Cycle time', `${p.cycleTime} ${p.unit} (target ${p.targetCycleTime})`], ['Automation', `${p.automationRate}%`], ['Exceptions', `${p.exceptionRate}%`], ['Stage', p.stage]] }
+  const o = d.objectives.find((x) => x.id === id)
+  if (o) return { kind: 'Objective', name: o.name, health: o.health, owner: o.owner, why: [o.outcome, ...o.why].slice(0, 3), facts: [['Priority', o.priority], ['Progress', `${o.progress}%`], ['Expected value', `₹${o.expectedValueCr} Cr`], ['Realised', `₹${o.realizedValueCr} Cr`]] }
+  return null
+}
+export function capabilityPeek(domain: DomainId, name: string): Peek | null {
+  const c = capabilityHealth(sim[domain]).find((x) => x.name === name)
+  if (!c) return null
+  const apps = sim[domain].applications.filter((a) => a.capability === name)
+  return { kind: 'Capability', name, health: c.health, owner: 'Head of Architecture', why: apps.filter((a) => a.health !== 'Green').slice(0, 3).map((a) => `${a.name}: ${a.health.toLowerCase()} (${a.why[0] ?? a.lifecycle})`), facts: [['Score', `${c.score} / 100`], ['Applications', `${c.apps}`], ['Red items', `${c.red}`], ['Run cost', `₹${Math.round(apps.reduce((s, a) => s + a.annualCostCr, 0) * 10) / 10} Cr / yr`]] }
+}

@@ -1,14 +1,15 @@
 // / — CTO Technology Control Plane (home). The CTO's standpoint: what do I control (EA layers), what is moving it
 // right now (impact chains, blast radius), where is change in the ADM cycle, and what does the portfolio say statistically.
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { MotionConfig, motion } from 'motion/react'
 import { Collapse, CountUp, Reveal, Swap } from '../components/motion'
+import { Peek, PeekCard, lift } from '../components/Peek'
 import { Link, useNavigate } from 'react-router-dom'
 import { CartesianGrid, Line, LineChart, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ReferenceArea, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts'
 import { Activity, ArrowRight, ChevronDown, Crosshair, Gavel, IndianRupee, Layers3, MonitorPlay, Radio, Sigma, Target } from 'lucide-react'
 import { SIM_NOW, sim, sourceHealth, SOURCES } from '../data/sim'
 import type { DomainId, Rag } from '../data/sim'
-import { BLAST_COLS, TARGET, admPlacement, blastRadius, chains, debtVsIncidents, eventsFor, layers, scopeIds, timeQuadrant, valueAtRisk } from '../data/sim/controlPlane'
+import { BLAST_COLS, TARGET, admPlacement, capabilityPeek, recordPeek, blastRadius, chains, debtVsIncidents, eventsFor, layers, scopeIds, timeQuadrant, valueAtRisk } from '../data/sim/controlPlane'
 import type { Chain, Layer, Scope } from '../data/sim/controlPlane'
 import { decisionsFor, topDecisions } from '../data/sim/decisions'
 import { liveImpact } from '../data/sim/events'
@@ -82,15 +83,17 @@ export default function ControlPlane() {
 
 // ── Hero ──────────────────────────────────────────────────────────────
 function Hero({ score, delta, L, v, critDecisions, openDecisions, live }: { score: number; delta: number; L: Layer[]; v: ReturnType<typeof valueAtRisk>; critDecisions: number; openDecisions: number; live: ReturnType<typeof liveImpact> }) {
+  const nav = useNavigate()
   const st = ragOf(score)
   const onTarget = L.filter((l) => l.current >= TARGET).length
   const radar = L.map((l) => ({ layer: l.def.label, now: l.current, target: TARGET, baseline: l.baseline }))
   const atRisk = Math.round((v.amber + v.red) * 10) / 10
-  const tiles: { icon: typeof Target; label: string; value: React.ReactNode; sub: string; tone?: 'crit' | 'warn' }[] = [
-    { icon: IndianRupee, label: 'Value at risk', value: <CountUp value={atRisk} decimals={1} format={(x) => cr(x)} />, sub: `${Math.round((atRisk / Math.max(1, v.total)) * 100)}% of ${cr(v.total)} expected`, tone: 'warn' },
-    { icon: Layers3, label: 'Layers on target', value: <><CountUp value={onTarget} /> / {L.length}</>, sub: `target ${TARGET} per layer`, tone: onTarget < 3 ? 'warn' : undefined },
-    { icon: Gavel, label: 'Decisions open', value: <CountUp value={openDecisions} />, sub: `${critDecisions} critical`, tone: critDecisions ? 'crit' : undefined },
-    { icon: Radio, label: 'Live signals since 09:30', value: <CountUp value={live.fresh} />, sub: `${live.crit} critical · score ${live.delta >= 0 ? '+' : ''}${live.delta}`, tone: live.crit ? 'crit' : undefined },
+  const jump = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const tiles: { icon: typeof Target; label: string; value: React.ReactNode; sub: string; tone?: 'crit' | 'warn'; go: () => void; hint: string }[] = [
+    { icon: IndianRupee, label: 'Value at risk', value: <CountUp value={atRisk} decimals={1} format={(x) => cr(x)} />, sub: `${Math.round((atRisk / Math.max(1, v.total)) * 100)}% of ${cr(v.total)} expected`, tone: 'warn', go: () => jump('stats'), hint: 'See the value split' },
+    { icon: Layers3, label: 'Layers on target', value: <><CountUp value={onTarget} /> / {L.length}</>, sub: `target ${TARGET} per layer`, tone: onTarget < 3 ? 'warn' : undefined, go: () => jump('layers'), hint: 'Open the layer grid' },
+    { icon: Gavel, label: 'Decisions open', value: <CountUp value={openDecisions} />, sub: `${critDecisions} critical`, tone: critDecisions ? 'crit' : undefined, go: () => nav('/decision-center'), hint: 'Open the Decision Center' },
+    { icon: Radio, label: 'Live signals since 09:30', value: <CountUp value={live.fresh} />, sub: `${live.crit} critical · score ${live.delta >= 0 ? '+' : ''}${live.delta}`, tone: live.crit ? 'crit' : undefined, go: () => nav('/command-center'), hint: 'See the live event feed' },
   ]
   return (
     <section className="rounded-2xl bg-gradient-to-br from-[#0b1d38] via-[#0f2747] to-[#1d4ed8] text-white p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-[auto_1fr_300px] gap-6 items-center overflow-hidden">
@@ -110,11 +113,12 @@ function Hero({ score, delta, L, v, critDecisions, openDecisions, live }: { scor
       </div>
       <div className="grid grid-cols-2 gap-3">
         {tiles.map((t, k) => (
-          <motion.div key={t.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + k * 0.08, duration: 0.4 }} className="rounded-xl bg-white/[0.07] border border-white/15 px-3.5 py-3 min-w-0">
-            <div className="flex items-center gap-1.5 text-[12px] text-slate-300"><t.icon size={13} />{t.label}</div>
+          <motion.button key={t.label} onClick={t.go} title={t.hint} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + k * 0.08, duration: 0.4 }} whileHover={{ y: -3 }} className="group text-left rounded-xl bg-white/[0.07] border border-white/15 px-3.5 py-3 min-w-0 transition-colors hover:bg-white/[0.13] hover:border-white/40 focus-visible:outline-2 focus-visible:outline-white">
+            <div className="flex items-center gap-1.5 text-[12px] text-slate-300"><t.icon size={13} />{t.label}<ArrowRight size={12} className="ml-auto opacity-0 -translate-x-1 transition group-hover:opacity-100 group-hover:translate-x-0" /></div>
             <div className={`text-xl sm:text-2xl font-bold tabular-nums mt-0.5 ${t.tone === 'crit' ? 'text-red-300' : t.tone === 'warn' ? 'text-amber-300' : ''}`}>{t.value}</div>
-            <div className="text-[11px] text-slate-300 truncate">{t.sub}</div>
-          </motion.div>
+            <div className="text-[11px] text-slate-300 truncate group-hover:hidden">{t.sub}</div>
+            <div className="text-[11px] text-sky-200 truncate hidden group-hover:block">{t.hint} →</div>
+          </motion.button>
         ))}
       </div>
       <div className="h-56 lg:h-60 -my-2" aria-label="Six control layers against target">
@@ -139,11 +143,15 @@ function Hero({ score, delta, L, v, critDecisions, openDecisions, live }: { scor
 function ImpactStrip({ chains: cs, now, onBlast }: { chains: Chain[]; now: number; onBlast: (c: Chain) => void }) {
   const top = cs.slice(0, 6)
   const [pick, setPick] = useState<number | null>(null)
+  const [held, setHeld] = useState(false)   // auto-rotation pauses while the pointer is on the chain
   if (!top.length) return null
   const auto = Math.floor((now - T0) / 9000) % top.length
   const i = pick ?? auto
   const c = top[i]
   const step = Math.floor(((now - T0) % 9000) / 1500)   // 0..5 sweeps along the chain
+  const valPeek = { kind: 'Value at risk', name: cr(c.valueAtRiskCr), health: (c.valueAtRiskCr > 10 ? 'Red' : 'Amber') as Rag, owner: '', why: [c.origin.health === 'Red' ? 'Red signal: full expected value of linked initiatives counted' : 'Amber signal: half of the expected value counted'], facts: c.initiatives.slice(0, 4).map((x) => [x.name.length > 22 ? x.name.slice(0, 21) + '…' : x.name, cr(x.valueCr)] as [string, string]) }
+  const decPeek = c.decision ? { kind: `Decision · ${c.decision.priority}`, name: c.decision.title, health: (c.decision.priority === 'Critical' ? 'Red' : 'Amber') as Rag, owner: c.decision.owner, why: [c.decision.whyNow, c.decision.recommendation].filter(Boolean).slice(0, 2), facts: [['Confidence', `${c.decision.confidence}%`], ['Deadline', c.decision.deadline], ['Ask', cr(c.decision.investmentCr)], ['Protects', cr(c.decision.benefitCr)]] as [string, string][] } : null
+  const peeks = [recordPeek(c.domain, c.origin.id), recordPeek(c.domain, c.app.id), capabilityPeek(c.domain, c.capability), recordPeek(c.domain, c.initiatives[0].id), valPeek, decPeek]
   const nodes: { k: string; label: string; title: string; sub: string; to: string; health: Rag }[] = [
     { k: 'sig', label: c.origin.kind === 'Service' ? 'Live signal' : 'Lifecycle signal', title: c.origin.name, sub: c.origin.text, to: rec(c.domain, c.origin.id), health: c.origin.health },
     { k: 'app', label: 'Application', title: c.app.name, sub: `${c.app.criticality} · ₹${c.app.annualCostCr} Cr/yr`, to: rec(c.domain, c.app.id), health: c.app.health },
@@ -165,20 +173,23 @@ function ImpactStrip({ chains: cs, now, onBlast }: { chains: Chain[]; now: numbe
           {pick !== null && <button onClick={() => setPick(null)} className="text-[11px] text-brand-600 ml-1 hover:underline">auto</button>}
         </div>
       </div>
-      <Swap k={c.id}><ol className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-6 gap-2">
+      <Swap k={c.id}><ol className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-6 gap-2" onMouseEnter={() => { if (pick === null) { setPick(i); setHeld(true) } }} onMouseLeave={() => { if (held) { setPick(null); setHeld(false) } }}>
         {nodes.map((n, k) => (
           <li key={n.k} className="relative">
-            <Link to={n.to} className={`block h-full rounded-xl border p-3 transition ${k <= step ? 'shadow-sm' : 'opacity-60'} hover:opacity-100 hover:border-brand-600`} style={{ borderColor: k === step ? ragHex[n.health] : undefined, background: k === step ? '#f8fbff' : undefined }}>
+            <Peek p={peeks[k]} align={k < 3 ? 'left' : 'right'} className="h-full">
+            <Link to={n.to} className={`group block h-full rounded-xl border p-3 bg-white ${lift} ${k <= step ? 'shadow-sm' : 'opacity-60'} hover:opacity-100`} style={{ borderColor: k === step ? ragHex[n.health] : undefined, background: k === step ? '#f8fbff' : undefined }}>
               <div className="flex items-center justify-between text-[10.5px] uppercase tracking-wide text-ink-3"><span>{k + 1} · {n.label}</span><span className="w-2 h-2 rounded-full" style={{ background: ragHex[n.health] }} /></div>
               <div className={`font-semibold mt-1 leading-snug ${k === 4 ? 'text-lg text-crit-text' : 'text-sm text-ink'}`}>{n.title}</div>
               <div className="text-[11.5px] text-ink-3 mt-0.5 line-clamp-2">{n.sub}</div>
+              <div className="text-[11px] font-semibold text-brand-600 mt-1 flex items-center gap-1 opacity-0 -translate-x-1 transition group-hover:opacity-100 group-hover:translate-x-0">Open<ArrowRight size={11} /></div>
             </Link>
+            </Peek>
             {k < 5 && <ArrowRight size={14} className="hidden xl:block absolute -right-[11px] top-1/2 -translate-y-1/2 text-slate-400 z-10 bg-white rounded-full" aria-hidden />}
           </li>
         ))}
       </ol></Swap>
       <div className="flex flex-wrap items-center justify-between gap-2 mt-3 text-xs text-ink-3">
-        <span>{c.live ? <>Latest linked event: <b className="text-ink-2">{c.live.text}</b></> : 'No new event on this chain since 09:30; exposure is structural.'}</span>
+        <span>{held ? <span className="text-brand-600 font-medium">Paused while you explore · move away to resume</span> : c.live ? <>Latest linked event: <b className="text-ink-2">{c.live.text}</b></> : 'No new event on this chain since 09:30; exposure is structural.'}</span>
         <button onClick={() => onBlast(c)} className="inline-flex items-center gap-1 font-semibold text-brand-600 hover:underline"><Crosshair size={13} />Show blast radius</button>
       </div>
     </Card>
@@ -198,7 +209,7 @@ function Bullet({ l }: { l: Layer }) {
 function LayerGrid({ L, open, setOpen, now, scope }: { L: Layer[]; open: string | null; setOpen: (x: string | null) => void; now: number; scope: Scope }) {
   return (
     <Card className="mt-5">
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+      <div id="layers" className="scroll-mt-20 flex flex-wrap items-center justify-between gap-2 mb-1">
         <h2 className="font-semibold text-ink">Control layers · current → target</h2>
         <span className="text-xs text-ink-3">Click a layer to drill down · bar = now, grey tick = Nov 2025, navy marker = target {TARGET}</span>
       </div>
@@ -210,14 +221,15 @@ function LayerGrid({ L, open, setOpen, now, scope }: { L: Layer[]; open: string 
           const isOpen = open === l.def.id
           return (
             <li key={l.def.id}>
-              <button onClick={() => setOpen(isOpen ? null : l.def.id)} aria-expanded={isOpen} className="w-full text-left grid grid-cols-1 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.1fr)_128px_158px_minmax(0,1.3fr)_minmax(0,1.4fr)_18px] gap-3 py-3 items-center hover:bg-slate-50/70 rounded-lg px-1">
-                <div className="min-w-0"><div className="flex items-center gap-2 min-w-0"><span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: ragHex[l.status] }} /><span className="font-semibold text-ink truncate">{l.def.label}</span></div><div className="text-[11.5px] text-ink-3 truncate"><span className="font-medium text-ink-2">{l.def.owner}</span> · {l.def.ea}</div></div>
+              <button onClick={() => setOpen(isOpen ? null : l.def.id)} aria-expanded={isOpen} title={isOpen ? 'Close the drill-down' : `Drill into ${l.def.label}`} className={`group relative w-full text-left grid grid-cols-1 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.1fr)_128px_158px_minmax(0,1.3fr)_minmax(0,1.4fr)_18px] gap-3 py-3 items-center rounded-lg px-1 transition-colors hover:bg-brand-50/60 ${isOpen ? 'bg-brand-50/40' : ''}`}>
+                <span className={`absolute left-0 top-2 bottom-2 w-1 rounded-full transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} style={{ background: ragHex[l.status] }} aria-hidden />
+                <div className="min-w-0"><div className="flex items-center gap-2 min-w-0"><span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: ragHex[l.status] }} /><span className="font-semibold text-ink truncate group-hover:text-brand-700">{l.def.label}</span></div><div className="text-[11.5px] text-ink-3 truncate group-hover:hidden"><span className="font-medium text-ink-2">{l.def.owner}</span> · {l.def.ea}</div><div className="text-[11.5px] font-semibold text-brand-600 hidden group-hover:flex items-center gap-1">{isOpen ? 'Click to close' : 'Click to drill down'}<ChevronDown size={12} className={isOpen ? 'rotate-180' : ''} /></div></div>
                 <div><div className="flex justify-between text-xs mb-1"><span className="text-ink-3">{l.baseline} →</span><b className={ragText[l.status]}>{l.current}</b><span className="text-ink-3">→ {l.target} · gap {l.gap}</span></div><Bullet l={l} /></div>
                 <div className="flex items-center gap-2"><Sparkline data={l.series} target={TARGET} width={96} height={28} color={ragHex[l.status]} /><span className={`text-xs tabular-nums ${l.delta3m >= 0 ? 'text-success-text' : 'text-crit-text'}`}>{l.delta3m >= 0 ? '+' : ''}{l.delta3m}</span></div>
                 <div className="flex gap-1">{l.byDomain.map((b) => <span key={b.d} title={`${domains[b.d].name}: ${b.score}`} className="text-[10px] font-semibold rounded-md px-1 py-0.5 text-white tabular-nums whitespace-nowrap leading-tight text-center" style={{ background: ragHex[b.status] }}>{scope === 'all' && <span className="block opacity-80 text-[8.5px]">{SHORT[b.d]}</span>}{b.score}</span>)}</div>
-                <div className="text-xs min-w-0">{l.signal ? <><span className={`${toneText[l.signal.tone]} line-clamp-2`}>{l.signal.text}</span><span className="text-ink-4">{l.def.id === 'data' ? 'model register' : ago(now - l.signal.at)} · {SHORT[l.signal.domain]}</span></> : <span className="text-ink-4">No signal</span>}</div>
+                <div className="text-xs min-w-0">{l.signal ? <Peek p={recordPeek(l.signal.domain, l.signal.recordId)} align="right" hint="Drill down to open the evidence"><span className={`${toneText[l.signal.tone]} line-clamp-2 underline decoration-dotted decoration-current/40 underline-offset-2`}>{l.signal.text}</span><span className="text-ink-4">{l.def.id === 'data' ? 'model register' : ago(now - l.signal.at)} · {SHORT[l.signal.domain]}</span></Peek> : <span className="text-ink-4">No signal</span>}</div>
                 <div className="text-xs min-w-0">{l.decision ? <><span className="text-ink line-clamp-2 font-medium">{l.decision.title}</span><span className={l.decision.priority === 'Critical' ? 'text-crit-text' : 'text-warn-text'}>{l.decision.priority}</span><span className="text-ink-4"> · {l.decision.owner}</span></> : <span className="text-ink-4">No open decision</span>}</div>
-                <ChevronDown size={16} className={`text-ink-3 transition-transform hidden lg:block ${isOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown size={16} className={`text-ink-3 transition-transform hidden lg:block group-hover:text-brand-600 ${isOpen ? 'rotate-180' : 'group-hover:translate-y-0.5'}`} />
               </button>
               <Collapse open={isOpen}><LayerDrill l={l} /></Collapse>
             </li>
@@ -234,7 +246,7 @@ function LayerDrill({ l }: { l: Layer }) {
       <div className="space-y-2">
         <div className="text-sm text-ink-2"><b className="text-ink">Question:</b> {l.def.question}</div>
         {l.facts.map((f) => <div key={f.label} className="rounded-lg border border-line px-3 py-2"><div className="text-[11px] text-ink-3">{f.label}</div><div className={`text-lg font-bold tabular-nums ${f.tone ? toneText[f.tone] : 'text-ink'}`}>{f.value}</div></div>)}
-        <Link to={`/team/${l.def.ownerId}`} className="inline-flex items-center gap-1 text-xs font-semibold text-brand-600 hover:underline">Open {l.def.owner}'s workspace<ArrowRight size={12} /></Link>
+        <Link to={`/team/${l.def.ownerId}`} className="group inline-flex items-center gap-1 text-xs font-semibold text-brand-600 hover:underline">Open {l.def.owner}'s workspace<ArrowRight size={12} className="transition group-hover:translate-x-0.5" /></Link>
       </div>
       <div className="h-52 min-w-0">
         <div className="text-xs font-semibold text-ink-2 mb-1">Layer score, Nov 2025 → Oct 2026</div>
@@ -251,11 +263,11 @@ function LayerDrill({ l }: { l: Layer }) {
       <div className="min-w-0">
         <div className="text-xs font-semibold text-ink-2 mb-1">Worst records · click to drill into the evidence</div>
         <ul className="divide-y divide-line">{l.issues.map((x) => (
-          <li key={x.id + x.name}><Link to={x.to ?? rec(x.domain, x.id)} className="flex items-start gap-2 py-1.5 hover:bg-slate-50 rounded px-1">
+          <li key={x.id + x.name}><Peek p={x.to ? capabilityPeek(x.domain, x.name) : recordPeek(x.domain, x.id)} align="right" side="top"><Link to={x.to ?? rec(x.domain, x.id)} className="group flex items-start gap-2 py-1.5 rounded px-1 transition hover:bg-brand-50 hover:pl-2">
             <span className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ background: ragHex[x.health] }} />
-            <span className="min-w-0 flex-1"><span className="text-sm text-ink block truncate">{x.name}</span><span className="text-[11.5px] text-ink-3">{SHORT[x.domain]} · {x.detail}</span></span><ArrowRight size={13} className="text-ink-4 mt-1 shrink-0" /></Link></li>
+            <span className="min-w-0 flex-1"><span className="text-sm text-ink block truncate">{x.name}</span><span className="text-[11.5px] text-ink-3">{SHORT[x.domain]} · {x.detail}</span></span><ArrowRight size={13} className="text-ink-4 mt-1 shrink-0 transition group-hover:text-brand-600 group-hover:translate-x-0.5" /></Link></Peek></li>
         ))}</ul>
-        {l.decision && <Link to="/decision-center" className="mt-2 block rounded-lg border border-amber-200 bg-warn-bg px-3 py-2 text-xs hover:underline"><b className="text-warn-text">Decision:</b> <span className="text-ink">{l.decision.title}</span> · confidence {l.decision.confidence}% · ask {cr(l.decision.investmentCr)} vs {cr(l.decision.benefitCr)} protected</Link>}
+        {l.decision && <Link to="/decision-center" className={`mt-2 block rounded-lg border border-amber-200 bg-warn-bg px-3 py-2 text-xs ${lift}`}><b className="text-warn-text">Decision:</b> <span className="text-ink">{l.decision.title}</span> · confidence {l.decision.confidence}% · ask {cr(l.decision.investmentCr)} vs {cr(l.decision.benefitCr)} protected</Link>}
       </div>
     </div>
   )
@@ -265,6 +277,8 @@ function LayerDrill({ l }: { l: Layer }) {
 function BlastRadius({ chains: cs, sel, setSel }: { chains: Chain[]; sel: { domain: DomainId; id: string } | null; setSel: (x: { domain: DomainId; id: string } | null) => void }) {
   const nav = useNavigate()
   const [hover, setHover] = useState<string | null>(null)
+  const [tip, setTip] = useState<{ id: string; x: number; y: number; right: boolean; up: boolean } | null>(null)
+  const box = useRef<HTMLDivElement>(null)
   const origins = useMemo(() => { const seen = new Set<string>(); return cs.filter((c) => (seen.has(c.origin.id) ? false : (seen.add(c.origin.id), true))) }, [cs])
   const cur = sel && origins.some((o) => o.origin.id === sel.id) ? sel : origins[0] ? { domain: origins[0].domain, id: origins[0].origin.id } : null
   const g = useMemo(() => (cur ? blastRadius(cur.domain, cur.id) : null), [cur?.domain, cur?.id])
@@ -287,6 +301,7 @@ function BlastRadius({ chains: cs, sel, setSel }: { chains: Chain[]; sel: { doma
         </select>
       </div>
       <p className="text-sm text-ink-2 mb-2">One signal touches <b>{g.counts[1]}</b> app(s), <b>{g.counts[2]}</b> capabilities and processes, <b>{g.counts[3]}</b> initiative(s) worth <b className="text-crit-text">{cr(g.valueCr)}</b>, <b>{g.counts[4]}</b> objective(s) and <b>{g.counts[5]}</b> risk(s) or control(s). Hover to trace, click to open the record.</p>
+      <div ref={box} className="relative">
       <div className="overflow-x-auto -mx-1 px-1">
         <svg viewBox={`0 0 ${W} ${H}`} className="w-full min-w-[600px] xl:min-w-0" style={{ maxHeight: H }} role="img" aria-label="Blast radius graph">
           {BLAST_COLS.map((t, c) => <text key={t} x={c * (colW + gap) + colW / 2} y={14} textAnchor="middle" fontSize={11} fill="#64748b" fontWeight={600}>{t}</text>)}
@@ -295,15 +310,19 @@ function BlastRadius({ chains: cs, sel, setSel }: { chains: Chain[]; sel: { doma
             return <path key={l.from + l.to} d={`M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`} fill="none" stroke={on ? '#2563eb' : '#cbd5e1'} strokeOpacity={on ? 0.5 : 0.25} strokeWidth={1.5 + (l.weight / maxW) * 9} /> })}
           {g.nodes.map((n) => { const p = pos.get(n.id)!; const on = touched(n.id)
             return (
-              <g key={n.id} transform={`translate(${p.x},${p.y})`} opacity={on ? 1 : 0.3} onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)} onClick={() => go(n.id)} style={{ cursor: 'pointer' }}>
-                <rect width={colW} height={40} rx={8} fill="white" stroke={ragHex[n.health]} strokeWidth={n.col === 0 ? 3 : 1.5} />
+              <g key={n.id} transform={`translate(${p.x},${p.y})`} opacity={on ? 1 : 0.3} style={{ cursor: 'pointer', transition: 'opacity .2s' }}
+                onMouseEnter={(e) => { setHover(n.id); const b = box.current?.getBoundingClientRect(), r = (e.currentTarget as SVGGElement).getBoundingClientRect(); if (b) setTip({ id: n.id, x: n.col >= 3 ? b.right - r.right : r.left - b.left, y: n.col >= 0 && r.top - b.top > b.height / 2 ? b.bottom - r.top + 6 : r.bottom - b.top + 6, right: n.col >= 3, up: r.top - b.top > b.height / 2 }) }}
+                onMouseLeave={() => { setHover(null); setTip(null) }} onClick={() => go(n.id)}>
+                <rect width={colW} height={40} rx={8} fill={hover === n.id ? '#eff6ff' : 'white'} stroke={hover === n.id ? '#2563eb' : ragHex[n.health]} strokeWidth={hover === n.id ? 2.5 : n.col === 0 ? 3 : 1.5} />
                 <rect width={5} height={40} rx={2} fill={ragHex[n.health]} />
                 <text x={11} y={17} fontSize={11} fontWeight={600} fill="#0f172a">{n.name.length > 19 ? n.name.slice(0, 18) + '…' : n.name}</text>
                 <text x={11} y={31} fontSize={9.5} fill="#64748b">{n.sub.length > 24 ? n.sub.slice(0, 23) + '…' : n.sub}</text>
-                <title>{`${n.name} · ${n.sub}`}</title>
               </g>
             ) })}
         </svg>
+      </div>
+      {tip && (() => { const n = g.nodes.find((x) => x.id === tip.id); const pk = n && (n.id.startsWith('CAP:') ? capabilityPeek(cur.domain, n.name) : recordPeek(cur.domain, n.id))
+        return pk ? <div role="tooltip" className="pointer-events-none absolute z-50 hidden [@media(hover:hover)]:block" style={{ [tip.right ? 'right' : 'left']: Math.max(0, tip.x), [tip.up ? 'bottom' : 'top']: tip.y }}><div className="peek-pop"><PeekCard p={pk} /></div></div> : null })()}
       </div>
     </Card>
   )
@@ -313,6 +332,7 @@ function BlastRadius({ chains: cs, sel, setSel }: { chains: Chain[]; sel: { doma
 function AdmWheel({ scope, openDecisions }: { scope: Scope; openDecisions: number }) {
   const phases = useMemo(() => admPlacement(scope), [scope])
   const [sel, setSel] = useState<string>('G')
+  const [hp, setHp] = useState<string | null>(null)   // hovered phase previews in the panel; click pins
   const ring = phases.filter((p) => p.id !== 'P')
   const prelim = phases.find((p) => p.id === 'P')!
   const max = Math.max(...phases.map((p) => p.initiatives.length), 1)
@@ -321,18 +341,18 @@ function AdmWheel({ scope, openDecisions }: { scope: Scope; openDecisions: numbe
     const P = (rad: number, a: number) => `${cx + rad * Math.cos(a)},${cy + rad * Math.sin(a)}`
     return { d: `M${P(R, a0)} A${R},${R} 0 0 1 ${P(R, a1)} L${P(r, a1)} A${r},${r} 0 0 0 ${P(r, a0)} Z`, mid: (a0 + a1) / 2 } }
   const fill = (n: number) => `rgba(37,99,235,${0.12 + (n / max) * 0.7})`
-  const cur = phases.find((p) => p.id === sel)!
+  const cur = phases.find((p) => p.id === (hp ?? sel))!
   return (
     <Card className="min-w-0">
       <div className="flex items-center justify-between gap-2 mb-1"><h2 className="font-semibold text-ink">TOGAF ADM · where change sits</h2><span className="text-[11px] text-ink-3">{phases.reduce((a, p) => a + p.initiatives.length, 0)} initiatives</span></div>
       <svg viewBox="0 0 320 320" className="w-full max-w-[360px] mx-auto block" role="img" aria-label="ADM cycle with initiative counts per phase">
-        <g onClick={() => setSel('P')} style={{ cursor: 'pointer' }}><rect x={cx - 52} y={6} width={104} height={30} rx={15} fill={sel === 'P' ? '#0f2747' : fill(prelim.initiatives.length)} stroke="#93c5fd" /><text x={cx} y={25} textAnchor="middle" fontSize={11} fontWeight={600} fill={sel === 'P' ? 'white' : '#0f2747'}>Preliminary · {prelim.initiatives.length}</text></g>
+        <g onClick={() => setSel('P')} onMouseEnter={() => setHp('P')} onMouseLeave={() => setHp(null)} style={{ cursor: 'pointer' }}><rect x={cx - 52} y={6} width={104} height={30} rx={15} fill={sel === 'P' ? '#0f2747' : fill(prelim.initiatives.length)} stroke={hp === 'P' ? '#0f2747' : '#93c5fd'} strokeWidth={hp === 'P' ? 2 : 1} /><text x={cx} y={25} textAnchor="middle" fontSize={11} fontWeight={600} fill={sel === 'P' ? 'white' : '#0f2747'}>Preliminary · {prelim.initiatives.length}</text></g>
         {ring.map((p, k) => { const s = seg(k); const lx = cx + ((R + r) / 2) * Math.cos(s.mid), ly = cy + ((R + r) / 2) * Math.sin(s.mid)
           return (
-            <g key={p.id} onClick={() => setSel(p.id)} style={{ cursor: 'pointer' }}>
-              <path d={s.d} fill={sel === p.id ? '#0f2747' : fill(p.initiatives.length)} stroke="white" strokeWidth={2} />
-              <text x={lx} y={ly - 3} textAnchor="middle" fontSize={15} fontWeight={800} fill={sel === p.id || p.initiatives.length / max > 0.5 ? 'white' : '#0f2747'}>{p.id}</text>
-              <text x={lx} y={ly + 11} textAnchor="middle" fontSize={10} fill={sel === p.id || p.initiatives.length / max > 0.5 ? 'white' : '#334155'}>{p.initiatives.length}{p.red ? ` · ${p.red}●` : ''}</text>
+            <g key={p.id} onClick={() => setSel(p.id)} onMouseEnter={() => setHp(p.id)} onMouseLeave={() => setHp(null)} style={{ cursor: 'pointer', transformOrigin: `${cx}px ${cy}px`, transform: hp === p.id ? 'scale(1.04)' : undefined, transition: 'transform .18s ease-out' }}>
+              <path d={s.d} fill={sel === p.id ? '#0f2747' : hp === p.id ? '#2563eb' : fill(p.initiatives.length)} stroke="white" strokeWidth={2} />
+              <text x={lx} y={ly - 3} textAnchor="middle" fontSize={15} fontWeight={800} fill={sel === p.id || hp === p.id || p.initiatives.length / max > 0.5 ? 'white' : '#0f2747'}>{p.id}</text>
+              <text x={lx} y={ly + 11} textAnchor="middle" fontSize={10} fill={sel === p.id || hp === p.id || p.initiatives.length / max > 0.5 ? 'white' : '#334155'}>{p.initiatives.length}{p.red ? ` · ${p.red}●` : ''}</text>
               <title>{`${p.label}: ${p.initiatives.length} initiatives, ₹${p.budgetCr} Cr budget, ${p.red} red`}</title>
             </g>
           ) })}
@@ -342,10 +362,11 @@ function AdmWheel({ scope, openDecisions }: { scope: Scope; openDecisions: numbe
         <text x={cx} y={cy + 24} textAnchor="middle" fontSize={15} fontWeight={800} fill="#0f2747">{openDecisions}</text>
         <text x={cx} y={cy + 36} textAnchor="middle" fontSize={9} fill="#64748b">open decisions</text>
       </svg>
-      <div className="mt-1 rounded-lg border border-line p-3">
+      <div className={`mt-1 rounded-lg border p-3 transition-colors ${hp && hp !== sel ? 'border-brand-600 bg-brand-50/40' : 'border-line'}`}>
         <div className="flex justify-between text-sm"><b className="text-ink">{cur.label}</b><span className="text-ink-3">{cur.initiatives.length} · {cr(cur.budgetCr)}</span></div>
-        <ul className="mt-1.5 space-y-1 max-h-36 overflow-y-auto">{cur.initiatives.map((i) => (
-          <li key={i.id}><Link to={rec(i.domain, i.id)} className="flex items-center gap-2 text-xs hover:underline"><span className="w-2 h-2 rounded-full shrink-0" style={{ background: ragHex[i.health] }} /><span className="truncate text-ink-2">{i.name}</span><span className="ml-auto text-ink-3 shrink-0">{i.progress}%</span></Link></li>
+        <div className="text-[10.5px] text-ink-3 mb-1">{hp && hp !== sel ? 'Preview · click the phase to pin it' : 'Pinned · hover another phase to preview'}</div>
+        <ul className="mt-1 space-y-0.5">{cur.initiatives.map((i) => (
+          <li key={i.id}><Peek p={recordPeek(i.domain, i.id)} side="top"><Link to={rec(i.domain, i.id)} className="group flex items-center gap-2 text-xs rounded px-1 py-0.5 transition hover:bg-brand-50"><span className="w-2 h-2 rounded-full shrink-0" style={{ background: ragHex[i.health] }} /><span className="truncate text-ink-2 group-hover:text-brand-700">{i.name}</span><span className="ml-auto text-ink-3 shrink-0">{i.progress}%</span><ArrowRight size={11} className="shrink-0 text-brand-600 opacity-0 transition group-hover:opacity-100" /></Link></Peek></li>
         ))}{!cur.initiatives.length && <li className="text-xs text-ink-3">No initiatives in this phase.</li>}</ul>
       </div>
       <p className="text-[11px] text-ink-3 mt-2">Phase is derived from initiative progress (A–F design and planning, G delivery under governance, H change). ● = red delivery health.</p>
@@ -366,8 +387,16 @@ function Statistics({ scope, v }: { scope: Scope; v: ReturnType<typeof valueAtRi
   const fitLine = [{ x: x0, y: Math.max(0, dv.fit.intercept + dv.fit.slope * x0) }, { x: x1, y: Math.max(0, dv.fit.intercept + dv.fit.slope * x1) }]
   const tot = v.total || 1
   const segs = [{ k: 'On track', val: v.green, c: '#15803d' }, { k: 'At risk (amber)', val: v.amber, c: '#d97706' }, { k: 'Off track (red)', val: v.red, c: '#dc2626' }]
+  type TipProps = { active?: boolean; payload?: { payload?: { id?: string; domain?: DomainId; quadrant?: string; incidents?: number } }[] }
+  const tipFor = (extra: (q: NonNullable<NonNullable<TipProps['payload']>[number]['payload']>) => [string, string]) => (props: TipProps) => {
+    const q = props.active ? props.payload?.[0]?.payload : undefined
+    const pk = q?.id && q.domain ? recordPeek(q.domain, q.id) : null
+    return pk ? <PeekCard p={{ ...pk, facts: [extra(q!), ...pk.facts].slice(0, 4) }} /> : null
+  }
+  const timeTip = tipFor((q) => ['TIME quadrant', q.quadrant ?? ''])
+  const debtTip = tipFor((q) => ['Incidents, 30 d', `${q.incidents ?? 0}`])
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mt-5">
+    <div id="stats" className="scroll-mt-20 grid grid-cols-1 xl:grid-cols-3 gap-5 mt-5">
       <Card className="min-w-0">
         <div className="flex items-center justify-between gap-2 mb-1"><h2 className="font-semibold text-ink">Application portfolio · TIME model</h2><span className="text-[11px] text-ink-3">{tq.length} apps · bubble = run cost</span></div>
         <div className="h-64">
@@ -379,7 +408,7 @@ function Statistics({ scope, v }: { scope: Scope; v: ReturnType<typeof valueAtRi
               <YAxis type="number" dataKey="y" domain={[0, 100]} tick={axisTick} label={{ value: 'Functional fit →', angle: -90, position: 'insideLeft', offset: 22, fontSize: 11, fill: '#64748b' }} />
               <ZAxis type="number" dataKey="cost" range={[40, 420]} />
               <ReferenceLine x={60} stroke="#94a3b8" strokeDasharray="4 3" /><ReferenceLine y={60} stroke="#94a3b8" strokeDasharray="4 3" />
-              <Tooltip cursor={{ strokeDasharray: '3 3' }} contentStyle={{ fontSize: 12 }} formatter={(val, name) => [val, name === 'x' ? 'Technical health' : name === 'y' ? 'Functional fit' : 'Run cost ₹ Cr']} labelFormatter={() => ''} />
+              <Tooltip cursor={{ strokeDasharray: '3 3' }} content={timeTip as never} wrapperStyle={{ zIndex: 50, outline: 'none' }} />
               {counts.map(({ q }) => <Scatter key={q} name={q} data={tq.filter((p) => p.quadrant === q)} fill={QCOL[q]} fillOpacity={0.7} isAnimationActive={false} onClick={openPt} style={{ cursor: 'pointer' }} />)}
             </ScatterChart>
           </ResponsiveContainer>
@@ -396,8 +425,8 @@ function Statistics({ scope, v }: { scope: Scope; v: ReturnType<typeof valueAtRi
               <CartesianGrid stroke={chart.grid} />
               <XAxis type="number" dataKey="x" domain={['dataMin - 5', 'dataMax + 5']} tick={axisTick} label={{ value: 'Technical health →', position: 'insideBottom', offset: -8, fontSize: 11, fill: '#64748b' }} />
               <YAxis type="number" dataKey="y" tick={axisTick} allowDecimals={false} />
-              <Tooltip contentStyle={{ fontSize: 12 }} formatter={(val, name) => [val, name === 'x' ? 'Technical health' : 'Incidents']} labelFormatter={() => ''} />
-              <Scatter data={dv.pts.map((p) => ({ x: p.x, y: p.incidents, id: p.id, domain: p.domain, name: p.name }))} fill={chart.primary} fillOpacity={0.65} isAnimationActive={false} onClick={openPt} style={{ cursor: 'pointer' }} />
+              <Tooltip cursor={{ strokeDasharray: '3 3' }} content={debtTip as never} wrapperStyle={{ zIndex: 50, outline: 'none' }} />
+              <Scatter data={dv.pts.map((p) => ({ x: p.x, y: p.incidents, id: p.id, domain: p.domain, name: p.name, incidents: p.incidents }))} fill={chart.primary} fillOpacity={0.65} isAnimationActive={false} onClick={openPt} style={{ cursor: 'pointer' }} />
               <Scatter data={fitLine} line={{ stroke: '#dc2626', strokeWidth: 2 }} shape={() => <g />} isAnimationActive={false} legendType="none" />
             </ScatterChart>
           </ResponsiveContainer>
@@ -431,14 +460,16 @@ function ToolStrip({ scope, events, now }: { scope: Scope; events: ReturnType<ty
           const score = Math.round(hs.reduce((a, h) => a + h[k].score, 0) / hs.length)
           const last = events.filter((e) => e.source === s.id && e.at <= now).reduce((m, e) => Math.max(m, e.at), 0)
           return (
-            <Link key={s.id} to={`/domain/${ids[0]}/${s.slug}`} className="rounded-lg border border-line p-2.5 hover:border-brand-600 min-w-0">
+            <Peek key={s.id} align={k >= 4 ? 'right' : 'left'} side="top" p={{ kind: 'Source system', name: `${s.label} · ${s.capability}`, health: ragOf(score), owner: '', why: [s.question], facts: [['Health', `${score} / 100`], ['Last update', last ? ago(now - last) : 'none'], ['Opens', domains[ids[0]].name], ['Records', `${hs.reduce((a, h) => a + h[k].records, 0)}`]] }}>
+            <Link to={`/domain/${ids[0]}/${s.slug}`} className={`block h-full rounded-lg border border-line p-2.5 min-w-0 bg-white ${lift}`}>
               <div className="text-[12px] font-semibold text-ink truncate">{s.label}</div>
               <div className="text-[10.5px] text-ink-3 truncate">{s.capability}</div>
               <div className="flex items-center justify-between mt-1"><span className={`text-sm font-bold ${ragText[ragOf(score)]}`}>{score}</span><span className="text-[10px] text-ink-4">{last ? ago(now - last) : '—'}</span></div>
             </Link>
+            </Peek>
           )
         })}
-        <Link to="/sources" className="rounded-lg border border-green-200 bg-success-bg p-2.5 hover:underline min-w-0">
+        <Link to="/sources" className={`rounded-lg border border-green-200 bg-success-bg p-2.5 min-w-0 ${lift}`}>
           <div className="text-[12px] font-bold text-success-text">REAL DATA</div>
           <div className="text-[10.5px] text-success-text">6 public datasets</div>
           <div className="text-[10px] text-ink-3 mt-1">reality checks</div>

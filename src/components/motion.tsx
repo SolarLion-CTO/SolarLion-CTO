@@ -29,10 +29,12 @@ export function Reveal({ children, delay = 0, className }: { children: ReactNode
 
 /** Height-animated open/close for drill-down panels. */
 export function Collapse({ open, children }: { open: boolean; children: ReactNode }) {
+  const [settled, setSettled] = useState(false)   // overflow visible once open, so hover previews are not clipped
   return (
     <AnimatePresence initial={false}>
       {open && (
-        <motion.div key="c" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: 'easeOut' }} style={{ overflow: 'hidden' }}>
+        <motion.div key="c" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: 'easeOut' }}
+          onAnimationStart={() => setSettled(false)} onAnimationComplete={() => setSettled(open)} style={{ overflow: settled ? 'visible' : 'hidden' }}>
           {children}
         </motion.div>
       )}
