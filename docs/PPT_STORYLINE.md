@@ -49,7 +49,7 @@ Format per slide: **Message** (the one sentence the audience should remember) ·
   - tagline "One view. Connected decisions. Measurable technology outcomes."
   - team names and roles
   - capstone programme, 2026
-- **Visual:** the Command Center header (`/`).
+- **Visual:** the Technology Control Plane hero band (`/`): control score ring and layer radar.
 - **Speaker:** Ram.
 
 **Slide 2: The CTO's real problem**
@@ -73,7 +73,7 @@ Format per slide: **Message** (the one sentence the audience should remember) ·
 | Manufacturing | MES / plant instability causing line stops | Lost production, OEE target missed |
 | Retail | Peak readiness, inventory sync, stretched engineering | Lost festive sales, stockouts, POS risk |
 
-- **Visual:** the three domain cards from the Command Center.
+- **Visual:** the three domain cards from the Command Center (`/command-center`).
 - **Speaker:** Ram.
 
 **Slide 4: Our team and who owns what (BP1)**
@@ -220,7 +220,7 @@ Layout for each bridge slide: owner name + role, BP1 problem, an old → target 
 | # | Who | Where | What to show (about 3 min each) |
 |---|---|---|---|
 | 0 | Ram | `/team` | Problem statement → transformation scorecard (team ≈ 59%) → **golden thread starts live** |
-| 1 | Ram | `/team/ram` → Agents & correlation → Golden thread | 5 agents → correlation → decisions; then `/` Command Center and approve **Digital Payments** in the Decision Center |
+| 1 | Ram | `/` **Technology Control Plane** → `/team/ram` | Open on the Control Plane: control score, the live impact chain, then click **Show blast radius**. Drill one layer (Application). Then Ram's Agents & correlation and the golden thread, and approve **Digital Payments** in the Decision Center |
 | 2 | Suman | `/team/suman` → Portfolio & gates → ROI → Onboard | Funnel, **Promote** the retail demand-forecasting pilot, Monte Carlo P10–P90, generate a plan for "Insurance" |
 | 3 | Vaibhav | `/team/vaibhav` → Regulatory change → AI model register → Data governance | **Live circular arrives (+50 s)** → Approve mapping; fraud model PSI 0.37 → Restricted; **breach clock (+80 s)** |
 | 4 | Santhosh | `/team/santhosh` → CAPEX / OPEX → Budget → Investment | TBM Sankey (72% allocated), retail festive cloud spike (golden thread step 3), NPV / IRR; security programmes judged on risk |
@@ -257,7 +257,7 @@ Layout for each bridge slide: owner name + role, BP1 problem, an old → target 
 ## 6. Build checklist for the PPT
 
 **Screenshots to capture** (desktop, 1366 wide, after golden thread completes):
-1. `/` Command Center (hero + heatmaps)
+1. `/` Technology Control Plane (hero, impact chain, layer grid with one drill-down open, blast radius, ADM wheel, statistics) and `/command-center` (heatmaps)
 2. `/sources` Data sources
 3. `/domain/banking` Enterprise 360 overview
 4. `/decision-center` Top 10
@@ -319,3 +319,15 @@ Use **one line per presenter**. Each panel is labelled **REAL DATA**, with its s
 | Pankaj | ERP RCA → "Pareto on a real ServiceNow incident log" | "On 24,918 real incidents, 20% of categories cause 79% of the volume, yet only 1.5% were ever linked to a problem record." |
 
 Sources and licences: `data/real/SOURCES.md`. Summary workbook: `data/real/CTO360_Real_Data_Summary.xlsx`.
+
+## 10. Opening on the Technology Control Plane (added 28 Oct 2026)
+
+The home page is now the CTO's control plane. Use it for the first 90 seconds of the demo:
+
+1. **Hero:** "Our technology control score is 76 against a target of 85, up 4 points in 3 months. ₹313 Cr of expected value is at risk."
+2. **Impact chain:** "One live signal, traced to an application, a capability, initiatives, ₹ at risk, and the decision it needs."
+3. **Blast radius:** click **Show blast radius**. "Everything this one signal touches, across all layers."
+4. **Layer grid:** click **Application** to drill into the question, facts, trend and worst records.
+5. **Statistics:** "Technical debt is not opinion: r = −0.49 between technical health and incidents across 51 apps."
+
+Then continue with the run-sheet in section 4.

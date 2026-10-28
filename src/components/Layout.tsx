@@ -24,7 +24,8 @@ const redCount = (id: DomainId) =>
 // Nine executive sections. Every existing route is kept — only regrouped.
 const nav: Group[] = [
   { section: 'Executive Overview', icon: LayoutDashboard, items: [
-    { to: '/', label: 'Command Center (all domains)', icon: Radar },
+    { to: '/', label: 'Technology Control Plane', sub: 'CTO standpoint · layers · live impact', icon: Gauge, end: true },
+    { to: '/command-center', label: 'Command Center (all domains)', icon: Radar },
     { to: '/sources', label: 'Data sources', icon: Database },
     { to: '/overview', label: 'Programme overview (TEDIF)', icon: LayoutDashboard },
     { to: '/domain/banking', label: 'Banking view', icon: Landmark, badge: redCount('banking') },

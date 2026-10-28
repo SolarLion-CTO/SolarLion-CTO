@@ -162,6 +162,24 @@ S('02 · The Solution', 'CTO360: A Decision Layer, Not Another Tool', chev(['Sig
   '<div style="font-size:14.5px;line-height:1.5;color:#dbe7fb">Trusted Enterprise Decision Intelligence Framework: AI gathers signals and recommends, a named person decides at a gate, and every step is recorded in an audit trail.</div></div></div></div>',
   'CTO360 sits on top of the tools an enterprise already owns and turns their signals into decisions that are owned, acted on and measured.')
 
+# ───────────────────────── 7b Control plane ─────────────────────────
+lay = [('Business', 'Suman', 54, 72), ('Data & AI', 'Vaibhav', 38, 80), ('Application', 'Ram', 58, 72), ('Technology', 'Pankaj', 69, 86), ('Security & risk', 'Vaibhav', 42, 70), ('Spend & value', 'Santhosh', 50, 78)]
+def lrow(n, o, b, c):
+    col = '#15803d' if c >= 80 else '#d97706' if c >= 60 else '#dc2626'
+    return (f'<div style="display:grid;grid-template-columns:150px 1fr 54px;gap:10px;align-items:center;margin-bottom:9px"><div><b style="color:{NAVY};font-size:14px">{n}</b><div style="font-size:11px;color:#64748b">{o}</div></div>'
+            f'<div style="position:relative;height:14px;background:#e8eef7;border-radius:7px"><div style="position:absolute;left:0;top:0;bottom:0;width:{c}%;background:{col};border-radius:7px"></div>'
+            f'<div style="position:absolute;left:{b}%;top:-3px;bottom:-3px;width:2px;background:#475569"></div><div style="position:absolute;left:calc(85% - 2px);top:-4px;bottom:-4px;width:4px;background:{NAVY};border-radius:2px"></div></div>'
+            f'<b style="color:{col};font-size:15px;text-align:right">{c}</b></div>')
+S('02 · The Solution', 'The Technology Control Plane: The CTO Home Screen', '<div class="row"><div style="width:600px"><div class="card" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;font-size:12px;color:#64748b;margin-bottom:10px"><span>Control layers · grey tick Nov 2025 · navy marker target 85</span><b style="color:' + NAVY + '">Control score 76</b></div>' + ''.join(lrow(*x) for x in lay) + '</div>'
+  + '<div style="margin-top:12px">' + chev(['Signal', 'App', 'Capability', 'Initiative', '₹ at risk', 'Decision'], h=58, w=600, fs=13) + '</div></div><div class="col">' + ul([
+    ('Six layers the CTO controls:', 'business, data and AI, application and technology (enterprise architecture), plus security and spend across all of them.'),
+    ('Baseline to target, per layer:', 'Nov 2025 to now to target 85, with a 12-month trend and a score per business unit.'),
+    ('Real-time impact chain:', 'one live signal traced to the application, capability, initiative, value at risk and the decision it needs.'),
+    ('Blast radius:', 'everything a single signal touches, across all layers, one click to the evidence.'),
+    ('TOGAF ADM wheel:', 'where each initiative sits in the architecture change cycle.'),
+    ('Statistics for the board:', 'TIME portfolio model, and technical debt vs incidents (r = -0.49 across 51 apps).')], 'p sm') + '</div></div>',
+  'The home page answers the CTO question: what do I control, what is moving it right now, and what should I decide?')
+
 # ───────────────────────── 8 Architecture ─────────────────────────
 layers = [('Team Workspaces', '5 owner workspaces · Transformation tabs · golden thread', NAVY), ('Decision Intelligence', 'Top 10 decisions · actions · outcomes · maturity · audit trail', '#173a6b'),
           ('Scoring & Correlation', '16 functions × 6 metrics · health scores · cross-tool correlation · analytics', '#1f4f94'), ('Canonical Data Model', 'shared entities and record IDs: initiatives, apps, processes, incidents, risks, spend', BLUE)]
@@ -216,7 +234,7 @@ S('03 · How It Works', 'How We Measure Transformation', '<div class="row"><div 
   'Every owner moves from old state to target state. Progress is compared with time used, so we know whether we are transforming fast enough.')
 
 # ───────────────────────── 11 Demo divider ─────────────────────────
-steps = [('0', 'Ram', '/team', 'Problem statement, team scorecard, golden thread starts live'), ('1', 'Ram', 'Control Tower', '5 agents, correlation, approve Digital Payments in the Decision Center'),
+steps = [('0', 'Ram', '/team', 'Problem statement, team scorecard, golden thread starts live'), ('1', 'Ram', 'Control Plane', 'Impact chain, blast radius, layer drill-down, then approve Digital Payments'),
          ('2', 'Suman', 'AI Transformation', 'Funnel, promote a pilot, Monte Carlo, onboard "Insurance"'), ('3', 'Vaibhav', 'Regulatory & AI Gov.', 'Live circular (+50 s), model drift, breach clock (+80 s)'),
          ('4', 'Santhosh', 'Spend & Investment', 'TBM Sankey, festive cloud spike, NPV / IRR'), ('5', 'Pankaj', 'ERP RCA & Capacity', 'Pareto + 5 Whys, capacity gauge, festive slider'),
          ('6', 'Ram', '/team', 'Golden thread complete: old state to target state, measurably')]

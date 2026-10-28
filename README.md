@@ -12,7 +12,8 @@ CTO360 is a CTO capstone project (2026): a decision-intelligence layer that conn
 
 | Area | What it shows |
 |---|---|
-| **Enterprise Command Center** (`/`) | Three simulated business units (Meridian Bank, Arvant Industries, Orbit Retail): 7 source systems × 16 enterprise functions, heatmaps, live events |
+| **Technology Control Plane** (`/`, home) | The CTO standpoint: 6 control layers (EA business, data, application, technology + security, spend) from baseline to target, a real-time impact chain, blast radius, TOGAF ADM wheel, and portfolio statistics (TIME model, debt vs incidents, value at risk) |
+| **Enterprise Command Center** (`/command-center`) | Three simulated business units (Meridian Bank, Arvant Industries, Orbit Retail): 7 source systems × 16 enterprise functions, heatmaps, live events |
 | **Domain 360** (`/domain/:id`) | The 7 simulated sources (Planview, SAP LeanIX, Celonis + Signavio, ServiceNow SPM, Jellyfish, Datadog, Vanta), the 16 function pages, record drill-down, and Decision Intelligence |
 | **Decision Center** (`/decision-center`) | Top 10 decisions across business units → actions → measured outcomes |
 | **Team workspaces** (`/team/:owner`) | Ram (CTO), Suman (AI transformation), Vaibhav (regulatory & AI governance), Santhosh (spend & investment), Pankaj (ERP RCA & capacity): old state → target state, glide paths, frameworks applied with metrics |

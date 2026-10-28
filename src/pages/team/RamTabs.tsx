@@ -26,7 +26,7 @@ export function MultiDomainTab() {
         cell={(row, col) => { const x = sourceHealth(sim[col as DomainId]).find((s) => s.id === row)!; return { score: x.score, status: x.status, to: `/domain/${col}/${x.slug}`, title: `${x.capability}: ${x.score}` } }} onOpen={nav} /></Card>
       <Card title="16 enterprise functions × 3 business units"><Matrix compact cols={domainOrder.map((id) => ({ id, label: name(id) }))} rows={FUNCTIONS.map((f) => ({ id: f.id, label: f.name, sub: f.cls === 'cto' ? 'CTO-owned' : `Signal · ${f.owner}`, group: f.cls === 'cto' ? 'CTO-owned' : 'Signals to the CTO' }))}
         cell={(row, col) => { const x = functionHealth(sim[col as DomainId], row as (typeof FUNCTIONS)[number]['id']); return { score: x.score, status: x.status, to: `/domain/${col}/fn/${row}`, title: `${x.def.name}: ${x.score}` } }} onOpen={nav} /></Card>
-      <Link to="/" className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600">Open the full Command Center<ArrowRight size={14} /></Link>
+      <Link to="/command-center" className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600">Open the full Command Center<ArrowRight size={14} /></Link>
     </div>
   )
 }

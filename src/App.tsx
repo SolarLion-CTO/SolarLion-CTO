@@ -40,6 +40,7 @@ import OperatingModel from './pages/cto/OperatingModel'
 import CtoDecisions from './pages/cto/Decisions'
 import Roadmap from './pages/cto/Roadmap'
 import CommandCenter from './pages/sim/CommandCenter'
+import ControlPlane from './pages/ControlPlane'
 import DataSources from './pages/sim/DataSources'
 import TeamPage from './pages/team/TeamPage'
 import WorkspacePage from './pages/team/WorkspacePage'
@@ -54,7 +55,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route index element={<CommandCenter />} />
+            <Route index element={<ControlPlane />} />
+            <Route path="command-center" element={<CommandCenter />} />
             <Route path="overview" element={<Overview />} />
             <Route path="sources" element={<DataSources />} />
             <Route path="team" element={<TeamPage />} />

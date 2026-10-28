@@ -20,14 +20,15 @@
 >
 >   Simulated scores and the golden thread are unchanged.
 
-- **Presentation PDF (27 slides, 16:9; slide 10 "Real Data Reality Check" added 8 Oct 2026):** `docs/presentation/CTO360_Capstone_Presentation.pdf` (copy also in the `CTO CApstone` folder). Regenerate it with `python3 docs/presentation/build.py`, then `node docs/presentation/shot.mjs <folder>`. It follows Title Case headings and uses no em dashes.
+- **Presentation PDF (28 slides, 16:9; slide 8 "Technology Control Plane" added 28 Oct, slide 11 "Real Data Reality Check" added 8 Oct 2026):** `docs/presentation/CTO360_Capstone_Presentation.pdf` (copy also in the `CTO CApstone` folder). Regenerate it with `python3 docs/presentation/build.py`, then `node docs/presentation/shot.mjs <folder>`. It follows Title Case headings and uses no em dashes.
 - **Real data (8 Oct 2026):** six public datasets appear next to the simulation, each labelled **REAL DATA**: endoflife.date, CISA KEV, RBI notifications, Kaggle fraud, the UCI ServiceNow incident log, and FOCUS cloud billing. Sources, licences and refresh steps: **`data/real/SOURCES.md`**. Team summary: `data/real/CTO360_Real_Data_Summary.xlsx`. Details in section 42.
 - **PPT / presentation workflow (start to end):** **`docs/PPT_STORYLINE.md`**. It covers the storyline, 18 slides + appendix, the live demo run-sheet, a numbers cheat sheet, the screenshot list, Q&A prep and a day-of checklist.
 
 - **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
 - **Code:** first run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
 - **Website (7 Oct 2026):**
-  - **Home `/`** is the **Enterprise Command Center**: all 3 domains, source and function heatmaps, trends, top decisions, risk, investment, operations, outcomes, live events. It is joined by **Data sources** at `/sources` (section 30).
+  - **Home `/`** is the **Technology Control Plane** (since 28 Oct 2026, section 45): the CTO standpoint across the EA layers, with a live impact chain, blast radius, TOGAF ADM wheel and portfolio statistics.
+  - The **Enterprise Command Center** moved to `/command-center` (all 3 domains, heatmaps, top decisions, live events). **Data sources** is at `/sources` (section 30).
   - **Each domain** (`/domain/:id`) opens the **Enterprise 360** overview. It links to 7 simulated source pages (Planview, LeanIX, Celonis + Signavio, ServiceNow, Jellyfish, Datadog, Vanta), 16 function pages, a record drill-down, and Decision Intelligence (decision cards, actions, outcomes, maturity).
   - **Cross-domain:** the **CTO Decision Center** (Top 10) at `/decision-center`, and **About & disclaimer** at `/about`.
   - **Unchanged:** the previous domain page is at `/domain/:id/programme`. The TEDIF, tracker and CTO pages are unchanged.
@@ -1550,7 +1551,7 @@ Pankaj is the furthest behind of the five (**44% transformed; 0 ahead, 2 on trac
 | # | Who | Where | What to show (≈ 3 min each) |
 |---|---|---|---|
 | 0 | Ram | `/team` | Problem statement → transformation scorecard (team ≈ 59%) → **golden thread starts live** |
-| 1 | Ram | `/team/ram` → Agents & correlation → Golden thread | 5 agents → correlation → decisions; then `/` Command Center and approve **Digital Payments** in the Decision Center |
+| 1 | Ram | `/` **Technology Control Plane** → `/team/ram` | Open on the Control Plane: control score, the live impact chain, then click **Show blast radius**. Drill one layer (Application). Then Ram's Agents & correlation and the golden thread, and approve **Digital Payments** in the Decision Center |
 | 2 | Suman | `/team/suman` → Portfolio & gates → ROI → Onboard | Funnel, **Promote** the retail demand-forecasting pilot, Monte Carlo P10–P90, generate a plan for "Insurance" |
 | 3 | Vaibhav | `/team/vaibhav` → Regulatory change → AI model register → Data governance | **Live circular arrives (+50 s)** → Approve mapping; fraud model PSI 0.37 → Restricted; **breach clock (+80 s)** |
 | 4 | Santhosh | `/team/santhosh` → CAPEX / OPEX → Budget → Investment | TBM Sankey (72% allocated), retail festive cloud spike (golden thread step 3), NPV / IRR; security programmes judged on risk |
@@ -1840,3 +1841,39 @@ At Ram's request, the Google / Supabase login was removed and **the site is open
 2. **Google Cloud → Credentials:** delete the OAuth client "CTO 360 web". This also retires the client secret that was pasted in chat.
 3. **Supabase:** pause or delete project `feflrvsqskpbzsmwhbfo` if you won't use it again.
 4. **Local:** delete `.env.local`.
+
+---
+
+## 45. Technology Control Plane as the home page (28 Oct 2026)
+
+**Why:** the Command Center answers "what is the status". A CTO needs "what do I control, what is moving it right now, and what should I decide". The new home page is organised around that question, for a CXO audience, with every element clickable down to the evidence.
+
+**Routes:**
+- `/` = **Technology Control Plane** (new).
+- `/command-center` = Enterprise Command Center (unchanged; it was the home page until now).
+- Sidebar: Executive Overview → "Technology Control Plane" (first item), then "Command Center (all domains)". Ram's workspace links to `/command-center`.
+
+**What the page shows** (scope pills: all business units, Banking, Manufacturing, Retail):
+
+| # | Section | What it shows | How it's calculated |
+|---|---|---|---|
+| 1 | **Hero band** | Technology control score ring (76, target 85, +4 in 3 months), value at risk (₹312.7 Cr of ₹663.8 Cr), layers on target (1 / 6), open decisions (23, 1 critical), live signals since 09:30, and a **radar** of the 6 layers: now vs Nov 2025 vs target | Average of the 6 layer scores; initiative expected value by delivery health; the decision engine; `liveImpact` |
+| 2 | **Real-time impact chain** | An animated 6-step chain: signal → application → capability → initiative(s) → ₹ value at risk → decision. It rotates through the top 6 chains every 9 s (dots to pick one). Each step is a link. **LIVE** if a linked event arrived after 09:30. "Show blast radius" button. | Red / amber services and end-of-life tech on mission-critical apps, linked through `appIds`; value = expected value of linked initiatives (halved for amber signals) |
+| 3 | **Control layers grid** | 6 rows: Business, Data & AI, Application, Technology (EA layers), plus Security & risk and Spend & value (cross-cutting). Each row has its owner, a bullet bar (Nov 2025 tick → now → target marker), a 12-month sparkline with 3-month change, per-business-unit chips, the latest live signal, and the layer's own top decision. **Click a row to drill down**: the question, 3 facts, the 12-month line chart against target, the 5 worst records (links) and the decision with its ₹ ask vs ₹ protected. | Layer score = average of the existing function scores (Business: strategy, operations, CX, product; Data & AI: data-ai; Application: architecture, engineering; Technology: technology; Security: cyber, risk; Spend: finance, procurement), so it matches the heatmaps |
+| 4 | **Blast radius** | A graph for one signal: signal → applications → capabilities and processes → initiatives → objectives → risks and controls. Link width = ₹. Hover traces paths; click opens the record. A summary sentence counts what one signal touches. | Linked records only |
+| 5 | **TOGAF ADM wheel** | Preliminary, A–H around Requirements management (centre = open decisions). Each segment shows its initiative count and red count; click a phase to list its initiatives (links). | Phase derived from initiative progress (documented rule in `controlPlane.ts`) |
+| 6 | **Statistics** | (a) **TIME model** bubble chart: technical health vs functional fit, bubble = run cost (Invest 53 · Tolerate 0 · Migrate 9 · Eliminate 10 of 72 apps). (b) **Does technical debt cause incidents?** Pearson **r = −0.49** (n = 51), with a regression line and plain-English reading. (c) **Value at risk**: expected value split on track / amber / red, plus realisation so far. | Computed live from the records |
+| 7 | **Tools feeding the plane** | The 7 sources, each with health score and freshness ("synced 2 min ago"), plus the REAL DATA tile | `sourceHealth`, latest event per source |
+
+**Files:**
+- `src/data/sim/controlPlane.ts`: layers, chains, blast radius, ADM placement, TIME, Pearson / regression, value at risk
+- `src/pages/ControlPlane.tsx`: the page
+
+**Checks:**
+- Build passes. `validate:sim` passes (unchanged).
+- No console errors.
+- **All 55 distinct links on the page** (across all business units, Banking and Retail scopes, with every drill-down and ADM phase opened) open real pages.
+- Screenshots reviewed at desktop, tablet and phone.
+- **Layout sweep: 70 routes × 3 sizes = 210 checks, ALL CLEAN** (28 Oct 2026).
+
+**Demo line:** "This is my control plane: six layers I own, from baseline to target. Here is what a single live signal touches, and here is the decision it needs."

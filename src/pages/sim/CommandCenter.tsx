@@ -1,4 +1,4 @@
-// CTO360 Enterprise Command Center (M6) — the home page. All three business units and their sub-levels
+// CTO360 Enterprise Command Center (M6), at /command-center (home until 28 Oct 2026; the home page is now the Technology Control Plane). All three business units and their sub-levels
 // (7 simulated source systems, 16 enterprise functions) on one screen. Every cell drills down.
 import { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
