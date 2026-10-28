@@ -8,6 +8,14 @@
 
 ## 0. Resume here (status at close)
 
+> **✅ STATUS, 29 Oct 2026: everything is pushed and live at https://cto360.vercel.app.** `git status` shows nothing ahead.
+> - **Live:**
+>   - **Home** = Technology Control Plane (section 45), with Present mode, motion (section 46) and hover previews (section 47)
+>   - real-data panels (section 42)
+>   - open access (login removed, section 44)
+>   - 28-slide deck
+> - **Next for the team:** rehearse (item 7 below) and the optional clean-up (items 10 and 12).
+
 > **🔒 FROZEN, 7 Oct 2026 (git tag `v1.0-freeze`).** The capstone build is feature-complete and accepted by Ram: M1–M6 simulation, M7 team workspaces, M8 lean frameworks, Reference library and the disclaimer.
 > - **Allowed after the freeze:** bug fixes, real team figures (pending item 4), text and naming corrections, and demo rehearsal fixes.
 > - **No new features** unless Ram lifts the freeze.
@@ -17,17 +25,27 @@
 >   1. Google (Gmail) login through Supabase (section 41). **Removed 28 Oct 2026 at Ram's request; the site is open again (section 44).**
 >   2. The Sign-in log page (section 41). **Removed 28 Oct 2026 with the login.**
 >   3. **Real public data** as labelled "Reality check" panels (section 42).
+>   4. **Technology Control Plane** as the new home page, with the Command Center moved to `/command-center` (section 45, 28 Oct).
+>   5. **CXO polish:** code splitting, Present mode, motion (section 46, 28 Oct).
+>   6. **Hover previews** on every clickable item of the Control Plane (section 47, 29 Oct).
 >
->   Simulated scores and the golden thread are unchanged.
+>   Simulated scores, `validate:sim` and the golden thread are unchanged throughout.
 
 - **Presentation PDF (28 slides, 16:9; slide 8 "Technology Control Plane" added 28 Oct, slide 11 "Real Data Reality Check" added 8 Oct 2026):** `docs/presentation/CTO360_Capstone_Presentation.pdf` (copy also in the `CTO CApstone` folder). Regenerate it with `python3 docs/presentation/build.py`, then `node docs/presentation/shot.mjs <folder>`. It follows Title Case headings and uses no em dashes.
 - **Real data (8 Oct 2026):** six public datasets appear next to the simulation, each labelled **REAL DATA**: endoflife.date, CISA KEV, RBI notifications, Kaggle fraud, the UCI ServiceNow incident log, and FOCUS cloud billing. Sources, licences and refresh steps: **`data/real/SOURCES.md`**. Team summary: `data/real/CTO360_Real_Data_Summary.xlsx`. Details in section 42.
-- **PPT / presentation workflow (start to end):** **`docs/PPT_STORYLINE.md`**. It covers the storyline, 18 slides + appendix, the live demo run-sheet, a numbers cheat sheet, the screenshot list, Q&A prep and a day-of checklist.
+- **PPT / presentation workflow (start to end):** **`docs/PPT_STORYLINE.md`**. It covers:
+  - the storyline and slide plan
+  - the live demo run-sheet and a numbers cheat sheet
+  - the screenshot list, Q&A prep and a day-of checklist
+  - real-data talking points (section 9)
+  - the **90-second Control Plane opening with Present mode and hover tips** (section 10)
 
 - **Live site:** https://cto360.vercel.app (brand: **CTO360 · Enterprise Technology Control Tower**)
 - **Code:** first run `git status`; if it says "ahead", run `git push` (section 8). Vercel redeploys after each push.
-- **Website (7 Oct 2026):**
+- **Website (updated 29 Oct 2026):**
   - **Home `/`** is the **Technology Control Plane** (since 28 Oct 2026, section 45): the CTO standpoint across the EA layers, with a live impact chain, blast radius, TOGAF ADM wheel and portfolio statistics.
+    - **Present** button (or `/?present=1`) opens the zero-scroll dark cockpit (section 46).
+    - Every clickable item previews its record on hover (section 47).
   - The **Enterprise Command Center** moved to `/command-center` (all 3 domains, heatmaps, top decisions, live events). **Data sources** is at `/sources` (section 30).
   - **Each domain** (`/domain/:id`) opens the **Enterprise 360** overview. It links to 7 simulated source pages (Planview, LeanIX, Celonis + Signavio, ServiceNow, Jellyfish, Datadog, Vanta), 16 function pages, a record drill-down, and Decision Intelligence (decision cards, actions, outcomes, maturity).
   - **Cross-domain:** the **CTO Decision Center** (Top 10) at `/decision-center`, and **About & disclaimer** at `/about`.
@@ -50,13 +68,13 @@
   - **M7.4 ✅ done 7 Oct 2026** (section 36): Santhosh's workspace with CAPEX / OPEX & TBM Sankey, Budget, forecast & anomalies, FinOps & licences, and Investment governance.
   - **M7.5 ✅ done 7 Oct 2026** (section 37): Pankaj's workspace with ERP RCA, Capacity & forecasting, Peak scenarios, and Production automation.
   - **M7.6 ✅ done 7 Oct 2026** (section 38): cross-workspace checks added to `validate:sim`, full sweep, and a presentation run-sheet.
-  - **M7 COMPLETE.** All 5 team workspaces are live. Remaining items are outside the build plan: live AI call (provider + key), naming / owner-map consistency in decks, optional code-splitting.
+  - **M7 COMPLETE.** All 5 team workspaces are live. Remaining items are outside the build plan: live AI call (provider + key) and naming / owner-map consistency in the older decks. Code-splitting was done on 28 Oct.
 - **Pending decisions (yours / team):**
   1. **Live AI provider:** Grok (paid), Groq (free tier) or Claude (section 16). Needs the API key in Vercel environment variables. Not built yet.
   2. Owner map and naming consistency across the proposal, decks and TEDIF (section 12).
 - **NEXT BUILD (agreed direction):** two specs merged into one plan, **section 23** (this supersedes the build order in section 22).
   - Specs: `docs/SIMULATION_SPEC.md` (7 tool layers, canonical model, decisions → actions → outcomes) and `docs/ENTERPRISE360_SPEC.md` (16 enterprise functions per domain, heatmap, Top 10 decisions, maturity).
-  - **M1–M6 ALL DONE (6–7 Oct 2026, sections 24 and 26–30).** The simulation build is complete. Home `/` is now the **Enterprise Command Center**; the previous home page is at `/overview`.
+  - **M1–M6 ALL DONE (6–7 Oct 2026, sections 24 and 26–30).** The simulation build is complete. The Enterprise Command Center was the home page until 28 Oct 2026; it is now at `/command-center`, and the home is the Technology Control Plane (section 45). The older overview is at `/overview`.
 - **Sprint tracker (simulation build, plan in section 23):**
 
 | Sprint | What it delivers | Visible on site? | Status |
@@ -68,26 +86,34 @@
 | M5 | Cross-functional insights, Decision Center Top 10, Actions, Outcomes, evidence trail, maturity | Yes | ✅ Done 7 Oct 2026 (section 28) |
 | M6 | Cross-domain Command Center as home, Data Sources page, simulated live clock, full checks | Yes | ✅ Done 7 Oct 2026 (section 30) |
 
-- **Pending checklist (updated 8 Oct 2026, after login and real data):**
+- **Pending checklist (updated 29 Oct 2026):**
 
-  **Done:** M1–M6 simulation (sections 24–30) · disclaimer (section 29) · M7 team workspaces (sections 33–38) · M8 lean frameworks (section 39) · **Reference library page `/team/reference` (section 40)**. The build passes, `validate:sim` passes (3 domains + team cross-checks), and all new views are checked at 3 sizes.
+  **Done:**
+  - M1–M6 simulation (sections 24–30), disclaimer (section 29), M7 team workspaces (sections 33–38), M8 lean frameworks (section 39)
+  - Reference library (section 40), real data (section 42), ratings refresh (section 43), login added then removed (sections 41 and 44)
+  - **Technology Control Plane (section 45), CXO polish (section 46), hover previews (section 47)**
+
+  The build passes, `validate:sim` passes (3 domains + team cross-checks), the layout is clean at 3 sizes (210 checks), and all 68 Control Plane links work.
 
   | # | Item | Owner | Status / next action |
   |---|---|---|---|
-  | 1 | **`git push`**: the real-data and login-removal commits are not yet on GitHub / Vercel | You | Run `git push && git push origin v1.0-freeze`; Vercel redeploys in about 2 min |
-  | 2 | **Full overflow sweep** | Claude | ✅ 8 Oct 2026: **327 page × size checks, ALL CLEAN** (section 42) |
+  | 1 | **`git push`** | You | ✅ Up to date on 29 Oct 2026. After any future change: `git push` (and `git push origin v1.0-freeze` once, if the tag isn't on GitHub yet) |
+  | 2 | **Full overflow sweep** | Claude | ✅ 28 Oct 2026 after code splitting: **70 routes × 3 sizes = 210 checks, ALL CLEAN** (section 46); 8 Oct: 327 checks clean (section 42) |
   | 3 | **Live AI call** (Grok / Groq / Claude) for "Challenge the AI", obligation drafting and RCA summaries | You decide → Claude builds | Pick a provider and add the API key in Vercel environment variables (section 16). Everything works without it (rule-based, labelled) |
   | 4 | **Real figures from team research:** replace the illustrative old-state / target values in the 30 team measures (+ 8 framework metrics) | Team | Partly addressed by public real data (section 42). Organisation-specific numbers still have to come from the team; they live in `src/data/sim/team.ts` and `src/data/sim/frameworks.ts` |
   | 5 | **Naming consistency:** the site, these notes (section 1) and the presentation PDF say **CTO360** (TEDIF underneath). Older decks and the proposal still use the earlier names | Team (decks) | Update the older decks to CTO360 |
   | 6 | **Owner map consistency** across proposal, decks and TEDIF (RACI now on `/team`) | Team | Use the `/team` RACI as the single source |
-  | 7 | **Rehearse the demo** with the run-sheet (section 38): Reset the clock first so the golden thread, live circular (+50 s) and breach clock (+80 s) play in order | Team | Each presenter: 3 min on their workspace + their Frameworks tab |
+  | 7 | **Rehearse the demo:** open on the Control Plane, press **Present** and full screen, let the impact chain cycle, Esc, hover a red step and read out *why*, show the blast radius, then follow the run-sheet (section 38 and `PPT_STORYLINE.md` sections 4 and 10). Reset the clock first so the golden thread, live circular (+50 s) and breach clock (+80 s) play in order | Team | Each presenter: 3 min on their workspace + their Frameworks tab |
   | 8 | **Optional extras** from the framework library (not built, reference only): ESG for Vaibhav; SWOT / PESTLE context for Ram | You decide | About 2–3 hours each if wanted |
   | 9 | **Code-split routes** | Claude | ✅ 28 Oct 2026: first download 1,646 KB → 362 KB (section 46) |
   | 10 | **Housekeeping:** confirm the GitHub token pasted in chat earlier has been **revoked** | You | GitHub → Settings → Developer settings → Tokens |
   | 11 | **Capstone ratings refreshed** | Claude | ✅ 8 Oct 2026, section 43 |
   | 12 | **Clean up the unused login setup (optional):** delete the 2 `VITE_SUPABASE_*` variables in Vercel; delete or disable the Google OAuth client "CTO 360 web" (this also retires the secret pasted in chat); pause or delete the Supabase project `feflrvsqskpbzsmwhbfo` if it is not needed; delete the local `.env.local` | You | Section 44 |
 - **Later build step:** a live AI call for "Challenge the AI" on DEC-OPS-001, plus AI insight text, via a Vercel serverless function (section 16).
-- **Scores today:** capstone **7.8 / 10**; concept **8.5 / 10**; future value **8 / 10**; value today **4 / 10** (section 14). Expect about +0.5 on the capstone score after the resilience and control-tower work.
+- **Scores (latest rating 8 Oct 2026, section 43):** capstone **8.6 / 10**, concept **8.5**, problem solving **8**, real evidence **6**, value today **5**.
+  - The Control Plane, Present mode and hover previews (sections 45–47) came after that rating and mainly strengthen presentation and the CTO storyline.
+  - The 5 Oct baseline was 7.8 (section 14).
+  - The biggest remaining lift is one live AI call (item 3).
 
 ---
 
