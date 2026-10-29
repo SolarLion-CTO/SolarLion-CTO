@@ -2022,3 +2022,19 @@ The briefing, chain, blast radius and statistics all follow the scope. No consol
   - The sweep found one real issue: on the Control Plane at tablet width (820 px) the header was 17 px too wide, because of the long "All business units" option. Shortened to "All units"; re-checked clean at all sizes and units.
 - **Links:** all 68 links on the page work.
 - **Present mode:** still zero-scroll at 1280×720, 1366×768 and 1920×1080.
+
+## 49. Plain-language subtitle and action chips (30 Oct 2026)
+
+The Control Plane subtitle "What I control, what is moving it right now, and what to decide. Enterprise architecture layers × live signals × TOGAF ADM." was replaced so anyone can understand it at first read.
+
+- **Subtitle:** *"See what's at risk, why it's happening, and what to decide next, across every part of our technology."*
+- **Four clickable action chips** under it, each jumping to its part of the page:
+  - **Monitor health** → Executive Summary
+  - **Trace impact** → impact chain
+  - **Decide fast** → control layers
+  - **Prove value** → value and statistics
+- The technical terms (enterprise architecture, TOGAF ADM) stay in the section purpose lines, where experts look for them.
+- Deck slide 8's subtitle was updated to match, and the PDF regenerated.
+
+**Checks:** typecheck and build pass; no overflow at 1366 / 820 / 390.
+

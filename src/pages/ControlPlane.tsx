@@ -8,7 +8,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useStore } from '../store'
 import ExecutiveSummary, { Purpose } from './ControlPlaneSummary'
 import { CartesianGrid, Line, LineChart, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ReferenceArea, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts'
-import { Activity, ArrowRight, ChevronDown, Crosshair, Gavel, IndianRupee, Layers3, MonitorPlay, Radio, Sigma, Target } from 'lucide-react'
+import { Activity, ArrowRight, ChevronDown, Crosshair, Gauge, Gavel, IndianRupee, Layers3, MonitorPlay, Radio, Sigma, Target } from 'lucide-react'
 import { SIM_NOW, sim, sourceHealth, SOURCES } from '../data/sim'
 import type { DomainId, Rag } from '../data/sim'
 import { BLAST_COLS, TARGET, admPlacement, briefing, capabilityPeek, recordPeek, blastRadius, chains, debtVsIncidents, eventsFor, layers, scopeIds, timeQuadrant, valueAtRisk } from '../data/sim/controlPlane'
@@ -68,7 +68,14 @@ export default function ControlPlane() {
         <div className="min-w-0">
           <div className="text-xs font-bold tracking-widest text-brand-600 uppercase">CTO standpoint</div>
           <h1 className="text-2xl sm:text-3xl font-bold text-ink">Technology Control Plane</h1>
-          <p className="text-sm text-ink-3 mt-0.5">What I control, what is moving it right now, and what to decide. Enterprise architecture layers × live signals × TOGAF ADM.</p>
+          <p className="text-sm sm:text-[15px] text-ink-2 mt-0.5">See what's at risk, why it's happening, and what to decide next, across every part of our technology.</p>
+          <div className="flex flex-wrap gap-1.5 mt-2" aria-label="What this page helps you do">
+            {([['Monitor health', 'summary', Gauge], ['Trace impact', 'chain', Crosshair], ['Decide fast', 'layers', Gavel], ['Prove value', 'stats', IndianRupee]] as const).map(([label, id, Icon]) => (
+              <button key={id} onClick={() => jump(id)} title={`Go to: ${label}`} className="group inline-flex items-center gap-1.5 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-900 transition hover:-translate-y-0.5 hover:border-brand-600 hover:bg-white hover:shadow-sm">
+                <Icon size={13} className="text-brand-600" />{label}<ArrowRight size={11} className="text-brand-600 opacity-0 -ml-1 transition-all group-hover:opacity-100 group-hover:ml-0" />
+              </button>
+            ))}
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Scope">
           {(['all', 'banking', 'manufacturing', 'retail'] as Scope[]).map((s) => (

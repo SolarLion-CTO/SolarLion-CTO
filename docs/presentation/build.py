@@ -178,7 +178,7 @@ S('02 · The Solution', 'The Technology Control Plane: The CTO Home Screen', '<d
     ('Blast radius:', 'everything a single signal touches, across all layers, one click to the evidence.'),
     ('TOGAF ADM wheel:', 'where each initiative sits in the architecture change cycle.'),
     ('Statistics for the board:', 'TIME portfolio model, and technical debt vs incidents (r = -0.49 across 51 apps).')], 'p sm') + '</div></div>',
-  'The home page answers the CTO question: what do I control, what is moving it right now, and what should I decide?')
+  'See what is at risk, why it is happening, and what to decide next, across every part of our technology. Monitor health · Trace impact · Decide fast · Prove value.')
 
 # ───────────────────────── 8 Architecture ─────────────────────────
 layers = [('Team Workspaces', '5 owner workspaces · Transformation tabs · golden thread', NAVY), ('Decision Intelligence', 'Top 10 decisions · actions · outcomes · maturity · audit trail', '#173a6b'),
