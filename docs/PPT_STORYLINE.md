@@ -324,6 +324,7 @@ Sources and licences: `data/real/SOURCES.md`. Summary workbook: `data/real/CTO36
 
 The home page is now the CTO's control plane. Use it for the first 90 seconds of the demo:
 
+0. **Executive summary** (just under the hero): read briefing sentences 1 and 3 aloud, then point at the heat matrix: "Manufacturing's business and security layers are our weakest cells." Click a cell to drill straight in. **Copy briefing** gives you the same sentences for an email.
 1. **Hero:** "Our technology control score is 76 against a target of 85, up 4 points in 3 months. ₹313 Cr of expected value is at risk."
 2. **Impact chain:** "One live signal, traced to an application, a capability, initiatives, ₹ at risk, and the decision it needs."
 3. **Blast radius:** click **Show blast radius**. "Everything this one signal touches, across all layers."

@@ -313,3 +313,30 @@ export function capabilityPeek(domain: DomainId, name: string): Peek | null {
   const apps = sim[domain].applications.filter((a) => a.capability === name)
   return { kind: 'Capability', name, health: c.health, owner: 'Head of Architecture', why: apps.filter((a) => a.health !== 'Green').slice(0, 3).map((a) => `${a.name}: ${a.health.toLowerCase()} (${a.why[0] ?? a.lifecycle})`), facts: [['Score', `${c.score} / 100`], ['Applications', `${c.apps}`], ['Red items', `${c.red}`], ['Run cost', `₹${Math.round(apps.reduce((s, a) => s + a.annualCostCr, 0) * 10) / 10} Cr / yr`]] }
 }
+
+// ── 7. Executive summary: unit × layer matrix and a briefing written from the numbers ──
+export function layerMatrix() {
+  return LAYERS.map((def) => {
+    const cells = ALL.map((d) => { const v = layerSeries(sim[d], def.fns)[11]; return { d, score: v, status: ragOf(v) } })
+    const all = Math.round(avg(cells.map((c) => c.score)))
+    return { def, cells, all, allStatus: ragOf(all) }
+  })
+}
+export const SCOPE_NAME: Record<Scope, string> = { all: 'The enterprise (all business units)', banking: 'Meridian Bank', manufacturing: 'Arvant Industries', retail: 'Orbit Retail' }
+export function briefing(scope: Scope, L: Layer[], v: { green: number; amber: number; red: number; total: number; realised: number }, top: Decision | undefined, chain: Chain | undefined, r: number, n: number) {
+  const score = Math.round(avg(L.map((l) => l.current))), d3 = score - Math.round(avg(L.map((l) => l.series[8])))
+  const st = ragOf(score)
+  const sorted = [...L].sort((a, b) => a.current - b.current)
+  const weak = sorted[0], strong = sorted[sorted.length - 1]
+  const atRisk = r1(v.amber + v.red)
+  const pct = (x: number) => Math.round((x / Math.max(1, v.total)) * 100)
+  const out = [
+    `${SCOPE_NAME[scope]} is ${st === 'Green' ? 'in control' : st === 'Amber' ? 'partly in control' : 'out of control'}: control score ${score}/100 against a target of ${TARGET}, ${d3 >= 0 ? 'up' : 'down'} ${Math.abs(d3)} points in 3 months.`,
+    `Strongest layer is ${strong.def.label} (${strong.current}${strong.current >= TARGET ? ', on target' : ''}); weakest is ${weak.def.label} (${weak.current}, gap ${weak.gap}), owned by ${weak.def.owner}.`,
+    `₹${atRisk} Cr (${pct(atRisk)}%) of ₹${v.total} Cr expected initiative value is at risk; ₹${v.realised} Cr (${pct(v.realised)}%) has been realised so far.`,
+  ]
+  if (top) out.push(`Top decision: ${top.title} (${top.priority}, ${top.owner}, due ${top.deadline}).`)
+  if (chain) out.push(`Biggest exposure: ${chain.origin.name} → ${chain.app.name} → ₹${chain.valueAtRiskCr} Cr of initiative value at risk.`)
+  out.push(`Technical debt ${r <= -0.3 ? 'drives' : 'only weakly affects'} incidents: r = ${r.toFixed(2)} across ${n} applications.`)
+  return out
+}

@@ -28,6 +28,7 @@
 >   4. **Technology Control Plane** as the new home page, with the Command Center moved to `/command-center` (section 45, 28 Oct).
 >   5. **CXO polish:** code splitting, Present mode, motion (section 46, 28 Oct).
 >   6. **Hover previews** on every clickable item of the Control Plane (section 47, 29 Oct).
+>   7. **Executive Summary**, the header dropdown fix, and a purpose line on every section (section 48, 29 Oct).
 >
 >   Simulated scores, `validate:sim` and the golden thread are unchanged throughout.
 
@@ -46,6 +47,7 @@
   - **Home `/`** is the **Technology Control Plane** (since 28 Oct 2026, section 45): the CTO standpoint across the EA layers, with a live impact chain, blast radius, TOGAF ADM wheel and portfolio statistics.
     - **Present** button (or `/?present=1`) opens the zero-scroll dark cockpit (section 46).
     - Every clickable item previews its record on hover (section 47).
+    - The **Executive Summary** sits under the hero band, and the business-unit choice is shared with the header dropdown and kept in the address, e.g. `/?bu=banking` (section 48).
   - The **Enterprise Command Center** moved to `/command-center` (all 3 domains, heatmaps, top decisions, live events). **Data sources** is at `/sources` (section 30).
   - **Each domain** (`/domain/:id`) opens the **Enterprise 360** overview. It links to 7 simulated source pages (Planview, LeanIX, Celonis + Signavio, ServiceNow, Jellyfish, Datadog, Vanta), 16 function pages, a record drill-down, and Decision Intelligence (decision cards, actions, outcomes, maturity).
   - **Cross-domain:** the **CTO Decision Center** (Top 10) at `/decision-center`, and **About & disclaimer** at `/about`.
@@ -91,9 +93,9 @@
   **Done:**
   - M1–M6 simulation (sections 24–30), disclaimer (section 29), M7 team workspaces (sections 33–38), M8 lean frameworks (section 39)
   - Reference library (section 40), real data (section 42), ratings refresh (section 43), login added then removed (sections 41 and 44)
-  - **Technology Control Plane (section 45), CXO polish (section 46), hover previews (section 47)**
+  - **Technology Control Plane (section 45), CXO polish (section 46), hover previews (section 47), Executive Summary + dropdown fix (section 48)**
 
-  The build passes, `validate:sim` passes (3 domains + team cross-checks), the layout is clean at 3 sizes (210 checks), and all 68 Control Plane links work.
+  The build passes, `validate:sim` passes (3 domains + team cross-checks), the layout is clean at 3 sizes (219 checks), and all 68 Control Plane links work.
 
   | # | Item | Owner | Status / next action |
   |---|---|---|---|
@@ -1978,3 +1980,45 @@ Everything clickable on the Control Plane now responds to hover in two ways.
 - Real mouse-hover simulation on 9 element types: every preview appears and the page never widens; no console errors.
 - No overflow at 1366 / 820 / 390.
 - 68 distinct links on the page all open real pages.
+
+## 48. Executive Summary, dropdown fix and purpose lines (29 Oct 2026)
+
+**Bug fixed: the header "Business unit" dropdown.**
+- **Before:** on the Control Plane it changed nothing, and on load it said "Banking" while the page showed all units.
+- **Now:** on `/` the dropdown has an **"All business units"** option and is the **same control** as the page pills. Changing either updates both.
+- The choice is kept in the address (`?bu=banking | manufacturing | retail`), so refresh, back and shared links keep it. Choosing a unit also sets the global business unit for other pages.
+- Other pages behave exactly as before (no "All" option; on domain pages the dropdown moves to the same page in the other unit).
+
+**Verified per scope** (header and pill give identical results):
+
+| Scope | Score | Value at risk | ADM initiatives | Debt vs incidents |
+|---|---|---|---|---|
+| All | 76 | ₹312.7 Cr | 30 | r −0.49 |
+| Banking | 76 | ₹121.1 Cr | 10 | r −0.73 |
+| Manufacturing | 75 | ₹110.8 Cr | 10 | r −0.48 |
+| Retail | 78 | ₹80.8 Cr | 10 | r −0.33 |
+
+The briefing, chain, blast radius and statistics all follow the scope. No console errors.
+
+**Executive Summary** (`src/pages/ControlPlaneSummary.tsx`, directly under the hero band). Each block opens with a **"Purpose:"** line.
+
+| # | Block | What it shows |
+|---|---|---|
+| ① | **CTO briefing** | Six headline sentences **written from the live numbers** for the selected unit: control status, strongest and weakest layer, value at risk and realised, top decision, biggest exposure chain, debt vs incidents. **Copy briefing** puts the text on the clipboard for email or the deck. Generator: `briefing()` in `controlPlane.ts`. |
+| ② | **Business unit × layer heat matrix** | 6 layers × BNK / MFG / RTL / All, coloured by status. Clicking a column header switches unit; **clicking a cell switches unit and opens that layer's drill-down**. Fits on a phone. |
+| ③ | **Standard executive visuals** | Four familiar board charts, each with its own purpose line: layer scores vs target (bars with Nov 2025 baseline and target line), expected value by delivery health (donut), control score trend (line with target), open decisions by priority (bars) |
+| ④ | **What this page does** | 6 guide tiles (impact chain, layers, blast radius, ADM, TIME / debt / value, tools), each with the question it answers; click to jump |
+
+**Purpose lines** were also added under every other section heading: impact chain, control layers, blast radius, ADM, TIME, debt vs incidents, value at risk, tools.
+
+**Present mode:** the footer now rotates through the CTO briefing ("CTO briefing 1/6 …", every 7 s).
+
+**Checks:**
+- Header ↔ pill sync tested in a real browser, including refresh persistence.
+- Other pages' dropdown behaviour is unchanged.
+- Matrix cell click opens the right layer; guide tiles jump to their section; Present briefing ticker shows.
+- No console errors.
+- **Layout sweep: 219 checks (70 routes × 3 sizes + each `?bu=` unit × 3 sizes).**
+  - The sweep found one real issue: on the Control Plane at tablet width (820 px) the header was 17 px too wide, because of the long "All business units" option. Shortened to "All units"; re-checked clean at all sizes and units.
+- **Links:** all 68 links on the page work.
+- **Present mode:** still zero-scroll at 1280×720, 1366×768 and 1920×1080.

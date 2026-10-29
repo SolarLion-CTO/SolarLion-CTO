@@ -1,5 +1,5 @@
 import { Suspense, useState } from 'react'
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
   Activity, BookOpen, Boxes, Library, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
@@ -124,6 +124,16 @@ export default function Layout() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const isOpen = (s: string) => expanded[s] ?? (s === activeGroup || s === groups[0].section || (s === 'Executive Overview' && !pathname.startsWith('/domain/')))
 
+  // On the Technology Control Plane the dropdown is the page scope (?bu=), including "All business units".
+  const [sp, setSp] = useSearchParams()
+  const onPlane = pathname === '/'
+  const bu = sp.get('bu')
+  const headerValue = onPlane ? (bu === 'banking' || bu === 'manufacturing' || bu === 'retail' ? bu : 'all') : domainId
+  const onHeaderChange = (v: string) => {
+    if (!onPlane) return switchDomain(v as DomainId)
+    setSp((prev) => { const n = new URLSearchParams(prev); if (v === 'all') n.delete('bu'); else n.set('bu', v); return n }, { replace: true })
+    if (v !== 'all') setDomainId(v as DomainId)
+  }
   // Switching domain on a domain page also moves to that domain's page.
   const switchDomain = (d: DomainId) => {
     setDomainId(d)
@@ -151,12 +161,13 @@ export default function Layout() {
           <label className="flex items-center gap-2 text-[13px]">
             <span className="hidden xl:inline text-slate-300">Business unit</span>
             <select
-              value={domainId}
-              onChange={(e) => switchDomain(e.target.value as DomainId)}
+              value={headerValue}
+              onChange={(e) => onHeaderChange(e.target.value)}
               className="bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg pl-2.5 pr-7 py-1.5 text-white text-[13px] font-medium focus:outline-none focus:ring-2 focus:ring-accent appearance-none bg-no-repeat bg-[right_0.5rem_center] bg-[length:12px] cursor-pointer"
               style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23CBD5E1' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")" }}
               aria-label="Business unit"
             >
+              {onPlane && <option value="all" className="text-ink">All units</option>}
               {domainOrder.map((d) => <option key={d} value={d} className="text-ink">{domains[d].name}{domains[d].configuredOnly ? ' (config)' : ''}</option>)}
             </select>
           </label>

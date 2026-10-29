@@ -1,15 +1,17 @@
 // / — CTO Technology Control Plane (home). The CTO's standpoint: what do I control (EA layers), what is moving it
 // right now (impact chains, blast radius), where is change in the ADM cycle, and what does the portfolio say statistically.
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useMemo, useRef, useState } from 'react'
 import { MotionConfig, motion } from 'motion/react'
 import { Collapse, CountUp, Reveal, Swap } from '../components/motion'
 import { Peek, PeekCard, lift } from '../components/Peek'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useStore } from '../store'
+import ExecutiveSummary, { Purpose } from './ControlPlaneSummary'
 import { CartesianGrid, Line, LineChart, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ReferenceArea, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts'
 import { Activity, ArrowRight, ChevronDown, Crosshair, Gavel, IndianRupee, Layers3, MonitorPlay, Radio, Sigma, Target } from 'lucide-react'
 import { SIM_NOW, sim, sourceHealth, SOURCES } from '../data/sim'
 import type { DomainId, Rag } from '../data/sim'
-import { BLAST_COLS, TARGET, admPlacement, capabilityPeek, recordPeek, blastRadius, chains, debtVsIncidents, eventsFor, layers, scopeIds, timeQuadrant, valueAtRisk } from '../data/sim/controlPlane'
+import { BLAST_COLS, TARGET, admPlacement, briefing, capabilityPeek, recordPeek, blastRadius, chains, debtVsIncidents, eventsFor, layers, scopeIds, timeQuadrant, valueAtRisk } from '../data/sim/controlPlane'
 import type { Chain, Layer, Scope } from '../data/sim/controlPlane'
 import { decisionsFor, topDecisions } from '../data/sim/decisions'
 import { liveImpact } from '../data/sim/events'
@@ -29,11 +31,21 @@ const Present = lazy(() => import('./ControlPlanePresent'))
 
 export default function ControlPlane() {
   const { now } = useSimClock()
-  const [scope, setScope] = useState<Scope>('all')
+  const [sp, setSp] = useSearchParams()
+  const { setDomainId } = useStore()
+  const bu = sp.get('bu')
+  const scope: Scope = bu === 'banking' || bu === 'manufacturing' || bu === 'retail' ? bu : 'all'
+  // One scope for the page pills, the header dropdown and Present mode; kept in the address so refresh / links keep it
+  const setScope = (x: Scope) => {
+    setSp((prev) => { const n = new URLSearchParams(prev); if (x === 'all') n.delete('bu'); else n.set('bu', x); return n }, { replace: true })
+    if (x !== 'all') setDomainId(x)
+  }
   const [open, setOpen] = useState<string | null>(null)
   const [blast, setBlast] = useState<{ domain: DomainId; id: string } | null>(null)
-  const [present, setPresent] = useState(() => new URLSearchParams(window.location.search).get('present') === '1')
-  useEffect(() => { const u = new URL(window.location.href); if (present) u.searchParams.set('present', '1'); else u.searchParams.delete('present'); window.history.replaceState(window.history.state, '', u) }, [present])
+  const present = sp.get('present') === '1'
+  const setPresent = (on: boolean) => setSp((prev) => { const n = new URLSearchParams(prev); if (on) n.set('present', '1'); else n.delete('present'); return n }, { replace: true })
+  const jump = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const drill = (layer: string) => { setOpen(layer); setTimeout(() => jump('layers'), 60) }
   const tick = Math.floor((now - T0) / 5000)   // recompute live parts every 5 s of simulation time
   const events = useMemo(() => eventsFor(scope), [scope])
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,10 +58,11 @@ export default function ControlPlane() {
   const score = Math.round(L.reduce((a, l) => a + l.current, 0) / L.length)
   const score3m = Math.round(L.reduce((a, l) => a + l.series[8], 0) / L.length)
   const stats = useMemo(() => { const tq = timeQuadrant(scope); const dv = debtVsIncidents(scope); return { time: (['Invest', 'Tolerate', 'Migrate', 'Eliminate'] as const).map((q) => ({ q, n: tq.filter((p) => p.quadrant === q).length })), r: dv.r, n: dv.n } }, [scope])
+  const lines = briefing(scope, L, v, decs[0], C[0], stats.r, stats.n)
 
   return (
     <MotionConfig reducedMotion="user">
-      {present && <Suspense fallback={null}><Present d={{ scope, setScope, now, L, C, score, delta: score - score3m, v, openDecisions: decs.length, critDecisions: decs.filter((x) => x.priority === 'Critical').length, live, ...stats }} onClose={() => setPresent(false)} /></Suspense>}
+      {present && <Suspense fallback={null}><Present d={{ scope, setScope, now, L, C, score, delta: score - score3m, v, openDecisions: decs.length, critDecisions: decs.filter((x) => x.priority === 'Critical').length, live, ...stats }} onClose={() => setPresent(false)} lines={lines} /></Suspense>}
       {/* Title + scope */}
       <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
         <div className="min-w-0">
@@ -68,6 +81,7 @@ export default function ControlPlane() {
       </div>
 
       <Hero score={score} delta={score - score3m} L={L} v={v} critDecisions={decs.filter((d) => d.priority === 'Critical').length} openDecisions={decs.length} live={live} />
+      <Reveal delay={0.05}><ExecutiveSummary scope={scope} setScope={setScope} L={L} v={v} decs={decs} lines={lines} onDrill={drill} jump={jump} /></Reveal>
       <Reveal delay={0.05}><ImpactStrip chains={C} now={now} onBlast={(c) => { setBlast({ domain: c.domain, id: c.origin.id }); document.getElementById('blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} /></Reveal>
       <Reveal delay={0.1}><LayerGrid L={L} open={open} setOpen={setOpen} now={now} scope={scope} /></Reveal>
       <Reveal><div className="grid grid-cols-1 xl:grid-cols-[1.6fr_1fr] gap-5 mt-5">
@@ -162,7 +176,7 @@ function ImpactStrip({ chains: cs, now, onBlast }: { chains: Chain[]; now: numbe
   ]
   return (
     <Card className="mt-5">
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+      <div id="chain" className="scroll-mt-20 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2"><span className="relative flex h-2.5 w-2.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-60" /><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" /></span>
           <h2 className="font-semibold text-ink">Real-time impact chain</h2>
           {c.live ? <span className="text-[11px] rounded-full bg-crit-bg text-crit-text px-2 py-0.5">LIVE · {ago(now - c.live.at)}</span> : <span className="text-[11px] rounded-full bg-slate-100 text-ink-3 px-2 py-0.5">standing exposure</span>}
@@ -173,6 +187,7 @@ function ImpactStrip({ chains: cs, now, onBlast }: { chains: Chain[]; now: numbe
           {pick !== null && <button onClick={() => setPick(null)} className="text-[11px] text-brand-600 ml-1 hover:underline">auto</button>}
         </div>
       </div>
+      <Purpose>Trace one live signal through the application, capability and initiative to the money at risk and the decision it needs.</Purpose>
       <Swap k={c.id}><ol className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-6 gap-2" onMouseEnter={() => { if (pick === null) { setPick(i); setHeld(true) } }} onMouseLeave={() => { if (held) { setPick(null); setHeld(false) } }}>
         {nodes.map((n, k) => (
           <li key={n.k} className="relative">
@@ -213,6 +228,7 @@ function LayerGrid({ L, open, setOpen, now, scope }: { L: Layer[]; open: string 
         <h2 className="font-semibold text-ink">Control layers · current → target</h2>
         <span className="text-xs text-ink-3">Click a layer to drill down · bar = now, grey tick = Nov 2025, navy marker = target {TARGET}</span>
       </div>
+      <Purpose>The six layers the CTO controls, from baseline to target, each with its live signal and its next decision.</Purpose>
       <div className="hidden lg:grid grid-cols-1 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.1fr)_128px_158px_minmax(0,1.3fr)_minmax(0,1.4fr)_18px] gap-3 text-[11px] uppercase tracking-wide text-ink-3 border-b border-line py-2">
         <span>Layer · owner</span><span>Baseline → now → target</span><span>12-month trend</span><span>By unit</span><span>Live signal</span><span>Decision</span><span />
       </div>
@@ -300,6 +316,7 @@ function BlastRadius({ chains: cs, sel, setSel }: { chains: Chain[]; sel: { doma
           {origins.map((o) => <option key={o.origin.id} value={`${o.domain}|${o.origin.id}`}>{SHORT[o.domain]} · {o.origin.name} ({o.origin.kind === 'Service' ? 'service' : 'EOL tech'})</option>)}
         </select>
       </div>
+      <Purpose>Show everything one signal touches across applications, capabilities, initiatives, objectives and risks.</Purpose>
       <p className="text-sm text-ink-2 mb-2">One signal touches <b>{g.counts[1]}</b> app(s), <b>{g.counts[2]}</b> capabilities and processes, <b>{g.counts[3]}</b> initiative(s) worth <b className="text-crit-text">{cr(g.valueCr)}</b>, <b>{g.counts[4]}</b> objective(s) and <b>{g.counts[5]}</b> risk(s) or control(s). Hover to trace, click to open the record.</p>
       <div ref={box} className="relative">
       <div className="overflow-x-auto -mx-1 px-1">
@@ -344,7 +361,8 @@ function AdmWheel({ scope, openDecisions }: { scope: Scope; openDecisions: numbe
   const cur = phases.find((p) => p.id === (hp ?? sel))!
   return (
     <Card className="min-w-0">
-      <div className="flex items-center justify-between gap-2 mb-1"><h2 className="font-semibold text-ink">TOGAF ADM · where change sits</h2><span className="text-[11px] text-ink-3">{phases.reduce((a, p) => a + p.initiatives.length, 0)} initiatives</span></div>
+      <div id="adm" className="scroll-mt-20 flex items-center justify-between gap-2"><h2 className="font-semibold text-ink">TOGAF ADM · where change sits</h2><span className="text-[11px] text-ink-3">{phases.reduce((a, p) => a + p.initiatives.length, 0)} initiatives</span></div>
+      <Purpose>See which phase of architecture change each initiative is in, and where delivery is stuck.</Purpose>
       <svg viewBox="0 0 320 320" className="w-full max-w-[360px] mx-auto block" role="img" aria-label="ADM cycle with initiative counts per phase">
         <g onClick={() => setSel('P')} onMouseEnter={() => setHp('P')} onMouseLeave={() => setHp(null)} style={{ cursor: 'pointer' }}><rect x={cx - 52} y={6} width={104} height={30} rx={15} fill={sel === 'P' ? '#0f2747' : fill(prelim.initiatives.length)} stroke={hp === 'P' ? '#0f2747' : '#93c5fd'} strokeWidth={hp === 'P' ? 2 : 1} /><text x={cx} y={25} textAnchor="middle" fontSize={11} fontWeight={600} fill={sel === 'P' ? 'white' : '#0f2747'}>Preliminary · {prelim.initiatives.length}</text></g>
         {ring.map((p, k) => { const s = seg(k); const lx = cx + ((R + r) / 2) * Math.cos(s.mid), ly = cy + ((R + r) / 2) * Math.sin(s.mid)
@@ -399,6 +417,7 @@ function Statistics({ scope, v }: { scope: Scope; v: ReturnType<typeof valueAtRi
     <div id="stats" className="scroll-mt-20 grid grid-cols-1 xl:grid-cols-3 gap-5 mt-5">
       <Card className="min-w-0">
         <div className="flex items-center justify-between gap-2 mb-1"><h2 className="font-semibold text-ink">Application portfolio · TIME model</h2><span className="text-[11px] text-ink-3">{tq.length} apps · bubble = run cost</span></div>
+        <Purpose>Decide which applications to invest in, tolerate, migrate or eliminate.</Purpose>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <ScatterChart margin={{ top: 8, right: 8, bottom: 14, left: -14 }}>
@@ -418,6 +437,7 @@ function Statistics({ scope, v }: { scope: Scope; v: ReturnType<typeof valueAtRi
 
       <Card className="min-w-0">
         <div className="flex items-center justify-between gap-2 mb-1"><h2 className="font-semibold text-ink flex items-center gap-1.5"><Sigma size={15} />Does technical debt cause incidents?</h2><span className="text-[11px] text-ink-3">n = {dv.n}</span></div>
+        <Purpose>Test, with statistics, whether weaker technical health goes with more incidents.</Purpose>
         <div className="flex items-baseline gap-3 mb-1"><span className={`text-3xl font-bold tabular-nums whitespace-nowrap ${dv.r < -0.3 ? 'text-crit-text' : 'text-ink'}`}>r = {dv.r.toFixed(2)}</span><span className="text-xs text-ink-3">Pearson correlation, technical health vs incidents (30 days)</span></div>
         <div className="h-48">
           <ResponsiveContainer width="100%" height="100%">
@@ -436,6 +456,7 @@ function Statistics({ scope, v }: { scope: Scope; v: ReturnType<typeof valueAtRi
 
       <Card className="min-w-0">
         <div className="flex items-center justify-between gap-2 mb-1"><h2 className="font-semibold text-ink">Value at risk · initiative portfolio</h2><span className="text-[11px] text-ink-3">expected value</span></div>
+        <Purpose>Show how much expected initiative value is safe, at risk or off track.</Purpose>
         <div className="text-3xl font-bold text-ink tabular-nums">{cr(v.total)}</div>
         <div className="text-xs text-ink-3 mb-3">expected from {scopeIds(scope).reduce((a, d) => a + sim[d].initiatives.length, 0)} initiatives · {cr(v.realised)} realised so far</div>
         <div className="flex h-8 rounded-lg overflow-hidden gap-0.5" role="img" aria-label="Expected value by delivery health">{segs.map((s) => <div key={s.k} style={{ width: `${(s.val / tot) * 100}%`, background: s.c }} title={`${s.k}: ${cr(s.val)}`} />)}</div>
@@ -454,7 +475,8 @@ function ToolStrip({ scope, events, now }: { scope: Scope; events: ReturnType<ty
   const hs = ids.map((d) => sourceHealth(sim[d]))
   return (
     <Card className="mt-5">
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-3"><h2 className="font-semibold text-ink flex items-center gap-2"><Activity size={16} />Tools feeding the control plane</h2><Link to="/sources" className="text-xs font-semibold text-brand-600 hover:underline">All data sources →</Link></div>
+      <div id="tools" className="scroll-mt-20 flex flex-wrap items-center justify-between gap-2"><h2 className="font-semibold text-ink flex items-center gap-2"><Activity size={16} />Tools feeding the control plane</h2><Link to="/sources" className="text-xs font-semibold text-brand-600 hover:underline">All data sources →</Link></div>
+      <Purpose>Show which source systems feed the plane, how healthy they are and how fresh their data is.</Purpose>
       <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2">
         {SOURCES.map((s, k) => {
           const score = Math.round(hs.reduce((a, h) => a + h[k].score, 0) / hs.length)

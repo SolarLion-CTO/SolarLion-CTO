@@ -25,7 +25,7 @@ export interface PresentData {
   live: { fresh: number; crit: number; delta: number }; time: { q: string; n: number }[]; r: number; n: number
 }
 
-export default function ControlPlanePresent({ d, onClose }: { d: PresentData; onClose: () => void }) {
+export default function ControlPlanePresent({ d, onClose, lines = [] }: { d: PresentData; onClose: () => void; lines?: string[] }) {
   const top = d.C.slice(0, 6)
   const [pick, setPick] = useState<number | null>(null)
   const auto = top.length ? Math.floor((d.now - T0) / 9000) % top.length : 0
@@ -189,7 +189,9 @@ export default function ControlPlanePresent({ d, onClose }: { d: PresentData; on
             </div>
           </div>
         </section>
-        <footer className="hidden lg:flex justify-between text-[11px] text-slate-500"><span>Simulated enterprise data · every figure calculated from linked records · AI recommends, humans decide</span><span>Esc close · ← → chain · 1–4 business unit</span></footer>
+        <footer className="hidden lg:flex items-center justify-between gap-4 text-[11px] text-slate-500">
+          {lines.length ? <Swap k={Math.floor((d.now - T0) / 7000) % lines.length} className="flex items-center gap-2 min-w-0 text-[13px] text-slate-200"><span className="shrink-0 text-[10px] uppercase tracking-widest text-sky-300">CTO briefing {Math.floor((d.now - T0) / 7000) % lines.length + 1}/{lines.length}</span><span className="truncate">{lines[Math.floor((d.now - T0) / 7000) % lines.length]}</span></Swap> : <span>Simulated enterprise data · every figure calculated from linked records</span>}
+          <span className="shrink-0">Esc close · ← → chain · 1–4 business unit</span></footer>
       </div>
     </motion.div>
   )
