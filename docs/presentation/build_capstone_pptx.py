@@ -5,7 +5,7 @@ Domain-Agnostic Enterprise AI Transformation Framework (implemented as CTO360).
   python3 docs/presentation/build_capstone_pptx.py
 
 Inputs : docs/presentation/capstone_assets/ (screenshots, concept image, data.json from extract.ts)
-Photos : /Users/ram/Downloads/CTO CApstone/team_photos/{ramkumar,suman,santosh}.(jpg|jpeg|png)  (kept OUT of git)
+Photos : /Users/ram/Downloads/CTO CApstone/Photos/ (mapping in PHOTO_FILES; kept OUT of git)
 Output : /Users/ram/Downloads/CTO CApstone/Capstone_6_Phase_Presentation.pptx
 Rules  : Title Case headings, no em dashes, every number calculated by the simulation or taken from public data.
 """
@@ -24,7 +24,9 @@ from pptx.util import Emu, Inches, Pt
 
 HERE = Path(__file__).resolve().parent
 ASSETS = HERE / 'capstone_assets'
-PHOTOS = Path('/Users/ram/Downloads/CTO CApstone/team_photos')
+PHOTOS = Path('/Users/ram/Downloads/CTO CApstone/Photos')
+# person -> file in PHOTOS (only files confirmed by Ram); people without a confirmed photo show initials
+PHOTO_FILES = {'suman': 'Suman-removebg-preview.png'}
 OUT = Path('/Users/ram/Downloads/CTO CApstone/Capstone_6_Phase_Presentation.pptx')
 D = json.loads((ASSETS / 'data.json').read_text())
 
@@ -94,11 +96,13 @@ def bullets(s, x, y, w, items, size=14, gap=0.1, color=INK2, dot=BLUE, h_each=No
 
 def photo(s, key, x, y, d):
     """Round photo if provided in PHOTOS, else an initials disc. Returns the shape."""
-    for ext in ('jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'):
-        f = PHOTOS / f'{key}.{ext}'
+    cands = ([PHOTOS / PHOTO_FILES[key]] if key in PHOTO_FILES else []) + [PHOTOS / f'{key}.{e}' for e in ('jpg', 'jpeg', 'png')]
+    for f in cands:
         if f.exists():
-            im = ImageOps.exif_transpose(Image.open(f)).convert('RGB')
-            side = min(im.size); im = im.crop(((im.width - side) // 2, max(0, (im.height - side) // 3), (im.width + side) // 2, max(0, (im.height - side) // 3) + side)).resize((600, 600))
+            src = ImageOps.exif_transpose(Image.open(f)).convert('RGBA')
+            im = Image.new('RGB', src.size, (255, 255, 255)); im.paste(src, (0, 0), src)   # transparent background -> white
+            side = min(im.size); top = max(0, (im.height - side) // 4)
+            im = im.crop(((im.width - side) // 2, top, (im.width + side) // 2, top + side)).resize((600, 600), Image.LANCZOS)
             mask = Image.new('L', (600, 600), 0); ImageDraw.Draw(mask).ellipse((0, 0, 599, 599), fill=255)
             out = Image.new('RGBA', (600, 600)); out.paste(im, (0, 0), mask)
             tmp = ASSETS / f'_photo_{key}.png'; out.save(tmp)
