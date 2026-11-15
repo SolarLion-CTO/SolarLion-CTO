@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Six-slide capstone deck: one slide per phase (Introduction, Problem Statement, Methodology, Results,
+"""Seven-slide capstone deck: a title and team slide, then one slide per phase (Introduction, Problem Statement, Methodology, Results,
 Recommendations, Conclusion). Reuses the design system and helpers of build_capstone_pptx.py.
 
   python3 docs/presentation/build_capstone_6slides.py
-Output: /Users/ram/Downloads/CTO CApstone/Capstone_6_Slides.pptx
+Output: /Users/ram/Downloads/CTO CApstone/Capstone_7_Slides.pptx
 """
 from pathlib import Path
 
 SRC = Path(__file__).with_name('build_capstone_pptx.py').read_text()
 exec(SRC.split('# ══════════════════════════ 1. COVER')[0])   # helpers, tokens, data, team, presentation object
 
-OUT6 = Path('/Users/ram/Downloads/CTO CApstone/Capstone_6_Slides.pptx')
+OUT6 = Path('/Users/ram/Downloads/CTO CApstone/Capstone_7_Slides.pptx')
 
 def rail(s, active, dark=False):
     """Six-phase tracker shown on every slide."""
@@ -30,38 +30,61 @@ def head(s, phase, title, lead, who=None):
         text(s, Inches(10.5), Inches(1.36), Inches(2.25), Inches(0.25), t[1], size=9, bold=True, color=NAVY, align=PP_ALIGN.RIGHT)
     box(s, Inches(0.6), Inches(7.05), Inches(12.13), Emu(9000), fill=LINE)
     text(s, Inches(0.6), Inches(7.1), Inches(9), Inches(0.25), 'Domain-Agnostic Enterprise AI Transformation Framework · CTO Capstone 2026 · live: cto360.vercel.app', size=9, color=GREY)
-    text(s, Inches(11.7), Inches(7.1), Inches(1.03), Inches(0.25), f'{phase} / 6', size=9, color=GREY, align=PP_ALIGN.RIGHT)
+    text(s, Inches(11.7), Inches(7.1), Inches(1.03), Inches(0.25), f'{phase + 1} / 7', size=9, color=GREY, align=PP_ALIGN.RIGHT)
 
 def new():
     return prs.slides.add_slide(BLANK)
 
-# ═══════════════════ 1 · INTRODUCTION (title, team, why now) ═══════════════════
+# ═══════════════════ SLIDE 1 · TITLE AND TEAM ═══════════════════
 s = new()
 box(s, 0, 0, W, H, fill=NAVY)
-g = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(8.4), Inches(-2.6), Inches(8.0), Inches(8.0)); g.fill.solid(); g.fill.fore_color.rgb = rgb(NAVY2); g.line.fill.background()
-for r_, c_ in ((5.4, '2b4f86'), (3.6, '3a64a5')):
-    o = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(11.2 - r_ / 2), Inches(1.3 - r_ / 2), Inches(r_), Inches(r_)); o.fill.background(); o.line.color.rgb = rgb(c_); o.line.width = Pt(1.25)
-rail(s, 1, dark=True)
-text(s, Inches(0.6), Inches(0.9), Inches(8), Inches(0.3), 'PHASE 1 · INTRODUCTION · CTO CAPSTONE PROJECT 2026', size=11, bold=True, color='86b6ef')
-text(s, Inches(0.6), Inches(1.3), Inches(8.6), Inches(1.7), ['Domain-Agnostic Enterprise', 'AI Transformation Framework'], size=40, bold=True, color='ffffff', spacing=0.95)
-text(s, Inches(0.62), Inches(2.95), Inches(8.4), Inches(0.4), 'Implemented as CTO360 · Technology Control Plane', size=18, color='86b6ef')
-text(s, Inches(0.62), Inches(3.4), Inches(7.6), Inches(0.75), 'Objective: one governed way to see, govern, fund and run AI-led transformation across any industry, measured from old state to target state. AI recommends, humans decide.', size=13, color='c7d8f5')
-for k, (key, name, role, prob, col) in enumerate(TEAM):
-    x = Inches(0.62) + Inches(2.75) * k
-    photo(s, key, x, Inches(4.45), Inches(0.95))
-    text(s, x + Inches(1.05), Inches(4.52), Inches(1.65), Inches(0.32), name, size=13, bold=True, color='ffffff')
-    text(s, x + Inches(1.05), Inches(4.84), Inches(1.65), Inches(0.55), role, size=10, color='9fb6d8')
-text(s, Inches(0.62), Inches(5.6), Inches(8), Inches(0.3), 'WHY NOW · PRESSURE FROM FOUR DIRECTIONS', size=11, bold=True, color='86b6ef')
-why = [(f'₹{atRisk} Cr', 'expected AI and technology value at risk (47%)', 'fbbf24'), ('22', 'real RBI notifications in two weeks', '93c5fd'),
-       ('12 of 20', 'technology versions past real end of life', 'f87171'), ('7 tools', 'specialist platforms; none says what matters most', 'ffffff')]
-for k, (big_, d_, col) in enumerate(why):
-    x = Inches(0.62) + Inches(3.05) * k
-    b = box(s, x, Inches(5.95), Inches(2.9), Inches(1.0), fill='15315c', line='2b4f86', radius=0.12)
-    text(s, x + Inches(0.18), Inches(6.02), Inches(2.6), Inches(0.45), big_, size=22, bold=True, color=col)
-    text(s, x + Inches(0.18), Inches(6.47), Inches(2.6), Inches(0.45), d_, size=10, color='c7d8f5')
-core = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(10.45), Inches(0.55), Inches(1.5), Inches(1.5)); core.fill.solid(); core.fill.fore_color.rgb = rgb(BLUE); core.line.fill.background()
+g = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(8.6), Inches(-2.8), Inches(8.2), Inches(8.2)); g.fill.solid(); g.fill.fore_color.rgb = rgb(NAVY2); g.line.fill.background()
+for r_, c_ in ((5.6, '2b4f86'), (3.8, '3a64a5')):
+    o = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(11.4 - r_ / 2), Inches(1.2 - r_ / 2), Inches(r_), Inches(r_)); o.fill.background(); o.line.color.rgb = rgb(c_); o.line.width = Pt(1.25)
+core = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(10.7), Inches(0.5), Inches(1.45), Inches(1.45)); core.fill.solid(); core.fill.fore_color.rgb = rgb(BLUE); core.line.fill.background()
 fill_text(core, ['AI recommends', 'Humans decide'], size=10, bold=True)
-text(s, Inches(9.3), Inches(2.4), Inches(3.5), Inches(1.9), ['3 business units', '7 source systems', '16 enterprise functions', '6 control layers', '1 decision layer'], size=14, color='c7d8f5', align=PP_ALIGN.RIGHT)
+text(s, Inches(0.7), Inches(0.6), Inches(8), Inches(0.35), 'CTO CAPSTONE PROJECT · 2026', size=13, bold=True, color='86b6ef')
+text(s, Inches(0.7), Inches(1.1), Inches(9.2), Inches(1.9), ['Domain-Agnostic Enterprise', 'AI Transformation Framework'], size=46, bold=True, color='ffffff', spacing=0.95)
+text(s, Inches(0.72), Inches(2.95), Inches(9), Inches(0.45), 'Implemented as CTO360 · Technology Control Plane', size=20, color='86b6ef')
+text(s, Inches(0.72), Inches(3.45), Inches(8.6), Inches(0.5), 'One framework. Any industry. Measured outcomes.', size=15, color='c7d8f5')
+text(s, Inches(0.72), Inches(4.05), Inches(6), Inches(0.3), 'PRESENTED BY', size=11, bold=True, color='86b6ef')
+for k, (key, name, role, prob, col) in enumerate(TEAM):
+    x = Inches(0.72) + Inches(4.05) * k
+    b = box(s, x, Inches(4.4), Inches(3.85), Inches(2.35), fill='15315c', line='2b4f86', radius=0.08)
+    box(s, x, Inches(4.4), Inches(3.85), Inches(0.08), fill=col if col != NAVY else '86b6ef', radius=0.5)
+    photo(s, key, x + Inches(0.25), Inches(4.7), Inches(1.25))
+    text(s, x + Inches(1.65), Inches(4.78), Inches(2.1), Inches(0.4), name, size=17, bold=True, color='ffffff')
+    text(s, x + Inches(1.65), Inches(5.18), Inches(2.1), Inches(0.6), role, size=11, bold=True, color='86b6ef')
+    text(s, x + Inches(0.25), Inches(6.05), Inches(3.4), Inches(0.6), prob, size=10.5, color='c7d8f5')
+text(s, Inches(0.72), Inches(6.95), Inches(9), Inches(0.3), 'Live demonstration: cto360.vercel.app', size=11, color='9fb6d8')
+
+# ═══════════════════ SLIDE 2 · PHASE 1 INTRODUCTION ═══════════════════
+s = new()
+head(s, 1, 'Introduction: Why Enterprises Need A New Way To Steer AI', 'AI spending is rising faster than anyone can prove its value, while regulation and tool sprawl make control harder.', who='ramkumar')
+why = [(f'₹{atRisk} Cr', 'AI value is unproven', f'of ₹{V["total"]} Cr expected initiative value is at risk (47%)', WARN),
+       ('22', 'Regulation is accelerating', 'real RBI notifications in two weeks, plus DPDP Act duties', BLUE),
+       ('12 of 20', 'Technology is ageing', 'technology versions already past real vendor end of life', CRIT),
+       ('7', 'Tools do not connect', 'specialist platforms; none answers "what matters most?"', NAVY)]
+for k, (big_, h_, d_, col) in enumerate(why):
+    x = Inches(0.6) + Inches(3.05) * k
+    card(s, x, Inches(1.85), Inches(2.9), Inches(2.05), top=col)
+    text(s, x + Inches(0.2), Inches(2.08), Inches(2.6), Inches(0.3), h_, size=12, bold=True, color=NAVY)
+    text(s, x + Inches(0.2), Inches(2.4), Inches(2.6), Inches(0.65), big_, size=30, bold=True, color=col)
+    text(s, x + Inches(0.2), Inches(3.1), Inches(2.6), Inches(0.75), d_, size=10.5, color=INK2)
+ob = box(s, Inches(0.6), Inches(4.1), Inches(7.25), Inches(1.25), fill=NAVY, radius=0.08)
+text(s, Inches(0.85), Inches(4.2), Inches(6.8), Inches(0.3), 'OUR OBJECTIVE', size=10, bold=True, color='86b6ef')
+text(s, Inches(0.85), Inches(4.5), Inches(6.8), Inches(0.8), 'Build one governed, domain-agnostic way to see, govern, fund and run AI-led transformation, and move every area from old state to target state, measurably.', size=13, bold=True, color='ffffff')
+text(s, Inches(0.6), Inches(5.55), Inches(7.25), Inches(0.3), 'SCOPE OF THE FRAMEWORK', size=10, bold=True, color=INK3)
+for k, (n_, l_) in enumerate([('3', 'business units'), ('7', 'source systems'), ('16', 'enterprise functions'), ('6', 'control layers'), ('30', 'tracked measures')]):
+    x = Inches(0.6) + Inches(1.47) * k
+    b = box(s, x, Inches(5.85), Inches(1.37), Inches(1.0), fill=TINT, radius=0.12)
+    text(s, x, Inches(5.9), Inches(1.37), Inches(0.5), n_, size=24, bold=True, color=BLUE, align=PP_ALIGN.CENTER)
+    text(s, x, Inches(6.4), Inches(1.37), Inches(0.35), l_, size=9.5, color=INK2, align=PP_ALIGN.CENTER)
+card(s, Inches(8.1), Inches(4.1), Inches(4.63), Inches(2.75), title='From Concept To Framework')
+for k, (h_, b_) in enumerate([('Sep 2026', 'Concept: one CTO vision across industries'), ('Early Oct', 'Simulation: 3 units, 7 sources, 16 functions'), ('Mid Oct', 'Team workspaces: old state to target'), ('Late Oct', 'Control plane, live impact, real data')]):
+    y = Inches(4.65) + Inches(0.52) * k
+    d = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(8.3), y + Inches(0.04), Inches(0.3), Inches(0.3)); d.fill.solid(); d.fill.fore_color.rgb = rgb([NAVY, NAVY2, '1f4f94', BLUE][k]); d.line.fill.background(); fill_text(d, str(k + 1), size=9, bold=True)
+    text(s, Inches(8.72), y, Inches(3.9), Inches(0.45), [[(h_ + '  ', True, NAVY), (b_, False, INK2)]], size=10.5)
 
 # ═══════════════════ 2 · PROBLEM STATEMENT (banking + manufacturing) ═══════════════════
 s = new()

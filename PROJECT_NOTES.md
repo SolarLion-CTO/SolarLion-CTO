@@ -2097,3 +2097,16 @@ Every slide shows the 6-phase rail and a presenter chip. Rendered via Keynote an
 
 **Pending:** Ram's own banking and manufacturing problem statements will replace slide 2's text when supplied. The 32-slide deck is kept as a backup.
 
+### 50b. Seven-slide version (15 Nov 2026)
+
+`/Users/ram/Downloads/CTO CApstone/Capstone_7_Slides.pptx`; builder `docs/presentation/build_capstone_7slides.py` (renamed from the 6-slide builder).
+- **Slide 1:** title and team. Large photo cards for Ramkumar P, Suman Kolekar and Santosh Kumar, with role and problem owned.
+- **Slides 2–7:** one per phase. Phase 1 now carries:
+  - 4 "why now" tiles
+  - the objective
+  - framework scope (3 · 7 · 16 · 6 · 30)
+  - a concept-to-framework timeline
+- Phases 2–6 are unchanged. Page numbers read n / 7.
+- **Photos** come from `CTO CApstone/Photos` (`Ram.jpg`, `Suman-removebg-preview.png`, `Santhosh.jpeg`), mapped in `PHOTO_FILES`.
+- The older `Capstone_6_Slides.pptx` file is left in place, unchanged.
+
