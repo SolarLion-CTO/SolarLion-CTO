@@ -26,7 +26,7 @@ HERE = Path(__file__).resolve().parent
 ASSETS = HERE / 'capstone_assets'
 PHOTOS = Path('/Users/ram/Downloads/CTO CApstone/Photos')
 # person -> file in PHOTOS (only files confirmed by Ram); people without a confirmed photo show initials
-PHOTO_FILES = {'suman': 'Suman-removebg-preview.png'}
+PHOTO_FILES = {'ramkumar': 'Ram.jpg', 'suman': 'Suman-removebg-preview.png', 'santosh': 'Santhosh.jpeg'}
 OUT = Path('/Users/ram/Downloads/CTO CApstone/Capstone_6_Phase_Presentation.pptx')
 D = json.loads((ASSETS / 'data.json').read_text())
 
