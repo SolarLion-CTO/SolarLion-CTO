@@ -2080,3 +2080,20 @@ The Control Plane subtitle "What I control, what is moving it right now, and wha
   - a long title colliding with the phase tracker
 - A blank radar in one screenshot was traced to the capture method, not the app; the charts stay drawn on the live site.
 
+### 50a. Six-slide version (15 Nov 2026)
+
+At Ram's request, **one slide per phase**: `/Users/ram/Downloads/CTO CApstone/Capstone_6_Slides.pptx`. Builder: `docs/presentation/build_capstone_6slides.py`; it reuses the design and helpers of the 32-slide builder.
+
+| # | Phase | Content |
+|---|---|---|
+| 1 | Introduction | Title, objective, team photos, 4 "why now" numbers |
+| 2 | Problem statement | Banking and manufacturing problem cards: statement, root causes, 3 numbers each; silo strip; research question |
+| 3 | Methodology | Design science chevrons; architecture stack; frameworks pyramid; validation checklist; TEDIF |
+| 4 | Results | Laptop screenshot, 4 KPIs, native layer chart, 6 real-data tiles |
+| 5 | Recommendations | Business, society and individual columns, 5 each |
+| 6 | Conclusion | Problem, solution, evidence; limitations; next steps and value case; closing band with team photos |
+
+Every slide shows the 6-phase rail and a presenter chip. Rendered via Keynote and checked.
+
+**Pending:** Ram's own banking and manufacturing problem statements will replace slide 2's text when supplied. The 32-slide deck is kept as a backup.
+
