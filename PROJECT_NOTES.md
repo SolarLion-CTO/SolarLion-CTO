@@ -34,6 +34,7 @@
 
 - **Presentation PDF (28 slides, 16:9; slide 8 "Technology Control Plane" added 28 Oct, slide 11 "Real Data Reality Check" added 8 Oct 2026):** `docs/presentation/CTO360_Capstone_Presentation.pdf` (copy also in the `CTO CApstone` folder). Regenerate it with `python3 docs/presentation/build.py`, then `node docs/presentation/shot.mjs <folder>`. It follows Title Case headings and uses no em dashes.
 - **Real data (8 Oct 2026):** six public datasets appear next to the simulation, each labelled **REAL DATA**: endoflife.date, CISA KEV, RBI notifications, Kaggle fraud, the UCI ServiceNow incident log, and FOCUS cloud billing. Sources, licences and refresh steps: **`data/real/SOURCES.md`**. Team summary: `data/real/CTO360_Real_Data_Summary.xlsx`. Details in section 42.
+- **6-phase capstone deck (15 Nov 2026), editable PowerPoint:** `CTO CApstone/Capstone_6_Phase_Presentation.pptx` (32 slides). Title: *Domain-Agnostic Enterprise AI Transformation Framework*. Rebuild with `python3 docs/presentation/build_capstone_pptx.py` (section 50).
 - **PPT / presentation workflow (start to end):** **`docs/PPT_STORYLINE.md`**. It covers:
   - the storyline and slide plan
   - the live demo run-sheet and a numbers cheat sheet
@@ -2037,4 +2038,45 @@ The Control Plane subtitle "What I control, what is moving it right now, and wha
 - Deck slide 8's subtitle was updated to match, and the PDF regenerated.
 
 **Checks:** typecheck and build pass; no overflow at 1366 / 820 / 390.
+
+## 50. Six-phase capstone deck as an editable PowerPoint (15 Nov 2026)
+
+**Output:** `/Users/ram/Downloads/CTO CApstone/Capstone_6_Phase_Presentation.pptx`, 32 slides, 16:9. Every element is editable in PowerPoint or Keynote, including **native charts**.
+
+**Title:** *Domain-Agnostic Enterprise AI Transformation Framework*, subtitle *Implemented as CTO360 · Technology Control Plane*.
+
+**Team:** Ramkumar P (CTO), Suman Kolekar (Strategy & ROI), Santosh Kumar (Finance & Investment Governance).
+- Regulatory & AI governance and ERP & capacity appear as **workstreams**, without names (default; change on request).
+- Every content slide has a **presenter chip** (photo or initials) and a **6-phase tracker**.
+
+**Structure:** cover · agenda · six phases, each opening with a dark divider (number, title, question, phase rail) · closing · 2 appendix slides.
+
+| Phase | Slides |
+|---|---|
+| 1 Introduction | Why now (4 big-number tiles, all from our data or real public data) · From concept to working framework (the original Sep 2026 concept chart + timeline) · Meet the team |
+| 2 Problem | Problem statement + research question · Root causes (silo diagram) · Same problem, three industries |
+| 3 Methodology | Design science research approach · TEDIF decision loop · Architecture (3 × 7 × 16, six control layers) · Frameworks pyramid (16 / 15 / 10 / 69) · Measurement and validation (native line chart + validation checklist) |
+| 4 Results | What we built (laptop-framed screenshot) · Enterprise results (big numbers + native bar and doughnut charts) · Results by business unit (native heat table) and workstream (progress bars) · Statistical evidence (native scatter of 51 apps with regression line, r = −0.49, per-unit r, TIME counts) · Validated on real public data (6 tiles) · Live demonstration (Present-mode screenshot) |
+| 5 Recommendations | For business · for society · for the individual (5 numbered actions each, with an impact tag) |
+| 6 Conclusion | Problem → solution → evidence, limitations, next steps, value case · Thank you / Q&A with team photos |
+| Appendix | Anticipated questions · data sources and disclaimer |
+
+**Data:**
+- Charts use exact simulation figures, exported by `docs/presentation/capstone_assets/extract.ts` (bundled with rolldown) into `data.json`.
+- Screenshots are 2× captures of the live app, in `capstone_assets/`.
+- Rules: Title Case headings, no em dashes.
+
+**Photos:** put `ramkumar.jpg`, `suman.jpg` and `santosh.jpg` (or .png) in `/Users/ram/Downloads/CTO CApstone/team_photos/` and re-run the builder. They are cropped to circles automatically. They stay **outside the git repo**; until then, initials discs are shown.
+
+**Checks:**
+- Rendered through Keynote and every slide reviewed.
+- Fixed:
+  - cover disc wrap
+  - agenda word break
+  - chevron wrap
+  - workstream list overlapping the footer
+  - laptop mock-up height
+  - doughnut values (now in the legend)
+  - a long title colliding with the phase tracker
+- A blank radar in one screenshot was traced to the capture method, not the app; the charts stay drawn on the live site.
 
