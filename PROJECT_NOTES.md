@@ -2100,7 +2100,7 @@ Every slide shows the 6-phase rail and a presenter chip. Rendered via Keynote an
 ### 50b. Seven-slide version (15 Nov 2026)
 
 `/Users/ram/Downloads/CTO CApstone/Capstone_7_Slides.pptx`; builder `docs/presentation/build_capstone_7slides.py` (renamed from the 6-slide builder).
-- **Slide 1:** title and team. Large photo cards for Ramkumar P, Suman Kolekar and Santosh Kumar, with role and problem owned.
+- **Slide 1:** title and team. Photo and name only for Ramkumar P, Suman Kolekar and Santosh Kumar. (Presenter photos on slides 2–7 and in the closing band were removed at Ram's request.)
 - **Slides 2–7:** one per phase. Phase 1 now carries:
   - 4 "why now" tiles
   - the objective

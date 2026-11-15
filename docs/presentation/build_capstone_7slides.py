@@ -23,11 +23,8 @@ def rail(s, active, dark=False):
 def head(s, phase, title, lead, who=None):
     box(s, 0, 0, W, H, fill=BG)
     rail(s, phase)
-    text(s, Inches(0.6), Inches(0.72), Inches(10.2), Inches(0.6), title, size=26, bold=True, color=NAVY)
-    text(s, Inches(0.6), Inches(1.24), Inches(10.4), Inches(0.45), lead, size=13, color=INK2)
-    if who:
-        t = WHO[who]; photo(s, who, Inches(12.08), Inches(0.72), Inches(0.62))
-        text(s, Inches(10.5), Inches(1.36), Inches(2.25), Inches(0.25), t[1], size=9, bold=True, color=NAVY, align=PP_ALIGN.RIGHT)
+    text(s, Inches(0.6), Inches(0.72), Inches(12.1), Inches(0.6), title, size=26, bold=True, color=NAVY)
+    text(s, Inches(0.6), Inches(1.24), Inches(12.1), Inches(0.45), lead, size=13, color=INK2)
     box(s, Inches(0.6), Inches(7.05), Inches(12.13), Emu(9000), fill=LINE)
     text(s, Inches(0.6), Inches(7.1), Inches(9), Inches(0.25), 'Domain-Agnostic Enterprise AI Transformation Framework · CTO Capstone 2026 · live: cto360.vercel.app', size=9, color=GREY)
     text(s, Inches(11.7), Inches(7.1), Inches(1.03), Inches(0.25), f'{phase + 1} / 7', size=9, color=GREY, align=PP_ALIGN.RIGHT)
@@ -48,14 +45,11 @@ text(s, Inches(0.7), Inches(1.1), Inches(9.2), Inches(1.9), ['Domain-Agnostic En
 text(s, Inches(0.72), Inches(2.95), Inches(9), Inches(0.45), 'Implemented as CTO360 · Technology Control Plane', size=20, color='86b6ef')
 text(s, Inches(0.72), Inches(3.45), Inches(8.6), Inches(0.5), 'One framework. Any industry. Measured outcomes.', size=15, color='c7d8f5')
 text(s, Inches(0.72), Inches(4.05), Inches(6), Inches(0.3), 'PRESENTED BY', size=11, bold=True, color='86b6ef')
-for k, (key, name, role, prob, col) in enumerate(TEAM):
+for k, (key, name, *_ ) in enumerate(TEAM):
     x = Inches(0.72) + Inches(4.05) * k
-    b = box(s, x, Inches(4.4), Inches(3.85), Inches(2.35), fill='15315c', line='2b4f86', radius=0.08)
-    box(s, x, Inches(4.4), Inches(3.85), Inches(0.08), fill=col if col != NAVY else '86b6ef', radius=0.5)
-    photo(s, key, x + Inches(0.25), Inches(4.7), Inches(1.25))
-    text(s, x + Inches(1.65), Inches(4.78), Inches(2.1), Inches(0.4), name, size=17, bold=True, color='ffffff')
-    text(s, x + Inches(1.65), Inches(5.18), Inches(2.1), Inches(0.6), role, size=11, bold=True, color='86b6ef')
-    text(s, x + Inches(0.25), Inches(6.05), Inches(3.4), Inches(0.6), prob, size=10.5, color='c7d8f5')
+    box(s, x, Inches(4.4), Inches(3.85), Inches(2.35), fill='15315c', line='2b4f86', radius=0.08)
+    photo(s, key, x + (Inches(3.85) - Inches(1.45)) / 2, Inches(4.62), Inches(1.45))
+    text(s, x, Inches(6.18), Inches(3.85), Inches(0.45), name, size=19, bold=True, color='ffffff', align=PP_ALIGN.CENTER)
 text(s, Inches(0.72), Inches(6.95), Inches(9), Inches(0.3), 'Live demonstration: cto360.vercel.app', size=11, color='9fb6d8')
 
 # ═══════════════════ SLIDE 2 · PHASE 1 INTRODUCTION ═══════════════════
@@ -203,12 +197,8 @@ for k, (n_, v_, d_, col) in enumerate([('Conservative', '₹1 Cr', 'payback ~35 
     card(s, x, Inches(4.98), Inches(2.55), Inches(0.57))
     text(s, x + Inches(0.12), Inches(5.0), Inches(2.35), Inches(0.52), [[(f'{n_} 3-yr net ', False, INK3), (v_, True, col)], [(d_, False, INK3)]], size=9.5, spacing=0.95)
 band = box(s, Inches(0.6), Inches(5.75), Inches(12.13), Inches(1.15), fill=NAVY, radius=0.1)
-text(s, Inches(0.9), Inches(5.85), Inches(7.0), Inches(0.5), 'One framework. Any industry. Measured outcomes.', size=19, bold=True, color='ffffff')
-text(s, Inches(0.9), Inches(6.32), Inches(7.0), Inches(0.45), [[('AI Recommends. Humans Decide.   ', True, '86b6ef'), ('Thank you · Questions?', False, 'c7d8f5')]], size=13)
-for k, (key, name, *_ ) in enumerate(TEAM):
-    x = Inches(8.35) + Inches(1.45) * k
-    photo(s, key, x + Inches(0.32), Inches(5.86), Inches(0.62))
-    text(s, x, Inches(6.5), Inches(1.3), Inches(0.3), name, size=9, bold=True, color='ffffff', align=PP_ALIGN.CENTER)
+text(s, Inches(0.9), Inches(5.85), Inches(11.5), Inches(0.5), 'One framework. Any industry. Measured outcomes.', size=21, bold=True, color='ffffff')
+text(s, Inches(0.9), Inches(6.35), Inches(11.5), Inches(0.45), [[('AI Recommends. Humans Decide.   ', True, '86b6ef'), ('Thank you · Questions?', False, 'c7d8f5')]], size=14)
 
 prs.save(OUT6)
 for f in ASSETS.glob('_photo_*.png'): f.unlink()
