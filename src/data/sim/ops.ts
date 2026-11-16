@@ -1,4 +1,4 @@
-// ERP RCA, capacity and production automation (M7.5, Pankaj).
+// ERP RCA, capacity and production automation (M7.5).
 // ERP services and incidents come from the simulated Datadog-style data; problem records are ITIL-style (ServiceNow-style).
 import type { DomainId } from '../domains'
 import { SIM_NOW } from './model'
@@ -58,7 +58,7 @@ export const FIVE_WHYS = {
     'Why is there no capacity check? — Capacity is planned yearly, not per change or per peak.',
   ],
   root: 'Capacity planning is annual and not linked to change or peak calendars.',
-  fix: 'Forecast-driven capacity per peak + capacity gate in batch change process (owner Pankaj).',
+  fix: 'Forecast-driven capacity per peak + capacity gate in batch change process (owner: Head of Operations).',
 }
 
 export const errorBudgets = () => erpServices().map(({ d, s }) => ({ d, s, ...errorBudget(s.slo, s.availability) }))

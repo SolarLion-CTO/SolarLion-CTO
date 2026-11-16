@@ -12,7 +12,7 @@ import { capacity, changeCorrelation, recurringOpen } from './ops'
 import { PROGRAMME_START, elapsed, eta, glide, glidePath, progress } from './analytics'
 import type { Glide } from './analytics'
 
-export type OwnerId = 'ram' | 'suman' | 'vaibhav' | 'santhosh' | 'pankaj'
+export type OwnerId = 'ram' | 'suman' | 'governance' | 'santosh' | 'operations'
 export interface MeasureDef { id: string; name: string; unit: string; better: 'up' | 'down'; target: number; targetDate: string; dp?: number; note: string; series: () => number[] }
 export interface Owner {
   id: OwnerId; name: string; role: string; workspace: string; tagline: string
@@ -32,7 +32,7 @@ const seed = (id: string, from: number, to: number, dp = 1) => {
 
 export const OWNERS: Owner[] = [
   {
-    id: 'ram', name: 'Ram', role: 'Group CTO', workspace: 'CTO Control Tower', tagline: 'Integrate, decide, prove outcomes',
+    id: 'ram', name: 'Ramkumar P', role: 'CTO', workspace: 'CTO Control Tower', tagline: 'Integrate, decide, prove outcomes',
     accountable: ['Domain-agnostic framework across Banking, Manufacturing and Retail', 'AI and multi-agent decision intelligence to track ongoing and new work'],
     bp1: ['Agnostic domain: Banking + Manufacturing', 'AI + multi-agent implementation to track ongoing + new'],
     from: ['Each business unit reports separately, in its own format', 'Cross-tool causes are found late, in steering meetings', 'Decisions take ~3 weeks; nobody checks if they worked'],
@@ -48,7 +48,7 @@ export const OWNERS: Owner[] = [
     ],
   },
   {
-    id: 'suman', name: 'Suman', role: 'Strategy & ROI lead', workspace: 'AI Transformation', tagline: 'From pilots to measurable value — for any organisation',
+    id: 'suman', name: 'Suman Kolekar', role: 'CTO', workspace: 'AI Transformation', tagline: 'From pilots to measurable value — for any organisation',
     accountable: ['Identify and prove ROI of AI and technology investment', 'A repeatable method to transform any organisation to AI'],
     bp1: ['Identify ROI', 'Transform any organisation to AI'],
     from: ['AI exists as scattered pilots; most never reach production', 'ROI is claimed, not measured', 'Every new business unit starts its AI journey from scratch'],
@@ -64,7 +64,7 @@ export const OWNERS: Owner[] = [
     ],
   },
   {
-    id: 'vaibhav', name: 'Vaibhav', role: 'Regulatory & AI Governance lead', workspace: 'Regulatory & AI Governance', tagline: 'Compliance at the speed of change; trustworthy AI and data',
+    id: 'governance', name: 'CTO Team', role: 'Shared CTO workspace', workspace: 'Regulatory & AI Governance', tagline: 'Compliance at the speed of change; trustworthy AI and data',
     accountable: ['Automate regulatory compliance, with implementation (Banking first)', 'DPDP and AI governance'],
     bp1: ['Automate regulatory with implementation', 'DPDP / AI governance'],
     from: ['Each circular mapped to controls by hand, ~3 weeks', 'No inventory of AI models in production', 'Partial DPDP consent; breach reporting clocks often missed'],
@@ -80,7 +80,7 @@ export const OWNERS: Owner[] = [
     ],
   },
   {
-    id: 'santhosh', name: 'Santhosh', role: 'Finance & Investment Governance lead', workspace: 'Technology Spend & Investment', tagline: 'Every rupee traceable to a service and a value',
+    id: 'santosh', name: 'Santosh Kumar', role: 'CTO', workspace: 'Technology Spend & Investment', tagline: 'Every rupee traceable to a service and a value',
     accountable: ['A governance system for technology investment', 'Apps, resources and decision making across OPEX and CAPEX'],
     bp1: ['Governance system', 'Apps / resources / decision making — OPEX / CAPEX'],
     from: ['Spend tracked late in spreadsheets', 'CAPEX / OPEX split unclear as workloads move to cloud', 'Investments approved once and never value-tracked'],
@@ -96,7 +96,7 @@ export const OWNERS: Owner[] = [
     ],
   },
   {
-    id: 'pankaj', name: 'Pankaj', role: 'Operations lead', workspace: 'ERP RCA & Capacity', tagline: 'Fix causes, not symptoms; capacity before the peak',
+    id: 'operations', name: 'CTO Team', role: 'Shared CTO workspace', workspace: 'Operations & ERP', tagline: 'Fix causes, not symptoms; capacity before the peak',
     accountable: ['ERP root-cause analysis', 'Capacity planning of infrastructure', 'Automation of the production management process'],
     bp1: ['ERP — RCA', 'Capacity planning of infra', 'Automation of the production management process'],
     from: ['ERP incidents recur every month-end; fixes are workarounds', 'Capacity added after outages', 'Production planning largely manual'],
@@ -112,6 +112,8 @@ export const OWNERS: Owner[] = [
     ],
   },
 ]
+/** Display name: the person for the three CTOs, the workspace title for the two shared CTO workspaces. */
+export const ownerLabel = (o: Owner) => (o.role === 'Shared CTO workspace' ? o.workspace : o.name)
 export const OWNER = Object.fromEntries(OWNERS.map((o) => [o.id, o])) as Record<OwnerId, Owner>
 
 // ── Transformation maths (current → target) ──

@@ -33,7 +33,7 @@ export function riskRegister(): RiskItem[] {
     if (cs.health !== 'Healthy') out.push({
       id: `${d.toUpperCase().slice(0, 3)}-CYB`, title: 'Cyber security exposure', domain: dn, source: 'Cyber', severity: cs.health === 'Critical' ? 'Critical' : 'High',
       businessImpact: cyber[d].events.filter((e) => e.outcome === 'Breach').map((e) => e.impact)[0] ?? 'Potential data loss', techImpact: cs.reasons.join('; '),
-      control: cs.health === 'Critical' ? 'Gap' : 'Partial', owner: 'Vaibhav (CISO)', mitigation: cyber[d].improvements[0].proposed, due: 'Q4', evidence: `${cyber[d].monthly.reduce((s, m) => s + m.breach, 0)} breaches in 6 months`, link: `/domain/${d}?tab=cyber`,
+      control: cs.health === 'Critical' ? 'Gap' : 'Partial', owner: 'CISO', mitigation: cyber[d].improvements[0].proposed, due: 'Q4', evidence: `${cyber[d].monthly.reduce((s, m) => s + m.breach, 0)} breaches in 6 months`, link: `/domain/${d}?tab=cyber`,
     })
     for (const x of dr[d]) {
       const a = appTier(d, x.appId); const st = drStatus(x, a.tier)
@@ -47,7 +47,7 @@ export function riskRegister(): RiskItem[] {
       const st = vendorStatus(v)
       if (st.health === 'Critical') out.push({
         id: `${d.toUpperCase().slice(0, 3)}-VND-${v.vendor.slice(0, 4)}`, title: `${v.vendor} — single point of failure`, domain: dn, source: 'Vendors', severity: 'High',
-        businessImpact: `Supports ${v.apps}`, techImpact: st.reasons.join('; '), control: 'Gap', owner: 'Santhosh (vendor governance)',
+        businessImpact: `Supports ${v.apps}`, techImpact: st.reasons.join('; '), control: 'Gap', owner: 'Santosh Kumar',
         mitigation: 'Agree exit plan and second-source option', due: v.contractEnd, evidence: `SLA ${v.sla}%`, link: `/domain/${d}?tab=vendors`,
       })
     }
@@ -62,7 +62,7 @@ export function riskRegister(): RiskItem[] {
   }
   for (const r of tedifRisks.filter((x) => x.severity !== 'Medium')) out.push({
     id: r.id, title: r.risk, domain: 'All', source: 'TEDIF programme', severity: r.severity, businessImpact: 'Programme delivery and trust', techImpact: 'Framework design',
-    control: 'Partial', owner: 'Ram (CTO)', mitigation: r.mitigation, due: 'Before next department', evidence: r.domains, link: '/tedif',
+    control: 'Partial', owner: 'Ramkumar P', mitigation: r.mitigation, due: 'Before next department', evidence: r.domains, link: '/tedif',
   })
   const rank: Record<Severity, number> = { Critical: 0, High: 1, Medium: 2 }
   return out.sort((a, b) => rank[a.severity] - rank[b.severity])
@@ -115,7 +115,7 @@ export function insights(): Insight[] {
       observation: 'In all three domains, the month with the worst incident (UPI, SAP / HMI, e-commerce) is the month CSAT fell 3–6 points.',
       evidence: domainOrder.map((d) => `${domains[d].name}: ${customer[d].insight}`),
       recommendation: 'Send proactive outage messages to customers when a critical app degrades, in all domains.',
-      impact: 'Protects 2–4 CSAT points per major incident; reusable pattern across domains', confidence: 0.78, approver: 'Suman (strategy)', link: '/domain/banking?tab=customer',
+      impact: 'Protects 2–4 CSAT points per major incident; reusable pattern across domains', confidence: 0.78, approver: 'Suman Kolekar', link: '/domain/banking?tab=customer',
     },
     {
       id: 'AI-03', title: 'Operational technology is Manufacturing’s largest single loss driver', scope: 'Manufacturing',
@@ -129,14 +129,14 @@ export function insights(): Insight[] {
       observation: `${spof.length} vendors are single points of failure with no exit plan.`,
       evidence: spof,
       recommendation: 'Require an exit plan and second-source option at the next contract review; track in vendor governance.',
-      impact: 'Removes the largest unmanaged continuity risk', confidence: 0.74, approver: 'Santhosh (finance)', link: '/domain/manufacturing?tab=vendors',
+      impact: 'Removes the largest unmanaged continuity risk', confidence: 0.74, approver: 'Santosh Kumar', link: '/domain/manufacturing?tab=vendors',
     },
     {
       id: 'AI-05', title: 'Breaches are concentrated, and one was reported late under DPDP', scope: 'Cross-domain',
       observation: `${allBreaches.reduce((a, b) => a + b, 0)} breaches in 6 months across domains; Retail’s loyalty-data incident was reported after 72 hours.`,
       evidence: domainOrder.map((d, i) => `${domains[d].name}: ${allBreaches[i]} breaches`).concat('Retail: ₹25 L fine recorded in P&L'),
       recommendation: 'Automate joiner-mover-leaver access removal and a 72-hour breach-reporting workflow owned by the DPO.',
-      impact: 'Avoids repeat regulatory fines; DPDP readiness before May 2027', confidence: 0.81, approver: 'Vaibhav (CISO / DPO)', link: '/domain/retail?tab=cyber',
+      impact: 'Avoids repeat regulatory fines; DPDP readiness before May 2027', confidence: 0.81, approver: 'CISO / DPO', link: '/domain/retail?tab=cyber',
     },
     {
       id: 'AI-06', title: 'Where the business loss sits', scope: 'Cross-domain',

@@ -10,9 +10,9 @@ const APPLIED: Record<string, { to: string; label: string }> = {
   'Balanced Scorecard': { to: T('ram'), label: 'Ram' }, Cynefin: { to: T('ram'), label: 'Ram' }, RAPID: { to: T('ram'), label: 'Ram' }, OODA: { to: T('ram'), label: 'Ram' },
   'Three Horizons': { to: T('suman'), label: 'Suman' }, 'Value vs Effort': { to: '/team/suman?tab=portfolio', label: 'Suman' }, 'Stage-Gate': { to: '/team/suman?tab=portfolio', label: 'Suman' },
   'Business Model Canvas': { to: '/team/suman?tab=onboard', label: 'Suman' }, 'Diffusion of Innovations': { to: T('suman'), label: 'Suman' }, 'Crossing the Chasm': { to: T('suman'), label: 'Suman' },
-  'NPV / IRR / ROI / TCO': { to: T('santhosh'), label: 'Santhosh' }, 'Run-Grow-Transform': { to: T('santhosh'), label: 'Santhosh' }, 'Sensitivity (tornado)': { to: T('santhosh'), label: 'Santhosh' },
-  'Three Lines': { to: T('vaibhav'), label: 'Vaibhav' }, 'Risk Matrix / Heat Map': { to: '/team/vaibhav?tab=models', label: 'Vaibhav' },
-  'Theory of Constraints': { to: T('pankaj'), label: 'Pankaj' }, 'Kotter': { to: '/team', label: 'Team' }, ADKAR: { to: '/team', label: 'Team' }, Lewin: { to: '/team', label: 'Team' },
+  'NPV / IRR / ROI / TCO': { to: T('santosh'), label: 'Santosh' }, 'Run-Grow-Transform': { to: T('santosh'), label: 'Santosh' }, 'Sensitivity (tornado)': { to: T('santosh'), label: 'Santosh' },
+  'Three Lines': { to: T('governance'), label: 'Governance' }, 'Risk Matrix / Heat Map': { to: '/team/governance?tab=models', label: 'Governance' },
+  'Theory of Constraints': { to: T('operations'), label: 'Operations' }, 'Kotter': { to: '/team', label: 'Team' }, ADKAR: { to: '/team', label: 'Team' }, Lewin: { to: '/team', label: 'Team' },
   RACI: { to: '/team', label: 'Team' }, 'Digital Maturity Model': { to: '/team/suman?tab=readiness', label: 'Suman' }, 'Capability Maturity Model': { to: '/domain/banking/decisions?tab=maturity', label: 'Decision Intelligence' },
 }
 const GUIDE: [string, string[]][] = [
@@ -24,9 +24,9 @@ const GUIDE: [string, string[]][] = [
 const OWNERS: [string, string, string, [string, string][]][] = [
   ['ram', 'Ram', 'Multi-domain decision intelligence', [['Balanced Scorecard', 'score per perspective'], ['Cynefin + RAPID', '% with named decider · decision age'], ['OODA', 'loop counts (label)']]],
   ['suman', 'Suman', 'ROI · any organisation to AI', [['Three Horizons', 'H1 share of AI investment vs 70%'], ['Diffusion + Crossing the Chasm', '% live use cases past the chasm'], ['Business Model Canvas', 'generated in onboarding'], ['Stage-Gate · Value vs Effort · NPV', 'already built']]],
-  ['vaibhav', 'Vaibhav', 'Regulatory automation · DPDP / AI governance', [['Three Lines Model', '% high / critical risks with all three lines'], ['Risk process · heat map', 'already built']]],
-  ['santhosh', 'Santhosh', 'Governance system · CAPEX / OPEX', [['Run-Grow-Transform', 'gap from 60 / 25 / 15 mix'], ['Sensitivity (tornado)', 'investments negative at −20% value'], ['TCO', '5-year cost per initiative'], ['NPV / IRR', 'already built']]],
-  ['pankaj', 'Pankaj', 'ERP RCA · capacity · production', [['Theory of Constraints', 'capacity margin at worst peak'], ['Lewin', 'label on production automation'], ['Pareto · ITIL · SRE', 'already built']]],
+  ['governance', 'Regulatory & AI Governance', 'Regulatory automation · DPDP / AI governance', [['Three Lines Model', '% high / critical risks with all three lines'], ['Risk process · heat map', 'already built']]],
+  ['santosh', 'Santosh', 'Governance system · CAPEX / OPEX', [['Run-Grow-Transform', 'gap from 60 / 25 / 15 mix'], ['Sensitivity (tornado)', 'investments negative at −20% value'], ['TCO', '5-year cost per initiative'], ['NPV / IRR', 'already built']]],
+  ['operations', 'Operations & ERP', 'ERP RCA · capacity · production', [['Theory of Constraints', 'capacity margin at worst peak'], ['Lewin', 'label on production automation'], ['Pareto · ITIL · SRE', 'already built']]],
 ]
 const MASTER = ['PESTLE', 'Five Forces', 'SWOT', 'Porter Value Chain', 'Ansoff', 'Three Horizons', 'Business Model Canvas', 'Balanced Scorecard', 'OKRs', 'Stage-Gate', 'McKinsey 7S', 'Kotter', 'ADKAR', 'Cynefin', 'Three Lines']
 const REFERENCE = ['SWOT', 'PESTLE', 'Five Forces', 'VRIO', 'Porter generic strategies', 'Porter value chain', 'Ansoff', 'BCG matrix', 'Blue Ocean', 'Mintzberg 5Ps', 'Strategy Maps', 'OKRs (Transformation tab works this way)', 'Jobs-to-be-Done', 'Value Proposition Canvas', 'Lean Startup', 'Design Thinking', 'Pipeline vs platform', 'Network effects', 'Winner-take-all', 'XaaS', 'McKinsey 7S', 'Galbraith Star', 'Operating Model Canvas', 'Theory E vs O', 'DuPont / ROIC', 'CVP', 'ESG']

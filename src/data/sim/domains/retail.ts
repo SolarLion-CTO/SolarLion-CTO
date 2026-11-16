@@ -8,17 +8,17 @@ export const retail: DomainConfig = {
   plan: { runCostCr: 58, cloudPct: 75, legacyApps: 4, eolTech: 4, redundantCostCr: 1.5, deploysPerWeek: 120, leadTimeDays: 2.5, p1Per90d: 3 },
 
   objectives: [
-    ['Win the festive peak online', 'Zero lost-sales minutes at peak; online revenue +30%', 'Chief Digital Officer', 'Ram (CTO)', 'Critical', '2026-12-31'],
-    ['Inventory accuracy across channels', '98% inventory accuracy; stockouts −40%', 'COO', 'Pankaj (Operations)', 'Critical', '2027-06-30'],
+    ['Win the festive peak online', 'Zero lost-sales minutes at peak; online revenue +30%', 'Chief Digital Officer', 'Ramkumar P', 'Critical', '2026-12-31'],
+    ['Inventory accuracy across channels', '98% inventory accuracy; stockouts −40%', 'COO', 'Head of Operations', 'Critical', '2027-06-30'],
     ['Modern, secure stores', 'All stores on supported POS with offline mode', 'Head of Stores', 'Head of Store Tech', 'High', '2027-03-31'],
     ['Personalised customer experience', 'Repeat purchase +15%', 'CMO', 'Head of Data & AI', 'High', '2027-06-30'],
     ['Efficient supply chain and fulfilment', 'Cost to serve −12%', 'Chief Supply Chain Officer', 'Head of Enterprise Apps', 'Medium', '2027-09-30'],
-    ['Trusted data and privacy (DPDP)', 'No late breach reports', 'DPO', 'Vaibhav (CISO)', 'High', '2027-05-31'],
+    ['Trusted data and privacy (DPDP)', 'No late breach reports', 'DPO', 'CISO', 'High', '2027-05-31'],
   ],
 
   initiatives: [
-    { name: 'E-commerce Modernization', obj: 0, sponsor: 'Chief Digital Officer', owner: 'Ram (CTO)', start: '2025-06-01', target: '2026-12-31', budget: 16.5, forecastPct: 108, progress: 61, planned: 68, roi: 220, value: 36.3, realizedPct: 74, apps: [1, 0, 13] },
-    { name: 'Intelligent Inventory', obj: 1, sponsor: 'COO', owner: 'Pankaj (Operations)', start: '2025-09-01', target: '2027-03-31', budget: 12.8, forecastPct: 112, progress: 33, planned: 46, roi: 190, value: 24.3, realizedPct: 52, apps: [6, 7, 8] },
+    { name: 'E-commerce Modernization', obj: 0, sponsor: 'Chief Digital Officer', owner: 'Ramkumar P', start: '2025-06-01', target: '2026-12-31', budget: 16.5, forecastPct: 108, progress: 61, planned: 68, roi: 220, value: 36.3, realizedPct: 74, apps: [1, 0, 13] },
+    { name: 'Intelligent Inventory', obj: 1, sponsor: 'COO', owner: 'Head of Operations', start: '2025-09-01', target: '2027-03-31', budget: 12.8, forecastPct: 112, progress: 33, planned: 46, roi: 190, value: 24.3, realizedPct: 52, apps: [6, 7, 8] },
     { name: 'POS Modernization', obj: 2, sponsor: 'Head of Stores', owner: 'Head of Store Tech', start: '2025-10-01', target: '2027-03-31', budget: 14.4, forecastPct: 104, progress: 29, planned: 35, roi: 140, value: 20.2, realizedPct: 75, apps: [3, 4, 18] },
     { name: 'Omnichannel Transformation', obj: 0, sponsor: 'Chief Digital Officer', owner: 'VP Engineering', start: '2025-04-01', target: '2027-06-30', budget: 18, forecastPct: 101, progress: 52, planned: 54, roi: 170, value: 30.6, realizedPct: 88, apps: [5, 23, 17] },
     { name: 'Customer Personalization', obj: 3, sponsor: 'CMO', owner: 'Head of Data & AI', start: '2025-11-01', target: '2027-03-31', budget: 7.6, forecastPct: 99, progress: 44, planned: 45, roi: 260, value: 19.8, realizedPct: 95, apps: [15, 20] },
@@ -26,7 +26,7 @@ export const retail: DomainConfig = {
     { name: 'Supply Chain Optimization', obj: 4, sponsor: 'Chief Supply Chain Officer', owner: 'Head of Enterprise Apps', start: '2025-08-01', target: '2027-06-30', budget: 10.4, forecastPct: 98, progress: 42, planned: 43, roi: 160, value: 16.6, realizedPct: 92, apps: [9, 10, 11] },
     { name: 'Loyalty Platform Re-platform', obj: 3, sponsor: 'CMO', owner: 'VP Engineering', start: '2026-02-01', target: '2027-03-31', budget: 5.8, forecastPct: 102, progress: 31, planned: 33, roi: 180, value: 10.4, realizedPct: 85, apps: [14, 15] },
     { name: 'Mobile Commerce 2.0', obj: 0, sponsor: 'Chief Digital Officer', owner: 'VP Engineering', start: '2025-12-01', target: '2026-12-31', budget: 6.9, forecastPct: 103, progress: 66, planned: 70, roi: 210, value: 14.5, realizedPct: 82, apps: [17] },
-    { name: 'DPDP Privacy & Consent Programme', obj: 5, sponsor: 'DPO', owner: 'Vaibhav (CISO)', start: '2025-09-01', target: '2027-03-31', budget: 4.6, forecastPct: 101, progress: 47, planned: 50, roi: 80, value: 3.7, realizedPct: 80, apps: [15, 14] },
+    { name: 'DPDP Privacy & Consent Programme', obj: 5, sponsor: 'DPO', owner: 'CISO', start: '2025-09-01', target: '2027-03-31', budget: 4.6, forecastPct: 101, progress: 47, planned: 50, roi: 80, value: 3.7, realizedPct: 80, apps: [15, 14] },
   ],
 
   tech: [
@@ -156,7 +156,7 @@ export const retail: DomainConfig = {
 
   baselineRisks: [
     ['Peak traffic exceeds tested capacity', 'Operational', 3, 5, 'Head of E-commerce Tech', 'Peak load test at 3× and pre-scaling', '2026-10-20', 1, 0, 'Lost online sales in the festive peak'],
-    ['Single payment acquirer', 'Vendor', 3, 4, 'Santhosh (vendor governance)', 'Second acquirer with smart routing', '2027-01-31', 13, null, 'Checkout outage if the acquirer fails'],
+    ['Single payment acquirer', 'Vendor', 3, 4, 'Santosh Kumar', 'Second acquirer with smart routing', '2027-01-31', 13, null, 'Checkout outage if the acquirer fails'],
     ['Overselling from stale inventory', 'Operational', 3, 4, 'COO', 'Real-time inventory events', '2027-03-31', 6, 1, 'Cancellations and complaints'],
     ['Late DPDP breach reporting', 'Regulatory', 2, 4, 'DPO', '72-hour breach-reporting workflow', '2026-12-31', 14, 9, 'Fines and reputational damage'],
     ['Personalisation model bias', 'Data & AI', 2, 3, 'Head of Data & AI', 'Fairness tests before each release', '2026-12-31', 20, 4, 'Loss of customer trust'],

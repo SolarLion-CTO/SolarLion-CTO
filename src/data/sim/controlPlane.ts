@@ -25,11 +25,11 @@ export type LayerId = 'business' | 'data' | 'application' | 'technology' | 'secu
 interface LayerDef { id: LayerId; label: string; ea: string; owner: string; ownerId: string; fns: FunctionId[]; question: string }
 export const LAYERS: LayerDef[] = [
   { id: 'business', label: 'Business', ea: 'Business architecture · capabilities & processes', owner: 'Suman', ownerId: 'suman', fns: ['strategy', 'operations', 'cx', 'product'], question: 'Are capabilities and processes delivering the strategy?' },
-  { id: 'data', label: 'Data & AI', ea: 'Data architecture · AI portfolio & models', owner: 'Vaibhav', ownerId: 'vaibhav', fns: ['data-ai'], question: 'Is data governed and is AI producing value safely?' },
+  { id: 'data', label: 'Data & AI', ea: 'Data architecture · AI portfolio & models', owner: 'CISO', ownerId: 'governance', fns: ['data-ai'], question: 'Is data governed and is AI producing value safely?' },
   { id: 'application', label: 'Application', ea: 'Application architecture · portfolio & lifecycle', owner: 'Ram', ownerId: 'ram', fns: ['architecture', 'engineering'], question: 'Is the application estate fit for the target state?' },
-  { id: 'technology', label: 'Technology', ea: 'Technology architecture · platforms, infra, operations', owner: 'Pankaj', ownerId: 'pankaj', fns: ['technology'], question: 'Are platforms reliable, current and ready for peak?' },
-  { id: 'security', label: 'Security & risk', ea: 'Cross-cutting · cyber, controls, regulation', owner: 'Vaibhav', ownerId: 'vaibhav', fns: ['cyber', 'risk'], question: 'Is technology risk inside appetite?' },
-  { id: 'spend', label: 'Spend & value', ea: 'Cross-cutting · run cost, investment, value', owner: 'Santhosh', ownerId: 'santhosh', fns: ['finance', 'procurement'], question: 'Is every rupee producing measurable value?' },
+  { id: 'technology', label: 'Technology', ea: 'Technology architecture · platforms, infra, operations', owner: 'Head of Operations', ownerId: 'operations', fns: ['technology'], question: 'Are platforms reliable, current and ready for peak?' },
+  { id: 'security', label: 'Security & risk', ea: 'Cross-cutting · cyber, controls, regulation', owner: 'CISO', ownerId: 'governance', fns: ['cyber', 'risk'], question: 'Is technology risk inside appetite?' },
+  { id: 'spend', label: 'Spend & value', ea: 'Cross-cutting · run cost, investment, value', owner: 'Santosh', ownerId: 'santosh', fns: ['finance', 'procurement'], question: 'Is every rupee producing measurable value?' },
 ]
 export const TARGET = 85
 

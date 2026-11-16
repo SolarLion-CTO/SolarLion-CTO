@@ -8,25 +8,25 @@ export const manufacturing: DomainConfig = {
   plan: { runCostCr: 78, cloudPct: 55, legacyApps: 4, eolTech: 3, redundantCostCr: 1, deploysPerWeek: 38, leadTimeDays: 8, p1Per90d: 2 },
 
   objectives: [
-    ['Smart factory at scale', 'OEE 78% across 6 plants by FY28', 'COO', 'Ram (CTO)', 'Critical', '2027-12-31'],
-    ['Zero unplanned downtime on critical lines', 'Unplanned downtime below 1.5%', 'Head of Manufacturing', 'Pankaj (Operations)', 'Critical', '2027-06-30'],
+    ['Smart factory at scale', 'OEE 78% across 6 plants by FY28', 'COO', 'Ramkumar P', 'Critical', '2027-12-31'],
+    ['Zero unplanned downtime on critical lines', 'Unplanned downtime below 1.5%', 'Head of Manufacturing', 'Head of Operations', 'Critical', '2027-06-30'],
     ['Faster engineering to production', 'Engineering change cycle −40%', 'Chief Engineer', 'VP Engineering', 'High', '2027-09-30'],
     ['Resilient, digital supply chain', 'Supplier on-time-in-full 95%', 'Chief Supply Chain Officer', 'Head of Enterprise Apps', 'High', '2027-03-31'],
     ['First-time-right quality with AI', 'First-pass yield 97%', 'Head of Quality', 'Head of Data & AI', 'High', '2027-06-30'],
-    ['Secure OT and compliant operations', 'No OT security incident causing production loss', 'CISO', 'Vaibhav (CISO)', 'Medium', '2027-03-31'],
+    ['Secure OT and compliant operations', 'No OT security incident causing production loss', 'CISO', 'CISO', 'Medium', '2027-03-31'],
   ],
 
   initiatives: [
-    { name: 'Smart Factory Transformation', obj: 0, sponsor: 'COO', owner: 'Ram (CTO)', start: '2025-04-01', target: '2027-12-31', budget: 36, forecastPct: 111, progress: 34, planned: 47, roi: 175, value: 63, realizedPct: 58, apps: [10, 9, 15], deps: [5] },
-    { name: 'MES Standardisation & Reliability', obj: 1, sponsor: 'Head of Manufacturing', owner: 'Pankaj (Operations)', start: '2025-09-01', target: '2026-12-31', budget: 12.5, forecastPct: 106, progress: 58, planned: 64, roi: 190, value: 23.8, realizedPct: 72, apps: [2, 3, 8] },
+    { name: 'Smart Factory Transformation', obj: 0, sponsor: 'COO', owner: 'Ramkumar P', start: '2025-04-01', target: '2027-12-31', budget: 36, forecastPct: 111, progress: 34, planned: 47, roi: 175, value: 63, realizedPct: 58, apps: [10, 9, 15], deps: [5] },
+    { name: 'MES Standardisation & Reliability', obj: 1, sponsor: 'Head of Manufacturing', owner: 'Head of Operations', start: '2025-09-01', target: '2026-12-31', budget: 12.5, forecastPct: 106, progress: 58, planned: 64, roi: 190, value: 23.8, realizedPct: 72, apps: [2, 3, 8] },
     { name: 'PLM Modernization', obj: 2, sponsor: 'Chief Engineer', owner: 'VP Engineering', start: '2025-07-01', target: '2027-06-30', budget: 16, forecastPct: 104, progress: 39, planned: 45, roi: 150, value: 24, realizedPct: 75, apps: [5, 6, 7] },
     { name: 'Engineering Automation', obj: 2, sponsor: 'Chief Engineer', owner: 'VP Engineering', start: '2026-01-01', target: '2027-06-30', budget: 6.8, forecastPct: 100, progress: 22, planned: 26, roi: 210, value: 14.3, realizedPct: 80, apps: [7, 6], deps: [2] },
     { name: 'Predictive Maintenance', obj: 1, sponsor: 'Head of Maintenance', owner: 'Head of Data & AI', start: '2025-10-01', target: '2026-12-31', budget: 7.2, forecastPct: 98, progress: 69, planned: 70, roi: 280, value: 20.2, realizedPct: 95, apps: [11, 12] },
-    { name: 'Industrial IoT Platform', obj: 0, sponsor: 'Ram (CTO)', owner: 'Head of OT', start: '2025-06-01', target: '2027-03-31', budget: 14, forecastPct: 102, progress: 51, planned: 53, roi: 160, value: 22.4, realizedPct: 88, apps: [10, 8] },
+    { name: 'Industrial IoT Platform', obj: 0, sponsor: 'Ramkumar P', owner: 'Head of OT', start: '2025-06-01', target: '2027-03-31', budget: 14, forecastPct: 102, progress: 51, planned: 53, roi: 160, value: 22.4, realizedPct: 88, apps: [10, 8] },
     { name: 'Supply Chain Digitalization', obj: 3, sponsor: 'Chief Supply Chain Officer', owner: 'Head of Enterprise Apps', start: '2025-08-01', target: '2027-03-31', budget: 11, forecastPct: 99, progress: 48, planned: 50, roi: 170, value: 18.7, realizedPct: 90, apps: [17, 18, 19] },
     { name: 'AI Quality Inspection', obj: 4, sponsor: 'Head of Quality', owner: 'Head of Data & AI', start: '2026-01-15', target: '2027-03-31', budget: 5.4, forecastPct: 101, progress: 37, planned: 38, roi: 240, value: 13, realizedPct: 92, apps: [14, 13] },
     { name: 'ERP Hybrid Capacity (S/4)', obj: 3, sponsor: 'CFO', owner: 'Head of Enterprise Apps', start: '2026-02-01', target: '2027-06-30', budget: 9.8, forecastPct: 103, progress: 26, planned: 28, roi: 130, value: 12.7, realizedPct: 85, apps: [0, 1] },
-    { name: 'OT Security & Segmentation', obj: 5, sponsor: 'CISO', owner: 'Vaibhav (CISO)', start: '2025-11-01', target: '2027-03-31', budget: 6.2, forecastPct: 104, progress: 41, planned: 45, roi: 95, value: 5.9, realizedPct: 78, apps: [8, 9] },
+    { name: 'OT Security & Segmentation', obj: 5, sponsor: 'CISO', owner: 'CISO', start: '2025-11-01', target: '2027-03-31', budget: 6.2, forecastPct: 104, progress: 41, planned: 45, roi: 95, value: 5.9, realizedPct: 78, apps: [8, 9] },
   ],
 
   tech: [
@@ -154,12 +154,12 @@ export const manufacturing: DomainConfig = {
   },
 
   baselineRisks: [
-    ['Single SAP support partner with no exit plan', 'Vendor', 3, 4, 'Santhosh (vendor governance)', 'Second partner and exit plan at renewal', '2027-03-31', 0, 8, 'ERP change capacity and price lock-in'],
+    ['Single SAP support partner with no exit plan', 'Vendor', 3, 4, 'Santosh Kumar', 'Second partner and exit plan at renewal', '2027-03-31', 0, 8, 'ERP change capacity and price lock-in'],
     ['OT skills shortage across 6 plants', 'Operational', 4, 3, 'CHRO with Head of OT', 'OT academy and partner bench', '2027-03-31', 9, 0, 'Slower HMI and SCADA modernisation'],
     ['Supplier master data quality in planning', 'Data & AI', 3, 3, 'Head of Enterprise Apps', 'Supplier master-data cleanse', '2026-12-31', 18, 6, 'Planning errors and component stockouts'],
     ['Export-control rules for engineering data in cloud PLM', 'Regulatory', 2, 4, 'CLO', 'Data residency and access controls in cloud PLM', '2026-12-31', 6, 2, 'Regulatory breach on controlled designs'],
     ['AI vision false rejects raise scrap', 'Data & AI', 2, 3, 'Head of Quality', 'Human review for low-confidence images', '2026-11-30', 14, 7, 'Higher scrap and line stops'],
-    ['Ransomware entering through plant USB devices', 'Cyber', 3, 5, 'Vaibhav (CISO)', 'USB control and OT segmentation', '2026-12-31', 9, 9, 'Line stops across plants'],
+    ['Ransomware entering through plant USB devices', 'Cyber', 3, 5, 'CISO', 'USB control and OT segmentation', '2026-12-31', 9, 9, 'Line stops across plants'],
   ],
 
   business: {

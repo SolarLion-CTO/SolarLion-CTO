@@ -7,6 +7,7 @@ import { Peek, PeekCard, lift } from '../components/Peek'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useStore } from '../store'
 import ExecutiveSummary, { Purpose } from './ControlPlaneSummary'
+import CapstoneStory from './CapstoneStory'
 import { CartesianGrid, Line, LineChart, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ReferenceArea, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts'
 import { Activity, ArrowRight, ChevronDown, Crosshair, Gauge, Gavel, IndianRupee, Layers3, MonitorPlay, Radio, Sigma, Target } from 'lucide-react'
 import { SIM_NOW, sim, sourceHealth, SOURCES } from '../data/sim'
@@ -63,11 +64,12 @@ export default function ControlPlane() {
   return (
     <MotionConfig reducedMotion="user">
       {present && <Suspense fallback={null}><Present d={{ scope, setScope, now, L, C, score, delta: score - score3m, v, openDecisions: decs.length, critDecisions: decs.filter((x) => x.priority === 'Critical').length, live, ...stats }} onClose={() => setPresent(false)} lines={lines} /></Suspense>}
+      <CapstoneStory />
       {/* Title + scope */}
       <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
         <div className="min-w-0">
           <div className="text-xs font-bold tracking-widest text-brand-600 uppercase">CTO standpoint</div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-ink">Technology Control Plane</h1>
+          <h2 className="text-2xl sm:text-3xl font-bold text-ink">Technology Control Plane</h2>
           <p className="text-sm sm:text-[15px] text-ink-2 mt-0.5">See what's at risk, why it's happening, and what to decide next, across every part of our technology.</p>
           <div className="flex flex-wrap gap-1.5 mt-2" aria-label="What this page helps you do">
             {([['Monitor health', 'summary', Gauge], ['Trace impact', 'chain', Crosshair], ['Decide fast', 'layers', Gavel], ['Prove value', 'stats', IndianRupee]] as const).map(([label, id, Icon]) => (

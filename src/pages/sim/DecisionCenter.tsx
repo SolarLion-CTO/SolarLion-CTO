@@ -22,7 +22,7 @@ export default function DecisionCenter() {
   const awaiting = top.filter((x) => st.statusOf(x) === 'Awaiting decision')
   return (
     <>
-      <PageHeader title="CTO Decision Center" subtitle="Top 10 decisions across Banking, Manufacturing and Retail — ranked by priority, confidence and value. Simulated enterprise data." owner="Ram (CTO)" />
+      <PageHeader title="CTO Decision Center" subtitle="Top 10 decisions across Banking, Manufacturing and Retail — ranked by priority, confidence and value. Simulated enterprise data." owner="Ramkumar P" />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <Stat label="Top decisions awaiting you" value={awaiting.length} sub={`${awaiting.filter((x) => x.priority === 'Critical').length} critical`} tone="warn" />
         <Stat label="Value at stake (top 10)" value={`₹${Math.round(top.reduce((s, x) => s + x.benefitCr, 0))} Cr`} sub="expected value protected" />

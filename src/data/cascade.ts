@@ -6,7 +6,7 @@ import type { DomainId, Health } from './domains'
 export type Track = 'Strategy' | 'Operations' | 'Finance' | 'ROI' | 'Innovation' | 'Governance'
 export const tracks: Track[] = ['Strategy', 'Operations', 'Finance', 'ROI', 'Innovation', 'Governance']
 export const trackLead: Record<Track, string> = {
-  Strategy: 'Suman', Operations: 'Pankaj', Finance: 'Santhosh', ROI: 'Suman · Santhosh', Innovation: 'Ram', Governance: 'Vaibhav',
+  Strategy: 'Suman', Operations: 'Head of Operations', Finance: 'Santosh', ROI: 'Suman · Santosh', Innovation: 'Ram', Governance: 'CISO',
 }
 
 export interface Ground { unit: string; owner: string; metric: string; actual: string; target: string; status: Health; action: string }
@@ -152,7 +152,7 @@ export const cascade: Record<DomainId, Cascade> = {
             g('Plant 4 · press line', 'Plant 4 head', 'Payback', '2.1 years', '< 3 years', 'On Track', 'Approved; post-review in Q3'),
           ] },
           { name: 'OPEX / CAPEX portfolio', owner: 'IT finance partner', progress: 60, status: 'On Track', ground: [
-            g('ERP platform', 'Pankaj', 'Funding · decision', 'CAPEX · expand hybrid', 'Decided', 'On Track', 'Awaiting DEC-OPS-001 approval'),
+            g('ERP platform', 'Head of Operations', 'Funding · decision', 'CAPEX · expand hybrid', 'Decided', 'On Track', 'Awaiting DEC-OPS-001 approval'),
             g('MES hosting', 'MES lead', 'Funding · decision', 'OPEX · review', 'Decided', 'At Risk', 'Compare cloud MES quote'),
           ] },
         ],

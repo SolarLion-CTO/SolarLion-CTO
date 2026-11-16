@@ -7,7 +7,7 @@ const raciTone = (c: string) => (c.startsWith('A') ? 'bg-brand-900 text-white' :
 export default function OperatingModel() {
   return (
     <>
-      <PageHeader title="Operating Model & AI CoE" subtitle="People, process and ownership — who decides, who builds, who is accountable" owner="Ram (CTO)" />
+      <PageHeader title="Operating Model & AI CoE" subtitle="People, process and ownership — who decides, who builds, who is accountable" owner="Ramkumar P" />
 
       <Card title="Hub-and-spoke AI Centre of Excellence" className="mb-6">
         <div className="flex flex-col items-center">

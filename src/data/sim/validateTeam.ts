@@ -4,7 +4,7 @@ import { USE_CASES, STAGES, roi } from './aiPortfolio'
 import { circulars, liveCircular, models } from './governance'
 import { ledger, runCostCr } from './spend'
 import { capacity, problems, recurringOpen } from './ops'
-import { OWNERS, ownerState } from './team'
+import { OWNERS, ownerLabel, ownerState } from './team'
 import { goldenThread } from './scenario'
 import type { DomainId } from '../domains'
 
@@ -22,11 +22,11 @@ export function validateTeam() {
   }
   const neg = USE_CASES.filter((u) => roi(u).npv < 0).length
   notes.push(`Suman: ${USE_CASES.length} use cases, ${neg} with negative NPV`)
-  // Vaibhav
+  // Governance workspace
   for (const c of [...circulars, liveCircular]) for (const o of c.obligations) if (o.controlId && !ids.has(o.controlId)) errors.push(`${o.id} → control ${o.controlId} missing`)
   for (const m of models) { if (m.useCase.appId && !ids.has(m.useCase.appId)) errors.push(`${m.id} → app missing`); if (Math.abs(m.actual.reduce((a, b) => a + b, 0) - 1) > 0.01) errors.push(`${m.id} distribution does not sum to 1`) }
-  notes.push(`Vaibhav: ${circulars.length} circulars, ${circulars.reduce((a, c) => a + c.obligations.length, 0)} obligations, ${models.length} models (${models.filter((m) => m.approval === 'Restricted').length} restricted)`)
-  // Santhosh: run-cost categories reconcile with app + service costs (within 3%)
+  notes.push(`Governance: ${circulars.length} circulars, ${circulars.reduce((a, c) => a + c.obligations.length, 0)} obligations, ${models.length} models (${models.filter((m) => m.approval === 'Restricted').length} restricted)`)
+  // Santosh: run-cost categories reconcile with app + service costs (within 3%)
   for (const d of D) {
     const l = ledger(d)
     const runCats = l.reduce((a, x) => a + x.byCat['Licences & SaaS'] + x.byCat.People + x.byCat['Vendors & services'] + x.byCat['Hardware & DC'], 0)
@@ -37,11 +37,11 @@ export function validateTeam() {
     if (Math.abs(cl - exp) > 0.1) errors.push(`${d}: cloud ledger ${cl.toFixed(2)} ≠ metric ${exp.toFixed(2)}`)
     if (l.some((x) => Math.abs(x.capex + x.opex - x.total) > 0.02)) errors.push(`${d}: CAPEX + OPEX ≠ total`)
   }
-  notes.push(`Santhosh: ledgers reconcile with run cost and cloud metric (±3%)`)
-  // Pankaj
+  notes.push(`Santosh: ledgers reconcile with run cost and cloud metric (±3%)`)
+  // Operations workspace
   for (const p of problems) if (!ids.has(p.serviceId)) errors.push(`${p.id} → service missing`)
   const minHead = Math.round(100 - Math.max(...capacity().map((c) => c.current)))
-  notes.push(`Pankaj: ${problems.length} problem records (${recurringOpen()} recurring open), min headroom ${minHead}%`)
+  notes.push(`Operations: ${problems.length} problem records (${recurringOpen()} recurring open), min headroom ${minHead}%`)
   // Measures
   for (const o of OWNERS) {
     const st = ownerState(o)
@@ -51,10 +51,10 @@ export function validateTeam() {
       if (m.progress < 0 || m.progress > 100) errors.push(`${m.def.id} progress out of range`)
     }
   }
-  const pk = ownerState(OWNERS.find((o) => o.id === 'pankaj')!).measures
+  const pk = ownerState(OWNERS.find((o) => o.id === 'operations')!).measures
   if (pk.find((m) => m.def.id === 'pan-recur')!.current !== recurringOpen()) errors.push('pan-recur measure does not match problem records')
   if (pk.find((m) => m.def.id === 'pan-head')!.current !== minHead) errors.push('pan-head measure does not match capacity data')
-  notes.push(`Team: ${OWNERS.map((o) => `${o.name} ${ownerState(o).score}%`).join(', ')}`)
+  notes.push(`Team: ${OWNERS.map((o) => `${ownerLabel(o)} ${ownerState(o).score}%`).join(', ')}`)
   // Golden thread evidence
   for (const s of goldenThread()) for (const e of s.evidence) if (!ids.has(e) && !e.startsWith('MET-')) errors.push(`Golden thread step ${s.n} evidence ${e} missing`)
   return { errors, notes }

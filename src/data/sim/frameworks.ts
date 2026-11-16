@@ -9,7 +9,7 @@ import { USE_CASES } from './aiPortfolio'
 import type { UseCase } from './aiPortfolio'
 import { ledger } from './spend'
 import { capacity, SCENARIOS, runScenario } from './ops'
-import { OWNERS, ownerState } from './team'
+import { OWNERS, ownerLabel, ownerState } from './team'
 import type { MeasureDef } from './team'
 import { npv, sCurve } from './analytics'
 import { rng } from './rng'
@@ -28,7 +28,7 @@ export const BSC: Record<string, string[]> = {
   'Learning & growth': ['ram-bu', 'ram-health', 'suman-ready', 'suman-prod', 'suman-conv', 'vai-models'],
 }
 export function balancedScorecard() {
-  const all = OWNERS.flatMap((o) => ownerState(o).measures.map((m) => ({ ...m, owner: o.name })))
+  const all = OWNERS.flatMap((o) => ownerState(o).measures.map((m) => ({ ...m, owner: ownerLabel(o) })))
   return Object.entries(BSC).map(([p, ids]) => {
     const ms = all.filter((m) => ids.includes(m.def.id))
     return { perspective: p, measures: ms, score: Math.round(ms.reduce((a, m) => a + m.progress, 0) / ms.length), behind: ms.filter((m) => m.glide === 'Behind').length }
@@ -49,11 +49,11 @@ export function cynefinOf(d: Decision): Cynefin {
   return 'Complicated'
 }
 export function rapid(d: Decision) {
-  const agree = d.functions.some((f) => ['risk', 'cyber', 'legal'].includes(f)) ? 'Vaibhav (governance)' : d.functions.includes('finance') || d.investmentCr > 0 ? 'Santhosh (finance)' : '—'
+  const agree = d.functions.some((f) => ['risk', 'cyber', 'legal'].includes(f)) ? 'CISO' : d.functions.includes('finance') || d.investmentCr > 0 ? 'Santosh Kumar' : '—'
   return {
     R: d.owner, A: agree, P: [...new Set(d.actions.map((a) => a.owner))].slice(0, 3).join(', '),
     I: ((n) => `${n} source${n === 1 ? '' : 's'} / agents`)([...new Set(d.signals.map((s) => s.source))].length),
-    D: d.priority === 'Critical' || d.priority === 'High' ? 'Ram (CTO)' : d.owner.split(' with ')[0],
+    D: d.priority === 'Critical' || d.priority === 'High' ? 'Ramkumar P' : d.owner.split(' with ')[0],
   }
 }
 export function decisionsFramed() {
@@ -97,7 +97,7 @@ export const sumanFwMeasures = () => [
   fwMeasure('fw-h1', 'AI investment in live use cases (H1)', '%', 'up', 20, threeHorizons(D)[0].pct, 70, 'Three Horizons: 70 / 20 / 10 target — low H1 = pilot purgatory'),
 ]
 
-// ── Vaibhav · Three Lines Model ──────────────────────────────────────
+// ── Three Lines Model ──────────────────────────────────────
 export function threeLines() {
   return D.flatMap((d) => sim[d].risks.filter((r) => r.severity === 'High' || r.severity === 'Critical').map((r) => {
     const g = rng(`3l-${r.id}`)
@@ -106,9 +106,9 @@ export function threeLines() {
     return { d, r, first: true, second, third }
   }))
 }
-export const vaibhavFwMeasures = () => { const t = threeLines(); return [fwMeasure('fw-3l', 'High / critical risks covered by all three lines', '%', 'up', 20, Math.round((t.filter((x) => x.second && x.third).length / t.length) * 100), 100, '1st line owns · 2nd line oversees · 3rd line assures')] }
+export const govFwMeasures = () => { const t = threeLines(); return [fwMeasure('fw-3l', 'High / critical risks covered by all three lines', '%', 'up', 20, Math.round((t.filter((x) => x.second && x.third).length / t.length) * 100), 100, '1st line owns · 2nd line oversees · 3rd line assures')] }
 
-// ── Santhosh · Run-Grow-Transform, TCO, sensitivity ──────────────────
+// ── Santosh · Run-Grow-Transform, TCO, sensitivity ──────────────────
 const GROW = /Lending|Open Banking|Customer 360|Omnichannel|Personali|Mobile|Loyalty|Supply Chain|Demand|Predictive|Quality/i
 export const rgtOf = (name: string) => (GROW.test(name) ? 'Grow' : 'Transform')
 export const RGT_TARGET = { Run: 60, Grow: 25, Transform: 15 }
@@ -137,14 +137,14 @@ export function tornado(i: (typeof sim)['banking']['initiatives'][number]) {
   ].sort((a, b) => b.hi - b.lo - (a.hi - a.lo))
   return { base, bars }
 }
-export const santhoshFwMeasures = () => {
+export const santoshFwMeasures = () => {
   const neg = D.flatMap((d) => sim[d].initiatives).filter((i) => npv(0.12, [-i.budgetCr, ...[0.4, 0.8, 1, 1, 1].map((x) => (i.expectedValueCr / 3) * 0.8 * x - i.budgetCr * 0.1)]) < 0).length
   const gap = r1(D.reduce((a, d) => a + rgtGap(runGrowTransform(d)), 0) / 3)
   return [fwMeasure('fw-rgt', 'Gap from Run-Grow-Transform target mix', 'pts', 'down', 30, gap, 5, 'Half the sum of |actual − target| across 60 / 25 / 15', 1),
     fwMeasure('fw-fragile', 'Investments with NPV < 0 if benefits fall 20%', '', 'down', 19, neg, 5, 'Sensitivity stress test across 30 initiatives')]
 }
 
-// ── Pankaj · Theory of Constraints ───────────────────────────────────
+// ── Theory of Constraints ───────────────────────────────────
 export function constraints() {
   const cap = capacity()
   return SCENARIOS.map((s) => {
@@ -164,7 +164,7 @@ export function constraints() {
     }
   })
 }
-export const pankajFwMeasures = () => [fwMeasure('fw-margin', 'Capacity margin at the worst peak', '%', 'up', 2, Math.round(Math.min(...constraints().map((x) => x.margin))), 25, 'Theory of Constraints: 100% − peak utilisation of the constraint')]
+export const opsFwMeasures = () => [fwMeasure('fw-margin', 'Capacity margin at the worst peak', '%', 'up', 2, Math.round(Math.min(...constraints().map((x) => x.margin))), 25, 'Theory of Constraints: 100% − peak utilisation of the constraint')]
 
 // ── Team · Kotter + ADKAR ────────────────────────────────────────────
 export const ADKAR = ['Awareness', 'Desire', 'Knowledge', 'Ability', 'Reinforcement'] as const

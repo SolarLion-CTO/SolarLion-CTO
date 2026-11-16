@@ -1,4 +1,4 @@
-// Vaibhav · Regulatory & AI Governance — Regulatory change, AI model register, Data governance & DPDP, Audit readiness.
+// Regulatory & AI Governance — Regulatory change, AI model register, Data governance & DPDP, Audit readiness.
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, BellRing, CircleCheck, Clock, FileText, Radio, ShieldAlert } from 'lucide-react'
@@ -73,7 +73,7 @@ export function RegulatoryTab() {
                 <>
                   <button onClick={() => st.decide(LIVE_CIRCULAR_DECISION, 'Approved')} className="inline-flex items-center gap-1 h-8 px-3 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700"><CircleCheck size={14} />Approve mapping</button>
                   <button onClick={() => st.decide(LIVE_CIRCULAR_DECISION, 'Deferred')} className="h-8 px-3 rounded-lg border border-slate-300 text-sm font-medium hover:bg-slate-50">Send back</button>
-                  <span className="text-[11px] text-ink-3">AI drafts · Vaibhav approves (TEDIF: humans decide)</span>
+                  <span className="text-[11px] text-ink-3">AI drafts · the CISO approves (TEDIF: humans decide)</span>
                 </>
               )}
             </div>

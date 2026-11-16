@@ -34,21 +34,21 @@ export const levelName = (s: number) => (s < 1.5 ? 'Traditional' : s < 2.5 ? 'Di
 export type Verdict = 'Fund now' | 'Pilot' | 'Strategic bet' | 'Defer'
 export interface UseCase { name: string; domain: DomainId; value: number; feasibility: number; valueCr: number; owner: string; verdict: Verdict }
 export const useCases: UseCase[] = [
-  { name: 'Regulatory circular mapping', domain: 'banking', value: 8, feasibility: 8, valueCr: 6.1, owner: 'Vaibhav', verdict: 'Fund now' },
-  { name: 'Incident RCA on core banking', domain: 'banking', value: 6, feasibility: 8, valueCr: 4.1, owner: 'Pankaj', verdict: 'Fund now' },
+  { name: 'Regulatory circular mapping', domain: 'banking', value: 8, feasibility: 8, valueCr: 6.1, owner: 'CISO', verdict: 'Fund now' },
+  { name: 'Incident RCA on core banking', domain: 'banking', value: 6, feasibility: 8, valueCr: 4.1, owner: 'Head of Operations', verdict: 'Fund now' },
   { name: 'Lending use-case portfolio', domain: 'banking', value: 9, feasibility: 7, valueCr: 12.8, owner: 'Suman', verdict: 'Fund now' },
   { name: 'KYC document triage', domain: 'banking', value: 7, feasibility: 5, valueCr: 2.9, owner: 'Suman', verdict: 'Pilot' },
   { name: 'Agentic actions on core banking', domain: 'banking', value: 8, feasibility: 3, valueCr: 5.0, owner: 'Ram', verdict: 'Strategic bet' },
-  { name: 'ERP root-cause analysis', domain: 'manufacturing', value: 8, feasibility: 8, valueCr: 5.8, owner: 'Pankaj', verdict: 'Fund now' },
-  { name: 'ERP + line capacity (DEC-OPS-001)', domain: 'manufacturing', value: 7, feasibility: 7, valueCr: 6.4, owner: 'Pankaj', verdict: 'Fund now' },
+  { name: 'ERP root-cause analysis', domain: 'manufacturing', value: 8, feasibility: 8, valueCr: 5.8, owner: 'Head of Operations', verdict: 'Fund now' },
+  { name: 'ERP + line capacity (DEC-OPS-001)', domain: 'manufacturing', value: 7, feasibility: 7, valueCr: 6.4, owner: 'Head of Operations', verdict: 'Fund now' },
   { name: 'Predictive maintenance', domain: 'manufacturing', value: 9, feasibility: 5, valueCr: 6.4, owner: 'Ram', verdict: 'Pilot' },
-  { name: 'CAPEX approval with payback', domain: 'manufacturing', value: 6, feasibility: 9, valueCr: 4.9, owner: 'Santhosh', verdict: 'Fund now' },
+  { name: 'CAPEX approval with payback', domain: 'manufacturing', value: 6, feasibility: 9, valueCr: 4.9, owner: 'Santosh', verdict: 'Fund now' },
   { name: 'Digital twin of Line 3', domain: 'manufacturing', value: 7, feasibility: 2, valueCr: 3.0, owner: 'Ram', verdict: 'Strategic bet' },
-  { name: 'Supplier certificate extraction', domain: 'manufacturing', value: 4, feasibility: 7, valueCr: 1.4, owner: 'Vaibhav', verdict: 'Pilot' },
-  { name: 'Festive-peak capacity', domain: 'retail', value: 8, feasibility: 7, valueCr: 5.2, owner: 'Pankaj', verdict: 'Fund now' },
+  { name: 'Supplier certificate extraction', domain: 'manufacturing', value: 4, feasibility: 7, valueCr: 1.4, owner: 'CISO', verdict: 'Pilot' },
+  { name: 'Festive-peak capacity', domain: 'retail', value: 8, feasibility: 7, valueCr: 5.2, owner: 'Head of Operations', verdict: 'Fund now' },
   { name: 'Demand forecasting & markdown', domain: 'retail', value: 9, feasibility: 5, valueCr: 6.1, owner: 'Ram', verdict: 'Pilot' },
-  { name: 'Consent gate for personalisation', domain: 'retail', value: 5, feasibility: 8, valueCr: 1.2, owner: 'Vaibhav', verdict: 'Fund now' },
-  { name: 'Seasonal cloud burst', domain: 'retail', value: 5, feasibility: 6, valueCr: 2.8, owner: 'Santhosh', verdict: 'Pilot' },
+  { name: 'Consent gate for personalisation', domain: 'retail', value: 5, feasibility: 8, valueCr: 1.2, owner: 'CISO', verdict: 'Fund now' },
+  { name: 'Seasonal cloud burst', domain: 'retail', value: 5, feasibility: 6, valueCr: 2.8, owner: 'Santosh', verdict: 'Pilot' },
   { name: 'Generic chatbot for stores', domain: 'retail', value: 3, feasibility: 4, valueCr: 0.4, owner: '—', verdict: 'Defer' },
 ]
 
@@ -116,7 +116,7 @@ export const aiChoices: AiChoice[] = [
 ]
 
 // ── Operating model ──────────────────────────────────────────────────────
-export const raciRoles = ['CTO (Ram)', 'Strategy (Suman)', 'Finance (Santhosh)', 'Operations (Pankaj)', 'Governance (Vaibhav)', 'Domain business owner']
+export const raciRoles = ['Ramkumar P', 'Suman Kolekar', 'Santosh Kumar', 'Head of Operations', 'CISO', 'Domain business owner']
 export const raci: { area: string; cells: string[] }[] = [
   { area: 'Business priority & ROI identification', cells: ['C', 'A/R', 'C', 'C', 'C', 'C'] },
   { area: 'Funding, OPEX/CAPEX, value realisation', cells: ['C', 'C', 'A/R', 'C', 'I', 'C'] },
@@ -145,10 +145,10 @@ export const training: { audience: string; topic: string; when: string }[] = [
 // ── Roadmap (weeks from programme start, 3 Aug 2026) ─────────────────────
 export const currentWeek = 10
 export const roadmapPhases: { name: string; start: number; end: number; lead: string; output: string; color: string }[] = [
-  { name: 'Foundation', start: 1, end: 4, lead: 'Suman · Pankaj', output: 'Maturity baseline, use-case inventory, KPI baseline', color: 'bg-brand-900' },
-  { name: 'Design', start: 5, end: 8, lead: 'Ram · Vaibhav', output: 'Architecture, governance model, 5–10 decisions catalogued', color: 'bg-brand-700' },
+  { name: 'Foundation', start: 1, end: 4, lead: 'Suman · Head of Operations', output: 'Maturity baseline, use-case inventory, KPI baseline', color: 'bg-brand-900' },
+  { name: 'Design', start: 5, end: 8, lead: 'Ram · CISO', output: 'Architecture, governance model, 5–10 decisions catalogued', color: 'bg-brand-700' },
   { name: 'Pilot (shadow)', start: 9, end: 12, lead: 'Ram · all', output: '3 decisions × 3 domains in shadow mode', color: 'bg-brand-600' },
-  { name: 'Scale blueprint', start: 13, end: 16, lead: 'Santhosh · Suman', output: 'Benefits case, rollout to next department', color: 'bg-seq-400' },
+  { name: 'Scale blueprint', start: 13, end: 16, lead: 'Santosh · Suman', output: 'Benefits case, rollout to next department', color: 'bg-seq-400' },
 ]
 export const roadmapLanes: { lane: string; bars: { label: string; start: number; end: number; tone: string }[]; gates: { label: string; week: number }[] }[] = [
   { lane: 'Banking', bars: [{ label: 'Assess', start: 1, end: 3, tone: 'bg-slate-400' }, { label: 'Design', start: 4, end: 7, tone: 'bg-blue-500' }, { label: 'Build + shadow', start: 8, end: 13, tone: 'bg-violet-500' }], gates: [{ label: 'G1', week: 2 }, { label: 'G2', week: 7 }, { label: 'G3', week: 13 }] },
@@ -158,11 +158,11 @@ export const roadmapLanes: { lane: string; bars: { label: string; start: number;
 export const milestones: { week: number; what: string; owner: string; done: boolean }[] = [
   { week: 1, what: 'Kick-off; decision owners confirmed', owner: 'Ram', done: true },
   { week: 2, what: 'Maturity assessment started', owner: 'Suman', done: true },
-  { week: 4, what: 'KPI baseline captured — no value claimed before this', owner: 'Suman · Santhosh', done: true },
-  { week: 8, what: 'First decisions catalogued and owner-signed', owner: 'Ram · Vaibhav', done: true },
-  { week: 10, what: 'Shadow run started in Banking and Manufacturing', owner: 'Ram · Pankaj', done: true },
+  { week: 4, what: 'KPI baseline captured — no value claimed before this', owner: 'Suman · Santosh', done: true },
+  { week: 8, what: 'First decisions catalogued and owner-signed', owner: 'Ram · CISO', done: true },
+  { week: 10, what: 'Shadow run started in Banking and Manufacturing', owner: 'Ram · Head of Operations', done: true },
   { week: 12, what: 'Shadow pilot review at gate (day 90)', owner: 'All', done: false },
-  { week: 16, what: 'Benefits case and next-department rollout', owner: 'Santhosh · Suman', done: false },
+  { week: 16, what: 'Benefits case and next-department rollout', owner: 'Santosh · Suman', done: false },
 ]
 
 // ── CTO decisions ────────────────────────────────────────────────────────

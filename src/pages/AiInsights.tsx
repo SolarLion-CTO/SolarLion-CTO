@@ -9,7 +9,7 @@ export default function AiInsights() {
   const [verdict, setVerdict] = useState<Record<string, 'Accepted' | 'Rejected'>>({})
   return (
     <>
-      <PageHeader title="AI Intelligence" subtitle="Cross-domain insights prepared by AI agents — every recommendation needs a named human decision" owner="Ram (CTO)" />
+      <PageHeader title="AI Intelligence" subtitle="Cross-domain insights prepared by AI agents — every recommendation needs a named human decision" owner="Ramkumar P" />
       <div className="rounded-xl border border-brand-100 bg-brand-50 px-4 py-3 text-sm text-brand-900 mb-5 flex gap-2 items-start">
         <Sparkles size={16} className="mt-0.5 shrink-0" />
         <span>AI observes, gathers evidence and recommends. <b>People decide.</b> Nothing here is executed automatically; accepted items go to the Decision Center with an approver and an audit record.</span>

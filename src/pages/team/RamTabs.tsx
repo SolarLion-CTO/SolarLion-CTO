@@ -87,7 +87,7 @@ export function AgentsTab() {
 }
 
 export function ThreadTab() {
-  return <Card title="Golden thread · one problem, five owners, one decision"><GoldenThread /></Card>
+  return <Card title="Golden thread · one problem, five workspaces, one decision"><GoldenThread /></Card>
 }
 
 export function ProgrammesTab() {

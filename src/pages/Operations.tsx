@@ -10,7 +10,7 @@ export default function Operations() {
 
   return (
     <>
-      <PageHeader title="Operations" subtitle="ERP root-cause analysis, IT and production capacity planning, workflow automation" owner="Pankaj" />
+      <PageHeader title="Operations" subtitle="ERP root-cause analysis, IT and production capacity planning, workflow automation" owner="Head of Operations" />
       <ProblemPanel p={domain.problems.Operations} domainName={domain.name} />
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">

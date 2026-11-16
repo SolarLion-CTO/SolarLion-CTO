@@ -8,7 +8,7 @@ const span = (s: number, e: number) => `${((e - s + 1) / WEEKS) * 100}%`
 export default function Roadmap() {
   return (
     <>
-      <PageHeader title="Execution Roadmap" subtitle="90-day foundation in 30-day increments, then scale — each increment ends in a gate: approve, redo or stop" owner="Ram (CTO)" />
+      <PageHeader title="Execution Roadmap" subtitle="90-day foundation in 30-day increments, then scale — each increment ends in a gate: approve, redo or stop" owner="Ramkumar P" />
 
       <div className="grid md:grid-cols-4 gap-3 mb-6">
         {roadmapPhases.map((p) => (

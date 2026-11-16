@@ -125,7 +125,7 @@ export function decisionsFor(d: DomainData): Decision[] {
       financialImpact: `${cr(cost)}/yr run cost; modernisation estimated ${cr(cost * 1.4)}`, risk: 'Unsupported software in customer paths',
       investmentCr: Math.round(cost * 1.4 * 10) / 10, benefitCr: Math.round(cost * 2.2 * 10) / 10, functions: ['architecture', 'technology', 'cyber', 'cx', 'finance'],
       actions: cfEol.slice(0, 3).map((a, k) => ({ id: `ACT-${did.slice(4)}-${k + 1}`, decisionId: did, action: `${a.name}: ${a.recommendation.toLowerCase()}`, owner: a.owner, due: date(90 + k * 30), priority: 'High' as Severity, expectedOutcome: 'Off end-of-life technology', evidence: a.id }))
-        .concat([{ id: `ACT-${did.slice(4)}-9`, decisionId: did, action: 'Compensating controls (segmentation, WAF rules, monitoring) on the remaining legacy apps', owner: 'Vaibhav (CISO)', due: date(21), priority: 'High', expectedOutcome: 'Risk exception approved with controls', evidence: ctl.id }]),
+        .concat([{ id: `ACT-${did.slice(4)}-9`, decisionId: did, action: 'Compensating controls (segmentation, WAF rules, monitoring) on the remaining legacy apps', owner: 'CISO', due: date(21), priority: 'High', expectedOutcome: 'Risk exception approved with controls', evidence: ctl.id }]),
     })
   }
 
@@ -236,8 +236,8 @@ export function decisionsFor(d: DomainData): Decision[] {
     return { metric: x, baseline, target: x.target, current: cur, variance: Math.round((cur - x.target) * 100) / 100, status: good ? 'Target met' : moving ? 'On track' : 'Behind' }
   }
   const pre = [
-    { title: 'Accelerate cloud adoption and FinOps', owner: 'Ram (CTO)', o: [m('technology', 'cloud'), m('finance', 'savings')], acts: [['Move wave-2 workloads to cloud', 'Head of Cloud', 'Completed', 'Wave 2 live'], ['Introduce FinOps rightsizing', 'Head of Cloud', 'In Progress', '']] },
-    { title: 'Put priority AI use cases into production', owner: 'Head of Data & AI', o: [m('data-ai', 'usecases'), m('data-ai', 'aivalue')], acts: [['Productionise the top use cases with MLOps', 'Head of Data & AI', 'Completed', 'Models live with monitoring'], ['Responsible-AI review for each model', 'Vaibhav (CISO)', 'In Progress', '']] },
+    { title: 'Accelerate cloud adoption and FinOps', owner: 'Ramkumar P', o: [m('technology', 'cloud'), m('finance', 'savings')], acts: [['Move wave-2 workloads to cloud', 'Head of Cloud', 'Completed', 'Wave 2 live'], ['Introduce FinOps rightsizing', 'Head of Cloud', 'In Progress', '']] },
+    { title: 'Put priority AI use cases into production', owner: 'Head of Data & AI', o: [m('data-ai', 'usecases'), m('data-ai', 'aivalue')], acts: [['Productionise the top use cases with MLOps', 'Head of Data & AI', 'Completed', 'Models live with monitoring'], ['Responsible-AI review for each model', 'CISO', 'In Progress', '']] },
   ]
   for (const p of pre) {
     const did = id()

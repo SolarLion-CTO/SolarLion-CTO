@@ -17,7 +17,7 @@ export default function TrackerPortfolio() {
 
   return (
     <>
-      <PageHeader title="Programme Tracker · Portfolio" subtitle="Eight dimensions × three domains, tracked from CTO to developer — one plan, one source of truth" owner="Ram (CTO)" />
+      <PageHeader title="Programme Tracker · Portfolio" subtitle="Eight dimensions × three domains, tracked from CTO to developer — one plan, one source of truth" owner="Ramkumar P" />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Items tracked</div><div className="text-2xl font-bold">{items.length}</div><div className="text-xs text-slate-500">across 9 role levels</div></Card>

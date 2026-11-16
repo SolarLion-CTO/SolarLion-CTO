@@ -10,7 +10,7 @@ export default function CtoDecisions() {
   const by = (s: string) => ctoDecisions.filter((d) => d.status === s).length
   return (
     <>
-      <PageHeader title="What the CTO Decides" subtitle="Decision rights of the CTO and the control tower — and what they deliberately do not decide" owner="Ram (CTO)" />
+      <PageHeader title="What the CTO Decides" subtitle="Decision rights of the CTO and the control tower — and what they deliberately do not decide" owner="Ramkumar P" />
 
       <div className="grid grid-cols-3 gap-4 mb-6">
         <Card><div className="text-[11px] uppercase text-slate-500 font-semibold">Decided</div><div className="text-3xl font-bold text-emerald-700">{by('Decided')}</div></Card>

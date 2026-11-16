@@ -9,7 +9,7 @@ import { decisionsFor } from '../../data/sim/decisions'
 import type { Decision } from '../../data/sim/decisions'
 import { buildEvents } from '../../data/sim/events'
 import type { MeasureState, Owner } from '../../data/sim/team'
-import { ownerState } from '../../data/sim/team'
+import { ownerLabel, ownerState } from '../../data/sim/team'
 import { headroomAt, threadState } from '../../data/sim/scenario'
 import { OWNER } from '../../data/sim/team'
 import { ragOf } from '../../data/sim/scoring'
@@ -116,7 +116,7 @@ export function OwnerRail({ owner }: { owner: Owner }) {
   const feed = events.filter((e) => e.at <= now).sort((a, b) => b.at - a.at).slice(0, 6)
   return (
     <div className="space-y-5">
-      <Card title={`${owner.name}'s decisions`} action={<Link to="/decision-center" className="text-xs font-semibold text-brand-600">All →</Link>}>
+      <Card title={`Decisions · ${ownerLabel(owner)}`} action={<Link to="/decision-center" className="text-xs font-semibold text-brand-600">All →</Link>}>
         <div className="text-xs text-ink-3 -mt-2 mb-2">{mine.filter((d) => st.statusOf(d) === 'Awaiting decision').length} awaiting · {actions.length} actions from approved decisions</div>
         <div className="space-y-2">{top.map((d) => <DecisionRow key={d.id} d={d} />)}</div>
       </Card>
@@ -140,10 +140,10 @@ export function WorkspaceShell({ owner, tabs }: { owner: Owner; tabs: { id: stri
     <>
       <section className="rounded-xl bg-brand-950 text-white p-5 mb-4 flex flex-col lg:flex-row gap-5 lg:items-center">
         <div className="flex items-center gap-4 min-w-0 flex-1">
-          <div className="w-14 h-14 rounded-full bg-white/15 flex items-center justify-center text-2xl font-bold shrink-0" aria-hidden>{owner.name[0]}</div>
+          <div className="w-14 h-14 rounded-full bg-white/15 flex items-center justify-center text-2xl font-bold shrink-0" aria-hidden>{ownerLabel(owner)[0]}</div>
           <div className="min-w-0">
             <div className="text-xs uppercase tracking-wide text-accent font-semibold">Team workspace · {owner.workspace}</div>
-            <h1 className="text-[24px] sm:text-[28px] font-bold leading-tight">{owner.name} <span className="text-slate-300 font-medium text-lg">· {owner.role}</span></h1>
+            <h1 className="text-[24px] sm:text-[28px] font-bold leading-tight">{ownerLabel(owner)} <span className="text-slate-300 font-medium text-lg">· {owner.role}</span></h1>
             <p className="text-sm text-slate-300">{owner.tagline}</p>
             <div className="flex flex-wrap gap-1.5 mt-2">{owner.bp1.map((b, i) => <span key={b} className="text-[11px] bg-white/10 border border-white/15 rounded-md px-2 py-0.5">BP1 · {i + 1} · {b}</span>)}</div>
           </div>
@@ -189,7 +189,7 @@ export function GoldenThread({ compact = false }: { compact?: boolean }) {
           <li key={x.n} className={`rounded-xl border p-3 transition ${x.status === 'active' ? 'border-brand-600 ring-2 ring-brand-100 bg-surface' : x.status === 'done' ? 'border-line bg-surface' : 'border-dashed border-line bg-slate-50 opacity-70'}`}>
             <div className="flex items-center gap-2 mb-1">
               <span className={`w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${x.status === 'upcoming' ? 'bg-slate-200 text-ink-3' : 'bg-brand-600 text-white'}`}>{x.n}</span>
-              <Link to={x.link} className="text-xs font-semibold text-brand-700 hover:underline">{OWNER[x.owner].name} · {OWNER[x.owner].workspace}</Link>
+              <Link to={x.link} className="text-xs font-semibold text-brand-700 hover:underline">{OWNER[x.owner].role === 'CTO' ? `${OWNER[x.owner].name} · ` : ''}{OWNER[x.owner].workspace}</Link>
               <span className="ml-auto text-[10.5px] text-ink-4">{hhmm(x.at).slice(0, 8)}</span>
             </div>
             <div className="font-semibold text-sm text-ink leading-snug">{x.title}</div>

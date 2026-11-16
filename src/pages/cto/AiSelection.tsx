@@ -14,7 +14,7 @@ export default function AiSelection() {
 
   return (
     <>
-      <PageHeader title="AI Technique Selection" subtitle="ML, GenAI, RAG or agentic AI — chosen per use case, with the reason and the alternatives rejected" owner="Ram (CTO)" />
+      <PageHeader title="AI Technique Selection" subtitle="ML, GenAI, RAG or agentic AI — chosen per use case, with the reason and the alternatives rejected" owner="Ramkumar P" />
 
       <Card title="Selection guide" className="mb-6">
         <div className="grid md:grid-cols-5 gap-3">

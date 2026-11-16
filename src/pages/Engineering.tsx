@@ -19,7 +19,7 @@ export default function Engineering() {
 
   return (
     <>
-      <PageHeader title="Engineering" subtitle={`${domains[domainId].name} — delivery speed, stability and the plan from CTO to developer`} owner="Ram (CTO)" />
+      <PageHeader title="Engineering" subtitle={`${domains[domainId].name} — delivery speed, stability and the plan from CTO to developer`} owner="Ramkumar P" />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <Stat label="Deployment frequency" value={`${e.deploysPerWeek} / week`} sub="to production" />
         <Stat label="Lead time for change" value={`${e.leadTimeDays} days`} sub="commit → production" tone={e.leadTimeDays > 10 ? 'warn' : 'default'} />

@@ -241,7 +241,7 @@ export function build(domain: DomainId, c: DomainConfig): DomainData {
     const tested = st === 'Not tested' ? null : date(NOW - R.int(5, 80) * DAY)
     const why = st === 'Passing' ? [] : [st === 'Failing' ? 'latest automated test failed' : st === 'Exception' ? 'running on an approved exception' : 'no test evidence collected']
     return {
-      ...base('CTL', i, 3, text, framework === 'PCI DSS' ? 'Head of Payments Security' : framework.includes('AI') ? 'Head of Data & AI' : 'Vaibhav (CISO)', 'vanta'),
+      ...base('CTL', i, 3, text, framework === 'PCI DSS' ? 'Head of Payments Security' : framework.includes('AI') ? 'Head of Data & AI' : 'CISO', 'vanta'),
       why, health: (st === 'Failing' ? 'Red' : st === 'Passing' ? 'Green' : 'Amber') as Rag, status: st,
       framework, control: text, controlStatus: st, evidence: st === 'Passing' ? 'Automated test passed' : st === 'Failing' ? 'Failed test' : st === 'Exception' ? 'Exception approved' : 'Missing',
       lastTested: tested ?? '—', nextReview: tested ? addDays(tested, 90) : date(NOW + 14 * DAY), exceptions: o ? o[1] : 0, appIds: o ? o[2].map((a) => applications[a].id) : [],

@@ -29,7 +29,7 @@ export default function Architecture() {
   return (
     <>
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <PageHeader title="Enterprise & AI Architecture" subtitle="One control layer for every domain — AI sits between governance controls and a human approval" owner="Ram (CTO)" />
+        <PageHeader title="Enterprise & AI Architecture" subtitle="One control layer for every domain — AI sits between governance controls and a human approval" owner="Ramkumar P" />
         <div className="mb-6"><DomainSwitch /></div>
       </div>
 

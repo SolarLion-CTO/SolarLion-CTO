@@ -101,7 +101,7 @@ export function KevPanel() {
   )
 }
 
-// ── Vaibhav · Regulatory change: real RBI notifications ──
+// ── Regulatory change: real RBI notifications ──
 export function RbiFeed() {
   return (
     <Card className="mt-5">
@@ -125,7 +125,7 @@ export function RbiFeed() {
   )
 }
 
-// ── Vaibhav · AI model register: real drift on a real fraud dataset ──
+// ── AI model register: real drift on a real fraud dataset ──
 export function FraudDrift() {
   const band = (p: number) => p > 0.25 ? pill('crit', 'Drift · revalidate') : p > 0.1 ? pill('warn', 'Watch') : pill('ok', 'Stable')
   const maxH = Math.max(...fraud.hourlyFraudRatePct)
@@ -153,7 +153,7 @@ export function FraudDrift() {
   )
 }
 
-// ── Pankaj · ERP RCA: real incident log ──
+// ── ERP RCA: real incident log ──
 export function IncidentReality() {
   const top = incidents.pareto
   return (
@@ -176,7 +176,7 @@ export function IncidentReality() {
   )
 }
 
-// ── Santhosh · FinOps: real (anonymised) cloud billing in FOCUS format ──
+// ── Santosh · FinOps: real (anonymised) cloud billing in FOCUS format ──
 export function FocusReality() {
   const total = focus.effectiveCost
   const untagged = Math.round((100 - (focus.allocatedPct ?? 0)) * 10) / 10
@@ -201,10 +201,10 @@ export function FocusReality() {
 export const REAL_SOURCES = [
   { name: 'endoflife.date', what: 'Real vendor end-of-life dates for 20 technology versions in the simulated estate', where: 'Enterprise Architecture (LeanIX) → Technology lifecycle', to: '/domain/banking/leanix?tab=tech', url: 'https://endoflife.date', licence: 'Free public API', fetched: eol.fetched },
   { name: 'CISA Known Exploited Vulnerabilities', what: `${n(kev.total)} CVEs exploited in the wild, with ransomware use and due dates`, where: 'Security, Risk & Governance (Vanta) → Cyber', to: '/domain/banking/vanta?tab=cyber', url: 'https://www.cisa.gov/known-exploited-vulnerabilities-catalog', licence: 'US Government, public', fetched: kev.fetched },
-  { name: 'Reserve Bank of India notifications', what: `${rbi.count} real notifications (${fmtDate(rbi.from)} to ${fmtDate(rbi.to)}) with themes and links`, where: 'Vaibhav → Regulatory change', to: '/team/vaibhav?tab=regulatory', url: rbi.url, licence: 'Public RBI website', fetched: rbi.fetched },
-  { name: 'Kaggle · ULB credit card fraud', what: `${n(fraud.transactions)} real card transactions; PSI drift computed on real features`, where: 'Vaibhav → AI model register', to: '/team/vaibhav?tab=models', url: fraud.url, licence: fraud.licence, fetched: fraud.fetched },
-  { name: 'UCI · incident management event log', what: `${n(incidents.incidents)} real incidents from a ServiceNow instance; Pareto, SLA, time to resolve`, where: 'Pankaj → ERP RCA', to: '/team/pankaj?tab=erp', url: incidents.url, licence: 'CC BY 4.0', fetched: incidents.fetched },
-  { name: 'FinOps Foundation · FOCUS sample', what: `${n(focus.rows)} anonymised real cloud billing lines; allocation and commitment coverage`, where: 'Santhosh → FinOps & licences', to: '/team/santhosh?tab=finops', url: focus.url, licence: focus.licence, fetched: focus.fetched },
+  { name: 'Reserve Bank of India notifications', what: `${rbi.count} real notifications (${fmtDate(rbi.from)} to ${fmtDate(rbi.to)}) with themes and links`, where: 'Regulatory & AI Governance → Regulatory change', to: '/team/governance?tab=regulatory', url: rbi.url, licence: 'Public RBI website', fetched: rbi.fetched },
+  { name: 'Kaggle · ULB credit card fraud', what: `${n(fraud.transactions)} real card transactions; PSI drift computed on real features`, where: 'Regulatory & AI Governance → AI model register', to: '/team/governance?tab=models', url: fraud.url, licence: fraud.licence, fetched: fraud.fetched },
+  { name: 'UCI · incident management event log', what: `${n(incidents.incidents)} real incidents from a ServiceNow instance; Pareto, SLA, time to resolve`, where: 'Operations & ERP → ERP RCA', to: '/team/operations?tab=erp', url: incidents.url, licence: 'CC BY 4.0', fetched: incidents.fetched },
+  { name: 'FinOps Foundation · FOCUS sample', what: `${n(focus.rows)} anonymised real cloud billing lines; allocation and commitment coverage`, where: 'Santosh → FinOps & licences', to: '/team/santosh?tab=finops', url: focus.url, licence: focus.licence, fetched: focus.fetched },
 ]
 
 export function RealSourcesCard() {

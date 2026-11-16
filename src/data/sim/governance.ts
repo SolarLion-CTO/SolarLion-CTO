@@ -1,4 +1,4 @@
-// Regulatory & AI governance (M7.3, Vaibhav). Banking-first.
+// Regulatory & AI governance (M7.3). Banking-first.
 // Circulars are SIMULATED and illustrative (fictional reference numbers) — not real regulator documents.
 // Obligations map to real simulated controls; the model register is built from Suman's AI portfolio.
 import type { DomainId } from '../domains'
@@ -43,7 +43,7 @@ export const circulars: Circular[] = CIRCULARS.map(([regulator, title, ref, rec,
   obligations: obs.map(([text, c, confidence, status], k) => ({ id: `OBL-${String(i + 1).padStart(2, '0')}-${k + 1}`, text, controlId: c === null ? null : ctl(c).id, confidence, status })),
 }))
 
-/** The circular that arrives LIVE during the demo (simulation clock +50 s). AI drafts obligations; Vaibhav approves. */
+/** The circular that arrives LIVE during the demo (simulation clock +50 s). AI drafts obligations; the CISO approves. */
 export const LIVE_CIRCULAR_AT = T0 + 50_000
 export const liveCircular: Circular = {
   id: 'CIRC-LIVE', ref: 'SIM/RBI/CYB/2026-27/018', regulator: 'RBI (simulated)', title: 'Cyber resilience for peak transaction windows', received: date(0), due: date(45), stage: 'AI-drafted', daysTaken: null,

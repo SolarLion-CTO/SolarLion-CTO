@@ -8,8 +8,8 @@ import { domainOrder, domains } from '../../data/domains'
 import type { DomainId } from '../../data/domains'
 import { sim } from '../../data/sim'
 import {
-  ADKAR, CYNEFIN_APPROACH, H_TARGET, RGT_TARGET, ROGERS, adkar, balancedScorecard, constraints, decisionsFramed, diffusion, pankajFwMeasures, ramFwMeasures,
-  rgtGap, runGrowTransform, santhoshFwMeasures, sumanFwMeasures, tco, teamFwMeasures, threeHorizons, threeLines, tornado, vaibhavFwMeasures,
+  ADKAR, CYNEFIN_APPROACH, H_TARGET, RGT_TARGET, ROGERS, adkar, balancedScorecard, constraints, decisionsFramed, diffusion, opsFwMeasures, ramFwMeasures,
+  rgtGap, runGrowTransform, santoshFwMeasures, sumanFwMeasures, tco, teamFwMeasures, threeHorizons, threeLines, tornado, govFwMeasures,
 } from '../../data/sim/frameworks'
 import type { Cynefin } from '../../data/sim/frameworks'
 import { buildEvents } from '../../data/sim/events'
@@ -158,20 +158,20 @@ export function SumanFrameworks() {
   )
 }
 
-// ── Vaibhav ──────────────────────────────────────────────────────────
-export function VaibhavFrameworks() {
+// ── Governance ──────────────────────────────────────────────────────────
+export function GovFrameworks() {
   const [d, setD] = useState<DomainId | 'all'>('banking')
   const t = threeLines().filter((x) => d === 'all' || x.d === d)
   const L = (ok: boolean) => (ok ? <CircleCheck size={15} className="text-success-text" /> : <CircleDashed size={15} className="text-crit-text" />)
   return (
     <>
       <Intro />
-      <Metrics defs={vaibhavFwMeasures()} />
+      <Metrics defs={govFwMeasures()} />
       <Fw name="Three Lines Model" area="Risk governance" why="For every high / critical technology risk: who owns it, who oversees it, who assures it?">
         <div className="inline-flex rounded-lg border border-slate-300 bg-white overflow-hidden text-[13px] mb-3">{(['all', ...domainOrder] as (DomainId | 'all')[]).map((x) => <button key={x} onClick={() => setD(x)} className={`px-3 py-1.5 ${d === x ? 'bg-brand-50 text-brand-700 font-semibold' : 'text-ink-2 hover:bg-slate-50'}`}>{x === 'all' ? 'All units' : dn(x)}</button>)}</div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">{[
           ['1st line · own and manage', 'Business and technology owners', t.filter((x) => x.first).length],
-          ['2nd line · oversee', 'Risk, compliance, CISO (Vaibhav)', t.filter((x) => x.second).length],
+          ['2nd line · oversee', 'Risk, compliance, CISO', t.filter((x) => x.second).length],
           ['3rd line · assure', 'Internal audit (independent)', t.filter((x) => x.third).length],
         ].map(([k, s, n]) => <div key={k as string} className="rounded-xl border border-line p-3"><div className="text-xs font-semibold text-brand-700">{k as string}</div><div className="text-2xl font-bold text-ink">{n as number} / {t.length}</div><div className="text-[11px] text-ink-3">{s as string}</div></div>)}</div>
         <div className="overflow-x-auto">
@@ -186,14 +186,14 @@ export function VaibhavFrameworks() {
             ))}</tbody>
           </table>
         </div>
-        <p className="text-xs text-ink-3 mt-2">Gaps in the 3rd line are scheduled into the internal-audit plan; gaps in the 2nd line go to Vaibhav's review queue. Simulated governance data.</p>
+        <p className="text-xs text-ink-3 mt-2">Gaps in the 3rd line are scheduled into the internal-audit plan; gaps in the 2nd line go to the CISO's review queue. Simulated governance data.</p>
       </Fw>
     </>
   )
 }
 
-// ── Santhosh ─────────────────────────────────────────────────────────
-export function SanthoshFrameworks() {
+// ── Santosh ─────────────────────────────────────────────────────────
+export function SantoshFrameworks() {
   const [sel, setSel] = useState(sim.banking.initiatives[1].id)
   const ins = ALL.flatMap((d) => sim[d].initiatives.map((i) => ({ i, d })))
   const cur = ins.find((x) => x.i.id === sel)!
@@ -202,7 +202,7 @@ export function SanthoshFrameworks() {
   return (
     <>
       <Intro />
-      <Metrics defs={santhoshFwMeasures()} />
+      <Metrics defs={santoshFwMeasures()} />
       <Fw name="Run-Grow-Transform" area="Portfolio" why="Is technology spend balanced between running, growing and transforming the business?">
         <div className="space-y-3">{ALL.map((d) => { const x = runGrowTransform(d); return (
           <div key={d} className="grid grid-cols-[7rem_1fr_6rem] items-center gap-3 text-xs">
@@ -243,13 +243,13 @@ export function SanthoshFrameworks() {
   )
 }
 
-// ── Pankaj ───────────────────────────────────────────────────────────
-export function PankajFrameworks() {
+// ── Operations ───────────────────────────────────────────────────────────
+export function OpsFrameworks() {
   const cs = constraints()
   return (
     <>
       <Intro />
-      <Metrics defs={pankajFwMeasures()} />
+      <Metrics defs={opsFwMeasures()} />
       <Fw name="Theory of Constraints" area="Operations" why="Find the one bottleneck that limits each peak — and fix that first.">
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">{cs.map((x) => (
           <div key={x.s.id} className="rounded-xl border border-line p-3">
@@ -272,7 +272,7 @@ export function KotterAdkar() {
   const promoted = USE_CASES.some((u) => u.gate && st.verdicts[gateDecisionId(u)]?.v === 'Approved')
   const steps: [string, 'done' | 'progress' | 'todo', string][] = [
     ['Create urgency', 'done', 'Golden thread and P&L losses make the cost of inaction visible'],
-    ['Build a guiding coalition', 'done', '5 accountable owners with a RACI (this page)'],
+    ['Build a guiding coalition', 'done', '3 CTOs and 2 shared workspaces with a RACI (this page)'],
     ['Form a strategic vision', 'done', 'Capstone problem statement and target states'],
     ['Enlist a volunteer army', 'done', 'Command Center and workspaces shared across business units'],
     ['Remove barriers', capApproved ? 'done' : 'progress', capApproved ? 'Engineering capacity rebalanced (decision approved)' : 'Capacity rebalancing decision awaiting approval'],

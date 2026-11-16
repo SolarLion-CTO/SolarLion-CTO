@@ -1,4 +1,4 @@
-// Technology spend (M7.4, Santhosh). Monthly ledger per business unit, CAPEX / OPEX, TBM allocation,
+// Technology spend (M7.4, Santosh). Monthly ledger per business unit, CAPEX / OPEX, TBM allocation,
 // cloud daily cost with anomalies, licences and investment cases. Derived from the existing records so totals reconcile:
 // run cost = apps + services; change spend = initiative budgets over their active months; cloud = cloud spend metric.
 import type { DomainId } from '../domains'

@@ -14,7 +14,7 @@ export default function Governance() {
   const { domain, audit } = useStore()
   return (
     <>
-      <PageHeader title="Regulatory & AI Governance" subtitle="Regulatory automation, DPDP compliance and responsible AI controls" owner="Vaibhav" />
+      <PageHeader title="Regulatory & AI Governance" subtitle="Regulatory automation, DPDP compliance and responsible AI controls" owner="CISO" />
       <ProblemPanel p={domain.problems.Governance} domainName={domain.name} />
       <div className="grid lg:grid-cols-3 gap-6 mb-6">
         <Card title="Compliance Score">

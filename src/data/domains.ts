@@ -8,7 +8,7 @@ export type Area = 'Strategy' | 'Operations' | 'Finance' | 'Governance' | 'Innov
 export const areas: Area[] = ['Strategy', 'Operations', 'Finance', 'Governance', 'Innovation']
 
 export const areaOwner: Record<Area, string> = {
-  Strategy: 'Suman', Operations: 'Pankaj', Finance: 'Santhosh', Governance: 'Vaibhav', Innovation: 'Ram',
+  Strategy: 'Suman', Operations: 'Head of Operations', Finance: 'Santosh', Governance: 'CISO', Innovation: 'Ram',
 }
 
 export type Risk = 'Low' | 'Medium' | 'High' | 'Critical'
@@ -96,11 +96,11 @@ export const flagship: Decision = {
   recommendation: 'Hybrid: keep ERP database on-prem (restricted data), burst application tier to cloud at month-end. Add one production shift in Q1.',
   confidence: 0.84,
   evidence: [
-    'Pankaj · ERP RCA: month-end batch runs 3.4 h over SLA; CPU at 96% for 31 h each close',
-    'Pankaj · Forecast: +40% IT headroom needed; order book +12% YoY',
+    'Operations · ERP RCA: month-end batch runs 3.4 h over SLA; CPU at 96% for 31 h each close',
+    'Operations · Forecast: +40% IT headroom needed; order book +12% YoY',
     "Suman · Linked to objective 'on-time month-end close' — value 8.2, feasibility 7.6",
-    'Santhosh · 3-year cost: Cloud ₹1.14 Cr · On-prem ₹1.31 Cr · Hybrid ₹1.06 Cr (lowest)',
-    'Vaibhav · DPDP residency: restricted data stays on-prem → hybrid passes; security sign-off given',
+    'Santosh · 3-year cost: Cloud ₹1.14 Cr · On-prem ₹1.31 Cr · Hybrid ₹1.06 Cr (lowest)',
+    'Governance · DPDP residency: restricted data stays on-prem → hybrid passes; security sign-off given',
   ],
   alternatives: [
     'Full cloud — lowest Year-1 cost (₹38 L) but restricted ERP data leaves premises; fails residency policy',
@@ -109,7 +109,7 @@ export const flagship: Decision = {
   financialImpact: '₹1.06 Cr over 3 years · ₹60 L/yr benefit · payback ~12 months · ~70% 3-yr ROI',
   valueCr: 0.6,
   risk: 'High',
-  owner: 'Pankaj (Operations)',
+  owner: 'Head of Operations',
   approver: 'CFO with CIO',
   classification: 'Confidential',
   policyCheck: 'Passed',
@@ -173,11 +173,11 @@ export const domains: Record<DomainId, DomainPack> = {
       },
     },
     initiatives: [
-      { id: 'BNK-01', name: 'Regulatory change → control mapping', area: 'Governance', owner: 'Vaibhav', stage: 'Pilot', investment: 2.4, value: 6.1, risk: 'High', progress: 62, status: 'At Risk' },
-      { id: 'BNK-02', name: 'DPDP consent & evidence automation', area: 'Governance', owner: 'Vaibhav', stage: 'Design', investment: 1.8, value: 3.9, risk: 'High', progress: 35, status: 'At Risk' },
+      { id: 'BNK-01', name: 'Regulatory change → control mapping', area: 'Governance', owner: 'CISO', stage: 'Pilot', investment: 2.4, value: 6.1, risk: 'High', progress: 62, status: 'At Risk' },
+      { id: 'BNK-02', name: 'DPDP consent & evidence automation', area: 'Governance', owner: 'CISO', stage: 'Design', investment: 1.8, value: 3.9, risk: 'High', progress: 35, status: 'At Risk' },
       { id: 'BNK-03', name: 'Lending AI use-case portfolio', area: 'Strategy', owner: 'Suman', stage: 'Pilot', investment: 4.2, value: 12.8, risk: 'Medium', progress: 55, status: 'On Track' },
-      { id: 'BNK-04', name: 'Core banking RCA & month-end capacity', area: 'Operations', owner: 'Pankaj', stage: 'Pilot', investment: 1.6, value: 4.1, risk: 'Medium', progress: 74, status: 'On Track' },
-      { id: 'BNK-05', name: 'Core systems TCO: cloud vs on-prem', area: 'Finance', owner: 'Santhosh', stage: 'Design', investment: 0.9, value: 3.6, risk: 'Low', progress: 50, status: 'On Track' },
+      { id: 'BNK-04', name: 'Core banking RCA & month-end capacity', area: 'Operations', owner: 'Head of Operations', stage: 'Pilot', investment: 1.6, value: 4.1, risk: 'Medium', progress: 74, status: 'On Track' },
+      { id: 'BNK-05', name: 'Core systems TCO: cloud vs on-prem', area: 'Finance', owner: 'Santosh', stage: 'Design', investment: 0.9, value: 3.6, risk: 'Low', progress: 50, status: 'On Track' },
       { id: 'BNK-06', name: 'MCP control layer for core banking', area: 'Innovation', owner: 'Ram', stage: 'Design', investment: 2.2, value: 5.0, risk: 'High', progress: 40, status: 'On Track' },
     ],
     decisions: [
@@ -200,7 +200,7 @@ export const domains: Record<DomainId, DomainPack> = {
         evidence: ['Top 5 deliver 71% of total scored value', 'All 5 have data readiness ≥ 3/5', '3 duplicate PoCs can be retired'],
         alternatives: ['Fund all 23 (₹19 Cr, low focus)', 'Fund top 3 only (miss ₹2.6 Cr value)'],
         financialImpact: '₹4.2 Cr investment → ₹12.8 Cr annual value', valueCr: 2.1, risk: 'Medium',
-        owner: 'Suman (Strategy)', approver: 'CTO + Head of Lending', classification: 'Internal', policyCheck: 'Passed',
+        owner: 'Suman Kolekar', approver: 'CTO + Head of Lending', classification: 'Internal', policyCheck: 'Passed',
         sources: ['RAG · Use-case inventory', 'MCP · Portfolio tracker'],
       },
     ],
@@ -280,12 +280,12 @@ export const domains: Record<DomainId, DomainPack> = {
       },
     },
     initiatives: [
-      { id: 'MFG-01', name: 'ERP RCA assistant', area: 'Operations', owner: 'Pankaj', stage: 'Pilot', investment: 1.9, value: 5.8, risk: 'Medium', progress: 66, status: 'On Track' },
-      { id: 'MFG-02', name: 'Line & IT capacity planning', area: 'Operations', owner: 'Pankaj', stage: 'Design', investment: 2.7, value: 6.4, risk: 'Medium', progress: 40, status: 'On Track' },
-      { id: 'MFG-03', name: 'Production workflow automation', area: 'Operations', owner: 'Pankaj', stage: 'Pilot', investment: 3.4, value: 9.1, risk: 'High', progress: 48, status: 'At Risk' },
+      { id: 'MFG-01', name: 'ERP RCA assistant', area: 'Operations', owner: 'Head of Operations', stage: 'Pilot', investment: 1.9, value: 5.8, risk: 'Medium', progress: 66, status: 'On Track' },
+      { id: 'MFG-02', name: 'Line & IT capacity planning', area: 'Operations', owner: 'Head of Operations', stage: 'Design', investment: 2.7, value: 6.4, risk: 'Medium', progress: 40, status: 'On Track' },
+      { id: 'MFG-03', name: 'Production workflow automation', area: 'Operations', owner: 'Head of Operations', stage: 'Pilot', investment: 3.4, value: 9.1, risk: 'High', progress: 48, status: 'At Risk' },
       { id: 'MFG-04', name: 'Plant AI readiness roadmap', area: 'Strategy', owner: 'Suman', stage: 'Assess', investment: 0.6, value: 2.2, risk: 'Low', progress: 75, status: 'On Track' },
-      { id: 'MFG-05', name: 'CAPEX approval with payback evidence', area: 'Finance', owner: 'Santhosh', stage: 'Operate', investment: 0.8, value: 4.9, risk: 'Low', progress: 100, status: 'On Track' },
-      { id: 'MFG-06', name: 'Supplier & safety evidence automation', area: 'Governance', owner: 'Vaibhav', stage: 'Pilot', investment: 0.7, value: 1.4, risk: 'Medium', progress: 52, status: 'At Risk' },
+      { id: 'MFG-05', name: 'CAPEX approval with payback evidence', area: 'Finance', owner: 'Santosh', stage: 'Operate', investment: 0.8, value: 4.9, risk: 'Low', progress: 100, status: 'On Track' },
+      { id: 'MFG-06', name: 'Supplier & safety evidence automation', area: 'Governance', owner: 'CISO', stage: 'Pilot', investment: 0.7, value: 1.4, risk: 'Medium', progress: 52, status: 'At Risk' },
       { id: 'MFG-07', name: 'Predictive maintenance', area: 'Innovation', owner: 'Ram', stage: 'Pilot', investment: 2.3, value: 6.4, risk: 'High', progress: 62, status: 'On Track' },
     ],
     decisions: [
@@ -297,7 +297,7 @@ export const domains: Record<DomainId, DomainPack> = {
         evidence: ['Machine: defects correlate with P-07 temp > 212 °C (r = 0.78)', 'Material: spike began with resin lot #4471', 'Method: same fix resolved a 2025 incident'],
         alternatives: ['Replace P-07 heating element (₹35 L)', 'Slow line speed by 8% (throughput loss)'],
         financialImpact: '₹2.6 Cr/month scrap avoided', valueCr: 2.6, risk: 'Medium',
-        owner: 'Pankaj (Operations)', approver: 'Plant Manager', classification: 'Internal', policyCheck: 'Passed',
+        owner: 'Head of Operations', approver: 'Plant Manager', classification: 'Internal', policyCheck: 'Passed',
         sources: ['MCP · MES', 'MCP · Quality system', 'RAG · Maintenance SOPs'],
       },
       {
@@ -308,7 +308,7 @@ export const domains: Record<DomainId, DomainPack> = {
         evidence: ['Plant 2 CNC utilisation 94%, Plant 4 62%', 'Transfer cost ₹9 L/quarter', 'Order growth forecast uncertain (±15%)'],
         alternatives: ['Buy now: ₹1.8 Cr, payback 2.6 years', 'Lease: ₹6 L/month'],
         financialImpact: '₹1.8 Cr CAPEX deferred; ₹36 L/yr transfer cost', valueCr: 1.4, risk: 'High',
-        owner: 'Santhosh (Finance)', approver: 'CFO', classification: 'Confidential', policyCheck: 'Passed',
+        owner: 'Santosh Kumar', approver: 'CFO', classification: 'Confidential', policyCheck: 'Passed',
         sources: ['MCP · ERP fixed assets', 'MCP · MES utilisation', 'RAG · CAPEX policy'],
       },
     ],
@@ -390,9 +390,9 @@ export const domains: Record<DomainId, DomainPack> = {
     },
     initiatives: [
       { id: 'RTL-01', name: 'Unified AI use-case portfolio', area: 'Strategy', owner: 'Suman', stage: 'Assess', investment: 0.5, value: 3.1, risk: 'Low', progress: 40, status: 'On Track' },
-      { id: 'RTL-02', name: 'Festive-peak capacity planning', area: 'Operations', owner: 'Pankaj', stage: 'Pilot', investment: 1.4, value: 5.2, risk: 'Medium', progress: 70, status: 'On Track' },
-      { id: 'RTL-03', name: 'Seasonal cloud burst TCO', area: 'Finance', owner: 'Santhosh', stage: 'Design', investment: 0.6, value: 2.8, risk: 'Medium', progress: 44, status: 'At Risk' },
-      { id: 'RTL-04', name: 'DPDP consent for personalisation', area: 'Governance', owner: 'Vaibhav', stage: 'Pilot', investment: 0.8, value: 1.2, risk: 'High', progress: 54, status: 'At Risk' },
+      { id: 'RTL-02', name: 'Festive-peak capacity planning', area: 'Operations', owner: 'Head of Operations', stage: 'Pilot', investment: 1.4, value: 5.2, risk: 'Medium', progress: 70, status: 'On Track' },
+      { id: 'RTL-03', name: 'Seasonal cloud burst TCO', area: 'Finance', owner: 'Santosh', stage: 'Design', investment: 0.6, value: 2.8, risk: 'Medium', progress: 44, status: 'At Risk' },
+      { id: 'RTL-04', name: 'DPDP consent for personalisation', area: 'Governance', owner: 'CISO', stage: 'Pilot', investment: 0.8, value: 1.2, risk: 'High', progress: 54, status: 'At Risk' },
       { id: 'RTL-05', name: 'Demand forecast & markdown pricing', area: 'Innovation', owner: 'Ram', stage: 'Pilot', investment: 1.9, value: 6.1, risk: 'Medium', progress: 44, status: 'On Track' },
     ],
     decisions: [
@@ -404,7 +404,7 @@ export const domains: Record<DomainId, DomainPack> = {
         evidence: ['Last Diwali peak: 4.2× normal traffic for 6 h', 'Marketing calendar: 3 flash sales planned', 'Warehouse backlog peaked at 31 h last year'],
         alternatives: ['Buy servers for peak (₹1.4 Cr, idle 10 months)', 'No change (est. ₹3 Cr lost sales)'],
         financialImpact: '₹22 L burst cost vs ₹3 Cr sales at risk', valueCr: 2.8, risk: 'Medium',
-        owner: 'Pankaj (Operations)', approver: 'Head of E-commerce', classification: 'Internal', policyCheck: 'Passed',
+        owner: 'Head of Operations', approver: 'Head of E-commerce', classification: 'Internal', policyCheck: 'Passed',
         sources: ['MCP · E-commerce platform', 'MCP · Warehouse system', 'RAG · Peak runbook'],
       },
       {
@@ -454,11 +454,9 @@ export const domainOrder: DomainId[] = ['banking', 'manufacturing', 'retail']
 export const plannedDomains = ['Healthcare', 'Insurance', 'Telecom', 'Energy']
 
 export const team = [
-  { name: 'Ram', area: 'CTO · AI Control Layer & Innovation' },
-  { name: 'Suman', area: 'Strategy & Transformation' },
-  { name: 'Santhosh', area: 'Finance & Investment Governance' },
-  { name: 'Pankaj', area: 'Operations' },
-  { name: 'Vaibhav', area: 'Regulatory & AI Governance' },
+  { name: 'Ramkumar P', area: 'CTO' },
+  { name: 'Suman Kolekar', area: 'CTO' },
+  { name: 'Santosh Kumar', area: 'CTO' },
 ]
 
 // Readiness of each area = average progress on that area's problem

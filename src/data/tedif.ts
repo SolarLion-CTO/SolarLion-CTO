@@ -133,21 +133,21 @@ export interface CatalogueEntry { id: string; name: string; owner: string; appro
 export const catalogue: Record<DomainId, CatalogueEntry[]> = {
   banking: [
     { id: 'BNK-D-001', name: 'Regulatory circular → control mapping', owner: 'Compliance manager', approver: 'Chief Compliance Officer', risk: 'High', filled: 18, status: 'Shadow', frequency: 'Medium' },
-    { id: 'BNK-D-002', name: 'Fund lending AI use cases', owner: 'Suman (Strategy)', approver: 'CTO + Head of Lending', risk: 'Medium', filled: 15, status: 'Shadow', frequency: 'Low' },
-    { id: 'BNK-D-003', name: 'Month-end core banking capacity', owner: 'Pankaj (Operations)', approver: 'CIO', risk: 'Medium', filled: 13, status: 'Catalogued', frequency: 'Medium' },
+    { id: 'BNK-D-002', name: 'Fund lending AI use cases', owner: 'Suman Kolekar', approver: 'CTO + Head of Lending', risk: 'Medium', filled: 15, status: 'Shadow', frequency: 'Low' },
+    { id: 'BNK-D-003', name: 'Month-end core banking capacity', owner: 'Head of Operations', approver: 'CIO', risk: 'Medium', filled: 13, status: 'Catalogued', frequency: 'Medium' },
   ],
   manufacturing: [
-    { id: 'DEC-OPS-001', name: 'ERP capacity expansion (flagship)', owner: 'Pankaj (Operations)', approver: 'CFO with CIO', risk: 'High', filled: 18, status: 'Shadow', frequency: 'Low' },
-    { id: 'MFG-D-001', name: 'Line defect root cause', owner: 'Pankaj (Operations)', approver: 'Plant Manager', risk: 'Medium', filled: 15, status: 'Shadow', frequency: 'High' },
-    { id: 'MFG-D-002', name: 'Machine CAPEX approval', owner: 'Santhosh (Finance)', approver: 'CFO', risk: 'High', filled: 18, status: 'Catalogued', frequency: 'Low' },
+    { id: 'DEC-OPS-001', name: 'ERP capacity expansion (flagship)', owner: 'Head of Operations', approver: 'CFO with CIO', risk: 'High', filled: 18, status: 'Shadow', frequency: 'Low' },
+    { id: 'MFG-D-001', name: 'Line defect root cause', owner: 'Head of Operations', approver: 'Plant Manager', risk: 'Medium', filled: 15, status: 'Shadow', frequency: 'High' },
+    { id: 'MFG-D-002', name: 'Machine CAPEX approval', owner: 'Santosh Kumar', approver: 'CFO', risk: 'High', filled: 18, status: 'Catalogued', frequency: 'Low' },
   ],
   retail: [
-    { id: 'RTL-D-001', name: 'Festive-peak capacity', owner: 'Pankaj (Operations)', approver: 'Head of E-commerce', risk: 'Medium', filled: 15, status: 'Catalogued', frequency: 'Low' },
+    { id: 'RTL-D-001', name: 'Festive-peak capacity', owner: 'Head of Operations', approver: 'Head of E-commerce', risk: 'Medium', filled: 15, status: 'Catalogued', frequency: 'Low' },
     { id: 'RTL-D-002', name: 'Markdown pricing approval', owner: 'Category manager', approver: 'Merchandising Director', risk: 'Medium', filled: 15, status: 'Catalogued', frequency: 'High' },
-    { id: 'RTL-D-003', name: 'Personalisation consent check', owner: 'Vaibhav (Governance)', approver: 'DPO', risk: 'High', filled: 11, status: 'Draft', frequency: 'High' },
+    { id: 'RTL-D-003', name: 'Personalisation consent check', owner: 'CISO', approver: 'DPO', risk: 'High', filled: 11, status: 'Draft', frequency: 'High' },
   ],
 }
-export const crossDomainDecision: CatalogueEntry = { id: 'FIN-D-005', name: 'AI investment portfolio (all domains)', owner: 'Santhosh (Finance)', approver: 'CFO → Board', risk: 'Critical', filled: 18, status: 'Catalogued', frequency: 'Low' }
+export const crossDomainDecision: CatalogueEntry = { id: 'FIN-D-005', name: 'AI investment portfolio (all domains)', owner: 'Santosh Kumar', approver: 'CFO → Board', risk: 'Critical', filled: 18, status: 'Catalogued', frequency: 'Low' }
 
 // Status used by the Decision Center for each decision
 export const decisionStatusById: Record<string, DecStatus> = Object.fromEntries(

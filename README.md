@@ -17,7 +17,7 @@ CTO360 is a CTO capstone project (2026): a decision-intelligence layer that conn
 | **Enterprise Command Center** (`/command-center`) | Three simulated business units (Meridian Bank, Arvant Industries, Orbit Retail): 7 source systems × 16 enterprise functions, heatmaps, live events |
 | **Domain 360** (`/domain/:id`) | The 7 simulated sources (Planview, SAP LeanIX, Celonis + Signavio, ServiceNow SPM, Jellyfish, Datadog, Vanta), the 16 function pages, record drill-down, and Decision Intelligence |
 | **Decision Center** (`/decision-center`) | Top 10 decisions across business units → actions → measured outcomes |
-| **Team workspaces** (`/team/:owner`) | Ram (CTO), Suman (AI transformation), Vaibhav (regulatory & AI governance), Santhosh (spend & investment), Pankaj (ERP RCA & capacity): old state → target state, glide paths, frameworks applied with metrics |
+| **Team workspaces** (`/team/:owner`) | Three CTOs, Ramkumar P (CTO Control Tower), Suman Kolekar (AI Transformation) and Santosh Kumar (Technology Spend & Investment), plus two shared CTO workspaces (Regulatory & AI Governance; Operations & ERP): old state → target state, glide paths, frameworks applied with metrics |
 | **Frameworks & reference** (`/team/frameworks`, `/team/reference`) | A decision guide plus 69 frameworks, techniques and concepts explained with diagrams |
 | **Real data** (labelled "REAL DATA") | Six public datasets as reality checks: endoflife.date, CISA KEV, RBI notifications, Kaggle fraud, the UCI ServiceNow incident log, FOCUS cloud billing. See [`data/real/SOURCES.md`](data/real/SOURCES.md) |
 

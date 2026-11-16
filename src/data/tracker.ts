@@ -17,13 +17,13 @@ export const viewDepth: Record<Role, number> = { CTO: 3, VP: 4, AVP: 5, Director
 // Problems exactly as written in the team notes (bp1 / bp2)
 export const dimMeta: Record<Dim, { lead: string; notes: string[]; slug: string }> = {
   Strategy: { lead: 'Suman', notes: ['Transform any organization to AI'], slug: 'strategy' },
-  ROI: { lead: 'Suman (identify) · Santhosh (realise)', notes: ['Identify ROI before investment', 'Prove value after spend'], slug: 'roi' },
-  Finance: { lead: 'Santhosh', notes: ['Governance system for investment', 'Apps / resources / decision making — OPEX / CAPEX'], slug: 'finance' },
-  Operations: { lead: 'Pankaj', notes: ['Capacity planning of infrastructure', 'Automation of the production management process'], slug: 'operations' },
-  ERP: { lead: 'Pankaj', notes: ['ERP root-cause analysis (RCA)'], slug: 'erp' },
+  ROI: { lead: 'Suman Kolekar · Santosh Kumar', notes: ['Identify ROI before investment', 'Prove value after spend'], slug: 'roi' },
+  Finance: { lead: 'Santosh', notes: ['Governance system for investment', 'Apps / resources / decision making — OPEX / CAPEX'], slug: 'finance' },
+  Operations: { lead: 'Head of Operations', notes: ['Capacity planning of infrastructure', 'Automation of the production management process'], slug: 'operations' },
+  ERP: { lead: 'Head of Operations', notes: ['ERP root-cause analysis (RCA)'], slug: 'erp' },
   AI: { lead: 'Ram', notes: ['AI + MCP agent implementation to track ongoing and new initiatives', 'Transparency of every AI recommendation'], slug: 'ai' },
   Innovation: { lead: 'Ram', notes: ['Domain-agnostic architecture reused across Banking, Manufacturing and Retail'], slug: 'innovation' },
-  Governance: { lead: 'Vaibhav', notes: ['Automate regulatory change with implementation', 'DPDP / AI governance'], slug: 'governance' },
+  Governance: { lead: 'CISO', notes: ['Automate regulatory change with implementation', 'DPDP / AI governance'], slug: 'governance' },
 }
 export const dimBySlug = Object.fromEntries(dims.map((d) => [dimMeta[d].slug, d])) as Record<string, Dim>
 
@@ -286,22 +286,22 @@ export const roiByQuarter: Record<DomainId, { q: string; identified: number; rea
 }
 export const appPortfolio: Record<DomainId, { app: string; owner: string; funding: 'OPEX' | 'CAPEX'; costCr: number; decision: 'Keep' | 'Expand' | 'Review' | 'Retire' }[]> = {
   banking: [
-    { app: 'Core banking platform', owner: 'Pankaj', funding: 'CAPEX', costCr: 6.5, decision: 'Review' },
-    { app: 'Regulatory feed service', owner: 'Vaibhav', funding: 'OPEX', costCr: 0.4, decision: 'Keep' },
-    { app: 'Legacy reporting', owner: 'Santhosh', funding: 'OPEX', costCr: 0.9, decision: 'Retire' },
+    { app: 'Core banking platform', owner: 'Head of Operations', funding: 'CAPEX', costCr: 6.5, decision: 'Review' },
+    { app: 'Regulatory feed service', owner: 'CISO', funding: 'OPEX', costCr: 0.4, decision: 'Keep' },
+    { app: 'Legacy reporting', owner: 'Santosh', funding: 'OPEX', costCr: 0.9, decision: 'Retire' },
     { app: 'AI model hosting', owner: 'Ram', funding: 'OPEX', costCr: 0.7, decision: 'Review' },
   ],
   manufacturing: [
-    { app: 'ERP platform (SAP)', owner: 'Pankaj', funding: 'CAPEX', costCr: 1.06, decision: 'Expand' },
-    { app: 'MES', owner: 'Pankaj', funding: 'OPEX', costCr: 0.8, decision: 'Review' },
-    { app: 'Paper-based EHS logs', owner: 'Vaibhav', funding: 'OPEX', costCr: 0.1, decision: 'Retire' },
+    { app: 'ERP platform (SAP)', owner: 'Head of Operations', funding: 'CAPEX', costCr: 1.06, decision: 'Expand' },
+    { app: 'MES', owner: 'Head of Operations', funding: 'OPEX', costCr: 0.8, decision: 'Review' },
+    { app: 'Paper-based EHS logs', owner: 'CISO', funding: 'OPEX', costCr: 0.1, decision: 'Retire' },
     { app: 'AI model hosting', owner: 'Ram', funding: 'OPEX', costCr: 0.5, decision: 'Keep' },
   ],
   retail: [
-    { app: 'Owned peak servers', owner: 'Pankaj', funding: 'CAPEX', costCr: 1.4, decision: 'Retire' },
-    { app: 'Cloud burst capacity', owner: 'Santhosh', funding: 'OPEX', costCr: 0.22, decision: 'Expand' },
-    { app: 'Order management system', owner: 'Pankaj', funding: 'OPEX', costCr: 0.6, decision: 'Keep' },
-    { app: 'Personalisation engine', owner: 'Vaibhav', funding: 'OPEX', costCr: 0.3, decision: 'Review' },
+    { app: 'Owned peak servers', owner: 'Head of Operations', funding: 'CAPEX', costCr: 1.4, decision: 'Retire' },
+    { app: 'Cloud burst capacity', owner: 'Santosh', funding: 'OPEX', costCr: 0.22, decision: 'Expand' },
+    { app: 'Order management system', owner: 'Head of Operations', funding: 'OPEX', costCr: 0.6, decision: 'Keep' },
+    { app: 'Personalisation engine', owner: 'CISO', funding: 'OPEX', costCr: 0.3, decision: 'Review' },
   ],
 }
 export const capacity: Record<DomainId, { name: string; used: number }[]> = {

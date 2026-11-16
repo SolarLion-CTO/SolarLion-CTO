@@ -8,6 +8,12 @@
 
 ## 0. Resume here (status at close)
 
+> **🆕 17 Nov 2026 (site):** the team is now **three CTOs**: Ramkumar P, Suman Kolekar and Santosh Kumar.
+> - Pankaj and Vaibhav were removed everywhere.
+> - The home page opens with the **capstone story**: problem statement, methodology, results, recommendations and conclusion, matching the 9-slide deck.
+> - The older dimension groups were removed from the sidebar.
+> - See **section 51**. Not pushed yet.
+
 > **🆕 17 Nov 2026:** the 9-slide deck (`CTO CApstone/Capstone_9_Slides.pptx`) was rebuilt around **five high priorities** (no board or "CTO must prove" wording), the top 5 problems per industry, 16 departments and the KPI-first methodology. It has no simulation metrics and no money; results are old → target percentages. See **section 50d**.
 
 > **✅ STATUS, 29 Oct 2026: everything is pushed and live at https://cto360.vercel.app.** `git status` shows nothing ahead.
@@ -2277,3 +2283,70 @@ Same file and builder as 50c; the previous version is kept as `CTO CApstone/Caps
     | Footnote | 9 |
 
   - Re-rendered through Keynote with no overflow.
+
+
+---
+
+## 51. Site: three CTOs, capstone story on the home page (17 Nov 2026)
+**Asked by Ram:**
+- no roles on names; all three are CTOs
+- remove Pankaj and Vaibhav everywhere
+- put the problem statement, methodology, results and recommendations on the overview (home) page
+
+**Choices confirmed by Ram:**
+- the story goes at the top of `/`
+- the two former workspaces are kept and renamed by topic
+- the older sidebar groups are hidden
+
+**People**
+- **Owner profiles** (`src/data/sim/team.ts`):
+
+  | Profile | Now |
+  |---|---|
+  | `ram` | **Ramkumar P**, role "CTO" |
+  | `suman` | **Suman Kolekar**, role "CTO" |
+  | `santosh` | **Santosh Kumar**, role "CTO" (was `santhosh` / "Santhosh") |
+  | `governance` (was `vaibhav`) | workspace **Regulatory & AI Governance** |
+  | `operations` (was `pankaj`) | workspace **Operations & ERP** (was "ERP RCA & Capacity") |
+
+  - The two shared workspaces are named "CTO Team", with role "Shared CTO workspace".
+  - New helper `ownerLabel(o)` shows the person's name for a CTO and the workspace title for a shared workspace.
+- **URLs:** `/team/governance`, `/team/operations` and `/team/santosh`.
+- **Files renamed:** `GovTabs.tsx`, `OpsTabs.tsx`, `SantoshTabs.tsx`. Identifiers were renamed to match: `govFwMeasures`, `opsFwMeasures`, `GovFrameworks`, `OpsFrameworks`.
+- **Where Pankaj or Vaibhav owned a record**, the owner is now a job title:
+  - "Vaibhav (CISO)" → **CISO**
+  - "Pankaj (Operations)" → **Head of Operations**
+  - This was applied in 48 source files, plus `scripts/real-data/process_real_data.py` and `README.md`.
+- **Role suffixes removed:** "Ram (CTO)", "Suman (Strategy)" and "Santhosh (Finance / vendor governance)" now show the full name only. Short first names remain as work-item owners in a few tables (e.g. "Suman", "Ram").
+- **Other displays:**
+  - The header chip reads **CTO Team · 3 CTOs**.
+  - The Team page RACI uses the names plus "Governance" / "Operations".
+  - The Team page problem banner and the Kotter line ("3 CTOs and 2 shared workspaces") were updated.
+- **Check:** a scan of all source text and the rendered pages finds no Pankaj, Vaibhav or Santhosh.
+
+**Capstone story on the home page** (`src/pages/CapstoneStory.tsx`, mounted at the top of `ControlPlane.tsx`)
+- **Header band:**
+  - framework title and objective
+  - scope: 5 high priorities · 10 priority problems · 16 departments · 2 + any industries
+  - "Presented by Ramkumar P · Suman Kolekar · Santosh Kumar, CTOs"
+- **Five tabs**, plus a **Show all sections** toggle:
+  1. **Problem statement:** five high priorities; Banking and Manufacturing top 5; shared root cause; problem and research question.
+  2. **Methodology:**
+     - Design Science Research and the 9-step golden thread
+     - the 7-step table and the tools / techniques for each priority
+     - pilot driver trees (Fraud, Downtime), AI by data type
+     - TEDIF governance
+  3. **Results:** old → target bars, the same 7 rows as the deck, with the "targets to be validated" footnote; plus "what the framework delivers".
+  4. **Recommendations:** enterprise / society / individual, with the 0–24 month roadmap.
+  5. **Conclusion:** problem / solution / outcome, limitations, what each priority gets.
+- **Style:** navy and blue only, in the site's design tokens. There are no simulation numbers in this section; the live Control Plane continues below it.
+- The Control Plane title is now an `h2`, so the page has a single `h1`.
+
+**Sidebar**
+- **Removed:** the older groups Strategy, Enterprise Architecture, Operations, Engineering, Finance, Innovation, Risk & Governance and AI Intelligence. Their pages still work by URL.
+- **CTO Decision Center (Top 10)** moved into Executive Overview.
+
+**Checks**
+- `tsc` is clean, the build passes and `validate:sim` passes.
+- Layout sweep: 26 pages × 3 widths (1440, 1024, 390) = 78 views; 77 are clean. The one flag is the event ticker clipping on `/` at 1024 px, which is already present on the live site.
+- No horizontal overflow on any page.

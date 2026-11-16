@@ -1,4 +1,4 @@
-// Santhosh · Technology Spend & Investment — CAPEX / OPEX & TBM, Budget & anomalies, FinOps & licences, Investment governance.
+// Santosh · Technology Spend & Investment — CAPEX / OPEX & TBM, Budget & anomalies, FinOps & licences, Investment governance.
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bar as RBar, BarChart, CartesianGrid, Cell, ComposedChart, Legend, Line, ReferenceDot, ResponsiveContainer, Sankey, Tooltip, XAxis, YAxis } from 'recharts'
@@ -45,7 +45,7 @@ export function CapexTab() {
   const { now } = useSimClock()
   const events = useMemo(() => (d === 'all' ? domainOrder : [d]).flatMap((x) => buildEvents(sim[x])), [d])
   const mtd = (d === 'all' ? domainOrder : [d]).map((x) => octMtd(x, events.filter((e) => e.id.includes(sim[x].code)), now)).reduce((a, m) => ({ base: a.base + m.base, posted: a.posted + m.posted, mtd: a.mtd + m.mtd, full: a.full + m.full }), { base: 0, posted: 0, mtd: 0, full: 0 })
-  const tbmPct = measureState(OWNER.santhosh.measures.find((m) => m.id === 'san-tbm')!).current
+  const tbmPct = measureState(OWNER.santosh.measures.find((m) => m.id === 'san-tbm')!).current
   const sankey = useMemo(() => tbmSankey(tbmPct), [tbmPct])
   return (
     <>
@@ -93,7 +93,7 @@ export function CapexTab() {
               </Sankey>
             </ResponsiveContainer>
           </div></div>
-          <p className="text-xs text-ink-3">Technology Business Management (TBM) allocation by rule. The grey "Unallocated" flow is spend not yet tagged to a service — Santhosh's TBM coverage measure ({tbmPct}% → 95% target).</p>
+          <p className="text-xs text-ink-3">Technology Business Management (TBM) allocation by rule. The grey "Unallocated" flow is spend not yet tagged to a service — Santosh's TBM coverage measure ({tbmPct}% → 95% target).</p>
         </Card>
       </div>
     </>
@@ -171,7 +171,7 @@ export function BudgetTab() {
 export function FinOpsTab() {
   const [d, setD] = useState<DomainId>('banking')
   const lic = licences(d)
-  const waste = measureState(OWNER.santhosh.measures.find((m) => m.id === 'san-waste')!).current
+  const waste = measureState(OWNER.santosh.measures.find((m) => m.id === 'san-waste')!).current
   const cloudYr = ledger(d).reduce((a, x) => a + x.byCat.Cloud, 0)
   const parts = [['Idle compute', 0.4], ['Over-provisioned instances', 0.3], ['Unattached storage and snapshots', 0.15], ['Non-production running 24×7', 0.15]] as const
   const wasteCr = (cloudYr * waste) / 100
@@ -189,7 +189,7 @@ export function FinOpsTab() {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-5">
         <Card title="Where the cloud waste is">
           <ul className="space-y-2.5">{parts.map(([n, s]) => <li key={n} className="grid grid-cols-[1fr_8rem_4rem] gap-3 items-center text-sm"><span className="text-ink">{n}</span><div className="h-2 bg-slate-100 rounded-full overflow-hidden"><div className="h-full bg-brand-600" style={{ width: `${s * 100}%` }} /></div><span className="text-right tabular-nums">{cr(wasteCr * s)}</span></li>)}</ul>
-          <p className="text-xs text-ink-3 mt-3">FinOps lifecycle: inform (allocate, show) → optimise (rightsize, schedule) → operate (budgets, alerts). Waste share is Santhosh's measure ({waste}% → 8% target).</p>
+          <p className="text-xs text-ink-3 mt-3">FinOps lifecycle: inform (allocate, show) → optimise (rightsize, schedule) → operate (budgets, alerts). Waste share is Santosh's measure ({waste}% → 8% target).</p>
         </Card>
         <Card title="Licence utilisation">
           <table className="w-full text-sm">

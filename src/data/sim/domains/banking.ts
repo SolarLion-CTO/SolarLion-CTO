@@ -9,25 +9,25 @@ export const banking: DomainConfig = {
   plan: { runCostCr: 95, cloudPct: 50, legacyApps: 4, eolTech: 2, redundantCostCr: 5, deploysPerWeek: 90, leadTimeDays: 5, p1Per90d: 2 },
 
   objectives: [
-    ['Modernise the core banking platform', '99.99% availability and ₹40 Cr lower run cost by FY28', 'CEO', 'Ram (CTO)', 'Critical', '2027-12-31'],
+    ['Modernise the core banking platform', '99.99% availability and ₹40 Cr lower run cost by FY28', 'CEO', 'Ramkumar P', 'Critical', '2027-12-31'],
     ['Lead in digital payments', '25% share of regional UPI and merchant volume', 'Head of Payments', 'VP Engineering', 'Critical', '2027-03-31'],
     ['Cut fraud losses with AI', 'Fraud loss below 4 bps of transaction value', 'Chief Risk Officer', 'Head of Data & AI', 'High', '2027-06-30'],
     ['Grow digital lending', '₹12,000 Cr digital loan book', 'Head of Retail Lending', 'VP Engineering', 'High', '2027-09-30'],
-    ['Compliance by design', 'Zero material regulatory findings', 'Chief Compliance Officer', 'Vaibhav (CISO)', 'High', '2027-03-31'],
+    ['Compliance by design', 'Zero material regulatory findings', 'Chief Compliance Officer', 'CISO', 'High', '2027-03-31'],
     ['Customer 360 and personalisation', 'NPS +10 points', 'Chief Customer Officer', 'Head of Data & AI', 'Medium', '2027-12-31'],
   ],
 
   initiatives: [
-    { name: 'Core Banking Modernization', obj: 0, sponsor: 'CEO', owner: 'Ram (CTO)', start: '2025-04-01', target: '2027-12-31', budget: 42, forecastPct: 104, progress: 38, planned: 44, roi: 165, value: 69, realizedPct: 70, apps: [0, 1, 10], deps: [8] },
+    { name: 'Core Banking Modernization', obj: 0, sponsor: 'CEO', owner: 'Ramkumar P', start: '2025-04-01', target: '2027-12-31', budget: 42, forecastPct: 104, progress: 38, planned: 44, roi: 165, value: 69, realizedPct: 70, apps: [0, 1, 10], deps: [8] },
     { name: 'Digital Payments Transformation', obj: 1, sponsor: 'Head of Payments', owner: 'VP Engineering', start: '2025-07-01', target: '2026-12-31', budget: 18.5, forecastPct: 112, progress: 52, planned: 64, roi: 210, value: 38.9, realizedPct: 55, apps: [2, 3, 4], deps: [8] },
     { name: 'AI Fraud Detection', obj: 2, sponsor: 'Chief Risk Officer', owner: 'Head of Data & AI', start: '2025-10-01', target: '2026-12-15', budget: 9.6, forecastPct: 101, progress: 71, planned: 75, roi: 260, value: 25, realizedPct: 85, apps: [12, 13] },
-    { name: 'Cloud Migration', obj: 0, sponsor: 'Ram (CTO)', owner: 'Head of Cloud', start: '2025-06-01', target: '2027-06-30', budget: 22, forecastPct: 98, progress: 46, planned: 48, roi: 140, value: 30.8, realizedPct: 92, apps: [14, 19, 7] },
+    { name: 'Cloud Migration', obj: 0, sponsor: 'Ramkumar P', owner: 'Head of Cloud', start: '2025-06-01', target: '2027-06-30', budget: 22, forecastPct: 98, progress: 46, planned: 48, roi: 140, value: 30.8, realizedPct: 92, apps: [14, 19, 7] },
     { name: 'Open Banking Platform', obj: 1, sponsor: 'Head of Digital', owner: 'VP Engineering', start: '2026-01-15', target: '2027-03-31', budget: 8.2, forecastPct: 100, progress: 33, planned: 35, roi: 180, value: 14.8, realizedPct: 90, apps: [4, 7] },
     { name: 'Customer 360', obj: 5, sponsor: 'Chief Customer Officer', owner: 'Head of Data & AI', start: '2026-02-01', target: '2027-06-30', budget: 11.4, forecastPct: 99, progress: 24, planned: 26, roi: 150, value: 17.1, realizedPct: 95, apps: [19, 18] },
-    { name: 'Regulatory Automation', obj: 4, sponsor: 'Chief Compliance Officer', owner: 'Vaibhav (CISO)', start: '2025-09-01', target: '2026-12-31', budget: 6.8, forecastPct: 97, progress: 68, planned: 70, roi: 120, value: 8.2, realizedPct: 100, apps: [20] },
+    { name: 'Regulatory Automation', obj: 4, sponsor: 'Chief Compliance Officer', owner: 'CISO', start: '2025-09-01', target: '2026-12-31', budget: 6.8, forecastPct: 97, progress: 68, planned: 70, roi: 120, value: 8.2, realizedPct: 100, apps: [20] },
     { name: 'Digital Lending Platform', obj: 3, sponsor: 'Head of Retail Lending', owner: 'VP Engineering', start: '2025-11-01', target: '2027-03-31', budget: 14.2, forecastPct: 102, progress: 41, planned: 42, roi: 190, value: 27, realizedPct: 88, apps: [8, 9, 22] },
-    { name: 'Integration Layer Modernization', obj: 0, sponsor: 'Ram (CTO)', owner: 'Head of Architecture', start: '2026-03-01', target: '2027-09-30', budget: 8.4, forecastPct: 106, progress: 18, planned: 24, roi: 157, value: 13.2, realizedPct: 60, apps: [6, 7] },
-    { name: 'Zero Trust Security Programme', obj: 4, sponsor: 'Chief Risk Officer', owner: 'Vaibhav (CISO)', start: '2025-08-01', target: '2027-03-31', budget: 7.5, forecastPct: 103, progress: 49, planned: 52, roi: 90, value: 6.8, realizedPct: 80, apps: [0, 15] },
+    { name: 'Integration Layer Modernization', obj: 0, sponsor: 'Ramkumar P', owner: 'Head of Architecture', start: '2026-03-01', target: '2027-09-30', budget: 8.4, forecastPct: 106, progress: 18, planned: 24, roi: 157, value: 13.2, realizedPct: 60, apps: [6, 7] },
+    { name: 'Zero Trust Security Programme', obj: 4, sponsor: 'Chief Risk Officer', owner: 'CISO', start: '2025-08-01', target: '2027-03-31', budget: 7.5, forecastPct: 103, progress: 49, planned: 52, roi: 90, value: 6.8, realizedPct: 80, apps: [0, 15] },
   ],
 
   tech: [
@@ -157,11 +157,11 @@ export const banking: DomainConfig = {
 
   baselineRisks: [
     ['Mainframe COBOL skills concentrated in 9 people', 'Operational', 4, 4, 'CHRO with Head of Core Banking Tech', 'Knowledge capture and paired modernisation squads', '2027-03-31', 0, 0, 'Core banking change and incident fixes depend on a few people'],
-    ['Single core banking vendor with no exit plan', 'Vendor', 3, 4, 'Santhosh (vendor governance)', 'Exit plan and escrow at the 2027 renewal', '2027-04-30', 0, null, 'Price and roadmap lock-in on the most critical platform'],
+    ['Single core banking vendor with no exit plan', 'Vendor', 3, 4, 'Santosh Kumar', 'Exit plan and escrow at the 2027 renewal', '2027-04-30', 0, null, 'Price and roadmap lock-in on the most critical platform'],
     ['Fraud model drift during the festive season', 'Data & AI', 3, 4, 'Head of Data & AI', 'Weekly drift monitoring and challenger model', '2026-10-31', 12, 2, 'Rising fraud losses and false declines at peak'],
     ['DPDP consent records incomplete for legacy customers', 'Regulatory', 3, 4, 'DPO', 'Consent re-capture campaign through mobile app', '2026-12-31', 19, 5, 'Regulatory penalty exposure'],
     ['Cloud cost growing faster than migration benefits', 'Technology', 3, 3, 'Head of Cloud', 'FinOps rightsizing and reserved capacity', '2026-12-31', null, 3, 'Business case for cloud migration weakens'],
-    ['Open banking APIs exposed before rate limiting is complete', 'Cyber', 2, 4, 'Vaibhav (CISO)', 'API rate limiting and bot protection on the gateway', '2026-11-30', 7, 4, 'Data scraping and service abuse'],
+    ['Open banking APIs exposed before rate limiting is complete', 'Cyber', 2, 4, 'CISO', 'API rate limiting and bot protection on the gateway', '2026-11-30', 7, 4, 'Data scraping and service abuse'],
   ],
 
   business: {

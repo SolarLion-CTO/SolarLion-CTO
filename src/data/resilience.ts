@@ -37,9 +37,9 @@ const imp = (current: string, proposed: string, feasibility: number, stage: Stag
 export const apps: Record<DomainId, App[]> = {
   banking: [
     { id: 'BNK-APP-01', name: 'Core banking (CBS)', service: 'Accounts & payments', critical: true, tier: 0, slo: 99.95, avail: 99.81, plannedMin: 240, unplannedMin: 82, p1: 1, p2: 3, p3: 11, p4: 19, repeat: 2, mttrH: 3.1, mttrTargetH: 2, changeFail: 14, slaBreaches: 2, owner: 'Head of IT Ops',
-      improvement: imp('Month-end batch contention causes P1s', 'Re-sequence batch + capacity forecast (BNK-D-003)', 8, 'Pilot', 'Pankaj') },
+      improvement: imp('Month-end batch contention causes P1s', 'Re-sequence batch + capacity forecast (BNK-D-003)', 8, 'Pilot', 'Head of Operations') },
     { id: 'BNK-APP-02', name: 'UPI switch', service: 'Digital payments', critical: true, tier: 0, slo: 99.95, avail: 99.96, plannedMin: 60, unplannedMin: 17, p1: 0, p2: 4, p3: 9, p4: 14, repeat: 3, mttrH: 1.4, mttrTargetH: 1, changeFail: 9, slaBreaches: 1, owner: 'Digital payments lead',
-      improvement: imp('Timeouts at peak from bank-side queue', 'Auto-scaling + queue monitoring', 7, 'PoC', 'Pankaj') },
+      improvement: imp('Timeouts at peak from bank-side queue', 'Auto-scaling + queue monitoring', 7, 'PoC', 'Head of Operations') },
     { id: 'BNK-APP-03', name: 'Internet banking', service: 'Customer self-service', critical: true, tier: 1, slo: 99.9, avail: 99.94, plannedMin: 120, unplannedMin: 26, p1: 0, p2: 1, p3: 7, p4: 12, repeat: 0, mttrH: 1.2, mttrTargetH: 2, changeFail: 5, slaBreaches: 0, owner: 'Digital channels head',
       improvement: imp('Manual release checks', 'Automated release gates', 8, 'Scale', 'Ram') },
     { id: 'BNK-APP-04', name: 'ATM switch', service: 'Cash access', critical: true, tier: 1, slo: 99.9, avail: 99.91, plannedMin: 90, unplannedMin: 39, p1: 0, p2: 2, p3: 16, p4: 21, repeat: 1, mttrH: 2.6, mttrTargetH: 2, changeFail: 7, slaBreaches: 1, owner: 'Channels ops lead',
@@ -49,27 +49,27 @@ export const apps: Record<DomainId, App[]> = {
   ],
   manufacturing: [
     { id: 'MFG-APP-01', name: 'SAP ERP', service: 'Order to cash, month-end close', critical: true, tier: 0, slo: 99.9, avail: 99.62, plannedMin: 300, unplannedMin: 164, p1: 2, p2: 4, p3: 14, p4: 22, repeat: 3, mttrH: 4.2, mttrTargetH: 2, changeFail: 16, slaBreaches: 3, owner: 'SAP basis lead',
-      improvement: imp('Month-end CPU 96%, lock contention', 'Hybrid capacity (DEC-OPS-001) + RCA agent', 8, 'Pilot', 'Pankaj') },
+      improvement: imp('Month-end CPU 96%, lock contention', 'Hybrid capacity (DEC-OPS-001) + RCA agent', 8, 'Pilot', 'Head of Operations') },
     { id: 'MFG-APP-02', name: 'MES', service: 'Production execution', critical: true, tier: 0, slo: 99.9, avail: 99.91, plannedMin: 120, unplannedMin: 39, p1: 0, p2: 3, p3: 12, p4: 15, repeat: 2, mttrH: 2.4, mttrTargetH: 2, changeFail: 8, slaBreaches: 1, owner: 'MES lead',
-      improvement: imp('Line stops logged manually', 'MES → RCA agent via MCP', 7, 'PoC', 'Pankaj') },
+      improvement: imp('Line stops logged manually', 'MES → RCA agent via MCP', 7, 'PoC', 'Head of Operations') },
     { id: 'MFG-APP-03', name: 'Warehouse management (WMS)', service: 'Dispatch', critical: true, tier: 1, slo: 99.8, avail: 99.86, plannedMin: 90, unplannedMin: 40, p1: 0, p2: 1, p3: 6, p4: 10, repeat: 0, mttrH: 1.8, mttrTargetH: 3, changeFail: 5, slaBreaches: 0, owner: 'Logistics IT lead',
-      improvement: imp('Single data centre', 'Warm standby for dispatch', 6, 'Feasibility', 'Pankaj') },
+      improvement: imp('Single data centre', 'Warm standby for dispatch', 6, 'Feasibility', 'Head of Operations') },
     { id: 'MFG-APP-04', name: 'Supplier portal (SCM)', service: 'Procurement & inbound', critical: false, tier: 2, slo: 99.5, avail: 99.28, plannedMin: 120, unplannedMin: 190, p1: 0, p2: 2, p3: 18, p4: 26, repeat: 4, mttrH: 5.5, mttrTargetH: 4, changeFail: 12, slaBreaches: 2, owner: 'Procurement IT lead',
-      improvement: imp('Vendor-hosted, weak SLA', 'Renegotiate SLA or replace', 5, 'Proposed', 'Santhosh') },
+      improvement: imp('Vendor-hosted, weak SLA', 'Renegotiate SLA or replace', 5, 'Proposed', 'Santosh') },
     { id: 'MFG-APP-05', name: 'Quality system', service: 'Quality release', critical: false, tier: 2, slo: 99.5, avail: 99.84, plannedMin: 60, unplannedMin: 22, p1: 0, p2: 0, p3: 4, p4: 7, repeat: 0, mttrH: 2.0, mttrTargetH: 4, changeFail: 3, slaBreaches: 0, owner: 'Quality IT lead',
-      improvement: imp('Batch export only', 'Live feed to RCA', 7, 'Proposed', 'Pankaj') },
+      improvement: imp('Batch export only', 'Live feed to RCA', 7, 'Proposed', 'Head of Operations') },
   ],
   retail: [
     { id: 'RTL-APP-01', name: 'E-commerce platform', service: 'Online sales', critical: true, tier: 0, slo: 99.95, avail: 99.90, plannedMin: 60, unplannedMin: 43, p1: 1, p2: 2, p3: 10, p4: 18, repeat: 1, mttrH: 1.9, mttrTargetH: 1, changeFail: 11, slaBreaches: 1, owner: 'Head of e-commerce tech',
-      improvement: imp('Owned servers sized for peak', 'Cloud burst for festive peak (RTL-D-001)', 8, 'Pilot', 'Pankaj') },
+      improvement: imp('Owned servers sized for peak', 'Cloud burst for festive peak (RTL-D-001)', 8, 'Pilot', 'Head of Operations') },
     { id: 'RTL-APP-02', name: 'Point of sale (POS)', service: 'Store sales', critical: true, tier: 0, slo: 99.9, avail: 99.93, plannedMin: 120, unplannedMin: 30, p1: 0, p2: 1, p3: 21, p4: 34, repeat: 1, mttrH: 1.1, mttrTargetH: 2, changeFail: 6, slaBreaches: 0, owner: 'Store systems lead',
-      improvement: imp('Offline mode untested', 'Quarterly offline-mode drill', 9, 'Scale', 'Pankaj') },
+      improvement: imp('Offline mode untested', 'Quarterly offline-mode drill', 9, 'Scale', 'Head of Operations') },
     { id: 'RTL-APP-03', name: 'Payment gateway', service: 'Checkout', critical: true, tier: 0, slo: 99.95, avail: 99.96, plannedMin: 30, unplannedMin: 17, p1: 0, p2: 0, p3: 4, p4: 6, repeat: 0, mttrH: 0.6, mttrTargetH: 1, changeFail: 2, slaBreaches: 0, owner: 'Payments lead',
-      improvement: imp('Single acquirer', 'Second acquirer for failover', 6, 'Feasibility', 'Santhosh') },
+      improvement: imp('Single acquirer', 'Second acquirer for failover', 6, 'Feasibility', 'Santosh') },
     { id: 'RTL-APP-04', name: 'Order management (OMS)', service: 'Fulfilment', critical: true, tier: 1, slo: 99.9, avail: 99.91, plannedMin: 90, unplannedMin: 39, p1: 0, p2: 3, p3: 15, p4: 19, repeat: 2, mttrH: 2.8, mttrTargetH: 2, changeFail: 10, slaBreaches: 1, owner: 'Retail systems lead',
-      improvement: imp('ERP sync fails at peak', 'Idempotent retry queue', 8, 'PoC', 'Pankaj') },
+      improvement: imp('ERP sync fails at peak', 'Idempotent retry queue', 8, 'PoC', 'Head of Operations') },
     { id: 'RTL-APP-05', name: 'Loyalty', service: 'Customer engagement', critical: false, tier: 2, slo: 99.5, avail: 99.66, plannedMin: 60, unplannedMin: 87, p1: 0, p2: 1, p3: 6, p4: 8, repeat: 0, mttrH: 3.2, mttrTargetH: 4, changeFail: 4, slaBreaches: 0, owner: 'Loyalty manager',
-      improvement: imp('No consent flag', 'Consent gate + schema change', 7, 'Pilot', 'Vaibhav') },
+      improvement: imp('No consent flag', 'Consent gate + schema change', 7, 'Pilot', 'CISO') },
   ],
 }
 
@@ -144,9 +144,9 @@ export const cyber: Record<DomainId, Cyber> = {
       { date: '14 May', what: 'Vendor VPN account misuse attempt', outcome: 'Breach', app: 'Vendor access', impact: 'Read access to test environment; no customer data', dpdpReportable: false },
     ],
     improvements: [
-      { name: '24×7 SOC with automated response (SOAR)', current: 'SOC business hours; manual triage', proposed: '24×7 SOC, automated containment playbooks', feasibility: 7, stage: 'PoC', owner: 'Vaibhav' },
-      { name: 'Zero-trust privileged access', current: 'Shared admin accounts on legacy core', proposed: 'Just-in-time privileged access, session recording', feasibility: 8, stage: 'Pilot', owner: 'Vaibhav' },
-      { name: 'Data loss prevention to 95 %', current: 'DLP on email only', proposed: 'Endpoint + cloud DLP', feasibility: 6, stage: 'Feasibility', owner: 'Vaibhav' },
+      { name: '24×7 SOC with automated response (SOAR)', current: 'SOC business hours; manual triage', proposed: '24×7 SOC, automated containment playbooks', feasibility: 7, stage: 'PoC', owner: 'CISO' },
+      { name: 'Zero-trust privileged access', current: 'Shared admin accounts on legacy core', proposed: 'Just-in-time privileged access, session recording', feasibility: 8, stage: 'Pilot', owner: 'CISO' },
+      { name: 'Data loss prevention to 95 %', current: 'DLP on email only', proposed: 'Endpoint + cloud DLP', feasibility: 6, stage: 'Feasibility', owner: 'CISO' },
     ],
   },
   manufacturing: {
@@ -169,9 +169,9 @@ export const cyber: Record<DomainId, Cyber> = {
       { date: '03 May', what: 'Unpatched VPN exploit attempt', outcome: 'Breach', app: 'Remote access', impact: 'Foothold removed in 2 days; no data loss', dpdpReportable: false },
     ],
     improvements: [
-      { name: 'OT network segmentation', current: 'Flat network between IT and plants', proposed: 'Segmented OT zones with monitored gateways (IEC 62443)', feasibility: 6, stage: 'Feasibility', owner: 'Vaibhav' },
-      { name: 'USB control on plant PCs', current: 'USB ports open', proposed: 'Device control + kiosk scanning', feasibility: 9, stage: 'Pilot', owner: 'Vaibhav' },
-      { name: 'Patch SLA to 95 %', current: '74 % on time; 5 critical overdue', proposed: 'Monthly patch window + automated reporting', feasibility: 7, stage: 'Proposed', owner: 'Pankaj' },
+      { name: 'OT network segmentation', current: 'Flat network between IT and plants', proposed: 'Segmented OT zones with monitored gateways (IEC 62443)', feasibility: 6, stage: 'Feasibility', owner: 'CISO' },
+      { name: 'USB control on plant PCs', current: 'USB ports open', proposed: 'Device control + kiosk scanning', feasibility: 9, stage: 'Pilot', owner: 'CISO' },
+      { name: 'Patch SLA to 95 %', current: '74 % on time; 5 critical overdue', proposed: 'Monthly patch window + automated reporting', feasibility: 7, stage: 'Proposed', owner: 'Head of Operations' },
     ],
   },
   retail: {
@@ -192,8 +192,8 @@ export const cyber: Record<DomainId, Cyber> = {
       { date: '07 May', what: 'Loyalty data export by former contractor', outcome: 'Breach', app: 'Loyalty', impact: '8,900 customer profiles; reported to DPB', dpdpReportable: true, reportedIn72h: false },
     ],
     improvements: [
-      { name: 'Bot management on checkout', current: 'Basic rate limits', proposed: 'Behavioural bot detection + 3-DS step-up', feasibility: 8, stage: 'Pilot', owner: 'Vaibhav' },
-      { name: 'Joiner-mover-leaver automation', current: 'Manual access removal', proposed: 'HR-driven access revocation within 1 hour', feasibility: 8, stage: 'PoC', owner: 'Vaibhav' },
+      { name: 'Bot management on checkout', current: 'Basic rate limits', proposed: 'Behavioural bot detection + 3-DS step-up', feasibility: 8, stage: 'Pilot', owner: 'CISO' },
+      { name: 'Joiner-mover-leaver automation', current: 'Manual access removal', proposed: 'HR-driven access revocation within 1 hour', feasibility: 8, stage: 'PoC', owner: 'CISO' },
     ],
   },
 }
@@ -271,21 +271,21 @@ export const drOptions: { strategy: DrStrategy; rto: string; rpo: string; cost: 
 export interface Dr { appId: string; strategy: DrStrategy; rtoTargetH: number; rtoTestedH: number | null; rpoTargetMin: number; rpoTestedMin: number | null; lastDrill: string | null; result: 'Pass' | 'Partial' | 'Fail' | 'Not tested'; nextDrill: string; overdue: boolean; proposed?: Improvement }
 export const dr: Record<DomainId, Dr[]> = {
   banking: [
-    { appId: 'BNK-APP-01', strategy: 'Warm standby', rtoTargetH: 2, rtoTestedH: 3.5, rpoTargetMin: 5, rpoTestedMin: 4, lastDrill: '12 Jul', result: 'Partial', nextDrill: '12 Oct', overdue: false, proposed: imp('Warm standby; tested RTO 3.5 h', 'Active-active for accounts & payments', 6, 'Feasibility', 'Pankaj') },
+    { appId: 'BNK-APP-01', strategy: 'Warm standby', rtoTargetH: 2, rtoTestedH: 3.5, rpoTargetMin: 5, rpoTestedMin: 4, lastDrill: '12 Jul', result: 'Partial', nextDrill: '12 Oct', overdue: false, proposed: imp('Warm standby; tested RTO 3.5 h', 'Active-active for accounts & payments', 6, 'Feasibility', 'Head of Operations') },
     { appId: 'BNK-APP-02', strategy: 'Active-active', rtoTargetH: 0.25, rtoTestedH: 0.2, rpoTargetMin: 0, rpoTestedMin: 0, lastDrill: '04 Sep', result: 'Pass', nextDrill: '04 Dec', overdue: false },
     { appId: 'BNK-APP-03', strategy: 'Warm standby', rtoTargetH: 1, rtoTestedH: 0.8, rpoTargetMin: 15, rpoTestedMin: 10, lastDrill: '20 Aug', result: 'Pass', nextDrill: '20 Nov', overdue: false },
     { appId: 'BNK-APP-04', strategy: 'Pilot light', rtoTargetH: 2, rtoTestedH: 2.5, rpoTargetMin: 15, rpoTestedMin: 15, lastDrill: '18 Mar', result: 'Pass', nextDrill: '18 Sep', overdue: true },
     { appId: 'BNK-APP-05', strategy: 'Backup & restore', rtoTargetH: 24, rtoTestedH: 16, rpoTargetMin: 240, rpoTestedMin: 180, lastDrill: '02 Jun', result: 'Pass', nextDrill: '02 Dec', overdue: false },
   ],
   manufacturing: [
-    { appId: 'MFG-APP-01', strategy: 'Pilot light', rtoTargetH: 4, rtoTestedH: 7, rpoTargetMin: 15, rpoTestedMin: 30, lastDrill: '10 Apr', result: 'Fail', nextDrill: '10 Oct', overdue: false, proposed: imp('Pilot light; failed last drill (7 h)', 'Warm standby in hybrid design (DEC-OPS-001)', 8, 'Pilot', 'Pankaj') },
-    { appId: 'MFG-APP-02', strategy: 'Warm standby', rtoTargetH: 1, rtoTestedH: null, rpoTargetMin: 5, rpoTestedMin: null, lastDrill: null, result: 'Not tested', nextDrill: '30 Oct', overdue: true, proposed: imp('Standby built, never tested', 'First DR drill per plant, then quarterly', 9, 'Proposed', 'Pankaj') },
-    { appId: 'MFG-APP-03', strategy: 'Backup & restore', rtoTargetH: 8, rtoTestedH: 6, rpoTargetMin: 60, rpoTestedMin: 60, lastDrill: '15 Jul', result: 'Pass', nextDrill: '15 Jan', overdue: false, proposed: imp('Single data centre', 'Warm standby for dispatch', 6, 'Feasibility', 'Pankaj') },
+    { appId: 'MFG-APP-01', strategy: 'Pilot light', rtoTargetH: 4, rtoTestedH: 7, rpoTargetMin: 15, rpoTestedMin: 30, lastDrill: '10 Apr', result: 'Fail', nextDrill: '10 Oct', overdue: false, proposed: imp('Pilot light; failed last drill (7 h)', 'Warm standby in hybrid design (DEC-OPS-001)', 8, 'Pilot', 'Head of Operations') },
+    { appId: 'MFG-APP-02', strategy: 'Warm standby', rtoTargetH: 1, rtoTestedH: null, rpoTargetMin: 5, rpoTestedMin: null, lastDrill: null, result: 'Not tested', nextDrill: '30 Oct', overdue: true, proposed: imp('Standby built, never tested', 'First DR drill per plant, then quarterly', 9, 'Proposed', 'Head of Operations') },
+    { appId: 'MFG-APP-03', strategy: 'Backup & restore', rtoTargetH: 8, rtoTestedH: 6, rpoTargetMin: 60, rpoTestedMin: 60, lastDrill: '15 Jul', result: 'Pass', nextDrill: '15 Jan', overdue: false, proposed: imp('Single data centre', 'Warm standby for dispatch', 6, 'Feasibility', 'Head of Operations') },
     { appId: 'MFG-APP-04', strategy: 'Backup & restore', rtoTargetH: 24, rtoTestedH: null, rpoTargetMin: 240, rpoTestedMin: null, lastDrill: null, result: 'Not tested', nextDrill: 'Vendor-run', overdue: true },
     { appId: 'MFG-APP-05', strategy: 'Backup & restore', rtoTargetH: 24, rtoTestedH: 12, rpoTargetMin: 240, rpoTestedMin: 120, lastDrill: '22 May', result: 'Pass', nextDrill: '22 Nov', overdue: false },
   ],
   retail: [
-    { appId: 'RTL-APP-01', strategy: 'Active-active', rtoTargetH: 0.25, rtoTestedH: 0.5, rpoTargetMin: 0, rpoTestedMin: 1, lastDrill: '01 Sep', result: 'Partial', nextDrill: '15 Oct', overdue: false, proposed: imp('Second region lags 30 min on failover', 'Automated failover runbook before Diwali', 8, 'Pilot', 'Pankaj') },
+    { appId: 'RTL-APP-01', strategy: 'Active-active', rtoTargetH: 0.25, rtoTestedH: 0.5, rpoTargetMin: 0, rpoTestedMin: 1, lastDrill: '01 Sep', result: 'Partial', nextDrill: '15 Oct', overdue: false, proposed: imp('Second region lags 30 min on failover', 'Automated failover runbook before Diwali', 8, 'Pilot', 'Head of Operations') },
     { appId: 'RTL-APP-02', strategy: 'Pilot light', rtoTargetH: 1, rtoTestedH: 0.5, rpoTargetMin: 15, rpoTestedMin: 5, lastDrill: '09 Sep', result: 'Pass', nextDrill: '09 Dec', overdue: false },
     { appId: 'RTL-APP-03', strategy: 'Active-active', rtoTargetH: 0.25, rtoTestedH: 0.1, rpoTargetMin: 0, rpoTestedMin: 0, lastDrill: '20 Aug', result: 'Pass', nextDrill: '20 Nov', overdue: false },
     { appId: 'RTL-APP-04', strategy: 'Warm standby', rtoTargetH: 1, rtoTestedH: 1.5, rpoTargetMin: 15, rpoTestedMin: 15, lastDrill: '30 Jun', result: 'Partial', nextDrill: '30 Sep', overdue: true },
@@ -464,6 +464,6 @@ export const eolRaci = [
   { role: 'Application owner', does: 'Accountable for the decision and the deadline' },
   { role: 'IT asset manager', does: 'Tracks dates; alerts at 12, 6 and 3 months' },
   { role: 'Enterprise architect', does: 'Proposes the replacement or upgrade path' },
-  { role: 'CISO (Vaibhav)', does: 'Approves a time-limited security exception if late' },
-  { role: 'Finance (Santhosh)', does: 'Funds the upgrade or replacement' },
+  { role: 'CISO', does: 'Approves a time-limited security exception if late' },
+  { role: 'Santosh Kumar', does: 'Funds the upgrade or replacement' },
 ]

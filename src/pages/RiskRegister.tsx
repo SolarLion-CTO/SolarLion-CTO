@@ -15,7 +15,7 @@ export default function RiskRegister() {
 
   return (
     <>
-      <PageHeader title="Risk register" subtitle="One consolidated view of technology risk across applications, cyber, recovery, vendors, end of life and the programme" owner="Vaibhav" />
+      <PageHeader title="Risk register" subtitle="One consolidated view of technology risk across applications, cyber, recovery, vendors, end of life and the programme" owner="CISO" />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <Stat label="Open risks" value={all.length} sub={`${sources.length} sources`} />
         <Stat label="Critical" value={all.filter((r) => r.severity === 'Critical').length} sub="need executive attention" tone="crit" />

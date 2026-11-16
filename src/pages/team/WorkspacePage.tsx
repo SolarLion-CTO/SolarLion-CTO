@@ -5,10 +5,10 @@ import type { OwnerId } from '../../data/sim/team'
 import { WorkspaceShell } from '../../components/team/workspace'
 import { AgentsTab, MultiDomainTab, ProgrammesTab, ThreadTab } from './RamTabs'
 import { OnboardTab, PortfolioTab, ReadinessTab, RoiTab } from './SumanTabs'
-import { AuditTab, DataGovTab, ModelsTab, RegulatoryTab } from './VaibhavTabs'
-import { BudgetTab, CapexTab, FinOpsTab, InvestTab } from './SanthoshTabs'
-import { CapacityTab, ErpRcaTab, PeakTab, ProductionTab } from './PankajTabs'
-import { PankajFrameworks, RamFrameworks, SanthoshFrameworks, SumanFrameworks, VaibhavFrameworks } from './FrameworkTabs'
+import { AuditTab, DataGovTab, ModelsTab, RegulatoryTab } from './GovTabs'
+import { BudgetTab, CapexTab, FinOpsTab, InvestTab } from './SantoshTabs'
+import { CapacityTab, ErpRcaTab, PeakTab, ProductionTab } from './OpsTabs'
+import { OpsFrameworks, RamFrameworks, SantoshFrameworks, SumanFrameworks, GovFrameworks } from './FrameworkTabs'
 
 export default function WorkspacePage() {
   const { owner } = useParams()
@@ -30,28 +30,28 @@ export default function WorkspacePage() {
       { id: 'onboard', label: 'Onboard any organisation', render: () => <OnboardTab /> },
       { id: 'frameworks', label: 'Frameworks applied', render: () => <SumanFrameworks /> },
     ]
-    : o.id === 'vaibhav'
+    : o.id === 'governance'
     ? [
       { id: 'regulatory', label: 'Regulatory change', render: () => <RegulatoryTab /> },
       { id: 'models', label: 'AI model register', render: () => <ModelsTab /> },
       { id: 'data', label: 'Data governance & DPDP', render: () => <DataGovTab /> },
       { id: 'audit', label: 'Audit readiness', render: () => <AuditTab /> },
-      { id: 'frameworks', label: 'Frameworks applied', render: () => <VaibhavFrameworks /> },
+      { id: 'frameworks', label: 'Frameworks applied', render: () => <GovFrameworks /> },
     ]
-    : o.id === 'santhosh'
+    : o.id === 'santosh'
     ? [
       { id: 'capex', label: 'CAPEX / OPEX & TBM', render: () => <CapexTab /> },
       { id: 'budget', label: 'Budget, forecast & anomalies', render: () => <BudgetTab /> },
       { id: 'finops', label: 'FinOps & licences', render: () => <FinOpsTab /> },
       { id: 'invest', label: 'Investment governance', render: () => <InvestTab /> },
-      { id: 'frameworks', label: 'Frameworks applied', render: () => <SanthoshFrameworks /> },
+      { id: 'frameworks', label: 'Frameworks applied', render: () => <SantoshFrameworks /> },
     ]
     : [
       { id: 'erp', label: 'ERP RCA', render: () => <ErpRcaTab /> },
       { id: 'capacity', label: 'Capacity & forecasting', render: () => <CapacityTab /> },
       { id: 'peaks', label: 'Peak scenarios', render: () => <PeakTab /> },
       { id: 'production', label: 'Production automation', render: () => <ProductionTab /> },
-      { id: 'frameworks', label: 'Frameworks applied', render: () => <PankajFrameworks /> },
+      { id: 'frameworks', label: 'Frameworks applied', render: () => <OpsFrameworks /> },
     ]
   return <WorkspaceShell key={o.id} owner={o} tabs={tabs} />
 }

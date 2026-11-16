@@ -153,7 +153,7 @@ export function PortfolioTab() {
                   <>
                     <button onClick={() => st.decide(gateDecisionId(g), 'Approved')} className="inline-flex items-center gap-1 h-8 px-3 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700"><CircleCheck size={14} />Promote</button>
                     <button onClick={() => st.decide(gateDecisionId(g), 'Deferred')} className="h-8 px-3 rounded-lg border border-slate-300 text-sm font-medium hover:bg-slate-50">Hold</button>
-                    <span className="text-[11px] text-ink-3">Gate decision: Suman, with model-risk sign-off (Vaibhav)</span>
+                    <span className="text-[11px] text-ink-3">Gate decision: Suman, with model-risk sign-off (CISO)</span>
                   </>
                 )}
               </div>
@@ -293,7 +293,7 @@ export function OnboardTab() {
         </Card>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Card title="KPIs to track from day one"><ul className="list-disc pl-4 text-sm text-ink-2 space-y-0.5">{t.kpis.map((k) => <li key={k}>{k}</li>)}</ul></Card>
-          <Card title="Risks to govern (with Vaibhav)"><ul className="list-disc pl-4 text-sm text-ink-2 space-y-0.5">{t.risks.map((k) => <li key={k}>{k}</li>)}</ul><p className="text-xs text-ink-3 mt-2">The same CTO360 framework, gates and measures apply to any industry — only the template changes.</p></Card>
+          <Card title="Risks to govern (with the CISO)"><ul className="list-disc pl-4 text-sm text-ink-2 space-y-0.5">{t.risks.map((k) => <li key={k}>{k}</li>)}</ul><p className="text-xs text-ink-3 mt-2">The same CTO360 framework, gates and measures apply to any industry — only the template changes.</p></Card>
         </div>
         <BusinessModelCanvas t={t} top={ranked.slice(0, 3).map((x) => x.n)} levers={ranked.map((x) => x.lever)} />
       </div>

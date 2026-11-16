@@ -18,7 +18,7 @@ export default function Finance() {
 
   return (
     <>
-      <PageHeader title="Finance & Investment" subtitle="Governance of apps, resources and investment decisions · OPEX vs CAPEX · value realisation" owner="Santhosh" />
+      <PageHeader title="Finance & Investment" subtitle="Governance of apps, resources and investment decisions · OPEX vs CAPEX · value realisation" owner="Santosh" />
       <ProblemPanel p={domain.problems.Finance} domainName={domain.name} />
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">

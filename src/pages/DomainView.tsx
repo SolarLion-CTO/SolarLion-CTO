@@ -127,7 +127,7 @@ export default function DomainView() {
       <section className="rounded-xl bg-brand-900 text-white p-5 mb-5 shadow">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide rounded px-1.5 py-0.5 bg-white/20"><Crown size={10} /> L1 · CTO view</span>
-          <span className="text-xs text-blue-200">Owner: Ram (CTO)</span>
+          <span className="text-xs text-blue-200">Owner: Ramkumar P</span>
         </div>
         <h2 className="text-lg font-bold">{c.ctoObjective}</h2>
         <p className="text-sm text-blue-200 mt-1">CTO question: “{c.ctoQuestion}”</p>

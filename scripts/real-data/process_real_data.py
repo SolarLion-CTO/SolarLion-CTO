@@ -178,10 +178,10 @@ xlsx = ROOT / 'data/real/CTO360_Real_Data_Summary.xlsx'
 with pd.ExcelWriter(xlsx, engine='openpyxl') as w:
     pd.DataFrame([
         ['Ram · Enterprise Architecture', 'endoflife.date', J['eol']['fetched'], f"{sum(r['status'] == 'End of life' for r in J['eol']['rows'])} of {len(J['eol']['rows'])} matched technologies are past real end of life", 'https://endoflife.date', 'Free API'],
-        ['Vaibhav · Regulatory change', 'RBI Notifications', J['rbi']['fetched'], f"{J['rbi']['count']} real notifications {J['rbi']['from']} to {J['rbi']['to']}", J['rbi']['url'], 'Public RBI website'],
-        ['Vaibhav · AI model register', 'Kaggle credit card fraud', J['fraud']['fetched'], f"Fraud rate {J['fraud']['fraudRatePct']}%; PSI day 1 vs day 2 max {J['fraud']['maxPsiDay2']}; attack-hours PSI (V14) {J['fraud']['psiAttackV14']}", J['fraud']['url'], 'ODbL 1.0'],
-        ['Pankaj · ERP RCA', 'UCI incident event log', J['incidents']['fetched'], f"{J['incidents']['incidents']:,} incidents; top 8 categories = {J['incidents']['top8SharePct']}%; median resolve {J['incidents']['medianResolveHours']} h", J['incidents']['url'], 'CC BY 4.0'],
-        ['Santhosh · FinOps / TBM', 'FOCUS sample billing', J['focus']['fetched'], f"{J['focus']['allocatedPct']}% of cost fully tagged (allocatable); {J['focus']['commitmentCoveredPct']}% under commitment discounts", J['focus']['url'], 'CC BY 4.0'],
+        ['Governance · Regulatory change', 'RBI Notifications', J['rbi']['fetched'], f"{J['rbi']['count']} real notifications {J['rbi']['from']} to {J['rbi']['to']}", J['rbi']['url'], 'Public RBI website'],
+        ['Governance · AI model register', 'Kaggle credit card fraud', J['fraud']['fetched'], f"Fraud rate {J['fraud']['fraudRatePct']}%; PSI day 1 vs day 2 max {J['fraud']['maxPsiDay2']}; attack-hours PSI (V14) {J['fraud']['psiAttackV14']}", J['fraud']['url'], 'ODbL 1.0'],
+        ['Operations · ERP RCA', 'UCI incident event log', J['incidents']['fetched'], f"{J['incidents']['incidents']:,} incidents; top 8 categories = {J['incidents']['top8SharePct']}%; median resolve {J['incidents']['medianResolveHours']} h", J['incidents']['url'], 'CC BY 4.0'],
+        ['Santosh · FinOps / TBM', 'FOCUS sample billing', J['focus']['fetched'], f"{J['focus']['allocatedPct']}% of cost fully tagged (allocatable); {J['focus']['commitmentCoveredPct']}% under commitment discounts", J['focus']['url'], 'CC BY 4.0'],
         ['Vanta · Security risk', 'CISA KEV', J['kev']['fetched'], f"{J['kev']['total']:,} exploited CVEs; {J['kev']['last90']} added in 90 days; {J['kev']['ransomware']} used by ransomware", 'https://www.cisa.gov/known-exploited-vulnerabilities-catalog', 'Public domain (US Gov)'],
     ], columns=['Owner · area', 'Source', 'Fetched', 'Headline (real data)', 'Link', 'Licence']).to_excel(w, sheet_name='Summary', index=False)
     pd.DataFrame(J['eol']['rows']).to_excel(w, sheet_name='End of life', index=False)

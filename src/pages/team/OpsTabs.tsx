@@ -1,4 +1,4 @@
-// Pankaj · ERP RCA & Capacity — ERP RCA, Capacity & forecasting, Peak scenarios, Production automation.
+// ERP RCA & Capacity — ERP RCA, Capacity & forecasting, Peak scenarios, Production automation.
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bar as RBar, CartesianGrid, ComposedChart, Line, LineChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
@@ -30,7 +30,7 @@ export function ErpRcaTab() {
   const pr = problems.filter((p) => d === 'all' || p.d === d)
   const rc = rootCauses()
   const cc = changeCorrelation()
-  const avail = measureState(OWNER.pankaj.measures.find((m) => m.id === 'pan-avail')!)
+  const avail = measureState(OWNER.operations.measures.find((m) => m.id === 'pan-avail')!)
   const inc = erpIncidents().filter((i) => d === 'all' || i.d === d).sort((a, b) => b.start.localeCompare(a.start))
   const eb = errorBudgets().filter((x) => d === 'all' || x.d === d)
   const svcName = (dd: DomainId, id: string) => sim[dd].services.find((s) => s.id === id)?.name ?? id
@@ -212,7 +212,7 @@ export function PeakTab() {
 export function ProductionTab() {
   const m = sim.manufacturing
   const procs = m.processes.filter((p) => /Plan to Produce|Maintenance|Quality/.test(p.name))
-  const auto = measureState(OWNER.pankaj.measures.find((x) => x.id === 'pan-auto')!)
+  const auto = measureState(OWNER.operations.measures.find((x) => x.id === 'pan-auto')!)
   const done = AUTOMATION_STEPS.filter((s) => s.at(2)).length
   const story = m.stories.find((s) => /MES/.test(s.title))!
   return (

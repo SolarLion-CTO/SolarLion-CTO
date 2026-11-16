@@ -25,7 +25,7 @@ export default function PnlTab({ domainId }: { domainId: DomainId }) {
         <Card><div className="text-xs font-medium text-ink-2">Business loss (6 months)</div><div className="text-[26px] font-bold text-crit-text leading-tight mt-1">{L(total)}</div><div className="text-xs text-ink-3">{rows.length} incidents costed</div></Card>
         <Card><div className="text-xs font-medium text-ink-2">From outages</div><div className="text-[26px] font-bold text-brand-900 leading-tight mt-1">{L(outage)}</div><div className="text-xs text-ink-3">{Math.round((outage / total) * 100)}% of loss</div></Card>
         <Card><div className="text-xs font-medium text-ink-2">From cyber incidents</div><div className="text-[26px] font-bold text-brand-900 leading-tight mt-1">{L(cyberL)}</div><div className="text-xs text-ink-3">{Math.round((cyberL / total) * 100)}% of loss</div></Card>
-        <Card><div className="text-xs font-medium text-ink-2">Validated by Finance</div><div className="text-[26px] font-bold text-brand-900 leading-tight mt-1">{Math.round((validated / total) * 100)}%</div><div className="text-xs text-ink-3">owner: Santhosh</div></Card>
+        <Card><div className="text-xs font-medium text-ink-2">Validated by Finance</div><div className="text-[26px] font-bold text-brand-900 leading-tight mt-1">{Math.round((validated / total) * 100)}%</div><div className="text-xs text-ink-3">owner: Santosh</div></Card>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-5 mb-5">

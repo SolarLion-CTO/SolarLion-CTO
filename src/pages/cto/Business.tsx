@@ -20,7 +20,7 @@ const whyNow = [
 export default function Business() {
   return (
     <>
-      <PageHeader title="Business Case" subtitle="Why an enterprise needs a governed, domain-agnostic AI transformation" owner="Ram (CTO)" />
+      <PageHeader title="Business Case" subtitle="Why an enterprise needs a governed, domain-agnostic AI transformation" owner="Ramkumar P" />
 
       <Card title="The problem" className="mb-6">
         <div className="flex flex-wrap items-center gap-2">

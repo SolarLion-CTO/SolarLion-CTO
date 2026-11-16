@@ -1,9 +1,7 @@
 import { Suspense, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import {
-  Bell, Bot, Brain, Briefcase, Building2, CalendarDays, ChevronDown, CircleHelp, ClipboardCheck, Compass, Cpu, Crown, Database,
-  Activity, BookOpen, Boxes, Library, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, Layers, LayoutDashboard, LayoutGrid, Lightbulb, ListChecks, Menu, Network, Server,
-  ShieldCheck, ShoppingCart, Sparkles, Target, TrendingUp, TriangleAlert, Users, Wallet, Wrench, X,
+  Bell, Briefcase, Building2, ChevronDown, CircleHelp, Cpu, Crown, Database, Activity, BookOpen, Boxes, Library, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, LayoutDashboard, ListChecks, Menu, Network, ShieldCheck, ShoppingCart, Sparkles, Target, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useStore } from '../store'
@@ -26,6 +24,7 @@ const nav: Group[] = [
   { section: 'Executive Overview', icon: LayoutDashboard, items: [
     { to: '/', label: 'Technology Control Plane', sub: 'CTO standpoint · layers · live impact', icon: Gauge, end: true },
     { to: '/command-center', label: 'Command Center (all domains)', icon: Radar },
+    { to: '/decision-center', label: 'CTO Decision Center (Top 10)', icon: Crown },
     { to: '/sources', label: 'Data sources', icon: Database },
     { to: '/overview', label: 'Programme overview (TEDIF)', icon: LayoutDashboard },
     { to: '/domain/banking', label: 'Banking view', icon: Landmark, badge: redCount('banking') },
@@ -35,64 +34,17 @@ const nav: Group[] = [
     { to: '/cto/business', label: 'Business case', icon: Building2 },
     { to: '/cto/coverage', label: 'Capstone coverage', icon: ListChecks },
   ] },
-  // Capstone team: one workspace per owner (bp1.jpeg, 20 Sep 2026). Main capstone problem statement.
+  // Capstone team: three CTOs plus two shared CTO workspaces. The older dimension groups (Strategy … AI Intelligence) were removed
+  // from the sidebar on 17 Nov 2026; their pages remain reachable by URL.
   { section: 'Team', icon: Users, items: [
     { to: '/team', label: 'Team & accountability', icon: Users, end: true },
-    { to: '/team/ram', label: 'CTO Control Tower · Ram', sub: 'Multi-domain · decision intelligence', icon: Crown },
-    { to: '/team/suman', label: 'AI Transformation · Suman', sub: 'ROI · any organisation to AI', icon: Sparkles },
-    { to: '/team/vaibhav', label: 'Regulatory & AI Governance · Vaibhav', sub: 'Banking regulation · DPDP · AI', icon: ShieldCheck },
-    { to: '/team/santhosh', label: 'Technology Spend & Investment · Santhosh', sub: 'CAPEX / OPEX · governance', icon: Wallet },
-    { to: '/team/pankaj', label: 'ERP RCA & Capacity · Pankaj', sub: 'ERP · infra capacity · production', icon: Wrench },
+    { to: '/team/ram', label: 'CTO Control Tower · Ramkumar P', sub: 'Multi-domain · decision intelligence', icon: Crown },
+    { to: '/team/suman', label: 'AI Transformation · Suman Kolekar', sub: 'ROI · any organisation to AI', icon: Sparkles },
+    { to: '/team/governance', label: 'Regulatory & AI Governance', sub: 'Banking regulation · DPDP · AI', icon: ShieldCheck },
+    { to: '/team/santosh', label: 'Technology Spend & Investment · Santosh Kumar', sub: 'CAPEX / OPEX · governance', icon: Wallet },
+    { to: '/team/operations', label: 'Operations & ERP', sub: 'ERP · infra capacity · production', icon: Wrench },
     { to: '/team/frameworks', label: 'Frameworks & syllabus', sub: 'Applied frameworks · decision guide', icon: BookOpen },
     { to: '/team/reference', label: 'Reference library', sub: 'Frameworks · techniques · concepts explained', icon: Library },
-  ] },
-  { section: 'Strategy', icon: Compass, items: [
-    { to: '/cto/strategy', label: 'Current → target', icon: Compass },
-    { to: '/cto/assessment', label: 'Readiness assessment', icon: Gauge },
-    { to: '/cto/portfolio', label: 'Use-case portfolio', icon: LayoutGrid },
-    { to: '/strategy', label: 'Strategy & ROI', icon: Target },
-    { to: '/cto/roadmap', label: 'Roadmap', icon: CalendarDays },
-    { to: '/tracker/strategy', label: 'Strategy plan', icon: ListChecks },
-  ] },
-  { section: 'Enterprise Architecture', icon: Network, items: [
-    { to: '/cto/architecture', label: 'Architecture', icon: Network },
-    { to: '/cto/data', label: 'Data readiness', icon: Server },
-    { to: '/framework', label: 'Framework', icon: Layers },
-  ] },
-  { section: 'Operations', icon: Factory, items: [
-    { to: '/operations', label: 'Operations', icon: Factory },
-    { to: '/tracker/operations', label: 'Operations plan', icon: ListChecks },
-    { to: '/tracker/erp', label: 'ERP root cause', icon: Database },
-  ] },
-  { section: 'Engineering', icon: Wrench, items: [
-    { to: '/engineering', label: 'Engineering metrics', icon: Gauge },
-    { to: '/tracker', label: 'Delivery portfolio', icon: Briefcase },
-    { to: '/cto/operating-model', label: 'Operating model & CoE', icon: Users },
-  ] },
-  { section: 'Finance', icon: Wallet, items: [
-    { to: '/finance', label: 'Finance & investment', icon: Wallet },
-    { to: '/value', label: 'Business value', icon: TrendingUp },
-    { to: '/tracker/roi', label: 'ROI plan', icon: TrendingUp },
-    { to: '/tracker/finance', label: 'Finance plan', icon: ListChecks },
-  ] },
-  { section: 'Innovation', icon: Lightbulb, items: [
-    { to: '/innovation', label: 'Innovation', icon: Lightbulb },
-    { to: '/tracker/innovation', label: 'Innovation plan', icon: ListChecks },
-  ] },
-  { section: 'Risk & Governance', icon: ShieldCheck, items: [
-    { to: '/risk', label: 'Risk register', icon: TriangleAlert },
-    { to: '/governance', label: 'Regulatory & governance', icon: ShieldCheck },
-    { to: '/tedif', label: 'TEDIF tracker', icon: ClipboardCheck },
-    { to: '/tracker/governance', label: 'Governance plan', icon: ListChecks },
-  ] },
-  { section: 'AI Intelligence', icon: Sparkles, items: [
-    { to: '/decision-center', label: 'CTO Decision Center (Top 10)', icon: Crown },
-    { to: '/ai', label: 'AI insights', icon: Sparkles },
-    { to: '/decisions', label: 'Decision center', icon: Gavel },
-    { to: '/cto/decisions', label: 'CTO decisions', icon: Crown },
-    { to: '/cto/ai-selection', label: 'AI selection', icon: Brain },
-    { to: '/agents', label: 'AI agents', icon: Bot },
-    { to: '/tracker/ai', label: 'AI plan', icon: Cpu },
   ] },
 ]
 
@@ -178,10 +130,10 @@ export default function Layout() {
           </button>
           <NavLink to="/about" className="hidden md:block text-slate-300 hover:text-white" aria-label="About CTO360 and disclaimer" title="About & disclaimer"><CircleHelp size={19} /></NavLink>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center font-semibold text-sm" aria-hidden>R</div>
+            <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center font-semibold text-sm" aria-hidden>C</div>
             <div className="hidden lg:block leading-tight text-xs">
-              <div className="font-semibold">Ram</div>
-              <div className="text-slate-300">Group CTO</div>
+              <div className="font-semibold">CTO Team</div>
+              <div className="text-slate-300">3 CTOs</div>
             </div>
           </div>
         </div>
