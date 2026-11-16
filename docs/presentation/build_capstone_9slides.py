@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Nine-slide capstone deck: title, introduction, problem, methodology (2), results, recommendations, conclusion, thank you.
-Board-led storyline (5 board questions, 10 priority problems, 16 departments, KPI-first methodology).
+CTO-standpoint storyline (5 CTO priorities, 10 priority problems, 16 departments, KPI-first methodology).
 No simulation metrics and no money: results are old state -> target state percentages only. Based on the slide (Introduction, Problem Statement, Methodology, Results,
 Recommendations, Conclusion). Reuses the design system and helpers of build_capstone_pptx.py.
 
@@ -84,8 +84,8 @@ BOARD = [('Growth', 'How is technology driving growth and competitive advantage?
 
 # ═══════════════════ SLIDE 2 · INTRODUCTION ═══════════════════
 s = new()
-head(s, 1, 'Introduction: Why Boards Need A New Way To Steer AI', 'Boards ask simple questions about technology. Today no CTO can answer them with evidence. That is the gap this framework closes.')
-ctx = [('AI investment is rising fast', 'but boards cannot see what it delivers', BLUE),
+head(s, 1, 'Introduction: Why CTOs Need A New Way To Steer AI', 'Every CTO must prove what technology delivers. Today that proof is scattered across departments. That is the gap this framework closes.')
+ctx = [('AI investment is rising fast', 'but CTOs cannot prove what it delivers', BLUE),
        ('Regulation is tightening', 'RBI guidance, DPDP Act 2023 and AI governance standards', CRIT),
        ('Technology is ageing', 'while new AI demands modern, supported platforms', WARN),
        ('Departments work in silos', 'each with its own tools, reports and definitions', NAVY)]
@@ -96,14 +96,14 @@ for k, (h_, d_, col) in enumerate(ctx):
     text(s, x + Inches(0.25), y + Inches(0.5), Inches(3.2), Inches(0.5), d_, size=11, color=INK2)
 box(s, Inches(0.6), Inches(4.3), Inches(7.25), Inches(1.3), fill=NAVY, radius=0.08)
 text(s, Inches(0.85), Inches(4.4), Inches(6.8), Inches(0.3), 'OUR OBJECTIVE', size=10, bold=True, color=LIGHT)
-text(s, Inches(0.85), Inches(4.7), Inches(6.8), Inches(0.85), 'Build one domain-agnostic framework that turns every department\'s work into evidence-based answers to the board\'s five questions, in any industry.', size=14, bold=True, color='ffffff')
+text(s, Inches(0.85), Inches(4.7), Inches(6.8), Inches(0.85), 'Build one domain-agnostic framework that turns every department\'s work into evidence-based answers to the CTO\'s five priorities, in any industry.', size=14, bold=True, color='ffffff')
 text(s, Inches(0.6), Inches(5.75), Inches(7.25), Inches(0.3), 'SCOPE OF THE FRAMEWORK', size=10, bold=True, color=INK3)
-for k, (n_, l_) in enumerate([('5', 'board questions'), ('10', 'priority problems'), ('16', 'departments'), ('2 + Any', 'industries')]):
+for k, (n_, l_) in enumerate([('5', 'CTO priorities'), ('10', 'priority problems'), ('16', 'departments'), ('2 + Any', 'industries')]):
     x = Inches(0.6) + Inches(1.84) * k
     box(s, x, Inches(6.05), Inches(1.74), Inches(0.85), fill=TINT, radius=0.12)
     text(s, x, Inches(6.08), Inches(1.74), Inches(0.45), n_, size=22, bold=True, color=BLUE, align=PP_ALIGN.CENTER)
     text(s, x, Inches(6.52), Inches(1.74), Inches(0.3), l_, size=10, color=INK2, align=PP_ALIGN.CENTER)
-card(s, Inches(8.1), Inches(1.85), Inches(4.63), Inches(5.05), title='The Five Questions Every Board Asks')
+card(s, Inches(8.1), Inches(1.85), Inches(4.63), Inches(5.05), title='The Five Priorities Every CTO Must Prove')
 for k, (h_, q_, col) in enumerate(BOARD):
     y = Inches(2.45) + Inches(0.86) * k
     dot(s, Inches(8.3), y + Inches(0.04), Inches(0.42), str(k + 1), col, size=12)
@@ -112,8 +112,8 @@ for k, (h_, q_, col) in enumerate(BOARD):
 
 # ═══════════════════ SLIDE 3 · PROBLEM STATEMENT ═══════════════════
 s = new()
-head(s, 2, 'Problem Statement: The Board Asks, The Enterprise Cannot Answer', 'The answers depend on ten priority problems, spread across sixteen departments with no common KPIs and no shared visibility.')
-card(s, Inches(0.6), Inches(1.85), Inches(4.75), Inches(4.2), title='What The Board Asks')
+head(s, 2, 'Problem Statement: The CTO Is Accountable, But Cannot Prove It', 'The answers depend on ten priority problems, spread across sixteen departments with no common KPIs and no shared visibility.')
+card(s, Inches(0.6), Inches(1.85), Inches(4.75), Inches(4.2), title='What The CTO Must Prove')
 for k, (h_, q_, col) in enumerate(BOARD):
     y = Inches(2.4) + Inches(0.72) * k
     dot(s, Inches(0.78), y + Inches(0.03), Inches(0.36), str(k + 1), col, size=11)
@@ -129,21 +129,21 @@ for k, (tag, col, items) in enumerate([('BANKING', '2a78d6', ['Fraud and money l
         dot(s, x + Inches(0.18), y + Inches(0.02), Inches(0.26), str(j + 1), col, size=8.5)
         text(s, x + Inches(0.54), y, Inches(2.9), Inches(0.36), it, size=10.5, color=INK, anchor=MSO_ANCHOR.MIDDLE)
 text(s, Inches(5.5), Inches(4.72), Inches(7), Inches(0.3), 'ROOT CAUSE, THE SAME IN BOTH INDUSTRIES', size=9.5, bold=True, color=CRIT)
-for k, (h_, d_) in enumerate([('Scattered work', 'across 16 departments and separate tools'), ('No common KPIs', 'linking department work to board questions'),
+for k, (h_, d_) in enumerate([('Scattered work', 'across 16 departments and separate tools'), ('No common KPIs', 'linking department work to CTO priorities'),
                               ('No transparency', 'across departments or up the hierarchy'), ('Opinion, not evidence', 'progress reported without proof')]):
     x = Inches(5.5) + Inches(3.65) * (k % 2); y = Inches(5.0) + Inches(0.53) * (k // 2)
     box(s, x, y, Inches(3.53), Inches(0.46), fill='fff1f2', line='fecaca', radius=0.2)
     text(s, x + Inches(0.15), y, Inches(3.3), Inches(0.46), [[(h_ + ': ', True, 'b91c1c'), (d_, False, INK2)]], size=9.5, anchor=MSO_ANCHOR.MIDDLE)
 box(s, Inches(0.6), Inches(6.17), Inches(12.13), Inches(0.8), fill=NAVY, radius=0.1)
-text(s, Inches(0.8), Inches(6.2), Inches(7.3), Inches(0.75), [[('Problem: ', True, LIGHT), ('enterprises are solving their top priority problems with AI, but with work spread across 16 departments, no common KPIs and no shared visibility, the board cannot get evidence-based answers.', False, 'ffffff')]], size=10.5, anchor=MSO_ANCHOR.MIDDLE)
+text(s, Inches(0.8), Inches(6.2), Inches(7.3), Inches(0.75), [[('Problem: ', True, LIGHT), ('enterprises are solving their top priority problems with AI, but with work spread across 16 departments, no common KPIs and no shared visibility, the CTO cannot prove progress with evidence.', False, 'ffffff')]], size=10.5, anchor=MSO_ANCHOR.MIDDLE)
 box(s, Inches(8.25), Inches(6.3), Emu(12000), Inches(0.55), fill='3a64a5')
-text(s, Inches(8.4), Inches(6.2), Inches(4.2), Inches(0.75), [[('Research question: ', True, LIGHT), ('can one domain-agnostic framework, built on proven tools, techniques and processes, answer the board with evidence in any industry?', False, 'ffffff')]], size=10.5, anchor=MSO_ANCHOR.MIDDLE)
+text(s, Inches(8.4), Inches(6.2), Inches(4.2), Inches(0.75), [[('Research question: ', True, LIGHT), ('can one domain-agnostic framework, built on proven tools, techniques and processes, give the CTO evidence-based answers in any industry?', False, 'ffffff')]], size=10.5, anchor=MSO_ANCHOR.MIDDLE)
 
 # ═══════════════════ SLIDE 4 · METHODOLOGY I: THE KPI-FIRST PROCESS ═══════════════════
 s = new()
-head(s, 3, 'Methodology I: The KPI-First Process', 'Design Science Research: we start from the board question and work backwards to only the data and AI that move each KPI.')
+head(s, 3, 'Methodology I: The KPI-First Process', 'Design Science Research: we start from the CTO priority and work backwards to only the data and AI that move each KPI.')
 text(s, Inches(0.6), Inches(1.78), Inches(6), Inches(0.28), 'THE GOLDEN THREAD', size=9.5, bold=True, color=INK3)
-chevrons(s, ['Board|Question', 'Priority|Problem', 'Department|Owner', 'KPI Driver|Tree', 'Minimum|Data', 'Simplest|AI Model', 'Shadow|Run', 'Human|Decision', 'Board|Scorecard'],
+chevrons(s, ['CTO|Priority', 'Priority|Problem', 'Department|Owner', 'KPI Driver|Tree', 'Minimum|Data', 'Simplest|AI Model', 'Shadow|Run', 'Human|Decision', 'CTO|Scorecard'],
          Inches(0.6), Inches(2.06), Inches(12.0), Inches(0.68), colors=[NAVY, NAVY2, '1f4f94', '1d5bbf', BLUE, '3b7bf0', '4b86ee', '6a9cf2', LIGHT], size=9.5)
 table(s, Inches(0.6), Inches(2.95), [1.55, 4.75, 2.15], [
     ['Step', 'What Happens', 'Technique'],
@@ -152,7 +152,7 @@ table(s, Inches(0.6), Inches(2.95), [1.55, 4.75, 2.15], [
     ['3. Minimum data', 'Only the data that moves each driver: numbers, text, images, audio, video', 'Data audit, privacy by design'],
     ['4. Simplest model', 'Rules first, then machine learning, then deep learning only if needed', 'CRISP-DM'],
     ['5. Shadow run', 'AI recommends while people decide as before; live above 80% agreement', 'TEDIF shadow run'],
-    ['6. Share', 'Team, department, cross-department and board views by role', 'RBAC, data classification'],
+    ['6. Share', 'Team, department, cross-department and CTO views by role', 'RBAC, data classification'],
     ['7. Prove and scale', 'Compare with a unit without AI; scale to the next problem and industry', 'Before and after, comparison group'],
 ], size=9.5, head_size=10, row_h=0.47)
 text(s, Inches(9.25), Inches(2.95), Inches(3.5), Inches(0.28), 'PILOT DRIVER TREES', size=9.5, bold=True, color=INK3)
@@ -168,10 +168,10 @@ for k, (tag, col, outcome, drivers) in enumerate([('Banking · Fraud', '2a78d6',
 
 # ═══════════════════ SLIDE 5 · METHODOLOGY II: TOOLS, TECHNIQUES, GOVERNANCE ═══════════════════
 s = new()
-head(s, 3, 'Methodology II: Tools, Techniques And Governance For The Board', 'Each board question is answered with proven enterprise tools and techniques, under one governance model.')
+head(s, 3, 'Methodology II: Tools, Techniques And Governance For Each Priority', 'Each CTO priority is answered with proven enterprise tools and techniques, under one governance model.')
 B = lambda h_, col: [(h_, True, col)]
 table(s, Inches(0.6), Inches(1.85), [2.0, 2.35, 3.5], [
-    ['Board Question', 'Tools', 'Techniques'],
+    ['CTO Priority', 'Tools', 'Techniques'],
     [B('1. Growth', BLUE), 'Planview, Power BI', 'Balanced Scorecard, OKRs, Three Horizons'],
     [B('2. Return', '0e9f6e'), 'Apptio, FinOps tools', 'TBM, payback, stage-gate funding, benefits realisation'],
     [B('3. Risk', CRIT), 'ServiceNow GRC, Vanta, Splunk', 'NIST AI RMF, ISO 42001, three lines of defence, PSI drift'],
@@ -196,8 +196,8 @@ for k, g_ in enumerate(['A named owner approves at every gate', 'An audit trail 
 
 # ═══════════════════ SLIDE 6 · RESULTS ═══════════════════
 s = new()
-head(s, 4, 'Results: From Old State To Target State', 'What the framework changes for each board question, shown as the move from old state to target state.')
-text(s, Inches(0.6), Inches(1.8), Inches(8), Inches(0.28), 'BOARD SCORECARD · OLD STATE → TARGET STATE', size=9.5, bold=True, color=INK3)
+head(s, 4, 'Results: From Old State To Target State', 'What the framework changes for each CTO priority, shown as the move from old state to target state.')
+text(s, Inches(0.6), Inches(1.8), Inches(8), Inches(0.28), 'CTO SCORECARD · OLD STATE → TARGET STATE', size=9.5, bold=True, color=INK3)
 rows = [('1. Growth', 'AI initiatives linked to a strategic KPI', 20, 100, BLUE, None), ('2. Return', 'Investments with baseline and value tracking', 15, 100, '0e9f6e', None),
         ('3. Risk', 'AI models registered and approved before go-live', 30, 100, CRIT, None), ('4. AI Transformation', 'AI pilots reaching production', 20, 60, '7c3aed', None),
         ('4. AI Transformation', 'Decision cycle time (share of old time)', 100, 15, '7c3aed', '85% faster'), ('5. Readiness', 'Technology within vendor support', 40, 90, WARN, None),
@@ -216,7 +216,7 @@ for k, (q_, m_, o_, t_, col, note) in enumerate(rows):
     text(s, Inches(7.4), y + Inches(0.02), Inches(1.1), Inches(0.5), [[(f'{o_}% → ', False, INK3), (f'{t_}%', True, col)]] + ([[(note, True, col)]] if note else []), size=11 if not note else 10, align=PP_ALIGN.RIGHT, spacing=0.9)
 text(s, Inches(0.6), Inches(6.62), Inches(8), Inches(0.3), 'Target state, to be validated through the Fraud and Downtime pilots. Old-state values are illustrative industry baselines.', size=9, color=INK3)
 card(s, Inches(8.8), Inches(1.85), Inches(3.93), Inches(5.05), title='What The Framework Delivers')
-for k, (h_, d_, col) in enumerate([('One board scorecard', 'five questions answered with evidence', BLUE), ('16 departments', 'on common KPIs with role-based transparency', '0e9f6e'),
+for k, (h_, d_, col) in enumerate([('One CTO scorecard', 'five priorities proven with evidence', BLUE), ('16 departments', 'on common KPIs with role-based transparency', '0e9f6e'),
                                    ('10 priority problems', 'each with an owner and a driver tree', CRIT), ('Domain-agnostic', 'the same process for banking and manufacturing', '7c3aed'),
                                    ('Live demonstration', 'CTO360 shows the framework in action', WARN)]):
     y = Inches(2.45) + Inches(0.86) * k
@@ -226,8 +226,8 @@ for k, (h_, d_, col) in enumerate([('One board scorecard', 'five questions answe
 
 # ═══════════════════ SLIDE 7 · RECOMMENDATIONS ═══════════════════
 s = new()
-head(s, 5, 'Recommendations: Board, Society And The Individual', 'What each audience should do, with a phased roadmap from pilot to scale.')
-cols3 = [('For The Board', BLUE, [('Growth', 'Fund AI only when tied to a strategic KPI'), ('Return', 'No funding without a baseline and value tracking'), ('Risk', 'Register and approve every AI model; monitor drift'),
+head(s, 5, 'Recommendations: Enterprise, Society And The Individual', 'What each audience should do, with a phased roadmap from pilot to scale.')
+cols3 = [('For The Enterprise', BLUE, [('Growth', 'Fund AI only when tied to a strategic KPI'), ('Return', 'No funding without a baseline and value tracking'), ('Risk', 'Register and approve every AI model; monitor drift'),
                                   ('AI Transformation', 'Two pilots, a shadow run, then scale'), ('Readiness', 'Retire unsupported technology; build AI skills')]),
          ('For Society', '0e9f6e', [('Humans decide', 'A named person at every AI gate'), ('Privacy by design', 'Minimum data under the DPDP Act'), ('Fair and explainable', 'Credit and service decisions people can trust'),
                                     ('Safer and reliable', 'Fewer breakdowns in plants and services'), ('Transparent', 'Role-based, verifiable reporting')]),
@@ -248,8 +248,8 @@ chevrons(s, ['0 to 6 Months|2 pilots: Fraud and Downtime', '6 to 12 Months|Shado
 
 # ═══════════════════ SLIDE 8 · CONCLUSION ═══════════════════
 s = new()
-head(s, 6, 'Conclusion: One Framework, Five Answers, Any Industry', 'Our answer to the problem, its limits, and what the board gets.')
-for k, (h_, b_, col) in enumerate([('Problem', 'The board cannot get evidence-based answers to its five questions on growth, return, risk, AI transformation and readiness.', NAVY),
+head(s, 6, 'Conclusion: One Framework, Five Answers, Any Industry', 'Our answer to the problem, its limits, and what the CTO can now prove.')
+for k, (h_, b_, col) in enumerate([('Problem', 'The CTO cannot prove progress on five priorities: growth, return, risk, AI transformation and readiness.', NAVY),
                                     ('Solution', 'A KPI-first, domain-agnostic framework with proven tools, techniques and TEDIF governance, across 16 departments.', BLUE),
                                     ('Outcome', '16 departments on shared KPIs, every AI model governed, and AI moving from pilot to production under human control.', OK)]):
     x = Inches(0.6) + Inches(4.1) * k
@@ -258,7 +258,7 @@ for k, (h_, b_, col) in enumerate([('Problem', 'The board cannot get evidence-ba
     text(s, x + Inches(0.2), Inches(2.45), Inches(3.55), Inches(1.1), b_, size=11.5, color=INK2)
 card(s, Inches(0.6), Inches(3.8), Inches(3.92), Inches(1.75), fill=TINT, line=TINT, title='Limitations')
 bullets(s, Inches(0.8), Inches(4.3), Inches(3.55), ['Targets still to be validated in pilots', 'Live multimodal AI is the next phase', 'Two industries designed so far'], size=10.5, gap=0.0, h_each=Inches(0.36))
-text(s, Inches(4.7), Inches(3.8), Inches(8), Inches(0.3), 'What The Board Gets', size=14, bold=True, color=NAVY)
+text(s, Inches(4.7), Inches(3.8), Inches(8), Inches(0.3), 'What The CTO Can Now Prove', size=14, bold=True, color=NAVY)
 for k, ((h_, _, col), a_) in enumerate(zip(BOARD, ['KPI-linked AI portfolio', 'Value-tracked investments', 'Registered, governed AI', 'Pilots reaching production', 'Supported tech, skilled people'])):
     x = Inches(4.7) + Inches(1.62) * k
     card(s, x, Inches(4.2), Inches(1.52), Inches(1.35), top=col)

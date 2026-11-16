@@ -8,7 +8,7 @@
 
 ## 0. Resume here (status at close)
 
-> **🆕 17 Nov 2026:** the 9-slide deck (`CTO CApstone/Capstone_9_Slides.pptx`) was rebuilt around the **board's five questions**, the top 5 problems per industry, 16 departments and the KPI-first methodology. It has no simulation metrics and no money; results are old → target percentages. See **section 50d**.
+> **🆕 17 Nov 2026:** the 9-slide deck (`CTO CApstone/Capstone_9_Slides.pptx`) was rebuilt around the **CTO's five priorities** (CTO standpoint, no board wording), the top 5 problems per industry, 16 departments and the KPI-first methodology. It has no simulation metrics and no money; results are old → target percentages. See **section 50d**.
 
 > **✅ STATUS, 29 Oct 2026: everything is pushed and live at https://cto360.vercel.app.** `git status` shows nothing ahead.
 > - **Live:**
@@ -2226,3 +2226,17 @@ Same file and builder as 50c; the previous version is kept as `CTO CApstone/Caps
 **Open:**
 - The 15% value-tracking baseline is an assumption; replace it if a source is found.
 - The live site still lists two department groups ("Enterprise functions" with 16 items, plus an older "CTO Dimensions" group). Hiding the older group before the demo is suggested, not yet done.
+- **CTO standpoint (17 Nov 2026), at Ram's request:** every "board" reference was reworded so the deck speaks from the CTO's position. Changes:
+  - **Slide 2:**
+    - "Why CTOs Need A New Way To Steer AI"
+    - "The Five Priorities Every CTO Must Prove"
+    - scope tile "5 CTO Priorities"
+  - **Slide 3:** "The CTO Is Accountable, But Cannot Prove It" and "What The CTO Must Prove".
+  - **Methodology:**
+    - the golden thread runs from "CTO Priority" to "CTO Scorecard"
+    - the table column is "CTO Priority"
+  - **Results:** "CTO Scorecard".
+  - **Recommendations:** "For The Enterprise".
+  - **Conclusion:** "What The CTO Can Now Prove".
+
+  A scan finds no remaining "board" on any slide.
