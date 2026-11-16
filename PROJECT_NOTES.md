@@ -8,7 +8,7 @@
 
 ## 0. Resume here (status at close)
 
-> **🆕 17 Nov 2026:** the 9-slide deck (`CTO CApstone/Capstone_9_Slides.pptx`) was rebuilt around the **CTO's five priorities** (CTO standpoint, no board wording), the top 5 problems per industry, 16 departments and the KPI-first methodology. It has no simulation metrics and no money; results are old → target percentages. See **section 50d**.
+> **🆕 17 Nov 2026:** the 9-slide deck (`CTO CApstone/Capstone_9_Slides.pptx`) was rebuilt around **five high priorities** (no board or "CTO must prove" wording), the top 5 problems per industry, 16 departments and the KPI-first methodology. It has no simulation metrics and no money; results are old → target percentages. See **section 50d**.
 
 > **✅ STATUS, 29 Oct 2026: everything is pushed and live at https://cto360.vercel.app.** `git status` shows nothing ahead.
 > - **Live:**
@@ -2240,3 +2240,16 @@ Same file and builder as 50c; the previous version is kept as `CTO CApstone/Caps
   - **Conclusion:** "What The CTO Can Now Prove".
 
   A scan finds no remaining "board" on any slide.
+- **"High priority" wording (17 Nov 2026), at Ram's request:** replaces the CTO-standpoint wording. No slide says "CTO must prove". Changes:
+  - **Slide 2:**
+    - "Why Enterprises Need A New Way To Steer AI"
+    - "Five High Priorities"
+    - scope tile "5 High Priorities"
+  - **Slide 3:** "High Priorities, No Shared Evidence".
+  - **Methodology:**
+    - the golden thread runs from "High Priority" to "Priority Scorecard"
+    - the table column is "High Priority"
+  - **Results:** "Priority Scorecard".
+  - **Conclusion:** "What Each Priority Gets".
+
+  "CTO" remains only in "CTO Capstone" and the cto360 link.
