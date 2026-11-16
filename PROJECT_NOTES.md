@@ -8,6 +8,8 @@
 
 ## 0. Resume here (status at close)
 
+> **🆕 17 Nov 2026:** the 9-slide deck (`CTO CApstone/Capstone_9_Slides.pptx`) was rebuilt around the **board's five questions**, the top 5 problems per industry, 16 departments and the KPI-first methodology. It has no simulation metrics and no money; results are old → target percentages. See **section 50d**.
+
 > **✅ STATUS, 29 Oct 2026: everything is pushed and live at https://cto360.vercel.app.** `git status` shows nothing ahead.
 > - **Live:**
 >   - **Home** = Technology Control Plane (section 45), with Present mode, motion (section 46) and hover previews (section 47)
@@ -2142,3 +2144,85 @@ Every slide shows the 6-phase rail and a presenter chip. Rendered via Keynote an
   - **Kept as written:** acronyms (AI, TEDIF, RBI, DPDP, EOL, OEE, MES, ERP, PSI, TOGAF ADM, TIME, II), brands (LeanIX, ServiceNow, CTO360), numbers, "vs", "r =", "1 of 6" and the web link.
   - A scan confirms no stray lowercase words and no broken acronyms.
 
+
+### 50d. Nine-slide deck rebuilt around the board's five questions (17 Nov 2026)
+Same file and builder as 50c; the previous version is kept as `CTO CApstone/Capstone_9_Slides_previous.pptx`. Slides 1 and 9 are unchanged; slides 2 to 8 were rewritten.
+
+**Why:** Ram found the problem statement unclear and the "r" value confusing. The storyline now follows the **board's five questions**, Ram's **top 5 problems per industry**, the **16 departments**, and an agreed **KPI-first methodology**. Everyone presents as a CTO; there is no role split on any slide.
+
+**Ground rules, at Ram's request:**
+- No simulation metrics.
+- No money.
+- No "r" value.
+- Results show only **old state → target state percentages**, labelled as targets to be validated through the pilots.
+- Old-state values are illustrative industry baselines.
+
+**Board questions:**
+1. Growth
+2. Return
+3. Risk
+4. AI Transformation
+5. Readiness
+
+**Top 5 problems:**
+
+| Banking | Manufacturing |
+|---|---|
+| Fraud and money laundering | Unplanned downtime |
+| Legacy core | Quality defects |
+| Credit risk | Supply chain disruptions |
+| Customer experience | Engineering design |
+| Regulatory compliance and data governance | Production planning / OEE |
+
+**Slides:**
+1. **Title**, unchanged.
+2. **Introduction:**
+   - 4 context cards
+   - the objective
+   - scope: 5 questions · 10 problems · 16 departments · 2 + any industries
+   - the five board questions
+3. **Problem statement:**
+   - the board questions
+   - Banking and Manufacturing top 5
+   - the shared root cause: scattered work, no common KPIs, no transparency, opinion not evidence
+   - the problem statement and research question
+4. **Methodology I, the KPI-first process:**
+   - a 9-step golden thread: Board Question → Priority Problem → Department Owner → KPI Driver Tree → Minimum Data → Simplest AI Model → Shadow Run → Human Decision → Board Scorecard
+   - a table of the 7 steps with their techniques
+   - pilot driver trees for Fraud and Downtime
+5. **Methodology II:**
+   - a board question × tools × techniques table (adds Apptio, Splunk, Databricks/MLflow and Power BI to the site's tools)
+   - an AI technique for each data type
+   - TEDIF governance: a named owner, audit trail, RBAC, transparency across 16 departments, DPDP consent
+6. **Results, old → target bars:**
+
+   | Measure | Old → Target |
+   |---|---|
+   | AI initiatives linked to a KPI | 20 → 100% |
+   | Investments value-tracked | 15 → 100% |
+   | AI models approved | 30 → 100% |
+   | Pilots to production | 20 → 60% |
+   | Decision time (85% faster) | 100 → 15% |
+   | Technology within vendor support | 40 → 90% |
+   | Departments with shared KPIs | 0 → 100% |
+
+   Plus "What the framework delivers".
+7. **Recommendations:**
+   - Board: one recommendation per question
+   - Society
+   - Individual
+   - roadmap: 0–6 months two pilots → 6–12 months shadow run and go-live → 12–24 months all 10 problems, 16 departments, new industries
+8. **Conclusion:**
+   - Problem / Solution / Outcome
+   - limitations
+   - "What the board gets", one per question
+9. **Thank you**, unchanged.
+
+**Checks:**
+- All 9 slides were rendered through Keynote; there is no overflow.
+- A scan finds no em dashes, no ₹, no simulation numbers and no "r =".
+- The Title Case pass is kept, with new acronyms added (OKRs, TBM, GRC, NIST, RMF, ISO, NLP, RBAC, KYC, BI, CRISP-DM, CTOs).
+
+**Open:**
+- The 15% value-tracking baseline is an assumption; replace it if a source is found.
+- The live site still lists two department groups ("Enterprise functions" with 16 items, plus an older "CTO Dimensions" group). Hiding the older group before the demo is suggested, not yet done.
