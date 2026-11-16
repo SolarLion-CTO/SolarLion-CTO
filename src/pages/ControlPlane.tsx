@@ -1,10 +1,10 @@
 // / — CTO Technology Control Plane (home). The CTO's standpoint: what do I control (EA layers), what is moving it
 // right now (impact chains, blast radius), where is change in the ADM cycle, and what does the portfolio say statistically.
-import { lazy, Suspense, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { MotionConfig, motion } from 'motion/react'
 import { Collapse, CountUp, Reveal, Swap } from '../components/motion'
 import { Peek, PeekCard, lift } from '../components/Peek'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useStore } from '../store'
 import ExecutiveSummary, { Purpose } from './ControlPlaneSummary'
 import CapstoneStory from './CapstoneStory'
@@ -45,6 +45,9 @@ export default function ControlPlane() {
   const [blast, setBlast] = useState<{ domain: DomainId; id: string } | null>(null)
   const present = sp.get('present') === '1'
   const setPresent = (on: boolean) => setSp((prev) => { const n = new URLSearchParams(prev); if (on) n.set('present', '1'); else n.delete('present'); return n }, { replace: true })
+  const { hash } = useLocation()
+  // Sidebar anchors (/#capstone, /#plane) scroll to their part of the page, also on first load
+  useEffect(() => { if (hash) setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' }), 120) }, [hash])
   const jump = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   const drill = (layer: string) => { setOpen(layer); setTimeout(() => jump('layers'), 60) }
   const tick = Math.floor((now - T0) / 5000)   // recompute live parts every 5 s of simulation time
@@ -66,7 +69,7 @@ export default function ControlPlane() {
       {present && <Suspense fallback={null}><Present d={{ scope, setScope, now, L, C, score, delta: score - score3m, v, openDecisions: decs.length, critDecisions: decs.filter((x) => x.priority === 'Critical').length, live, ...stats }} onClose={() => setPresent(false)} lines={lines} /></Suspense>}
       <CapstoneStory />
       {/* Title + scope */}
-      <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
+      <div id="plane" className="flex flex-wrap items-end justify-between gap-3 mb-4 scroll-mt-20">
         <div className="min-w-0">
           <div className="text-xs font-bold tracking-widest text-brand-600 uppercase">CTO standpoint</div>
           <h2 className="text-2xl sm:text-3xl font-bold text-ink">Technology Control Plane</h2>

@@ -1,80 +1,76 @@
 import { Suspense, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import {
-  Bell, Briefcase, Building2, ChevronDown, CircleHelp, Cpu, Crown, Database, Activity, BookOpen, Boxes, Library, Radio, Factory, Gauge, Radar, Workflow, Gavel, Grid3x3, Landmark, LayoutDashboard, ListChecks, Menu, Network, ShieldCheck, ShoppingCart, Sparkles, Target, Users, Wallet, Wrench, X,
+  Bell, Briefcase, Building2, ChevronDown, CircleHelp, Cpu, Crown, Database, Activity, BookOpen, Boxes, Library, Radio, Gauge, Radar, Workflow, Gavel, LayoutDashboard, ListChecks, Menu, Network, ShieldCheck, Sparkles, Target, Users, Wallet, Wrench, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useStore } from '../store'
 import { domainOrder, domains } from '../data/domains'
 import type { DomainId } from '../data/domains'
-import { cascade, tracks } from '../data/cascade'
 import { SOURCES } from '../data/sim/scores'
 import { FUNCTIONS } from '../data/sim/functions'
 import { ClockControls } from './sim/EventFeed'
 import { SHORT_DISCLAIMER } from '../pages/About'
 
-type Item = { to: string; label: string; icon: LucideIcon; badge?: number; sub?: string; end?: boolean }
+type Item = { to: string; label: string; icon: LucideIcon; badge?: number; sub?: string; end?: boolean; children?: Item[] }
 type Group = { section: string; icon: LucideIcon; items: Item[] }
 
-const redCount = (id: DomainId) =>
-  tracks.flatMap((t) => cascade[id].tracks[t].initiatives.flatMap((i) => i.ground)).filter((g) => g.status === 'Delayed').length
-
-// Nine executive sections. Every existing route is kept — only regrouped.
-const nav: Group[] = [
-  { section: 'Executive Overview', icon: LayoutDashboard, items: [
-    { to: '/', label: 'Technology Control Plane', sub: 'CTO standpoint · layers · live impact', icon: Gauge, end: true },
-    { to: '/command-center', label: 'Command Center (all domains)', icon: Radar },
-    { to: '/decision-center', label: 'CTO Decision Center (Top 10)', icon: Crown },
-    { to: '/sources', label: 'Data sources', icon: Database },
-    { to: '/overview', label: 'Programme overview (TEDIF)', icon: LayoutDashboard },
-    { to: '/domain/banking', label: 'Banking view', icon: Landmark, badge: redCount('banking') },
-    { to: '/domain/manufacturing', label: 'Manufacturing view', icon: Factory, badge: redCount('manufacturing') },
-    { to: '/domain/retail', label: 'Retail view', icon: ShoppingCart, badge: redCount('retail') },
-    { to: '/problems', label: 'Problem matrix', icon: Grid3x3 },
-    { to: '/cto/business', label: 'Business case', icon: Building2 },
-    { to: '/cto/coverage', label: 'Capstone coverage', icon: ListChecks },
-  ] },
-  // Capstone team: three CTOs plus two shared CTO workspaces. The older dimension groups (Strategy … AI Intelligence) were removed
-  // from the sidebar on 17 Nov 2026; their pages remain reachable by URL.
-  { section: 'Team', icon: Users, items: [
-    { to: '/team', label: 'Team & accountability', icon: Users, end: true },
-    { to: '/team/ram', label: 'CTO Control Tower · Ramkumar P', sub: 'Multi-domain · decision intelligence', icon: Crown },
-    { to: '/team/suman', label: 'AI Transformation · Suman Kolekar', sub: 'ROI · any organisation to AI', icon: Sparkles },
-    { to: '/team/governance', label: 'Regulatory & AI Governance', sub: 'Banking regulation · DPDP · AI', icon: ShieldCheck },
-    { to: '/team/santosh', label: 'Technology Spend & Investment · Santosh Kumar', sub: 'CAPEX / OPEX · governance', icon: Wallet },
-    { to: '/team/operations', label: 'Operations & ERP', sub: 'ERP · infra capacity · production', icon: Wrench },
-    { to: '/team/frameworks', label: 'Frameworks & syllabus', sub: 'Applied frameworks · decision guide', icon: BookOpen },
-    { to: '/team/reference', label: 'Reference library', sub: 'Frameworks · techniques · concepts explained', icon: Library },
-  ] },
-]
-
 const SOURCE_ICON: Record<string, LucideIcon> = { planview: Target, leanix: Network, process: Workflow, servicenow: Briefcase, jellyfish: Wrench, datadog: Activity, vanta: ShieldCheck }
-// The selected business unit's Enterprise 360: overview + the 7 simulated source systems.
-const domainGroup = (d: DomainId): Group => ({
-  section: `${domains[d].name} 360`, icon: Radar, items: [
-    { to: `/domain/${d}`, label: 'Enterprise 360 overview', icon: LayoutDashboard, end: true },
-    ...SOURCES.map((s) => ({ to: `/domain/${d}/${s.slug}`, label: s.capability, sub: `Simulated · ${s.label}`, icon: SOURCE_ICON[s.id] })),
-    { to: `/domain/${d}/decisions`, label: 'Decision Intelligence', sub: 'Decisions · actions · outcomes · maturity', icon: Gavel },
+
+// Sidebar in demo order, top to bottom (17 Nov 2026): Overview → Enterprise → Business unit → Five high priorities → Governance → Library.
+// Older pages (programme overview, problem matrix, business case, coverage, dimension groups) stay reachable by URL only.
+const overview: Group = { section: 'Overview', icon: LayoutDashboard, items: [
+  { to: '/#capstone', label: 'Capstone Overview', sub: 'Problem · method · results · recommendations', icon: BookOpen },
+  { to: '/#plane', label: 'Technology Control Plane', sub: '6 layers · live impact · blast radius', icon: Gauge },
+] }
+const enterprise: Group = { section: 'Enterprise · All Units', icon: Radar, items: [
+  { to: '/command-center', label: 'Command Center', sub: '3 business units side by side', icon: Radar },
+  { to: '/decision-center', label: 'CTO Decision Center', sub: 'Top 10 → actions → outcomes', icon: Crown },
+] }
+// The selected business unit (header dropdown): Enterprise 360, 16 departments, 7 source systems, decision intelligence.
+const unitGroup = (d: DomainId): Group => ({
+  section: `Business Unit · ${domains[d].name}`, icon: Building2, items: [
+    { to: `/domain/${d}`, label: 'Enterprise 360 Overview', icon: LayoutDashboard, end: true },
+    { to: `/domain/${d}/fn/${FUNCTIONS[0].id}`, label: '16 Departments', sub: 'CTO-owned (6) · Signals (10)', icon: Boxes,
+      children: FUNCTIONS.map((f) => ({ to: `/domain/${d}/fn/${f.id}`, label: f.name, sub: f.cls === 'cto' ? 'CTO-owned' : `Signal · ${f.owner}`, icon: f.cls === 'cto' ? Cpu : Radio })) },
+    { to: `/domain/${d}/${SOURCES[0].slug}`, label: 'Source Systems', sub: '7 simulated enterprise tools', icon: Database,
+      children: SOURCES.map((x) => ({ to: `/domain/${d}/${x.slug}`, label: x.capability, sub: `Simulated · ${x.label}`, icon: SOURCE_ICON[x.id] })) },
+    { to: `/domain/${d}/decisions`, label: 'Decision Intelligence', sub: 'Decisions · actions · outcomes', icon: Gavel },
   ],
 })
+const priorities: Group = { section: 'Five High Priorities', icon: Target, items: [
+  { to: '/team/suman', label: 'Growth & AI Transformation', sub: 'AI Transformation · Suman Kolekar', icon: Sparkles },
+  { to: '/team/santosh', label: 'Return', sub: 'Technology Spend & Investment · Santosh Kumar', icon: Wallet },
+  { to: '/team/governance', label: 'Risk', sub: 'Regulatory & AI Governance', icon: ShieldCheck },
+  { to: '/team/operations', label: 'Readiness', sub: 'Operations & ERP', icon: Wrench },
+  { to: '/team/ram', label: 'Control Tower', sub: 'CTO Control Tower · Ramkumar P', icon: Crown },
+  { to: '/team', label: 'Team Scorecard', sub: '3 CTOs · RACI · golden thread', icon: Users, end: true },
+] }
+const trust: Group = { section: 'Governance & Trust', icon: ShieldCheck, items: [
+  { to: '/sources', label: 'Data Sources', sub: 'Sync status · real-data checks', icon: Database },
+  { to: '/tedif', label: 'TEDIF Tracker', sub: 'Gates · decision catalogue', icon: ListChecks },
+  { to: '/about', label: 'About & Disclaimer', icon: CircleHelp },
+] }
+const library: Group = { section: 'Library', icon: Library, items: [
+  { to: '/team/frameworks', label: 'Frameworks & Syllabus', sub: 'Applied frameworks · decision guide', icon: BookOpen },
+  { to: '/team/reference', label: 'Reference Library', sub: 'Frameworks · techniques explained', icon: Library },
+] }
 
-// The 16 enterprise functions for the selected business unit (CTO-owned first, then signals).
-const functionsGroup = (d: DomainId): Group => ({
-  section: 'Enterprise functions', icon: Boxes,
-  items: FUNCTIONS.map((f) => ({ to: `/domain/${d}/fn/${f.id}`, label: f.name, sub: f.cls === 'cto' ? 'CTO-owned' : `Signal · ${f.owner}`, icon: f.cls === 'cto' ? Cpu : Radio })),
-})
-
-const matches = (to: string, path: string) => (to === '/' || to === '/tracker' ? path === to : path === to || path.startsWith(to + '/'))
+const flat = (items: Item[]): Item[] => items.flatMap((i) => (i.children ? [i, ...flat(i.children)] : [i]))
+const matches = (to: string, path: string, hash = '') => {
+  if (to.startsWith('/#')) return path === '/' && (to === '/#plane' ? hash === '#plane' : hash !== '#plane')
+  return to === '/' || to === '/tracker' || to === '/team' ? path === to : path === to || path.startsWith(to + '/')
+}
 
 export default function Layout() {
   const { domainId, setDomainId, domain } = useStore()
   const [open, setOpen] = useState(false)
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const navigate = useNavigate()
-  const groups = [domainGroup(domainId), functionsGroup(domainId), ...nav]
-  const activeGroup = groups.find((g) => g.items.some((i) => matches(i.to, pathname)))?.section
+  const groups = [overview, enterprise, unitGroup(domainId), priorities, trust, library]
+  const activeGroup = groups.find((g) => flat(g.items).some((i) => matches(i.to, pathname, hash)))?.section
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
-  const isOpen = (s: string) => expanded[s] ?? (s === activeGroup || s === groups[0].section || (s === 'Executive Overview' && !pathname.startsWith('/domain/')))
+  const isOpen = (s: string) => expanded[s] ?? (s === activeGroup || s !== 'Library')   // demo: every group open except the library
 
   // On the Technology Control Plane the dropdown is the page scope (?bu=), including "All business units".
   const [sp, setSp] = useSearchParams()
@@ -94,6 +90,48 @@ export default function Layout() {
       const rest = pathname.replace(/^\/domain\/[^/]+/, '')
       navigate(`/domain/${d}${rest.startsWith('/record/') ? '' : rest}`)
     }
+  }
+
+  // One menu row; rows with children are collapsible sub-groups (16 departments, source systems).
+  const go = (to: string) => {
+    const m = to.match(/^\/domain\/(\w+)/)
+    if (m) setDomainId(m[1] as DomainId)
+    if (to.startsWith('/#')) setTimeout(() => document.getElementById(to.slice(2))?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
+    setOpen(false)
+  }
+  const rowCls = (active: boolean, depth: number) =>
+    `relative flex items-center gap-2 ${depth ? 'pl-7' : 'pl-4'} pr-3 py-1.5 -ml-px ${depth ? 'text-[13px]' : 'text-[13.5px]'} border-l-2 transition rounded-r-md ${active ? 'border-brand-600 bg-brand-50 text-brand-700 font-semibold' : 'border-transparent text-ink-2 hover:text-ink hover:bg-slate-50'}`
+  const rowBody = ({ label, icon: Icon, badge, sub }: Item, extra?: React.ReactNode) => (
+    <>
+      <Icon size={14} className="shrink-0 opacity-70" />
+      <span className="flex-1 min-w-0"><span className="block truncate">{label}</span>{sub && <span className="block text-[10.5px] font-normal text-ink-4 truncate leading-tight">{sub}</span>}</span>
+      {!!badge && <span className="text-[10px] font-semibold bg-crit-bg text-crit-text border border-red-200 rounded-full px-1.5" title={`${badge} red escalations`}>{badge}</span>}
+      {extra}
+    </>
+  )
+  const renderItem = (it: Item, depth: number): React.ReactNode => {
+    if (it.children) {
+      const key = `sub:${it.label}`
+      const childActive = it.children.some((c) => matches(c.to, pathname, hash))
+      const subOpen = expanded[key] ?? childActive
+      return (
+        <div key={key}>
+          <button onClick={() => setExpanded((e) => ({ ...e, [key]: !subOpen }))} aria-expanded={subOpen} className={`w-full text-left ${rowCls(false, depth)} ${childActive ? 'text-brand-700 font-semibold' : ''}`}>
+            {rowBody(it, <ChevronDown size={13} className={`shrink-0 text-ink-4 transition-transform ${subOpen ? '' : '-rotate-90'}`} />)}
+          </button>
+          {subOpen && <div className="ml-4 border-l border-line">{it.children.map((c) => renderItem(c, depth + 1))}</div>}
+        </div>
+      )
+    }
+    if (it.to.startsWith('/#')) {
+      const active = matches(it.to, pathname, hash)
+      return <NavLink key={it.to} to={it.to} onClick={() => go(it.to)} className={rowCls(active, depth)} aria-current={active ? 'page' : undefined}>{rowBody(it)}</NavLink>
+    }
+    return (
+      <NavLink key={it.to} to={it.to} end={it.end || /^\/domain\/\w+$/.test(it.to)} onClick={() => go(it.to)} className={({ isActive }) => rowCls(isActive, depth)}>
+        {rowBody(it)}
+      </NavLink>
+    )
   }
 
   return (
@@ -161,25 +199,7 @@ export default function Layout() {
                   </button>
                   {opened && (
                     <div className="mt-0.5 mb-2 ml-[1.35rem] border-l border-line">
-                      {g.items.map(({ to, label, icon: Icon, badge, sub, end }) => (
-                        <NavLink
-                          key={to}
-                          to={to}
-                          end={end || to === '/' || to === '/tracker' || /^\/domain\/\w+$/.test(to)}
-                          onClick={() => {
-                            const m = to.match(/^\/domain\/(\w+)/)
-                            if (m) setDomainId(m[1] as DomainId)
-                            setOpen(false)
-                          }}
-                          className={({ isActive }) =>
-                            `relative flex items-center gap-2 pl-4 pr-3 py-1.5 -ml-px text-[13.5px] border-l-2 transition ${isActive ? 'border-brand-600 bg-brand-50 text-brand-700 font-semibold rounded-r-md' : 'border-transparent text-ink-2 hover:text-ink hover:bg-slate-50 rounded-r-md'}`
-                          }
-                        >
-                          <Icon size={14} className="shrink-0 opacity-70" />
-                          <span className="flex-1 min-w-0"><span className="block truncate">{label}</span>{sub && <span className="block text-[10.5px] font-normal text-ink-4 truncate leading-tight">{sub}</span>}</span>
-                          {!!badge && <span className="text-[10px] font-semibold bg-crit-bg text-crit-text border border-red-200 rounded-full px-1.5" title={`${badge} red escalations`}>{badge}</span>}
-                        </NavLink>
-                      ))}
+                      {g.items.map((it) => renderItem(it, 0))}
                     </div>
                   )}
                 </div>

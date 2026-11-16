@@ -200,7 +200,7 @@ export default function CapstoneStory() {
   const [all, setAll] = useState(false)
   const Body = BODY[tab]
   return (
-    <section id="capstone" className="mb-6 rounded-2xl border border-line bg-page/40" aria-label="Capstone overview">
+    <section id="capstone" className="scroll-mt-20 mb-6 rounded-2xl border border-line bg-page/40" aria-label="Capstone overview">
       <div className="rounded-t-2xl bg-gradient-to-br from-[#0b1d38] via-[#0f2747] to-[#1d4ed8] text-white p-5 sm:p-6">
         <div className="text-[11px] font-bold tracking-widest uppercase text-accent">CTO Capstone 2026 · Overview</div>
         <h1 className="text-2xl sm:text-3xl font-bold mt-1">Domain-Agnostic Enterprise AI Transformation Framework</h1>

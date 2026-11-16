@@ -12,7 +12,8 @@
 > - Pankaj and Vaibhav were removed everywhere.
 > - The home page opens with the **capstone story**: problem statement, methodology, results, recommendations and conclusion, matching the 9-slide deck.
 > - The older dimension groups were removed from the sidebar.
-> - See **section 51**. Not pushed yet.
+> - The sidebar was then restructured in **demo order**: Overview → Enterprise → Business Unit → Five High Priorities → Governance & Trust → Library.
+> - See **sections 51 and 52**. Not pushed yet.
 
 > **🆕 17 Nov 2026:** the 9-slide deck (`CTO CApstone/Capstone_9_Slides.pptx`) was rebuilt around **five high priorities** (no board or "CTO must prove" wording), the top 5 problems per industry, 16 departments and the KPI-first methodology. It has no simulation metrics and no money; results are old → target percentages. See **section 50d**.
 
@@ -2350,3 +2351,33 @@ Same file and builder as 50c; the previous version is kept as `CTO CApstone/Caps
 - `tsc` is clean, the build passes and `validate:sim` passes.
 - Layout sweep: 26 pages × 3 widths (1440, 1024, 390) = 78 views; 77 are clean. The one flag is the event ticker clipping on `/` at 1024 px, which is already present on the live site.
 - No horizontal overflow on any page.
+
+
+## 52. Sidebar restructured in demo order (17 Nov 2026)
+**Why:** Ram asked for a menu that starts at the Technology Control Plane and walks down, so the demo simply follows the sidebar. It is defined in `src/components/Layout.tsx`.
+
+| # | Group | Items |
+|---|---|---|
+| 1 | **Overview** | **Capstone Overview** (`/#capstone`) · **Technology Control Plane** (`/#plane`). Both are anchors on the home page; clicking scrolls there, and a direct link scrolls on load |
+| 2 | **Enterprise · All Units** | Command Center · CTO Decision Center |
+| 3 | **Business Unit · [selected unit]** (follows the header dropdown) | Enterprise 360 Overview · **16 Departments** (collapsible: the 6 CTO-owned and 10 signal departments) · **Source Systems** (collapsible: the 7 tools) · Decision Intelligence |
+| 4 | **Five High Priorities** | Growth & AI Transformation → `/team/suman` · Return → `/team/santosh` · Risk → `/team/governance` · Readiness → `/team/operations` · Control Tower → `/team/ram` · Team Scorecard → `/team` |
+| 5 | **Governance & Trust** | Data Sources · TEDIF Tracker · About & Disclaimer |
+| 6 | **Library** (collapsed by default) | Frameworks & Syllabus · Reference Library |
+
+- **Open by default:** every group except Library. Collapsible sub-groups open automatically when one of their pages is active.
+- **Removed from the menu but still reachable by URL:**
+  - Programme overview, Problem matrix, Business case, Capstone coverage
+  - the separate Banking, Manufacturing and Retail view links (the header dropdown switches unit)
+  - the older dimension groups
+- **Demo run** (about 5 min):
+  1. Capstone Overview
+  2. Technology Control Plane
+  3. Command Center → Decision Center
+  4. Banking 360 → a department → a source system
+  5. Five High Priorities → Risk
+  6. Governance & Trust
+- **Checks:**
+  - tsc is clean and the build passes
+  - sweep of 19 menu pages × 3 widths: 55 of 57 views are clean; the only flags are the pre-existing ticker clipping on `/` at 1024 px
+  - `/#plane` scrolls to the Control Plane
