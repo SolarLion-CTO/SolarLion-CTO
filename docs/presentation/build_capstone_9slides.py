@@ -28,8 +28,8 @@ def rail(s, active, dark=False):
 def head(s, phase, title, lead, who=None):
     box(s, 0, 0, W, H, fill=BG)
     rail(s, phase)
-    text(s, Inches(0.6), Inches(0.72), Inches(12.1), Inches(0.6), title, size=26, bold=True, color=NAVY)
-    text(s, Inches(0.6), Inches(1.24), Inches(12.1), Inches(0.45), lead, size=13, color=INK2)
+    text(s, Inches(0.6), Inches(0.68), Inches(12.1), Inches(0.6), title, size=28, bold=True, color=NAVY)
+    text(s, Inches(0.6), Inches(1.26), Inches(12.1), Inches(0.45), lead, size=14, color=INK2)
     box(s, Inches(0.6), Inches(7.05), Inches(12.13), Emu(9000), fill=LINE)
     text(s, Inches(0.6), Inches(7.1), Inches(9), Inches(0.25), 'Domain-Agnostic Enterprise AI Transformation Framework · CTO Capstone 2026 · live: cto360.vercel.app', size=9, color=GREY)
     text(s, Inches(11.7), Inches(7.1), Inches(1.03), Inches(0.25), f'{len(prs.slides)} / 9', size=9, color=GREY, align=PP_ALIGN.RIGHT)
@@ -57,95 +57,103 @@ for k, (key, name, *_ ) in enumerate(TEAM):
     text(s, x, Inches(6.18), Inches(3.85), Inches(0.45), name, size=19, bold=True, color='ffffff', align=PP_ALIGN.CENTER)
 text(s, Inches(0.72), Inches(6.95), Inches(9), Inches(0.3), 'Live demonstration: cto360.vercel.app', size=11, color='9fb6d8')
 
-def table(s, x, y, colw, rows, size=10, head_size=10.5, row_h=0.36, head_fill=NAVY, first_bold=True, zebra=True):
-    """Native table: rows[0] is the header. Cells may be str or [(text, bold, color)] runs."""
+# ── Board style system: one palette, one font (Calibri), fixed type scale ──
+ACC, PRI, SOFT, PANEL = BLUE, NAVY, LIGHT, TINT           # accent, primary, soft accent, panel fill
+T_H2, T_H3, T_BODY, T_LABEL, T_TABLE_H, T_TABLE, T_NOTE = 15, 12, 11, 10, 11, 10.5, 9
+
+def label(s, x, y, w, t):
+    """Section label: one size, one colour, everywhere."""
+    text(s, x, y, w, Inches(0.28), t, size=T_LABEL, bold=True, color=ACC)
+
+def table(s, x, y, colw, rows, row_h=0.36):
     t = s.shapes.add_table(len(rows), len(colw), x, y, Inches(sum(colw)), Inches(row_h * len(rows))).table
     for j, w_ in enumerate(colw): t.columns[j].width = Inches(w_)
     for i, row in enumerate(rows):
         t.rows[i].height = Inches(row_h)
         for j, v in enumerate(row):
-            c = t.cell(i, j); c.margin_left = c.margin_right = Inches(0.08); c.margin_top = c.margin_bottom = Inches(0.03)
+            c = t.cell(i, j); c.margin_left = c.margin_right = Inches(0.1); c.margin_top = c.margin_bottom = Inches(0.03)
             c.vertical_anchor = MSO_ANCHOR.MIDDLE; c.fill.solid()
-            c.fill.fore_color.rgb = rgb(head_fill if i == 0 else (TINT if zebra and i % 2 == 0 else 'ffffff'))
-            tf = c.text_frame; tf.word_wrap = True; p = tf.paragraphs[0]
-            runs = v if isinstance(v, list) else [(v, i == 0 or (first_bold and j == 0), 'ffffff' if i == 0 else (NAVY if j == 0 else INK2))]
-            for rt, rb, rc in runs:
-                r = p.add_run(); r.text = rt; r.font.name = FONT; r.font.size = Pt(head_size if i == 0 else size); r.font.bold = rb; r.font.color.rgb = rgb(rc)
+            c.fill.fore_color.rgb = rgb(PRI if i == 0 else (PANEL if i % 2 == 0 else 'ffffff'))
+            tf = c.text_frame; tf.word_wrap = True; r = tf.paragraphs[0].add_run(); r.text = v; r.font.name = FONT
+            r.font.size = Pt(T_TABLE_H if i == 0 else T_TABLE); r.font.bold = i == 0 or j == 0
+            r.font.color.rgb = rgb('ffffff' if i == 0 else (PRI if j == 0 else INK2))
     return t
 
-def dot(s, x, y, d, label, col, size=10):
-    n = s.shapes.add_shape(MSO_SHAPE.OVAL, x, y, d, d); n.fill.solid(); n.fill.fore_color.rgb = rgb(col); n.line.fill.background(); fill_text(n, label, size=size, bold=True)
+def dot(s, x, y, d, t, fill=ACC, size=10):
+    n = s.shapes.add_shape(MSO_SHAPE.OVAL, x, y, d, d); n.fill.solid(); n.fill.fore_color.rgb = rgb(fill); n.line.fill.background(); fill_text(n, t, size=size, bold=True)
 
-BOARD = [('Growth', 'How is technology driving growth and competitive advantage?', BLUE),
-         ('Return', 'What measurable return do we get from technology and AI?', '0e9f6e'),
-         ('Risk', 'How well protected are we against cyber, regulatory and AI risks, and how fast can we recover?', CRIT),
-         ('AI Transformation', 'Which processes has AI transformed, and what has it delivered?', '7c3aed'),
-         ('Readiness', 'Do we have the capabilities and people for the next disruption?', WARN)]
+def panel(s, x, y, w, h, title=None, accent=True):
+    """White card with a thin accent rule on top and an optional H2 title."""
+    card(s, x, y, w, h, top=ACC if accent else None)
+    if title: text(s, x + Inches(0.2), y + Inches(0.2), w - Inches(0.4), Inches(0.35), title, size=T_H2, bold=True, color=PRI)
+
+PRIOS = [('Growth', 'How is technology driving growth and competitive advantage?'),
+         ('Return', 'What measurable return do we get from technology and AI?'),
+         ('Risk', 'How well protected are we against cyber, regulatory and AI risks, and how fast can we recover?'),
+         ('AI Transformation', 'Which processes has AI transformed, and what has it delivered?'),
+         ('Readiness', 'Do we have the capabilities and people for the next disruption?')]
 
 # ═══════════════════ SLIDE 2 · INTRODUCTION ═══════════════════
 s = new()
-head(s, 1, 'Introduction: Why Enterprises Need A New Way To Steer AI', 'Technology must show what it delivers on the highest priorities. Today that evidence is scattered across departments. That is the gap this framework closes.')
-ctx = [('AI investment is rising fast', 'but its impact on top priorities is not visible', BLUE),
-       ('Regulation is tightening', 'RBI guidance, DPDP Act 2023 and AI governance standards', CRIT),
-       ('Technology is ageing', 'while new AI demands modern, supported platforms', WARN),
-       ('Departments work in silos', 'each with its own tools, reports and definitions', NAVY)]
-for k, (h_, d_, col) in enumerate(ctx):
-    x = Inches(0.6) + Inches(3.7) * (k % 2); y = Inches(1.85) + Inches(1.2) * (k // 2)
-    card(s, x, y, Inches(3.55), Inches(1.08)); box(s, x, y, Inches(0.09), Inches(1.08), fill=col)
-    text(s, x + Inches(0.25), y + Inches(0.14), Inches(3.2), Inches(0.35), h_, size=14, bold=True, color=NAVY)
-    text(s, x + Inches(0.25), y + Inches(0.5), Inches(3.2), Inches(0.5), d_, size=11, color=INK2)
-box(s, Inches(0.6), Inches(4.3), Inches(7.25), Inches(1.3), fill=NAVY, radius=0.08)
-text(s, Inches(0.85), Inches(4.4), Inches(6.8), Inches(0.3), 'OUR OBJECTIVE', size=10, bold=True, color=LIGHT)
-text(s, Inches(0.85), Inches(4.7), Inches(6.8), Inches(0.85), 'Build one domain-agnostic framework that turns every department\'s work into evidence-based answers on five high priorities, in any industry.', size=14, bold=True, color='ffffff')
-text(s, Inches(0.6), Inches(5.75), Inches(7.25), Inches(0.3), 'SCOPE OF THE FRAMEWORK', size=10, bold=True, color=INK3)
+head(s, 1, 'Introduction: Why Enterprises Need A New Way To Steer AI', 'Technology must show what it delivers on the highest priorities. Today that evidence is scattered across departments.')
+ctx = [('AI investment is rising fast', 'but its impact on top priorities is not visible'), ('Regulation is tightening', 'RBI guidance, DPDP Act 2023 and AI governance standards'),
+       ('Technology is ageing', 'while new AI demands modern, supported platforms'), ('Departments work in silos', 'each with its own tools, reports and definitions')]
+for k, (h_, d_) in enumerate(ctx):
+    x = Inches(0.6) + Inches(3.7) * (k % 2); y = Inches(1.9) + Inches(1.2) * (k // 2)
+    card(s, x, y, Inches(3.55), Inches(1.08)); box(s, x, y, Inches(0.07), Inches(1.08), fill=ACC)
+    text(s, x + Inches(0.25), y + Inches(0.16), Inches(3.2), Inches(0.32), h_, size=T_H3, bold=True, color=PRI)
+    text(s, x + Inches(0.25), y + Inches(0.5), Inches(3.2), Inches(0.5), d_, size=T_BODY, color=INK2)
+box(s, Inches(0.6), Inches(4.35), Inches(7.25), Inches(1.25), fill=PRI, radius=0.06)
+text(s, Inches(0.85), Inches(4.47), Inches(6.8), Inches(0.28), 'OUR OBJECTIVE', size=T_LABEL, bold=True, color=SOFT)
+text(s, Inches(0.85), Inches(4.77), Inches(6.8), Inches(0.8), 'Build one domain-agnostic framework that turns every department\'s work into evidence-based answers on five high priorities, in any industry.', size=14, bold=True, color='ffffff')
+label(s, Inches(0.6), Inches(5.75), Inches(7.25), 'SCOPE OF THE FRAMEWORK')
 for k, (n_, l_) in enumerate([('5', 'high priorities'), ('10', 'priority problems'), ('16', 'departments'), ('2 + Any', 'industries')]):
     x = Inches(0.6) + Inches(1.84) * k
-    box(s, x, Inches(6.05), Inches(1.74), Inches(0.85), fill=TINT, radius=0.12)
-    text(s, x, Inches(6.08), Inches(1.74), Inches(0.45), n_, size=22, bold=True, color=BLUE, align=PP_ALIGN.CENTER)
-    text(s, x, Inches(6.52), Inches(1.74), Inches(0.3), l_, size=10, color=INK2, align=PP_ALIGN.CENTER)
-card(s, Inches(8.1), Inches(1.85), Inches(4.63), Inches(5.05), title='Five High Priorities')
-for k, (h_, q_, col) in enumerate(BOARD):
-    y = Inches(2.45) + Inches(0.86) * k
-    dot(s, Inches(8.3), y + Inches(0.04), Inches(0.42), str(k + 1), col, size=12)
-    text(s, Inches(8.88), y, Inches(3.7), Inches(0.3), h_, size=13, bold=True, color=NAVY)
-    text(s, Inches(8.88), y + Inches(0.3), Inches(3.7), Inches(0.5), q_, size=9.5, color=INK2)
+    box(s, x, Inches(6.05), Inches(1.74), Inches(0.85), fill=PANEL, radius=0.08)
+    text(s, x, Inches(6.08), Inches(1.74), Inches(0.45), n_, size=22, bold=True, color=PRI, align=PP_ALIGN.CENTER)
+    text(s, x, Inches(6.52), Inches(1.74), Inches(0.3), l_, size=T_BODY, color=INK2, align=PP_ALIGN.CENTER)
+panel(s, Inches(8.1), Inches(1.9), Inches(4.63), Inches(5.0), title='Five High Priorities')
+for k, (h_, q_) in enumerate(PRIOS):
+    y = Inches(2.5) + Inches(0.86) * k
+    dot(s, Inches(8.3), y + Inches(0.03), Inches(0.38), str(k + 1))
+    text(s, Inches(8.85), y, Inches(3.75), Inches(0.3), h_, size=T_H3, bold=True, color=PRI)
+    text(s, Inches(8.85), y + Inches(0.28), Inches(3.75), Inches(0.52), q_, size=10, color=INK2)
 
 # ═══════════════════ SLIDE 3 · PROBLEM STATEMENT ═══════════════════
 s = new()
 head(s, 2, 'Problem Statement: High Priorities, No Shared Evidence', 'The answers depend on ten priority problems, spread across sixteen departments with no common KPIs and no shared visibility.')
-card(s, Inches(0.6), Inches(1.85), Inches(4.75), Inches(4.2), title='Five High Priorities')
-for k, (h_, q_, col) in enumerate(BOARD):
-    y = Inches(2.4) + Inches(0.72) * k
-    dot(s, Inches(0.78), y + Inches(0.03), Inches(0.36), str(k + 1), col, size=11)
-    text(s, Inches(1.27), y, Inches(3.95), Inches(0.7), [[(h_ + ': ', True, NAVY), (q_, False, INK2)]], size=10.5)
-for k, (tag, col, items) in enumerate([('BANKING', '2a78d6', ['Fraud and money laundering', 'Legacy core banking', 'Credit risk and loan defaults', 'Customer experience and personalisation', 'Regulatory compliance and data governance']),
-                                        ('MANUFACTURING', '1baf7a', ['Unplanned equipment downtime', 'Quality defects and rework', 'Supply chain disruptions', 'Engineering design inefficiency', 'Production planning and low OEE'])]):
+panel(s, Inches(0.6), Inches(1.9), Inches(4.75), Inches(4.15), title='Five High Priorities')
+for k, (h_, q_) in enumerate(PRIOS):
+    y = Inches(2.48) + Inches(0.71) * k
+    dot(s, Inches(0.8), y + Inches(0.03), Inches(0.34), str(k + 1))
+    text(s, Inches(1.28), y, Inches(3.95), Inches(0.68), [[(h_ + ': ', True, PRI), (q_, False, INK2)]], size=10.5)
+for k, (tag, fill_, items) in enumerate([('Banking', PRI, ['Fraud and money laundering', 'Legacy core banking', 'Credit risk and loan defaults', 'Customer experience and personalisation', 'Regulatory compliance and data governance']),
+                                          ('Manufacturing', ACC, ['Unplanned equipment downtime', 'Quality defects and rework', 'Supply chain disruptions', 'Engineering design inefficiency', 'Production planning and low OEE'])]):
     x = Inches(5.5) + Inches(3.65) * k
-    card(s, x, Inches(1.85), Inches(3.53), Inches(2.75), top=col)
-    t = box(s, x + Inches(0.18), Inches(2.08), Inches(1.75), Inches(0.32), fill=col, radius=0.4); fill_text(t, tag, size=10, bold=True)
-    text(s, x + Inches(2.0), Inches(2.1), Inches(1.45), Inches(0.3), 'Top 5 Problems', size=10, bold=True, color=INK3)
+    card(s, x, Inches(1.9), Inches(3.53), Inches(2.7))
+    hb = box(s, x, Inches(1.9), Inches(3.53), Inches(0.42), fill=fill_, radius=0.08); fill_text(hb, tag + ' · Top 5 Problems', size=T_H3, bold=True)
     for j, it in enumerate(items):
-        y = Inches(2.55) + Inches(0.4) * j
-        dot(s, x + Inches(0.18), y + Inches(0.02), Inches(0.26), str(j + 1), col, size=8.5)
-        text(s, x + Inches(0.54), y, Inches(2.9), Inches(0.36), it, size=10.5, color=INK, anchor=MSO_ANCHOR.MIDDLE)
-text(s, Inches(5.5), Inches(4.72), Inches(7), Inches(0.3), 'ROOT CAUSE, THE SAME IN BOTH INDUSTRIES', size=9.5, bold=True, color=CRIT)
+        y = Inches(2.45) + Inches(0.42) * j
+        dot(s, x + Inches(0.18), y + Inches(0.05), Inches(0.26), str(j + 1), fill=fill_, size=9)
+        text(s, x + Inches(0.55), y, Inches(2.9), Inches(0.36), it, size=T_BODY, color=INK, anchor=MSO_ANCHOR.MIDDLE)
+label(s, Inches(5.5), Inches(4.72), Inches(7), 'ROOT CAUSE, THE SAME IN BOTH INDUSTRIES')
 for k, (h_, d_) in enumerate([('Scattered work', 'across 16 departments and separate tools'), ('No common KPIs', 'linking department work to high priorities'),
                               ('No transparency', 'across departments or up the hierarchy'), ('Opinion, not evidence', 'progress reported without proof')]):
-    x = Inches(5.5) + Inches(3.65) * (k % 2); y = Inches(5.0) + Inches(0.53) * (k // 2)
-    box(s, x, y, Inches(3.53), Inches(0.46), fill='fff1f2', line='fecaca', radius=0.2)
-    text(s, x + Inches(0.15), y, Inches(3.3), Inches(0.46), [[(h_ + ': ', True, 'b91c1c'), (d_, False, INK2)]], size=9.5, anchor=MSO_ANCHOR.MIDDLE)
-box(s, Inches(0.6), Inches(6.17), Inches(12.13), Inches(0.8), fill=NAVY, radius=0.1)
-text(s, Inches(0.8), Inches(6.2), Inches(7.3), Inches(0.75), [[('Problem: ', True, LIGHT), ('enterprises are solving their top priority problems with AI, but with work spread across 16 departments, no common KPIs and no shared visibility, progress on high priorities cannot be shown with evidence.', False, 'ffffff')]], size=10.5, anchor=MSO_ANCHOR.MIDDLE)
-box(s, Inches(8.25), Inches(6.3), Emu(12000), Inches(0.55), fill='3a64a5')
-text(s, Inches(8.4), Inches(6.2), Inches(4.2), Inches(0.75), [[('Research question: ', True, LIGHT), ('can one domain-agnostic framework, built on proven tools, techniques and processes, deliver evidence-based answers on high priorities in any industry?', False, 'ffffff')]], size=10.5, anchor=MSO_ANCHOR.MIDDLE)
+    x = Inches(5.5) + Inches(3.65) * (k % 2); y = Inches(5.02) + Inches(0.52) * (k // 2)
+    box(s, x, y, Inches(3.53), Inches(0.45), fill=PANEL, line=LINE, radius=0.15)
+    text(s, x + Inches(0.15), y, Inches(3.3), Inches(0.45), [[(h_ + ': ', True, PRI), (d_, False, INK2)]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+box(s, Inches(0.6), Inches(6.17), Inches(12.13), Inches(0.8), fill=PRI, radius=0.08)
+text(s, Inches(0.8), Inches(6.2), Inches(7.3), Inches(0.75), [[('Problem: ', True, SOFT), ('enterprises are solving their top priority problems with AI, but with work spread across 16 departments, no common KPIs and no shared visibility, progress on high priorities cannot be shown with evidence.', False, 'ffffff')]], size=10.5, anchor=MSO_ANCHOR.MIDDLE)
+box(s, Inches(8.25), Inches(6.3), Emu(12000), Inches(0.55), fill=NAVY2)
+text(s, Inches(8.4), Inches(6.2), Inches(4.2), Inches(0.75), [[('Research question: ', True, SOFT), ('can one domain-agnostic framework, built on proven tools, techniques and processes, deliver evidence-based answers on high priorities in any industry?', False, 'ffffff')]], size=10.5, anchor=MSO_ANCHOR.MIDDLE)
 
 # ═══════════════════ SLIDE 4 · METHODOLOGY I: THE KPI-FIRST PROCESS ═══════════════════
 s = new()
 head(s, 3, 'Methodology I: The KPI-First Process', 'Design Science Research: we start from the high priority and work backwards to only the data and AI that move each KPI.')
-text(s, Inches(0.6), Inches(1.78), Inches(6), Inches(0.28), 'THE GOLDEN THREAD', size=9.5, bold=True, color=INK3)
+label(s, Inches(0.6), Inches(1.82), Inches(6), 'THE GOLDEN THREAD')
 chevrons(s, ['High|Priority', 'Priority|Problem', 'Department|Owner', 'KPI Driver|Tree', 'Minimum|Data', 'Simplest|AI Model', 'Shadow|Run', 'Human|Decision', 'Priority|Scorecard'],
-         Inches(0.6), Inches(2.06), Inches(12.0), Inches(0.68), colors=[NAVY, NAVY2, '1f4f94', '1d5bbf', BLUE, '3b7bf0', '4b86ee', '6a9cf2', LIGHT], size=9.5)
-table(s, Inches(0.6), Inches(2.95), [1.55, 4.75, 2.15], [
+         Inches(0.6), Inches(2.1), Inches(12.0), Inches(0.66), colors=[PRI, NAVY2, '1d4ed8', ACC, ACC, ACC, '1d4ed8', NAVY2, PRI], size=9.5)
+table(s, Inches(0.6), Inches(2.98), [1.6, 4.7, 2.15], [
     ['Step', 'What Happens', 'Technique'],
     ['1. Prioritise', 'Rank the 5 problems by impact × feasibility; one pilot per industry', 'Value × feasibility matrix'],
     ['2. Driver tree', 'One outcome KPI and 3 to 4 driver KPIs, each with a department owner', 'Balanced Scorecard, OKRs'],
@@ -154,119 +162,117 @@ table(s, Inches(0.6), Inches(2.95), [1.55, 4.75, 2.15], [
     ['5. Shadow run', 'AI recommends while people decide as before; live above 80% agreement', 'TEDIF shadow run'],
     ['6. Share', 'Team, department, cross-department and leadership views by role', 'RBAC, data classification'],
     ['7. Prove and scale', 'Compare with a unit without AI; scale to the next problem and industry', 'Before and after, comparison group'],
-], size=9.5, head_size=10, row_h=0.47)
-text(s, Inches(9.25), Inches(2.95), Inches(3.5), Inches(0.28), 'PILOT DRIVER TREES', size=9.5, bold=True, color=INK3)
-for k, (tag, col, outcome, drivers) in enumerate([('Banking · Fraud', '2a78d6', 'Fraud losses', ['False-positive alerts', 'Detection speed', 'Model drift']),
-                                                   ('Manufacturing · Downtime', '1baf7a', 'Unplanned downtime', ['Early failure warnings', 'Maintenance on time', 'Repeat faults'])]):
-    y = Inches(3.25) + Inches(1.83) * k
-    card(s, Inches(9.25), y, Inches(3.48), Inches(1.7), top=col)
-    text(s, Inches(9.42), y + Inches(0.15), Inches(3.2), Inches(0.28), tag, size=11, bold=True, color=col)
-    ob = box(s, Inches(9.42), y + Inches(0.48), Inches(3.14), Inches(0.36), fill=col, radius=0.3); fill_text(ob, 'Outcome: ' + outcome, size=10, bold=True)
+], row_h=0.47)
+label(s, Inches(9.25), Inches(2.98), Inches(3.5), 'PILOT DRIVER TREES')
+for k, (tag, outcome, drivers) in enumerate([('Banking · Fraud', 'Fraud losses', ['False-positive alerts', 'Detection speed', 'Model drift']),
+                                              ('Manufacturing · Downtime', 'Unplanned downtime', ['Early failure warnings', 'Maintenance on time', 'Repeat faults'])]):
+    y = Inches(3.3) + Inches(1.82) * k
+    card(s, Inches(9.25), y, Inches(3.48), Inches(1.68))
+    text(s, Inches(9.42), y + Inches(0.12), Inches(3.2), Inches(0.3), tag, size=T_H3, bold=True, color=PRI)
+    ob = box(s, Inches(9.42), y + Inches(0.46), Inches(3.14), Inches(0.36), fill=PRI, radius=0.2); fill_text(ob, 'Outcome: ' + outcome, size=10.5, bold=True)
     for j, d_ in enumerate(drivers):
-        dx = Inches(9.42) + Inches(1.06) * j
-        b = box(s, dx, y + Inches(0.98), Inches(1.0), Inches(0.58), fill=TINT, line='cfdaea', radius=0.15); fill_text(b, d_, size=8.5, color=NAVY)
+        b = box(s, Inches(9.42) + Inches(1.06) * j, y + Inches(0.96), Inches(1.0), Inches(0.58), fill=PANEL, line=LINE, radius=0.12); fill_text(b, d_, size=9, color=PRI)
 
 # ═══════════════════ SLIDE 5 · METHODOLOGY II: TOOLS, TECHNIQUES, GOVERNANCE ═══════════════════
 s = new()
 head(s, 3, 'Methodology II: Tools, Techniques And Governance For Each Priority', 'Each high priority is answered with proven enterprise tools and techniques, under one governance model.')
-B = lambda h_, col: [(h_, True, col)]
-table(s, Inches(0.6), Inches(1.85), [2.0, 2.35, 3.5], [
+table(s, Inches(0.6), Inches(1.9), [2.0, 2.35, 3.5], [
     ['High Priority', 'Tools', 'Techniques'],
-    [B('1. Growth', BLUE), 'Planview, Power BI', 'Balanced Scorecard, OKRs, Three Horizons'],
-    [B('2. Return', '0e9f6e'), 'Apptio, FinOps tools', 'TBM, payback, stage-gate funding, benefits realisation'],
-    [B('3. Risk', CRIT), 'ServiceNow GRC, Vanta, Splunk', 'NIST AI RMF, ISO 42001, three lines of defence, PSI drift'],
-    [B('4. AI Transformation', '7c3aed'), 'Celonis, Databricks, MLflow', 'Process mining, machine learning, NLP, computer vision'],
-    [B('5. Readiness', WARN), 'LeanIX, skills platforms', 'TIME model, AI maturity model, ADKAR'],
-], size=10, head_size=10.5, row_h=0.52)
-text(s, Inches(0.6), Inches(5.12), Inches(7.85), Inches(0.28), 'AI TECHNIQUE FOR EACH DATA TYPE', size=9.5, bold=True, color=INK3)
+    ['1. Growth', 'Planview, Power BI', 'Balanced Scorecard, OKRs, Three Horizons'],
+    ['2. Return', 'Apptio, FinOps tools', 'TBM, payback, stage-gate funding, benefits realisation'],
+    ['3. Risk', 'ServiceNow GRC, Vanta, Splunk', 'NIST AI RMF, ISO 42001, three lines of defence, PSI drift'],
+    ['4. AI Transformation', 'Celonis, Databricks, MLflow', 'Process mining, machine learning, NLP, computer vision'],
+    ['5. Readiness', 'LeanIX, skills platforms', 'TIME model, AI maturity model, ADKAR'],
+], row_h=0.52)
+label(s, Inches(0.6), Inches(5.17), Inches(7.85), 'AI TECHNIQUE FOR EACH DATA TYPE')
 for k, (d_, t_, e_) in enumerate([('Numbers', 'Anomaly detection, forecasting', 'Fraud patterns, machine failure'), ('Text And Transcripts', 'NLP: extraction, summarising', 'Regulatory circulars, meeting actions'),
                                   ('Images And Video', 'Computer vision', 'Defect inspection, KYC documents'), ('Audio', 'Speech models', 'Call centre themes, machine sounds')]):
     x = Inches(0.6) + Inches(1.98) * k
-    card(s, x, Inches(5.42), Inches(1.88), Inches(1.48)); box(s, x, Inches(5.42), Inches(1.88), Inches(0.09), fill=BLUE, radius=0.5)
-    text(s, x + Inches(0.12), Inches(5.56), Inches(1.68), Inches(0.3), d_, size=10.5, bold=True, color=NAVY)
-    text(s, x + Inches(0.12), Inches(5.88), Inches(1.68), Inches(0.45), t_, size=9.5, bold=True, color=BLUE)
-    text(s, x + Inches(0.12), Inches(6.33), Inches(1.68), Inches(0.5), e_, size=9, color=INK3)
-box(s, Inches(8.65), Inches(1.85), Inches(4.08), Inches(5.05), fill=NAVY, radius=0.06)
-text(s, Inches(8.92), Inches(2.05), Inches(3.6), Inches(0.3), 'GOVERNANCE · TEDIF', size=10, bold=True, color=LIGHT)
-text(s, Inches(8.92), Inches(2.4), Inches(3.6), Inches(1.0), ['AI Recommends.', 'Humans Decide.'], size=26, bold=True, color='ffffff', spacing=0.95)
+    card(s, x, Inches(5.45), Inches(1.88), Inches(1.45), top=ACC)
+    text(s, x + Inches(0.14), Inches(5.6), Inches(1.65), Inches(0.3), d_, size=T_H3, bold=True, color=PRI)
+    text(s, x + Inches(0.14), Inches(5.9), Inches(1.65), Inches(0.45), t_, size=10, bold=True, color=ACC)
+    text(s, x + Inches(0.14), Inches(6.33), Inches(1.65), Inches(0.5), e_, size=10, color=INK2)
+box(s, Inches(8.65), Inches(1.9), Inches(4.08), Inches(5.0), fill=PRI, radius=0.05)
+text(s, Inches(8.92), Inches(2.1), Inches(3.6), Inches(0.28), 'GOVERNANCE · TEDIF', size=T_LABEL, bold=True, color=SOFT)
+text(s, Inches(8.92), Inches(2.45), Inches(3.6), Inches(1.0), ['AI Recommends.', 'Humans Decide.'], size=26, bold=True, color='ffffff', spacing=0.95)
 for k, g_ in enumerate(['A named owner approves at every gate', 'An audit trail records every step', 'Role-based access controls who sees what', 'Transparency within and across 16 departments', 'Consent and data masking for DPDP']):
-    y = Inches(3.65) + Inches(0.6) * k
-    tk = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(8.92), y + Inches(0.03), Inches(0.28), Inches(0.28)); tk.fill.solid(); tk.fill.fore_color.rgb = rgb(OK); tk.line.fill.background(); fill_text(tk, '✓', size=10, bold=True)
-    text(s, Inches(9.32), y, Inches(3.25), Inches(0.5), g_, size=11.5, color='dbe7fb')
+    y = Inches(3.7) + Inches(0.6) * k
+    dot(s, Inches(8.92), y + Inches(0.02), Inches(0.28), '✓', size=10)
+    text(s, Inches(9.32), y, Inches(3.25), Inches(0.5), g_, size=T_BODY, color='dbe7fb')
 
 # ═══════════════════ SLIDE 6 · RESULTS ═══════════════════
 s = new()
 head(s, 4, 'Results: From Old State To Target State', 'What the framework changes for each high priority, shown as the move from old state to target state.')
-text(s, Inches(0.6), Inches(1.8), Inches(8), Inches(0.28), 'PRIORITY SCORECARD · OLD STATE → TARGET STATE', size=9.5, bold=True, color=INK3)
-rows = [('1. Growth', 'AI initiatives linked to a strategic KPI', 20, 100, BLUE, None), ('2. Return', 'Investments with baseline and value tracking', 15, 100, '0e9f6e', None),
-        ('3. Risk', 'AI models registered and approved before go-live', 30, 100, CRIT, None), ('4. AI Transformation', 'AI pilots reaching production', 20, 60, '7c3aed', None),
-        ('4. AI Transformation', 'Decision cycle time (share of old time)', 100, 15, '7c3aed', '85% faster'), ('5. Readiness', 'Technology within vendor support', 40, 90, WARN, None),
-        ('All', 'Departments with shared KPI visibility (of 16)', 0, 100, NAVY, None)]
+label(s, Inches(0.6), Inches(1.82), Inches(5), 'PRIORITY SCORECARD · OLD STATE → TARGET STATE')
+rows = [('1. Growth', 'AI initiatives linked to a strategic KPI', 20, 100, None), ('2. Return', 'Investments with baseline and value tracking', 15, 100, None),
+        ('3. Risk', 'AI models approved before go-live', 30, 100, None), ('4. AI Transformation', 'AI pilots reaching production', 20, 60, None),
+        ('4. AI Transformation', 'Decision cycle time (share of old time)', 100, 15, '85% faster'), ('5. Readiness', 'Technology within vendor support', 40, 90, None),
+        ('All priorities', 'Departments with shared KPI visibility (of 16)', 0, 100, None)]
 TX, TW = Inches(4.0), Inches(3.3)
-text(s, TX, Inches(2.1), TW, Inches(0.25), [[('■ Old state   ', True, GREY), ('■ Target state', True, BLUE)]], size=9)
-for k, (q_, m_, o_, t_, col, note) in enumerate(rows):
-    y = Inches(2.4) + Inches(0.6) * k
-    if k % 2 == 0: box(s, Inches(0.6), y - Inches(0.04), Inches(7.95), Inches(0.58), fill=TINT, radius=0.08)
-    text(s, Inches(0.72), y, Inches(3.2), Inches(0.25), q_, size=9.5, bold=True, color=col)
-    text(s, Inches(0.72), y + Inches(0.23), Inches(3.25), Inches(0.28), m_, size=10, color=INK)
+text(s, TX, Inches(1.84), TW, Inches(0.25), [[('■ ', True, GREY), ('Old state     ', False, INK2), ('■ ', True, ACC), ('Target state', False, INK2)]], size=10)
+for k, (q_, m_, o_, t_, note) in enumerate(rows):
+    y = Inches(2.22) + Inches(0.6) * k
+    if k % 2 == 0: box(s, Inches(0.6), y - Inches(0.04), Inches(7.95), Inches(0.58), fill=PANEL, radius=0.06)
+    text(s, Inches(0.72), y, Inches(3.2), Inches(0.25), q_, size=10, bold=True, color=ACC)
+    text(s, Inches(0.72), y + Inches(0.23), Inches(3.25), Inches(0.28), m_, size=T_BODY, color=INK)
     box(s, TX, y + Inches(0.06), TW, Inches(0.16), fill='e8eef7', radius=0.5)
     if o_: box(s, TX, y + Inches(0.06), int(TW * o_ / 100), Inches(0.16), fill=GREY, radius=0.5)
     box(s, TX, y + Inches(0.29), TW, Inches(0.16), fill='e8eef7', radius=0.5)
-    box(s, TX, y + Inches(0.29), int(TW * t_ / 100), Inches(0.16), fill=col, radius=0.5)
-    text(s, Inches(7.4), y + Inches(0.02), Inches(1.1), Inches(0.5), [[(f'{o_}% → ', False, INK3), (f'{t_}%', True, col)]] + ([[(note, True, col)]] if note else []), size=11 if not note else 10, align=PP_ALIGN.RIGHT, spacing=0.9)
-text(s, Inches(0.6), Inches(6.62), Inches(8), Inches(0.3), 'Target state, to be validated through the Fraud and Downtime pilots. Old-state values are illustrative industry baselines.', size=9, color=INK3)
-card(s, Inches(8.8), Inches(1.85), Inches(3.93), Inches(5.05), title='What The Framework Delivers')
-for k, (h_, d_, col) in enumerate([('One priority scorecard', 'five high priorities shown with evidence', BLUE), ('16 departments', 'on common KPIs with role-based transparency', '0e9f6e'),
-                                   ('10 priority problems', 'each with an owner and a driver tree', CRIT), ('Domain-agnostic', 'the same process for banking and manufacturing', '7c3aed'),
-                                   ('Live demonstration', 'CTO360 shows the framework in action', WARN)]):
-    y = Inches(2.45) + Inches(0.86) * k
-    dot(s, Inches(9.0), y + Inches(0.04), Inches(0.38), str(k + 1), col, size=11)
-    text(s, Inches(9.52), y, Inches(3.1), Inches(0.3), h_, size=12.5, bold=True, color=NAVY)
-    text(s, Inches(9.52), y + Inches(0.3), Inches(3.1), Inches(0.5), d_, size=10, color=INK2)
+    box(s, TX, y + Inches(0.29), int(TW * t_ / 100), Inches(0.16), fill=ACC, radius=0.5)
+    text(s, Inches(7.4), y + Inches(0.02), Inches(1.1), Inches(0.5), [[(f'{o_}% → ', False, INK3), (f'{t_}%', True, PRI)]] + ([[(note, True, ACC)]] if note else []), size=11 if not note else 10, align=PP_ALIGN.RIGHT, spacing=0.9)
+text(s, Inches(0.6), Inches(6.5), Inches(8), Inches(0.3), 'Target state, to be validated through the Fraud and Downtime pilots. Old-state values are illustrative industry baselines.', size=T_NOTE, color=INK3)
+panel(s, Inches(8.8), Inches(1.9), Inches(3.93), Inches(5.0), title='What The Framework Delivers')
+for k, (h_, d_) in enumerate([('One priority scorecard', 'five high priorities shown with evidence'), ('16 departments', 'on common KPIs with role-based transparency'),
+                              ('10 priority problems', 'each with an owner and a driver tree'), ('Domain-agnostic', 'the same process for banking and manufacturing'),
+                              ('Live demonstration', 'CTO360 shows the framework in action')]):
+    y = Inches(2.5) + Inches(0.86) * k
+    dot(s, Inches(9.0), y + Inches(0.03), Inches(0.36), str(k + 1))
+    text(s, Inches(9.5), y, Inches(3.1), Inches(0.3), h_, size=T_H3, bold=True, color=PRI)
+    text(s, Inches(9.5), y + Inches(0.29), Inches(3.1), Inches(0.5), d_, size=10.5, color=INK2)
 
 # ═══════════════════ SLIDE 7 · RECOMMENDATIONS ═══════════════════
 s = new()
 head(s, 5, 'Recommendations: Enterprise, Society And The Individual', 'What each audience should do, with a phased roadmap from pilot to scale.')
-cols3 = [('For The Enterprise', BLUE, [('Growth', 'Fund AI only when tied to a strategic KPI'), ('Return', 'No funding without a baseline and value tracking'), ('Risk', 'Register and approve every AI model; monitor drift'),
-                                  ('AI Transformation', 'Two pilots, a shadow run, then scale'), ('Readiness', 'Retire unsupported technology; build AI skills')]),
-         ('For Society', '0e9f6e', [('Humans decide', 'A named person at every AI gate'), ('Privacy by design', 'Minimum data under the DPDP Act'), ('Fair and explainable', 'Credit and service decisions people can trust'),
-                                    ('Safer and reliable', 'Fewer breakdowns in plants and services'), ('Transparent', 'Role-based, verifiable reporting')]),
-         ('For The Individual', NAVY, [('Think KPI-first', 'Start from the outcome, not the tool'), ('Data literacy', 'Read and build a driver tree'), ('T-shaped skills', 'Domain plus data plus AI'),
-                                       ('Own every decision', 'AI supports, you decide'), ('Communicate outcomes', 'Not activity or effort')])]
-for k, (t_, col, items) in enumerate(cols3):
+cols3 = [('For The Enterprise', PRI, [('Growth', 'Fund AI only when tied to a strategic KPI'), ('Return', 'No funding without a baseline and value tracking'), ('Risk', 'Register and approve every AI model; monitor drift'),
+                                       ('AI Transformation', 'Two pilots, a shadow run, then scale'), ('Readiness', 'Retire unsupported technology; build AI skills')]),
+         ('For Society', NAVY2, [('Humans decide', 'A named person at every AI gate'), ('Privacy by design', 'Minimum data under the DPDP Act'), ('Fair and explainable', 'Credit and service decisions people can trust'),
+                                 ('Safer and reliable', 'Fewer breakdowns in plants and services'), ('Transparent', 'Role-based, verifiable reporting')]),
+         ('For The Individual', ACC, [('Think KPI-first', 'Start from the outcome, not the tool'), ('Data literacy', 'Read and build a driver tree'), ('T-shaped skills', 'Domain plus data plus AI'),
+                                      ('Own every decision', 'AI supports, you decide'), ('Communicate outcomes', 'Not activity or effort')])]
+for k, (t_, fill_, items) in enumerate(cols3):
     x = Inches(0.6) + Inches(4.1) * k
-    card(s, x, Inches(1.85), Inches(3.92), Inches(4.1))
-    hb = box(s, x, Inches(1.85), Inches(3.92), Inches(0.55), fill=col, radius=0.12); fill_text(hb, t_, size=15, bold=True)
+    card(s, x, Inches(1.9), Inches(3.92), Inches(4.05))
+    hb = box(s, x, Inches(1.9), Inches(3.92), Inches(0.5), fill=fill_, radius=0.08); fill_text(hb, t_, size=T_H2, bold=True)
     for j, (h_, d_) in enumerate(items):
         y = Inches(2.55) + Inches(0.67) * j
-        dot(s, x + Inches(0.18), y + Inches(0.04), Inches(0.34), str(j + 1), col, size=10.5)
-        text(s, x + Inches(0.65), y, Inches(3.15), Inches(0.28), h_, size=11.5, bold=True, color=NAVY)
-        text(s, x + Inches(0.65), y + Inches(0.27), Inches(3.15), Inches(0.32), d_, size=9.5, color=INK2)
-text(s, Inches(0.6), Inches(6.05), Inches(3), Inches(0.28), 'ROADMAP', size=9.5, bold=True, color=INK3)
+        dot(s, x + Inches(0.2), y + Inches(0.04), Inches(0.32), str(j + 1), fill=fill_)
+        text(s, x + Inches(0.65), y, Inches(3.15), Inches(0.28), h_, size=T_H3, bold=True, color=PRI)
+        text(s, x + Inches(0.65), y + Inches(0.27), Inches(3.15), Inches(0.32), d_, size=10.5, color=INK2)
+label(s, Inches(0.6), Inches(6.08), Inches(1.0), 'ROADMAP')
 chevrons(s, ['0 to 6 Months|2 pilots: Fraud and Downtime', '6 to 12 Months|Shadow run, then go-live', '12 to 24 Months|All 10 problems, 16 departments, new industries'],
-         Inches(1.6), Inches(6.02), Inches(11.0), Inches(0.88), colors=[GREY, BLUE, NAVY], size=10.5)
+         Inches(1.6), Inches(6.05), Inches(11.0), Inches(0.85), colors=[ACC, NAVY2, PRI], size=10.5)
 
 # ═══════════════════ SLIDE 8 · CONCLUSION ═══════════════════
 s = new()
 head(s, 6, 'Conclusion: One Framework, Five Answers, Any Industry', 'Our answer to the problem, its limits, and what it delivers on each priority.')
-for k, (h_, b_, col) in enumerate([('Problem', 'Five high priorities (growth, return, risk, AI transformation, readiness) lack shared evidence of progress.', NAVY),
-                                    ('Solution', 'A KPI-first, domain-agnostic framework with proven tools, techniques and TEDIF governance, across 16 departments.', BLUE),
-                                    ('Outcome', '16 departments on shared KPIs, every AI model governed, and AI moving from pilot to production under human control.', OK)]):
+for k, (h_, b_) in enumerate([('Problem', 'Five high priorities (growth, return, risk, AI transformation, readiness) lack shared evidence of progress.'),
+                              ('Solution', 'A KPI-first, domain-agnostic framework with proven tools, techniques and TEDIF governance, across 16 departments.'),
+                              ('Outcome', '16 departments on shared KPIs, every AI model governed, and AI moving from pilot to production under human control.')]):
     x = Inches(0.6) + Inches(4.1) * k
-    card(s, x, Inches(1.85), Inches(3.92), Inches(1.75), top=col)
-    text(s, x + Inches(0.2), Inches(2.05), Inches(3.5), Inches(0.35), h_, size=17, bold=True, color=col)
-    text(s, x + Inches(0.2), Inches(2.45), Inches(3.55), Inches(1.1), b_, size=11.5, color=INK2)
-card(s, Inches(0.6), Inches(3.8), Inches(3.92), Inches(1.75), fill=TINT, line=TINT, title='Limitations')
-bullets(s, Inches(0.8), Inches(4.3), Inches(3.55), ['Targets still to be validated in pilots', 'Live multimodal AI is the next phase', 'Two industries designed so far'], size=10.5, gap=0.0, h_each=Inches(0.36))
-text(s, Inches(4.7), Inches(3.8), Inches(8), Inches(0.3), 'What Each Priority Gets', size=14, bold=True, color=NAVY)
-for k, ((h_, _, col), a_) in enumerate(zip(BOARD, ['KPI-linked AI portfolio', 'Value-tracked investments', 'Registered, governed AI', 'Pilots reaching production', 'Supported tech, skilled people'])):
+    panel(s, x, Inches(1.9), Inches(3.92), Inches(1.7), title=h_)
+    text(s, x + Inches(0.2), Inches(2.5), Inches(3.55), Inches(1.05), b_, size=T_BODY, color=INK2)
+card(s, Inches(0.6), Inches(3.8), Inches(3.92), Inches(1.75), fill=PANEL, line=PANEL)
+text(s, Inches(0.8), Inches(3.98), Inches(3.5), Inches(0.35), 'Limitations', size=T_H2, bold=True, color=PRI)
+bullets(s, Inches(0.8), Inches(4.42), Inches(3.55), ['Targets still to be validated in pilots', 'Live multimodal AI is the next phase', 'Two industries designed so far'], size=T_BODY, gap=0.0, h_each=Inches(0.34), dot=ACC)
+text(s, Inches(4.7), Inches(3.8), Inches(8), Inches(0.35), 'What Each Priority Gets', size=T_H2, bold=True, color=PRI)
+for k, ((h_, _), a_) in enumerate(zip(PRIOS, ['KPI-linked AI portfolio', 'Value-tracked investments', 'Registered, governed AI', 'Pilots reaching production', 'Supported tech, skilled people'])):
     x = Inches(4.7) + Inches(1.62) * k
-    card(s, x, Inches(4.2), Inches(1.52), Inches(1.35), top=col)
-    text(s, x + Inches(0.1), Inches(4.38), Inches(1.34), Inches(0.5), h_, size=11, bold=True, color=col, align=PP_ALIGN.CENTER)
-    text(s, x + Inches(0.1), Inches(4.88), Inches(1.34), Inches(0.6), a_, size=9.5, color=INK2, align=PP_ALIGN.CENTER)
-band = box(s, Inches(0.6), Inches(5.75), Inches(12.13), Inches(1.15), fill=NAVY, radius=0.1)
-text(s, Inches(0.9), Inches(5.85), Inches(11.5), Inches(0.5), 'One framework. Any industry. Measured outcomes.', size=21, bold=True, color='ffffff')
-text(s, Inches(0.9), Inches(6.35), Inches(11.5), Inches(0.45), [[('AI Recommends. Humans Decide.', True, LIGHT)]], size=14)
+    card(s, x, Inches(4.22), Inches(1.52), Inches(1.33), top=ACC)
+    text(s, x + Inches(0.08), Inches(4.4), Inches(1.36), Inches(0.5), h_, size=T_H3, bold=True, color=PRI, align=PP_ALIGN.CENTER)
+    text(s, x + Inches(0.08), Inches(4.9), Inches(1.36), Inches(0.6), a_, size=10, color=INK2, align=PP_ALIGN.CENTER)
+box(s, Inches(0.6), Inches(5.75), Inches(12.13), Inches(1.15), fill=PRI, radius=0.08)
+text(s, Inches(0.9), Inches(5.87), Inches(11.5), Inches(0.5), 'One framework. Any industry. Measured outcomes.', size=22, bold=True, color='ffffff')
+text(s, Inches(0.9), Inches(6.37), Inches(11.5), Inches(0.45), 'AI Recommends. Humans Decide.', size=14, bold=True, color=SOFT)
 
 # ═══════════════════ 9 · THANK YOU AND Q&A ═══════════════════
 s = new()

@@ -2253,3 +2253,27 @@ Same file and builder as 50c; the previous version is kept as `CTO CApstone/Caps
   - **Conclusion:** "What Each Priority Gets".
 
   "CTO" remains only in "CTO Capstone" and the cto360 link.
+- **Board-ready style system (17 Nov 2026), at Ram's request:** one palette and one font with a fixed type scale. It is set at the top of the slide 2–8 block in `build_capstone_9slides.py` (`ACC`, `PRI`, `SOFT`, `PANEL`, `T_*`).
+  - **Colour:**
+    - navy `0f2747` is the primary (titles, headers, table heads, bands)
+    - blue `2563eb` is the single accent (numbered dots, top rules, labels, target bars)
+    - soft blue `86b6ef` is used on dark bands
+    - panels are `f3f7fd`
+    - body text is slate, notes are grey
+  - **Removed:** the red, green, orange and purple accents.
+  - **Font:** Calibri everywhere (an audit shows 401 of 401 text runs).
+  - **Type scale:**
+
+    | Element | Size (pt) |
+    |---|---|
+    | Slide title | 28 bold |
+    | Subtitle | 14 |
+    | Card title | 15 bold |
+    | Item heading | 12 bold |
+    | Body | 11 (10–10.5 in dense tables and lists) |
+    | Section label | 10 bold blue |
+    | Table header | 11 bold white on navy |
+    | Table body | 10.5 |
+    | Footnote | 9 |
+
+  - Re-rendered through Keynote with no overflow.
