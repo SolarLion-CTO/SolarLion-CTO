@@ -12,7 +12,7 @@ SRC = Path(__file__).with_name('build_capstone_pptx.py').read_text()
 exec(SRC.split('# ══════════════════════════ 1. COVER')[0])   # helpers, tokens, data, team, presentation object
 
 OUT6 = Path('/Users/ram/Downloads/CTO CApstone/Capstone_9_Slides.pptx')
-RELABEL = {'Spend & value': 'Value delivery'}
+RELABEL = {'Spend & value': 'Value Delivery', 'Security & risk': 'Security & Risk'}
 for _l in D['layers']: _l['label'] = RELABEL.get(_l['label'], _l['label'])
 for _m in D['matrix']: _m['label'] = RELABEL.get(_m['label'], _m['label'])
 
@@ -244,6 +244,42 @@ text(s, Inches(0.92), Inches(4.8), Inches(10), Inches(0.5), 'AI Recommends. Huma
 lk = box(s, Inches(0.92), Inches(5.75), Inches(4.6), Inches(0.62), fill='15315c', line='2b4f86', radius=0.4)
 fill_text(lk, 'Live demonstration: cto360.vercel.app', size=14, bold=True)
 text(s, Inches(0.92), Inches(6.75), Inches(11), Inches(0.3), 'Domain-Agnostic Enterprise AI Transformation Framework · CTO Capstone 2026', size=10, color='9fb6d8')
+
+# ═══════════════════ TITLE CASE PASS (applied to every slide before saving) ═══════════════════
+import re as _re
+KEEP = {'II', 'AI', 'TEDIF', 'RBI', 'EOL', 'OEE', 'MES', 'ERP', 'CVEs', 'PSI', 'DPDP', 'BNK', 'MFG', 'RTL', 'EA', 'IDs', 'TOGAF', 'ADM', 'TIME', 'ITIL', 'SRE', 'ADKAR', 'RAPID', 'CTO', 'CTO360', 'P1', 'Q&A', 'OODA', 'DR', 'IT', 'KPI', 'UK', 'US'}
+LOWER = {'vs', 'r'}
+BRANDS = {'leanix': 'LeanIX', 'servicenow': 'ServiceNow', 'cto360': 'CTO360'}
+def _word(w):
+    core = _re.sub(r'^[^\w]+|[^\w]+$', '', w)
+    if not core or '.app' in w or '://' in w: return w
+    if any(ch.isdigit() for ch in core) or core in KEEP or core.lower() in LOWER: return w
+    if core.lower() in BRANDS: return w.replace(core, BRANDS[core.lower()])
+    parts = core.split('-')
+    new = '-'.join(x if (x in KEEP or any(ch.isdigit() for ch in x)) else ((x[:1].upper() + (x[1:].lower() if x.isupper() and len(x) > 1 else x[1:])) if x else x) for x in parts)
+    return w.replace(core, new)
+def _title(t):
+    ws = t.split(' '); out = []
+    for k, w in enumerate(ws):
+        prev = ws[k - 1] if k else ''
+        if w.lower() in ('of', 'in', 'to') and any(ch.isdigit() for ch in prev): out.append(w.lower())   # keep "1 of 6", "+4 in 3"
+        else: out.append(_word(w))
+    return ' '.join(out)
+def _para_ok(text_): return True   # Title Case on every paragraph, for consistency
+def _tf(tf):
+    for para in tf.paragraphs:
+        full = ''.join(r.text for r in para.runs)
+        if not full.strip() or not _para_ok(full): continue
+        for r in para.runs: r.text = _title(r.text)
+for _sl in prs.slides:
+    for _sh in _sl.shapes:
+        if _sh.has_text_frame: _tf(_sh.text_frame)
+        if _sh.has_table:
+            for _row in _sh.table.rows:
+                for _c in _row.cells: _tf(_c.text_frame)
+        if _sh.has_chart:
+            _ch = _sh.chart
+            if _ch.has_title: _tf(_ch.chart_title.text_frame)
 
 prs.save(OUT6)
 for f in ASSETS.glob('_photo_*.png'): f.unlink()

@@ -2138,4 +2138,7 @@ Every slide shows the 6-phase rail and a presenter chip. Rendered via Keynote an
 - The "Spend & value" layer is relabelled **"Value delivery"** in this deck.
 - The Results screenshot (which showed ₹ on the live site) was replaced with a **native heat table**.
 - An automated scan of all text, tables and charts finds no money terms. The only images are the three member photos.
+- **Title Case (16 Nov 2026), at Ram's request:** a final pass in the builder capitalises every word on every slide: titles, subtitles, labels, bullets, table cells, chart titles and layer names.
+  - **Kept as written:** acronyms (AI, TEDIF, RBI, DPDP, EOL, OEE, MES, ERP, PSI, TOGAF ADM, TIME, II), brands (LeanIX, ServiceNow, CTO360), numbers, "vs", "r =", "1 of 6" and the web link.
+  - A scan confirms no stray lowercase words and no broken acronyms.
 
