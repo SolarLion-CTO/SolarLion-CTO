@@ -2110,3 +2110,32 @@ Every slide shows the 6-phase rail and a presenter chip. Rendered via Keynote an
 - **Photos** come from `CTO CApstone/Photos` (`Ram.jpg`, `Suman-removebg-preview.png`, `Santhosh.jpeg`), mapped in `PHOTO_FILES`.
 - The older `Capstone_6_Slides.pptx` file is left in place, unchanged.
 
+### 50c. Nine-slide version, technology and process measures only (16 Nov 2026)
+
+`/Users/ram/Downloads/CTO CApstone/Capstone_9_Slides.pptx`; builder `docs/presentation/build_capstone_9slides.py`.
+
+**Slides:**
+1. Title and team (photo and name only)
+2. Introduction
+3. Problem statement
+4. Methodology I: design science and the TEDIF decision loop
+5. Methodology II: architecture, frameworks and validation
+6. Results
+7. Recommendations
+8. Conclusion
+9. Thank you and Q&A
+
+**No money figures, at Ram's request.** Every rupee or value figure was replaced with a technology or process measure:
+
+| Was | Now |
+|---|---|
+| ₹ at risk | 1 of 6 layers on target |
+| ₹38.9 Cr | Banking application layer 66/100 |
+| Value case | Milestones (signal-to-decision 6 → 3 days, all 6 layers on target) |
+| Funding and rupee recommendations | Close layer gaps (Security 70 → 85); automate root cause (14 → 3) |
+| Cloud-traceable tile | 1.5% of incidents root-caused |
+
+- The "Spend & value" layer is relabelled **"Value delivery"** in this deck.
+- The Results screenshot (which showed ₹ on the live site) was replaced with a **native heat table**.
+- An automated scan of all text, tables and charts finds no money terms. The only images are the three member photos.
+
